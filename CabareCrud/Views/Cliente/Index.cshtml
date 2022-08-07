@@ -1,0 +1,423 @@
+﻿<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cliente.css">
+<link rel="stylesheet" href="css/home.css">
+@model Cliente;
+@{
+    ViewData["Title"] = "Clientes";
+}
+<main>
+    <section class="sectionCliente">
+        <h3 id="bac">
+            <i class="fa fa-filter"></i> Filtros
+            <hr>
+        </h3>
+        <!--Filtros de clientes-->
+        <div class="filtro">
+            <form id="teste">
+                <!--Apenas por ter um id, mas ele não está estilizado no css-->
+                <div class="form-flex">
+                    <div class="form-item">
+                        <label for="FinputNome" id="labelNome">Nome</label>
+                        <small></small>
+                        <input type="text" class="form-control" id="FinputNome"
+                               placeholder="Informe o nome do cliente." size="65" maxlength="60">
+                        <i class="fas fa-check-circle" id="nomeISuc"></i>
+                        <i class="fas fa-exclamation-circle" id="nomeIError"></i>
+                    </div>
+                    <div class="form-item">
+                        <label for="FinputCPF" id="labelCpf">CPF</label>
+                        <small></small>
+                        <input type="text" class="form-control" id="FinputCPF"
+                               placeholder="Informe o CPF do cliente." maxlength="11"
+                               onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                        <i class="fas fa-check-circle" id="cpfISuc"></i>
+                        <i class="fas fa-exclamation-circle" id="cpfIError"></i>
+                    </div>
+                    <div class="form-item">
+                        <label for="FinputEmail" id="labelEmail">E-mail</label>
+                        <small></small>
+                        <input type="email" class="form-control" id="FinputEmail"
+                               placeholder="Informe o email do cliente." maxlength="60">
+                        <i class="fas fa-check-circle" id="emailISuc"></i>
+                        <i class="fas fa-exclamation-circle" id="emailIError"></i>
+                    </div>
+                </div>
+                <div class="flex-filtro">
+                    <div class="item-filtro">
+                        <button type="submit" class="btn filtrar_btn filt"
+                                onclick="filtros()">
+                            Filtrar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--Cadastro, edição e desativação de clientes-->
+        <h3 id="bac">
+            <i class="fa fa-users"></i> Clientes
+            <hr>
+        </h3>
+        <div class="clientes">
+            <div class="flex-btn">
+                <div class="flex-item">
+                    <button type="submit" class="btn filtrar_btn" data-toggle="modal"
+                            data-target="#JanelaModal">
+                        Novo cliente
+                    </button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">Opção</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-hover">
+                        <th scope="row">1</th>
+                        <td>Antonio Marques</td>
+                        <td>anto@gmail.com</td>
+                        <td>62&shy;98574&shy;0125</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <tfoot class="pagination">
+                <div class="pag">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fa fa-arrow-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item disabled">
+                                <p class="page-link">10/100</p>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </tfoot>
+        </div>
+        <!-- Modal -->
+        <div id="JanelaModal" class="modal">
+            <div class="paiAlert">
+                <div class="alert alert-danger" id="alerta">
+                </div>
+            </div>
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cliente</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                onclick="closse()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="cadEdit" asp-controller="Cliente" asp-action="Criar" method="post">
+                            <div class="row">
+                                <div class="col-md-12" style="margin-bottom: 0; margin-top: 0;">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="radio" name="TypePesorna" id="pressCPF"
+                                                           checked>
+                                                    <label for="pressCPF" class="form-check-label">
+                                                        Pessoa
+                                                        física
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="radio" name="TypePesorna" id="pressCNPJ">
+                                                    <label for="pressCNPJ" class="form-check-label">
+                                                        Pessoa
+                                                        jurídica
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="inputNome"
+                                           placeholder="Informe o nome completo do cliente." maxlength="60" asp-for="Name">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucNom"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroNom"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <input type="date" class="form-control" id="inputDate"
+                                           maxlength="7">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucDate"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroDate" itemid=""></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-address-card"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="inputCpf"
+                                           placeholder="Informe o CPF do cliente." maxlength="11"
+                                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Cpf">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucCpf"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroCpf"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-address-card"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="inputRg"
+                                           placeholder="Informe o RG do cliente." maxlength="9"
+                                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Rg">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucRg"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroRg"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                    </div>
+                                    <input type="email" class="form-control" id="inputEmail"
+                                           placeholder="Informe o email do cliente." maxlength="60" asp-for="Email">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucEmail"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroEmail"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                    </div>
+                                    <input type="tel" class="form-control" id="inputTel"
+                                           placeholder="Informe o telefone do cliente."
+                                           maxlength="11"
+                                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
+                                           asp-for="Telefone">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucTel"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroTel"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="inputMae"
+                                           placeholder="Informe o nome completo da mãe do cliente."
+                                           maxlength="60" asp-for="NameMae">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucMae"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroMae"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <!-- Cadastro de endereço-->
+                                <div class="col-md-12 ende">
+                                    <label for="">
+                                        Endereço
+                                        <hr style="margin-top: 0;">
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputCep"
+                                                   maxlength="8" placeholder="Informe o CEP do cliente."
+                                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" value="" asp-for="Cep">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucCep"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroCep"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputRes"
+                                                   maxlength="10"
+                                                   placeholder="Informe o número residencial."
+                                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="NumeroResidencial">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucRes"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroRes"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputLog"
+                                                   maxlength="20"
+                                                   placeholder="Informe o logradouro." asp-for="Logradouro">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucLog"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroLog"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputComple"
+                                                   maxlength="30"
+                                                   placeholder="Informe o complemento residencial." asp-for="ComplementoResidencial">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucComple"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroComple"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputBar"
+                                                   maxlength="20"
+                                                   placeholder="Informe o bairro." asp-for="Bairro">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucBar"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroBar"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputCid"
+                                                   maxlength="20"
+                                                   placeholder="Informe a cidade." asp-for="Cidade">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucCid"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroCid"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputEstado"
+                                                   maxlength="20"
+                                                   placeholder="Informe o estado." asp-for="Estado">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucEstado"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroEstado"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn filtrar_btn api" onclick="ApiCorreio()">
+                                                Pesquisar por CEP
+                                            </button>
+                                            <div>
+                                                <button type="button" class="btn btn-secondary filtrar_btn2"
+                                                        data-dismiss="modal" onclick="closse()">
+                                                    Fechar
+                                                </button>
+                                                <button type="submit" id="salvar" class="btn filtrar_btn" onclick="salva()">
+                                                    Salvar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!--Classe modal footer adicionada dentro do formulário por questões de melhorias no desempenho das validações-->
+                </div>
+            </div>
+        </div>
+        <div id="janelaModalConfirm" class="modal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmação</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Deseja realmente salvar os dados do cliente?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Não
+                        </button>
+                        <button type="button" class="btn btn-primary filtrar_btn">Sim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="Js copy/FiltrosCliente.js"></script>
+<script src="Js copy/ModalCliente.js"></script>

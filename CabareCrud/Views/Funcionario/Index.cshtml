@@ -1,0 +1,537 @@
+﻿<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/funcionario.css">
+<link rel="stylesheet" href="css/home.css">
+@{
+    ViewData["Title"] = "Funcionários";
+}
+<main>
+    <section class="sectionUsuario">
+        <h3 id="bac">
+            <i class="fa fa-filter"></i> Filtros
+            <hr>
+        </h3>
+        <!--Filtros de funcionários-->
+        <div class="filtro">
+            <form id="teste">
+                <div class="form-flex">
+                    <div class="form-item">
+                        <label for="inputNome">Nome</label>
+                        <!--O código abaixo contém o comando "size", e por se tratar de uma mesma classe do bootstrap em todos o inputs, não foi necessário colocar "size = 75" nos outros input.-->
+                        <input type="text" class="form-control" id="inputNome"
+                               placeholder="Informe o nome do funcionário." size="65" maxlength="60">
+                    </div>
+                    <div class="form-item">
+                        <label for="inputCPF">CPF</label>
+                        <input type="text" class="form-control" id="inputCPF"
+                               placeholder="Informe o CPF do funcionário." maxlength="11"
+                               onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                    </div>
+                    <div class="form-item">
+                        <label for="inputEmail">E-mail</label>
+                        <input type="email" class="form-control" id="inputEmail"
+                               placeholder="Informe o email do funcionário." maxlength="60">
+                    </div>
+                </div>
+                <div class="flex-filtro">
+                    <div class="item-filtro">
+                        <button type="submit" class="btn filtrar_btn">Filtrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--Cadastro, edição e desativação de funcionários-->
+        <h3 id="bac">
+            <i class="fa fa-users"></i> Funcionários
+            <hr>
+        </h3>
+        <div class="funcionarios">
+            <div class="flex-btn">
+                <div class="flex-item">
+                    <button type="submit" class="btn filtrar_btn" data-toggle="modal"
+                            data-target="#JanelaModal">
+                        Novo funcionario
+                    </button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">Opção</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-hover">
+                        <th scope="row">1</th>
+                        <td>Antonio Marques</td>
+                        <td>antoneto@gmail.com</td>
+                        <td>6298574&shy;0125</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href="" data-target="#janelaModalManterUser"
+                               data-toggle="modal"><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">2</th>
+                        <td>Jacob Shuterland</td>
+                        <td>antouelis@gmail.com</td>
+                        <td>6298574&shy;0135</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">3</th>
+                        <td>Lary Pinheiro</td>
+                        <td>frontend@gmail.com</td>
+                        <td>6298574&shy;0155</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">4</th>
+                        <td>Lary Gomes</td>
+                        <td>backend@gmail.com</td>
+                        <td>6297577&shy;0371</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">5</th>
+                        <td>Lary Gomes</td>
+                        <td>backend@gmail.com</td>
+                        <td>6297577&shy;0371</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">6</th>
+                        <td>Lary Gomes</td>
+                        <td>backend@gmail.com</td>
+                        <td>6297577&shy;0371</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">7</th>
+                        <td>Lary Gomes</td>
+                        <td>backend@gmail.com</td>
+                        <td>6297577&shy;0371</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">8</th>
+                        <td>Lary Gomes</td>
+                        <td>backend@gmail.com</td>
+                        <td>6297577&shy;0371</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">9</th>
+                        <td>Lary Gomes</td>
+                        <td>backend@gmail.com</td>
+                        <td>6297577&shy;0371</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="row-hover">
+                        <th scope="row">10</th>
+                        <td>Lary Gomes</td>
+                        <td>backend@gmail.com</td>
+                        <td>6297577&shy;0371</td>
+                        <td>
+                            <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <a class="link" href=""><i class="fa fa-eye"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-slash"></i></a>
+                            <a class="link" href=""><i class="fa fa-user-check"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <tfoot class="pagination">
+                <div class="pag">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fa fa-arrow-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item disabled color">
+                                <p class="page-link">10/100</p>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </tfoot>
+        </div>
+        <!-- Modal -->
+        <div id="JanelaModal" class="modal">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Funcionário</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="cadEdit">
+                            <div class="row">
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user-tie"></i>
+                                        </span>
+                                    </div>
+                                    <select id="cargo" class="form-control campUser">
+                                        <optgroup>
+                                            <option value="AS">Assistente</option>
+                                            <option value="AD">Administrador</option>
+                                            <option value="MT">Motorista</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="inputNome" required
+                                           placeholder="Informe o nome completo do funcionário."
+                                           maxlength="60">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucNom"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroNom"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <input type="date" class="form-control" id="inputDate" required
+                                           maxlength="7">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucDate"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroDate" itemid=""></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-address-card"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="inputCpf" required
+                                           placeholder="Informe o CPF do funcionário." maxlength="11"
+                                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucCpf"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroCpf"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                    </div>
+                                    <input type="email" class="form-control" id="inputEmail"
+                                           placeholder="Informe o email do funcionário." maxlength="60">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucEmail"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroEmail"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 input-group form-group form-it">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                    </div>
+                                    <input type="tel" class="form-control" id="inputTel"
+                                           placeholder="Informe o telefone do funcionário." maxlength="11"
+                                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                                    <div class="i">
+                                        <i class="fas fa-check-circle" id="SucTel"></i>
+                                        <i class="fas fa-exclamation-circle" id="ErroTel"></i>
+                                        <small class="errorMsg"></small>
+                                    </div>
+                                </div>
+                                <!-- Cadastro de endereço-->
+                                <div class="col-md-12 ende">
+                                    <label for="">
+                                        Endereço
+                                        <hr style="margin-top: 0;">
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputCep"
+                                                   maxlength="8" placeholder="Informe o CEP do funcionário."
+                                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
+                                                   value="">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucCep"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroCep"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputRes"
+                                                   maxlength="10" placeholder="Informe o número residencial."
+                                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucRes"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroRes"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputLog"
+                                                   maxlength="20" placeholder="Informe o logradouro.">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucLog"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroLog"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputComple"
+                                                   maxlength="30"
+                                                   placeholder="Informe o complemento residencial.">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucComple"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroComple"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputBar"
+                                                   maxlength="20" placeholder="Informe o bairro.">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucBar"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroBar"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputCid"
+                                                   maxlength="20" placeholder="Informe a cidade.">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucCid"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroCid"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputEstado"
+                                                   maxlength="20" placeholder="Informe o estado.">
+                                            <div class="i">
+                                                <i class="fas fa-check-circle" id="SucEstado"></i>
+                                                <i class="fas fa-exclamation-circle" id="ErroEstado"></i>
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-info btn-ende"
+                                                    onclick="ApiCorreio()">
+                                                Pesquisar por CEP
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Fechar
+                        </button>
+                        <button type="button" class="btn filtrar_btn" data-target="#janelaModalConfirm"
+                                data-toggle="modal">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="janelaModalConfirm" class="modal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmação</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Deseja realmente salvar os dados do funcionário?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Não
+                        </button>
+                        <button type="button" class="btn filtrar_btn">Sim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="janelaModalManterUser" class="modal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Usuário</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <Label>
+                            Nome do colaborador(a): Amanda
+                            <hr style="margin-top: 0;">
+                        </Label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Cargo</label>
+                                <select id="cargo" class="form-control">
+                                    <optgroup>
+                                        <option value="AS">Assistente</option>
+                                        <option value="AD">Administrador</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cpfUsuario">CPF</label>
+                                <input type="text" class="form-control" id="cpfUsuario"
+                                       style="margin-bottom: 10px;" value="70470134052" maxlength="11"
+                                       onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="emailUsuario">E-mail</label>
+                                <input type="email" class="form-control" id="cpfUsuario"
+                                       style="margin-bottom: 10px;" maxlength="60"
+                                       value="developerCsharp@gmail.com">
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn filtrar_habilitar">Habilitar</button>
+                                <button class="btn filtrar_btn2">Desabilitar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn filtrar_btn">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

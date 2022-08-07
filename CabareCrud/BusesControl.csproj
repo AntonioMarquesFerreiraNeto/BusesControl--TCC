@@ -1,0 +1,92 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\NovaPasta1\**" />
+    <Compile Remove="Controllers\NovaPasta2\**" />
+    <Compile Remove="Controllers\NovaPasta3\**" />
+    <Compile Remove="Controllers\NovaPasta\**" />
+    <Compile Remove="Migrations\**" />
+    <Compile Remove="Services\**" />
+    <Compile Remove="Views\css\**" />
+    <Compile Remove="Views\NovaPasta1\**" />
+    <Compile Remove="Views\NovaPasta2\**" />
+    <Compile Remove="Views\NovaPasta3\**" />
+    <Compile Remove="Views\NovaPasta\**" />
+    <Content Remove="Controllers\NovaPasta1\**" />
+    <Content Remove="Controllers\NovaPasta2\**" />
+    <Content Remove="Controllers\NovaPasta3\**" />
+    <Content Remove="Controllers\NovaPasta\**" />
+    <Content Remove="Migrations\**" />
+    <Content Remove="Services\**" />
+    <Content Remove="Views\css\**" />
+    <Content Remove="Views\NovaPasta1\**" />
+    <Content Remove="Views\NovaPasta2\**" />
+    <Content Remove="Views\NovaPasta3\**" />
+    <Content Remove="Views\NovaPasta\**" />
+    <EmbeddedResource Remove="Controllers\NovaPasta1\**" />
+    <EmbeddedResource Remove="Controllers\NovaPasta2\**" />
+    <EmbeddedResource Remove="Controllers\NovaPasta3\**" />
+    <EmbeddedResource Remove="Controllers\NovaPasta\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <EmbeddedResource Remove="Views\css\**" />
+    <EmbeddedResource Remove="Views\NovaPasta1\**" />
+    <EmbeddedResource Remove="Views\NovaPasta2\**" />
+    <EmbeddedResource Remove="Views\NovaPasta3\**" />
+    <EmbeddedResource Remove="Views\NovaPasta\**" />
+    <None Remove="Controllers\NovaPasta1\**" />
+    <None Remove="Controllers\NovaPasta2\**" />
+    <None Remove="Controllers\NovaPasta3\**" />
+    <None Remove="Controllers\NovaPasta\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="Services\**" />
+    <None Remove="Views\css\**" />
+    <None Remove="Views\NovaPasta1\**" />
+    <None Remove="Views\NovaPasta2\**" />
+    <None Remove="Views\NovaPasta3\**" />
+    <None Remove="Views\NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Cliente\New.cshtml" />
+    <Content Remove="Views\Home\Privacy.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Migrations\20220807071011_Cliente.cs" />
+    <Compile Include="Migrations\20220807071011_Cliente.Designer.cs" />
+    <Compile Include="Migrations\BancoContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\Imagens\bar2.psd" />
+    <None Include="wwwroot\Js copy\FiltrosCliente.js" />
+    <None Include="wwwroot\Js copy\ModalCliente.js" />
+    <None Include="wwwroot\js\.DS_Store" />
+    <None Include="wwwroot\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\jquery.min.js" />
+    <None Include="wwwroot\js\main.js" />
+    <None Include="wwwroot\js\popper.js" />
+    <None Include="wwwroot\js\site.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.24" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.25" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.25">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.25">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
+  </ItemGroup>
+
+</Project>
