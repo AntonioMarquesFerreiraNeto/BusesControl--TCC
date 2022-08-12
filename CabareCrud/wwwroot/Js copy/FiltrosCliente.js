@@ -4,6 +4,14 @@ function filtros() {
     const nome = document.getElementById("FinputNome");
     const cpf = document.getElementById("FinputCPF");
     const email = document.getElementById("FinputEmail");
+
+    // Para não recarregar a página no momento que clicar no botão filtro.
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        CheckInputs();
+    });
+
     // Validação para não deixar que o usuário entre com números nos campos. 
     noNum(nome);
     function noNum(no) {
@@ -19,11 +27,11 @@ function filtros() {
         const ClientNameValue = nome.value;
         const ClientCpfNameValue = cpf.value;
         const ClientEmailValue = email.value;
-        if(ClientNameValue == '' && ClientCpfNameValue == '' && ClientEmailValue == ''){
+        if (ClientNameValue == '' && ClientCpfNameValue == '' && ClientEmailValue == '') {
             window.alert("\nDeve ser informado pelo menos um campo para realizar a filtragem.");
             IconAlert(1);
         }
-        else{
+        else {
             IconAlert(0);
             Nome(ClientNameValue);
             Cpf(ClientCpfNameValue);
@@ -35,7 +43,7 @@ function filtros() {
     function Nome(entre) {
         const error = document.querySelector('i#nomeIError');
         const sucess = document.querySelector('i#nomeISuc');
-        if(entre.length == ''){
+        if (entre.length == '') {
             DefaultBorder(nome);
         }
         else if (entre.length > 0 && entre.length < 5) {
@@ -48,7 +56,7 @@ function filtros() {
     function Cpf(entre) {
         const error = document.querySelector('i#cpfIError');
         const sucess = document.querySelector('i#cpfISuc');
-        if(entre.length == ''){
+        if (entre.length == '') {
             DefaultBorder(cpf);
         }
         else if (entre.length > 0 && entre.length < 11) {
@@ -62,12 +70,10 @@ function filtros() {
     function Email(entre) {
         const error = document.querySelector('i#emailIError');
         const sucess = document.querySelector('i#emailISuc');
-        if(entre == ''){
+        if (entre == '') {
             DefaultBorder(email);
-            NaoDeixaEnviar();
         }
         else if (!checkEmail(entre)) {
-            NaoDeixaEnviar();
             setErrorFor(email, "Campo inválido!", error, sucess);
         } else {
             setSuccess(email, '', sucess, error);
@@ -80,7 +86,6 @@ function filtros() {
     }
 
     function setErrorFor(input, mensagem, visible, hidden) {
-        NaoDeixaEnviar()
         const formControl = input.parentElement;
         const small = formControl.querySelector("small");
 
@@ -98,7 +103,7 @@ function filtros() {
         hidden.style.opacity = 0;
     }
 
-    function IconAlert(opacity){
+    function IconAlert(opacity) {
         const eNome = document.querySelector('i#nomeIError');
         const eCpf = document.querySelector('i#cpfIError');
         const eEmail = document.querySelector('i#emailIError');
@@ -107,16 +112,7 @@ function filtros() {
         eCpf.style.opacity = opacity;
         eEmail.style.opacity = opacity;
     }
-    function DefaultBorder(borda){
+    function DefaultBorder(borda) {
         borda.style.border = "1px solid #81818192";
     }
-}
-
-function NaoDeixaEnviar() {
-    // Para não recarregar a página no momento que clicar no botão filtro.
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        CheckInputs();
-    });
 }

@@ -14,8 +14,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/home.css">
 </head>
 
 <body>
@@ -25,7 +25,7 @@
             <h1><a asp-area="" asp-controller="Logar" asp-action="Index" class="logo"><span class="fa fa-bus"></span></a></h1>
             <ul class="list-unstyled components mb-5">
                 <li class="linha">
-                    <a  asp-area="" asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span> Home</a>
+                    <a asp-area="" asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li class="linha">
                     <a asp-area="" asp-controller="Cliente" asp-action="Index"><span class="fa fa-user"></span> Clientes</a>
@@ -48,7 +48,7 @@
             </div>
         </nav>
         <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-5" role="main">
+        <div id="content" class="p-10 p-md-1" role="main">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
 
@@ -80,10 +80,11 @@
             @RenderBody()
         </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/popper.js"></script>
+    <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 

@@ -15,18 +15,17 @@ body{
 }
 #bac{
     margin: 0px;
-    font-size: 10pt;
+    font-size: 10.5pt;
     border-radius: 2px;
     padding: 7px;
     font-weight: bold;
     color: #2b2b2bba;
 }
 .filtro{
-    margin-left: 15px;
-    margin-right: 15px;
+    margin: auto;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: space-around;
 }
 .form-flex{
     display: flex;
@@ -73,19 +72,31 @@ label{
 .flex-btn{
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: -50px;
 }
 .flex-item{
     margin: 10px;
     padding: 0;
 }
-
-.filtrar_btn{
+.filtra_btn {
     font-size: 9pt;
     padding: 7px;
     border: none;
     width: 110px;
     margin-bottom: 55px;
+    color: white;
+    background-color: #2b65c2;
+    transition: 01s;
+}
+
+    .filtra_btn:hover {
+        color: white;
+        background-color: #0091ff;
+    }
+.filtrar_btn{
+    font-size: 9pt;
+    padding: 7px;
+    border: none;
+    width: 110px;
     color: white;
     background-color: #2b65c2;
     transition: 01s;
@@ -107,6 +118,9 @@ label{
 .filtrar_btn2:hover{
     color: white;
     background-color: #ff0000fe;
+}
+.api {
+    background-color: #0099f2db;
 }
 .filtrar_habilitar{
     font-size: 9pt;
@@ -197,6 +211,17 @@ td{
     margin-top: 10px;
     background-color: #0000003b;
 }
+.modal-footer {
+    width: 100%;
+    padding-top: 57px;
+    margin-bottom: 1px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+.left-hab{
+    justify-content: flex-end;
+}
 .pagination{
     margin-top: -10px;
     display: flex;
@@ -223,6 +248,9 @@ td{
         width: 12vh;
         font-size: 9pt;
     }
+    .filtro{
+        width: 85%;
+    }
 }
 @media(min-width: 768px){
     .funcionarios{
@@ -234,6 +262,9 @@ td{
     }
 }
 @media(min-width: 941px){
+    .filtro{
+        width: 80%;
+    }
     .flex-filtro{
         justify-content: flex-end;
     }
@@ -254,9 +285,9 @@ td{
 }
 @media(min-width: 1170px){
     .flex-btn{
-        width: 84.2%;
+        width: 79.2%;
     }
     .table{
-        width: 83.4%;
+        width: 78.2%;
     }
 }

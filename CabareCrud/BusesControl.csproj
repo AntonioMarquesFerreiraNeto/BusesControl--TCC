@@ -10,7 +10,7 @@
     <Compile Remove="Controllers\NovaPasta2\**" />
     <Compile Remove="Controllers\NovaPasta3\**" />
     <Compile Remove="Controllers\NovaPasta\**" />
-    <Compile Remove="Migrations\**" />
+    <Compile Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
     <Compile Remove="Services\**" />
     <Compile Remove="Views\css\**" />
     <Compile Remove="Views\NovaPasta1\**" />
@@ -21,7 +21,7 @@
     <Content Remove="Controllers\NovaPasta2\**" />
     <Content Remove="Controllers\NovaPasta3\**" />
     <Content Remove="Controllers\NovaPasta\**" />
-    <Content Remove="Migrations\**" />
+    <Content Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
     <Content Remove="Services\**" />
     <Content Remove="Views\css\**" />
     <Content Remove="Views\NovaPasta1\**" />
@@ -32,7 +32,7 @@
     <EmbeddedResource Remove="Controllers\NovaPasta2\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta3\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta\**" />
-    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
     <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="Views\css\**" />
     <EmbeddedResource Remove="Views\NovaPasta1\**" />
@@ -43,7 +43,7 @@
     <None Remove="Controllers\NovaPasta2\**" />
     <None Remove="Controllers\NovaPasta3\**" />
     <None Remove="Controllers\NovaPasta\**" />
-    <None Remove="Migrations\**" />
+    <None Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
     <None Remove="Services\**" />
     <None Remove="Views\css\**" />
     <None Remove="Views\NovaPasta1\**" />
@@ -53,14 +53,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Cliente\Criar.cshtml" />
     <Content Remove="Views\Cliente\New.cshtml" />
+    <Content Remove="Views\Cliente\NewCliente.cshtml" />
+    <Content Remove="Views\Financeiro\Index1.cshtml" />
     <Content Remove="Views\Home\Privacy.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20220807071011_Cliente.cs" />
-    <Compile Include="Migrations\20220807071011_Cliente.Designer.cs" />
-    <Compile Include="Migrations\BancoContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +73,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Correios.NET" Version="1.4.3" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.24" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.25">
@@ -87,6 +86,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.2" />
   </ItemGroup>
 
 </Project>

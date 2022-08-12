@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace BusesControl.Controllers {
     public class HomeController : Controller {
         public IActionResult Index() {
+            ViewData["Title"] = "Principal";
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

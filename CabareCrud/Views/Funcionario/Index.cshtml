@@ -1,9 +1,6 @@
 ﻿<link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/funcionario.css">
 <link rel="stylesheet" href="css/home.css">
-@{
-    ViewData["Title"] = "Funcionários";
-}
 <main>
     <section class="sectionUsuario">
         <h3 id="bac">
@@ -59,7 +56,7 @@
                     <tr>
                         <th scope="col">id</th>
                         <th scope="col">Nome</th>
-                        <th scope="col">Email</th>
+                        <th scope="col">Cargo</th>
                         <th scope="col">Telefone</th>
                         <th scope="col">Opção</th>
                     </tr>
@@ -67,9 +64,9 @@
                 <tbody>
                     <tr class="row-hover">
                         <th scope="row">1</th>
-                        <td>Antonio Marques</td>
-                        <td>antoneto@gmail.com</td>
-                        <td>6298574&shy;0125</td>
+                        <td>Amanda Marques Ferreira</td>
+                        <td>Assistente</td>
+                        <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -83,8 +80,8 @@
                     <tr class="row-hover">
                         <th scope="row">2</th>
                         <td>Jacob Shuterland</td>
-                        <td>antouelis@gmail.com</td>
-                        <td>6298574&shy;0135</td>
+                         <td>Administrador</td>
+                         <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -97,8 +94,8 @@
                     <tr class="row-hover">
                         <th scope="row">3</th>
                         <td>Lary Pinheiro</td>
-                        <td>frontend@gmail.com</td>
-                        <td>6298574&shy;0155</td>
+                         <td>Assistente</td>
+                        <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -111,8 +108,8 @@
                     <tr class="row-hover">
                         <th scope="row">4</th>
                         <td>Lary Gomes</td>
-                        <td>backend@gmail.com</td>
-                        <td>6297577&shy;0371</td>
+                         <td>Administrador</td>
+                        <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -125,8 +122,8 @@
                     <tr class="row-hover">
                         <th scope="row">5</th>
                         <td>Lary Gomes</td>
-                        <td>backend@gmail.com</td>
-                        <td>6297577&shy;0371</td>
+                         <td>Assistente</td>
+                         <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -139,8 +136,8 @@
                     <tr class="row-hover">
                         <th scope="row">6</th>
                         <td>Lary Gomes</td>
-                        <td>backend@gmail.com</td>
-                        <td>6297577&shy;0371</td>
+                         <td>Administrador</td>
+                         <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -152,9 +149,9 @@
                     </tr>
                     <tr class="row-hover">
                         <th scope="row">7</th>
+                         <td>Administrador</td>
                         <td>Lary Gomes</td>
-                        <td>backend@gmail.com</td>
-                        <td>6297577&shy;0371</td>
+                         <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -167,8 +164,8 @@
                     <tr class="row-hover">
                         <th scope="row">8</th>
                         <td>Lary Gomes</td>
-                        <td>backend@gmail.com</td>
-                        <td>6297577&shy;0371</td>
+                         <td>Assistente</td>
+                        <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -181,8 +178,8 @@
                     <tr class="row-hover">
                         <th scope="row">9</th>
                         <td>Lary Gomes</td>
-                        <td>backend@gmail.com</td>
-                        <td>6297577&shy;0371</td>
+                         <td>Administrador</td>
+                         <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -194,9 +191,9 @@
                     </tr>
                     <tr class="row-hover">
                         <th scope="row">10</th>
+                         <td>Assistente</td>
                         <td>Lary Gomes</td>
-                        <td>backend@gmail.com</td>
-                        <td>6297577&shy;0371</td>
+                        <td>998432345</td>
                         <td>
                             <a class="link" href="#" data-toggle="modal" data-target="#JanelaModal">
                                 <i class="fa fa-pen"></i>
@@ -231,7 +228,7 @@
             </tfoot>
         </div>
         <!-- Modal -->
-        <div id="JanelaModal" class="modal">
+        <div id="JanelaModal" class="modal fade" style="transition: 0.3s">
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -267,8 +264,6 @@
                                            placeholder="Informe o nome completo do funcionário."
                                            maxlength="60">
                                     <div class="i">
-                                        <i class="fas fa-check-circle" id="SucNom"></i>
-                                        <i class="fas fa-exclamation-circle" id="ErroNom"></i>
                                         <small class="errorMsg"></small>
                                     </div>
                                 </div>
@@ -279,10 +274,8 @@
                                         </span>
                                     </div>
                                     <input type="date" class="form-control" id="inputDate" required
-                                           maxlength="7">
+                                           >
                                     <div class="i">
-                                        <i class="fas fa-check-circle" id="SucDate"></i>
-                                        <i class="fas fa-exclamation-circle" id="ErroDate" itemid=""></i>
                                         <small class="errorMsg"></small>
                                     </div>
                                 </div>
@@ -296,8 +289,6 @@
                                            placeholder="Informe o CPF do funcionário." maxlength="11"
                                            onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
                                     <div class="i">
-                                        <i class="fas fa-check-circle" id="SucCpf"></i>
-                                        <i class="fas fa-exclamation-circle" id="ErroCpf"></i>
                                         <small class="errorMsg"></small>
                                     </div>
                                 </div>
@@ -310,8 +301,6 @@
                                     <input type="email" class="form-control" id="inputEmail"
                                            placeholder="Informe o email do funcionário." maxlength="60">
                                     <div class="i">
-                                        <i class="fas fa-check-circle" id="SucEmail"></i>
-                                        <i class="fas fa-exclamation-circle" id="ErroEmail"></i>
                                         <small class="errorMsg"></small>
                                     </div>
                                 </div>
@@ -320,11 +309,9 @@
                                         <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                     </div>
                                     <input type="tel" class="form-control" id="inputTel"
-                                           placeholder="Informe o telefone do funcionário." maxlength="11"
+                                           placeholder="Informe o telefone do funcionário." maxlength="9"
                                            onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
                                     <div class="i">
-                                        <i class="fas fa-check-circle" id="SucTel"></i>
-                                        <i class="fas fa-exclamation-circle" id="ErroTel"></i>
                                         <small class="errorMsg"></small>
                                     </div>
                                 </div>
@@ -346,8 +333,6 @@
                                                    onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
                                                    value="">
                                             <div class="i">
-                                                <i class="fas fa-check-circle" id="SucCep"></i>
-                                                <i class="fas fa-exclamation-circle" id="ErroCep"></i>
                                                 <small class="errorMsg"></small>
                                             </div>
                                         </div>
@@ -361,8 +346,6 @@
                                                    maxlength="10" placeholder="Informe o número residencial."
                                                    onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
                                             <div class="i">
-                                                <i class="fas fa-check-circle" id="SucRes"></i>
-                                                <i class="fas fa-exclamation-circle" id="ErroRes"></i>
                                                 <small class="errorMsg"></small>
                                             </div>
                                         </div>
@@ -375,8 +358,6 @@
                                             <input type="text" class="form-control" id="inputLog"
                                                    maxlength="20" placeholder="Informe o logradouro.">
                                             <div class="i">
-                                                <i class="fas fa-check-circle" id="SucLog"></i>
-                                                <i class="fas fa-exclamation-circle" id="ErroLog"></i>
                                                 <small class="errorMsg"></small>
                                             </div>
                                         </div>
@@ -387,15 +368,26 @@
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control" id="inputComple"
-                                                   maxlength="30"
+                                                   maxlength="50"
                                                    placeholder="Informe o complemento residencial.">
                                             <div class="i">
-                                                <i class="fas fa-check-circle" id="SucComple"></i>
-                                                <i class="fas fa-exclamation-circle" id="ErroComple"></i>
                                                 <small class="errorMsg"></small>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 input-group form-group form-it">
+                                         <div class="col-md-6 input-group form-group form-it">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="inputDdd"
+                                                   maxlength="2" placeholder="Informe o DDD."
+                                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                                            <div class="i">
+                                                <small class="errorMsg"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input-group form-group form-it">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fa fa-home"></i>
@@ -404,12 +396,10 @@
                                             <input type="text" class="form-control" id="inputBar"
                                                    maxlength="20" placeholder="Informe o bairro.">
                                             <div class="i">
-                                                <i class="fas fa-check-circle" id="SucBar"></i>
-                                                <i class="fas fa-exclamation-circle" id="ErroBar"></i>
                                                 <small class="errorMsg"></small>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 input-group form-group form-it">
+                                        <div class="col-md-6 input-group form-group form-it">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fa fa-home"></i>
@@ -418,12 +408,10 @@
                                             <input type="text" class="form-control" id="inputCid"
                                                    maxlength="20" placeholder="Informe a cidade.">
                                             <div class="i">
-                                                <i class="fas fa-check-circle" id="SucCid"></i>
-                                                <i class="fas fa-exclamation-circle" id="ErroCid"></i>
                                                 <small class="errorMsg"></small>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 input-group form-group form-it">
+                                        <div class="col-md-6 input-group form-group form-it">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fa fa-home"></i>
@@ -432,36 +420,33 @@
                                             <input type="text" class="form-control" id="inputEstado"
                                                    maxlength="20" placeholder="Informe o estado.">
                                             <div class="i">
-                                                <i class="fas fa-check-circle" id="SucEstado"></i>
-                                                <i class="fas fa-exclamation-circle" id="ErroEstado"></i>
                                                 <small class="errorMsg"></small>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <button type="button" class="btn btn-info btn-ende"
-                                                    onclick="ApiCorreio()">
+                                         <div class="modal-footer">
+                                            <button type="button" class="btn filtra_btn api" onclick="ApiCorreio()">
                                                 Pesquisar por CEP
                                             </button>
+                                            <div>
+                                                <button type="button" class="btn btn-secondary filtrar_btn2"
+                                                        data-dismiss="modal" onclick="closse()">
+                                                    Fechar
+                                                </button>
+                                                <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
+                                                        data-toggle="modal">
+                                                    Salvar
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary filtrar_btn2"
-                                data-dismiss="modal">
-                            Fechar
-                        </button>
-                        <button type="button" class="btn filtrar_btn" data-target="#janelaModalConfirm"
-                                data-toggle="modal">
-                            Salvar
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
-        <div id="janelaModalConfirm" class="modal">
+        <div id="janelaModalConfirm" class="modal fade" style="transition: 0.3s">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -480,12 +465,12 @@
                                 data-dismiss="modal">
                             Não
                         </button>
-                        <button type="button" class="btn filtrar_btn">Sim</button>
+                        <button type="button" class="btn filtra_btn">Sim</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="janelaModalManterUser" class="modal">
+        <div id="janelaModalManterUser" class="modal fade" style="transition: 0.3s">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -527,11 +512,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn filtrar_btn">Salvar</button>
+                    <div class="modal-footer left-hab">
+                        <button type="button" class="btn filtra_btn">Salvar</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </main>
+<script src="~/js/site.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.min.js"></script>

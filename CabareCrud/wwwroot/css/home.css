@@ -1,52 +1,97 @@
 @charset "UTF-8";
-body{
+
+body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
-.navbar{
-    background-image: url(Imagens/backMenu.jpeg);
-
+.alert{
+    margin: auto;
+    width: 99%;
 }
-#sidebarCollapse{
+.navbar {
+    background-image: url(Imagens/backMenu.jpeg);
+}
+
+.close-alert {
+    position: absolute;
+    right: -10px;
+    top: -15px;
+    text-align: center;
+    border-radius: 35px;
+    border: 1px solid #72a67e;
+    color: black;
+    width: 30px;
+    height: 31px;
+    transition: 0.5s;
+}
+.sucesso {
+    background-color: #c5f0cf;
+}
+
+    .sucesso:hover {
+        border: 1px solid #72a67e;
+        background-color: #7ea588;
+    }
+
+.erro {
+    background-color: #f8d7da;
+    border: 1px solid #d3b3b5;
+}
+
+    .erro:hover {
+        border: 1px solid #d3b3b5;
+        background-color: #c09da0;
+    }
+
+#sidebarCollapse {
     border: 1px solid #ffffff;
     background-color: #ffffff00;
 }
-.linkMenu{
+
+.linkMenu {
     color: #ffffff;
     transition: 0.7s;
 }
-.linkMenu:hover{
+
+    .linkMenu:hover {
+        color: #00ffff;
+    }
+
+.linha:hover span {
     color: #00ffff;
 }
-.linha:hover span{
+
+#selectPag {
     color: #00ffff;
 }
-#selectPag{
-    color: #00ffff;
+
+@media(min-width: 108px) {
+    .navbar-transparent {
+        height: auto;
+        padding: 4px 4px 4px 4px;
+    }
+
+    .navbar-nav {
+        margin-top: 5px;
+        border-radius: 10px;
+        text-align: center;
+        background-color: #3205e878;
+    }
+
+        .navbar-nav:hover {
+            color: black;
+        }
 }
-@media(min-width: 108px){
-   .navbar-transparent{
-    height: auto;
-    padding: 4px 4px 4px 4px;
-   }
-   .navbar-nav {
-    margin-top: 5px;
-    border-radius: 10px;
-    text-align: center;
-    background-color: #3205e878;
+
+@media(min-width: 770px) {
+    .navbar-transparent {
+        height: 90px;
+        padding: 54px 4px 54px 4px;
     }
-    .navbar-nav:hover{
-        color: black;
-    }
-}
-@media(min-width: 770px){
-    .navbar-transparent{
-     height: 90px;
-     padding: 54px 4px 54px 4px;
-    }
-    .navbar-nav{
+
+    .navbar-nav {
         background-color: #24292f00;
         border: none;
     }
- }
+}
