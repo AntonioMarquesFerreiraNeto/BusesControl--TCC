@@ -15,7 +15,7 @@ body{
 }
 #bac{
     margin: 0px;
-    font-size: 10.5pt;
+    font-size: 10pt;
     border-radius: 2px;
     padding: 7px;
     font-weight: bold;
@@ -78,7 +78,6 @@ label{
     padding: 0;
 }
 .filtra_btn {
-    font-size: 9pt;
     padding: 7px;
     border: none;
     width: 110px;
@@ -109,7 +108,6 @@ label{
     color: white;
     padding: 7px;
     border: none;
-    font-size: 9pt;
     width: 110px;
     margin-bottom: 55px;
     background-color: #ff0000d2;
@@ -251,6 +249,15 @@ td{
     .filtro{
         width: 85%;
     }
+    .filtra_btn, .filtrar_btn2 {
+        width: 105px;
+        font-size: 8pt;
+    }
+}
+@media(min-width: 510px) {
+    .filtra_btn, .filtrar_btn2 {
+        width: 115px;
+    }
 }
 @media(min-width: 768px){
     .funcionarios{
@@ -259,6 +266,10 @@ td{
     .page-link{
         width: 20vh;
         font-size: 10pt;
+    }
+    .filtra_btn, .filtrar_btn2 {
+        width: 125px;
+        font-size: 9.5pt;
     }
 }
 @media(min-width: 941px){
@@ -285,9 +296,9 @@ td{
 }
 @media(min-width: 1170px){
     .flex-btn{
-        width: 79.2%;
+        width: 78.4%;
     }
     .table{
-        width: 78.2%;
+        width: 77.5%;
     }
 }

@@ -7,13 +7,20 @@
 
 #bac {
     margin: 0px;
-    font-size: 10.5pt;
+    font-size: 10pt;
     border-radius: 5px;
     padding: 2px;
     font-weight: bold;
     color: #2b2b2bba;
 }
-
+.titleModal {
+    margin: 0px;
+    font-size: 11pt;
+    font-family: 'Poppinns', sans-serif;
+}
+.view{
+    color: black;
+}
 .filtro {
     margin-top: 0px;
     margin: auto;
@@ -49,7 +56,7 @@ label {
 
 .form-control {
     font-size: 10.5pt;
-    height: 30px;
+    height: 32px;
     font-size: 11pt;
     border-radius: 5px;
     border: 1px solid #81818192;
@@ -126,7 +133,7 @@ input#form-control {
 
 .form-it .i small {
     position: absolute;
-    top: 27px;
+    top: 29px;
     right: 15px;
     font-size: 9pt;
     color: red;
@@ -135,28 +142,32 @@ input#form-control {
 /*Sobre a sessão de controle de clientes/*/
 .clientes {
     padding: 10px;
-    margin-top: 0;
+    padding-top: 0px;
+    margin: auto;
+    margin-top -10px;
     display: flex;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
 }
-
 .flex-btn {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .flex-item {
+    width: 100%;
+    display: flex;
     margin: 10px;
+    margin-left: 0px;
     padding: 0;
 }
 
 .filtra_btn {
     font-size: 9pt;
-    padding: 7px;
+    padding: 8px;
     border: none;
-    width: 115px;
     margin-bottom: 55px;
     color: white;
     background-color: #2b65c2;
@@ -182,12 +193,12 @@ input#form-control {
         color: white;
         background-color: #0091ff;
     }
-
+.enum{
+    background-color: purple;
+}
 .filtrar_btn2 {
-    padding: 7px;
+    padding: 8px;
     border: none;
-    font-size: 9pt;
-    width: 115px;
     margin-bottom: 55px;
     background-color: #ff0000d2;
     transition: 0.4s;
@@ -263,8 +274,6 @@ input:focus {
     text-align: center;
     padding: 7px;
     border: none;
-    font-size: 9pt;
-    width: 135px;
     transition: 0.4s;
     background-color: #2b65c2;
 }
@@ -324,7 +333,9 @@ td {
     .flex-filtro {
         justify-content: center;
     }
-
+    .flex-item{
+        justify-content: center;
+    }
     .table {
         width: 85%;
         align-content: center;
@@ -347,6 +358,18 @@ td {
     .filtro {
         width: 85%;
     }
+    #formAdd {
+        width: 100%;
+    }
+    .filtra_btn, .filtrar_btn2 {
+        width: 105px;
+        font-size: 8pt;
+    }
+}
+@media(min-width: 510px){
+    .filtra_btn, .filtrar_btn2 {
+        width: 115px;
+    }
 }
 @media(min-width: 768px) {
     .clientes {
@@ -357,13 +380,19 @@ td {
         width: 20vh;
         font-size: 10pt;
     }
+    .filtra_btn, .filtrar_btn2 {
+        width: 125px;
+        font-size: 9.5pt;
+    }
 }
 
 @media(min-width: 941px) {
     .filtro {
         width: 80%;
     }
-
+    .flex-item {
+        justify-content: space-between;
+    }
     .flex-filtro {
         justify-content: flex-end;
     }
@@ -389,10 +418,10 @@ td {
 
 @media(min-width: 1170px) {
     .flex-btn {
-        width: 79.2%;
+        width: 78.2%;
     }
 
     .table {
-        width: 78.4%;
+        width: 77.5%;
     }
 }

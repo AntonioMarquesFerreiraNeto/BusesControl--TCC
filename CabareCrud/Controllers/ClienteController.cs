@@ -32,7 +32,7 @@ namespace BusesControl.Controllers {
                 }
                 if (ModelState.IsValid) {
                     _clienteRepositorio.Adicionar(cliente);
-                    TempData["MensagemDeSucesso"] = "Cliente salvado com sucesso!";
+                    TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
                 }
                 return View(cliente);
@@ -41,6 +41,12 @@ namespace BusesControl.Controllers {
                 TempData["MensagemDeErro"] = erro.Message;
                 return View(cliente);
             }
+        }
+
+        public IActionResult Visualisar(long id) {
+            _clienteRepositorio.ListarPorId(id);
+            Cliente cliente = _clienteRepositorio.ListarPorId(id);
+            return View(cliente);
         }
         public IActionResult EditarCliente(long id) {
             TempData["Title"] = "Editar cliente";
@@ -56,7 +62,7 @@ namespace BusesControl.Controllers {
                 }
                 if (ModelState.IsValid) {
                     _clienteRepositorio.Editar(cliente);
-                    TempData["MensagemDeSucesso"] = "Cliente editado com sucesso!";
+                    TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
                 }
                 return View(cliente);

@@ -10,10 +10,10 @@
 }
 <section class="clientes">
     <h3 id="bac">
-    <i class="fa fa-users"></i>
-    Editar cliente
-    <hr>
-</h3>
+        <i class="fa fa-users"></i>
+        Editar cliente
+        <hr>
+    </h3>
     <form id="formAdd" asp-controller="Cliente" asp-action="EditarCliente" method="post">
         <input asp-for="Id" type="hidden">
         <div class="row">
@@ -247,9 +247,9 @@
                         <button type="button" class="btn filtra_btn api" onclick="ApiCorreio()">
                             Pesquisar por CEP
                         </button>
-                        <div>
+                        <div class="fotter-mod">
                             <button type="button" class="btn btn-secondary filtrar_btn2"
-                                    data-target ="#ConfirmSair" data-toggle = "modal">
+                                    data-target="#ConfirmSair" data-toggle="modal">
                                 Voltar
                             </button>
                             <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
@@ -272,7 +272,7 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            Deseja realmente salvar os dados do cliente?
+                            Deseja realmente salvar os dados?
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -287,29 +287,29 @@
         </div>
     </form>
     <div id="ConfirmSair" class="modal">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Confirmação</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            Deseja realmente sair durante esta operação? Caso tenha alterações não salvas, elas serão perdidas!
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <a id="enviar" type="submit" class="btn btn-primary filtra_btn" asp-controller="Cliente" asp-action="Index">Sim</a>
-                        <button type="button" class="btn btn-secondary filtrar_btn2"
-                                data-dismiss="modal">
-                            Não
-                        </button>
-                    </div>
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Deseja realmente sair durante esta operação? Caso tenha alterações não salvas, elas serão perdidas!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a id="enviar" type="submit" class="btn filtra_btn" asp-controller="Cliente" asp-action="Index">Sim</a>
+                    <button type="button" class="btn btn-secondary filtrar_btn2"
+                            data-dismiss="modal">
+                        Não
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 </section>
 
 <script src="~/js/jquery.min.js"></script>

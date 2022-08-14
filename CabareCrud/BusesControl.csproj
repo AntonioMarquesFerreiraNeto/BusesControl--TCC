@@ -53,7 +53,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ValidacoesCliente\ModelValidarDate\ValidarAnoLong.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Cliente\Criar.cshtml" />
+    <Content Remove="Views\Cliente\Ler.cshtml" />
     <Content Remove="Views\Cliente\New.cshtml" />
     <Content Remove="Views\Cliente\NewCliente.cshtml" />
     <Content Remove="Views\Financeiro\Index1.cshtml" />

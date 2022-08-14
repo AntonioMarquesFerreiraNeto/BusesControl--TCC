@@ -67,12 +67,20 @@
         <div class="clientes">
             <div class="flex-btn">
                 <div class="flex-item">
-                    <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoCliente">
+                    <div>
+                        <button class="btn filtrar_btn enum" asp-controller="Cliente" asp-action="NovoCliente">
+                            Ativados
+                        </button>
+                        <button class="btn filtrar_btn enum">
+                            Desativados
+                        </button>
+                    </div>
+                    <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoCliente" style="margin-left: 6px;">
                         Novo cliente
                     </a>
                 </div>
             </div>
-            <table class="table">
+            <table class="table shadow p-3 mb-5 bg-white rounded">
                 <thead>
                     <tr>
                         <th scope="col">id</th>
@@ -84,7 +92,7 @@
                 </thead>
                 <tbody>
                     @if (Model != null && Model.Any()) {
-                        foreach (var cliente in Model) {
+                        foreach (Cliente cliente in Model) {
                             <tr class="row-hover">
                                 <th scope="row">@cliente.Id</th>
                                 <td>@cliente.Name</td>
@@ -94,8 +102,10 @@
                                     <a class="link" asp-action="EditarCliente" asp-route-id="@cliente.Id">
                                         <i class="fa fa-pen"></i>
                                     </a>
-                                    <a class="link" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
+                                    <a class="link" asp-action="Visualisar" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
                                     <a class="link" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
+                                    <a class="link" asp-route-id="@cliente.Id" data-target="#janelaModalManterUser"
+                               data-toggle="modal"><i class="fa fa-user-check"></i></a>
                                 </td>
                             </tr>
                         }

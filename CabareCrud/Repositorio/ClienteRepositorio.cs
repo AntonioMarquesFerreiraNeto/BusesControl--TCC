@@ -31,7 +31,6 @@ namespace BusesControl.Repositorio {
         public Cliente ListarPorId(long id) {
             return _bancocontext.Cliente.FirstOrDefault(x => x.Id == id);
         }
-
         public Cliente Editar(Cliente cliente) {
             try {
                 Cliente clienteBD = ListarPorId(cliente.Id);
@@ -61,18 +60,18 @@ namespace BusesControl.Repositorio {
                 return null;
             }
         }
-
+        
         public Exception TratarErro(Cliente cliente, Exception erro) {
             if (erro.InnerException.Message.Contains(cliente.Cpf)) {
-                throw new System.Exception("CPF já se encontra cadastrado!");
+                throw new System.Exception("Cliente já se encontra cadastrado!");
             }
             if (erro.InnerException.Message.Contains(cliente.Rg)) {
-                throw new System.Exception("RG já se encontrada cadastrado!");
+                throw new System.Exception("Cliente já se encontra cadastrado!");
             }
             if (erro.InnerException.Message.Contains(cliente.Email)) {
-                throw new System.Exception("E-mail já se encontrada cadastrado!");
+                throw new System.Exception("Cliente já se encontra cadastrado!");
             }
-            throw new System.Exception("Houve alguma falha na aplicação.");
+            throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
         }
     }
 }

@@ -1,0 +1,46 @@
+﻿@charset "UTF-8";
+
+.clientes{
+    margin: auto;
+    width: 90%;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 20px;
+}
+.row{
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+.space{
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+}
+.titleModal {
+    width: 40vh;
+    text-align: center;
+}
+p{
+    text-align: justify;
+}
+.container-button{
+    margin:auto;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.filtrar_btn {
+    font-size: 9pt;
+    padding: 9px;
+    border: none;
+    width: 215px;
+    background-color: #2b65c2;
+    transition: 01s;
+}
+
+    .filtrar_btn:hover {
+        background-color: #0091ff;
+    }

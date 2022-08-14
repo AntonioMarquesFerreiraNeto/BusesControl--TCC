@@ -13,11 +13,9 @@ namespace BusesControl.Models.ValidacoesCliente.ModelValidarDate {
             DateTime dataNascimento = DateTime.Parse(data);
             DateTime dataAtual = DateTime.Now;
 
-            long iDataAtual = dataAtual.Year;
-            long iDataNascimento = dataNascimento.Year;
-
-            long resultado = iDataAtual - iDataNascimento;
-            if (resultado < 18 || resultado > 132) {
+            long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
+            long idade = dias / 365;
+            if (idade < 18 || idade > 132) {
                 return false;
             }
             return true;
