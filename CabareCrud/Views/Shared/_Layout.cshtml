@@ -16,7 +16,7 @@
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/home.css">
-
+    <link rel="stylesheet" href="~/css/datatables.min.css">
 </head>
 
 <body>
@@ -49,7 +49,7 @@
             </div>
         </nav>
         <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-1" role="main">
+        <div id="content" class="p-0 p-md-0" role="main">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
 
@@ -81,12 +81,12 @@
             @RenderBody()
         </div>
     </div>
-    <script src="~//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/popper.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/datatables.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 

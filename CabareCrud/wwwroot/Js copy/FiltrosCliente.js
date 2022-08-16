@@ -3,7 +3,7 @@ function filtros() {
     const form = document.getElementById("teste");
     const nome = document.getElementById("FinputNome");
     const cpf = document.getElementById("FinputCPF");
-    const email = document.getElementById("FinputEmail");
+    const tel = document.getElementById("FinputTel");
 
     // Para não recarregar a página no momento que clicar no botão filtro.
     form.addEventListener("submit", (e) => {
@@ -26,8 +26,8 @@ function filtros() {
     function CheckInputs() {
         const ClientNameValue = nome.value;
         const ClientCpfNameValue = cpf.value;
-        const ClientEmailValue = email.value;
-        if (ClientNameValue == '' && ClientCpfNameValue == '' && ClientEmailValue == '') {
+        const ClientTelValue = tel.value;
+        if (ClientNameValue == '' && ClientCpfNameValue == '' && ClientTelValue == '') {
             window.alert("\nDeve ser informado pelo menos um campo para realizar a filtragem.");
             IconAlert(1);
         }
@@ -35,7 +35,7 @@ function filtros() {
             IconAlert(0);
             Nome(ClientNameValue);
             Cpf(ClientCpfNameValue);
-            Email(ClientEmailValue);
+            Tel(ClientTelValue);
         }
     }
 
@@ -67,24 +67,19 @@ function filtros() {
         }
     }
 
-    function Email(entre) {
+    function Tel(entre) {
         const error = document.querySelector('i#emailIError');
         const sucess = document.querySelector('i#emailISuc');
         if (entre == '') {
-            DefaultBorder(email);
+            DefaultBorder(tel);
         }
-        else if (!checkEmail(entre)) {
-            setErrorFor(email, "Campo inválido!", error, sucess);
-        } else {
-            setSuccess(email, '', sucess, error);
+        else if (entre.length < 8 || entre.length > 9) {
+            setErrorFor(tel, "Campo inválido!", error, sucess);
+        }
+        else {
+            setSuccess(tel, '', sucess, error);
         }
     }
-    function checkEmail(email) {
-        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-            email
-        );
-    }
-
     function setErrorFor(input, mensagem, visible, hidden) {
         const formControl = input.parentElement;
         const small = formControl.querySelector("small");

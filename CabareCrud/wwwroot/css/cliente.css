@@ -5,22 +5,30 @@
     margin: 1px 1px 1px 1px;
 }
 
+input {
+    border: solid 1px #2b65c2;
+}
+
 #bac {
     margin: 0px;
-    font-size: 10pt;
+    margin-top: 5px;
+    font-size: 11pt;
     border-radius: 5px;
     padding: 2px;
-    font-weight: bold;
+    font-weight: normal;
     color: #2b2b2bba;
 }
+
 .titleModal {
     margin: 0px;
     font-size: 11pt;
     font-family: 'Poppinns', sans-serif;
 }
-.view{
+
+.view {
     color: black;
 }
+
 .filtro {
     margin-top: 0px;
     margin: auto;
@@ -55,8 +63,7 @@ label {
 }
 
 .form-control {
-    font-size: 10.5pt;
-    height: 32px;
+    height: 28px;
     font-size: 11pt;
     border-radius: 5px;
     border: 1px solid #81818192;
@@ -73,7 +80,6 @@ input#form-control {
 .form-control:focus {
     box-shadow: none;
     border: solid 1px #2b65c2;
-    ;
 }
 /*Icones de erro e sucesso da sessão filtros*/
 .form-item {
@@ -133,23 +139,27 @@ input#form-control {
 
 .form-it .i small {
     position: absolute;
-    top: 29px;
+    top: 23px;
     right: 15px;
     font-size: 9pt;
     color: red;
 }
 
+.cliente {
+    width: 96%;
+}
 /*Sobre a sessão de controle de clientes/*/
 .clientes {
+    width: 94%;
     padding: 10px;
     padding-top: 0px;
     margin: auto;
-    margin-top -10px;
     display: flex;
     flex-wrap: wrap;
     align-content: center;
-    justify-content: center;
+    justify-content: center
 }
+
 .flex-btn {
     display: flex;
     flex-wrap: wrap;
@@ -159,7 +169,9 @@ input#form-control {
 .flex-item {
     width: 100%;
     display: flex;
-    margin: 10px;
+    margin-top: -16px;
+    margin-bottom: 30px;
+    flex-direction: row;
     margin-left: 0px;
     padding: 0;
 }
@@ -180,10 +192,11 @@ input#form-control {
     }
 
 .filtrar_btn {
+    margin-bottom: 2px;
     font-size: 9pt;
-    padding: 7px;
     border: none;
     width: 115px;
+    height: 30px;
     color: white;
     background-color: #2b65c2;
     transition: 01s;
@@ -193,9 +206,27 @@ input#form-control {
         color: white;
         background-color: #0091ff;
     }
-.enum{
-    background-color: purple;
+
+.btn-group .btn-group-toggle{
+    display: flex;
 }
+.enum {
+    background-color: limegreen;
+}
+
+    .enum:hover {
+        background-color: limegreen;
+        background-color: forestgreen;
+    }
+
+.noCheck {
+    background-color: red;
+}
+
+    .noCheck:hover {
+        background-color: red;
+    }
+
 .filtrar_btn2 {
     padding: 8px;
     border: none;
@@ -247,12 +278,14 @@ input#form-control {
 .table {
     background-color: #ffff;
     border: 1px solid black;
+    width: 90%;
 }
 /*Caixa de entrada de usuário*/
 .input-group-prepend span {
     background-color: #2b65c2;
     color: #ffffff;
     border: 0 !important;
+    height: 28px;
     width: 40px;
 }
 
@@ -333,13 +366,9 @@ td {
     .flex-filtro {
         justify-content: center;
     }
-    .flex-item{
-        justify-content: center;
-    }
-    .table {
-        width: 85%;
-        align-content: center;
-        justify-content: center;
+
+    .flex-item {
+        justify-content: space-between;
     }
 
     .flex-btn {
@@ -358,19 +387,23 @@ td {
     .filtro {
         width: 85%;
     }
+
     #formAdd {
         width: 100%;
     }
     .filtra_btn, .filtrar_btn2 {
-        width: 105px;
+        width: 100px;
+        height: 33px;
         font-size: 8pt;
     }
 }
-@media(min-width: 510px){
+
+@media(min-width: 510px) {
     .filtra_btn, .filtrar_btn2 {
-        width: 115px;
+        width: 110px;
     }
 }
+
 @media(min-width: 768px) {
     .clientes {
         flex-direction: column;
@@ -380,9 +413,10 @@ td {
         width: 20vh;
         font-size: 10pt;
     }
+
     .filtra_btn, .filtrar_btn2 {
-        width: 125px;
-        font-size: 9.5pt;
+        width: 114px;
+        font-size: 9pt;
     }
 }
 
@@ -390,20 +424,13 @@ td {
     .filtro {
         width: 80%;
     }
+
     .flex-item {
         justify-content: space-between;
     }
+
     .flex-filtro {
         justify-content: flex-end;
-    }
-
-    .flex-btn {
-        justify-content: flex-end;
-        width: 88.3%;
-    }
-
-    .table {
-        width: 87.3%;
     }
 
     #janelaModalConfirm {
@@ -413,15 +440,5 @@ td {
     .page-link {
         width: 22vh;
         font-size: 11pt;
-    }
-}
-
-@media(min-width: 1170px) {
-    .flex-btn {
-        width: 78.2%;
-    }
-
-    .table {
-        width: 77.5%;
     }
 }

@@ -11,6 +11,7 @@ namespace BusesControl.Controllers {
         public ClienteController(IClienteRepositorio iclienteRepositorio) {
             _clienteRepositorio = iclienteRepositorio;
         }
+
         public IActionResult Index() {
             ViewData["Title"] = "Clientes";
             List<Cliente> clientes = _clienteRepositorio.BuscarTodos();
@@ -22,7 +23,6 @@ namespace BusesControl.Controllers {
             ViewData["Title"] = "Incluir cliente";
             return View();
         }
-
         [HttpPost]
         public IActionResult NovoCliente(Cliente cliente) {
             try {
@@ -31,6 +31,7 @@ namespace BusesControl.Controllers {
                     return View(cliente);
                 }
                 if (ModelState.IsValid) {
+                    cliente.Status = StatuCliente.Habilitado;
                     _clienteRepositorio.Adicionar(cliente);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
@@ -43,11 +44,16 @@ namespace BusesControl.Controllers {
             }
         }
 
+        public IActionResult NovoClienteJuridico() {
+            ViewData["Title"] = "Incluir cliente"; 
+            return View();
+        }
         public IActionResult Visualisar(long id) {
             _clienteRepositorio.ListarPorId(id);
             Cliente cliente = _clienteRepositorio.ListarPorId(id);
             return View(cliente);
         }
+
         public IActionResult EditarCliente(long id) {
             TempData["Title"] = "Editar cliente";
             Cliente cliente = _clienteRepositorio.ListarPorId(id);

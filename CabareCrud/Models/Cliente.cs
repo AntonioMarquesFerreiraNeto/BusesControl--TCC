@@ -70,5 +70,7 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string Ddd { get; set; }
+
+        public StatuCliente Status { get; set; }
     }
 }

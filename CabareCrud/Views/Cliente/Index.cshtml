@@ -1,160 +1,112 @@
-﻿
-<link rel="stylesheet" href="~/css/cliente.css">
+﻿<link rel="stylesheet" href="~/css/cliente.css">
 @model List<Cliente>
-<main>
-    @if (TempData["MensagemDeSucesso"] != null) {
-        <div class="alert alert-success" role="alert">
-            @TempData["MensagemDeSucesso"]
-            <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
-        </div>
-    }
-    @if (TempData["MensagemDeErro"] != null) {
-        <div class="alert alert-danger" role="alert">
-            @TempData["MensagemDeErro"]
-            <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
-        </div>
-    }
-    <section class="sectionCliente">
-        <h3 id="bac">
-            <i class="fa fa-filter"></i> Filtros
-            <hr>
-        </h3>
-        <!--Filtros de clientes-->
-        <div class="filtro">
-            <form id="teste">
-                <!--Apenas por ter um id, mas ele não está estilizado no css-->
-                <div class="form-flex">
-                    <div class="form-item">
-                        <label for="FinputNome" id="labelNome">Nome</label>
-                        <small></small>
-                        <input type="text" class="form-control" id="FinputNome"
-                               placeholder="Informe o nome do cliente." size="65" maxlength="60">
-                        <i class="fas fa-check-circle" id="nomeISuc"></i>
-                        <i class="fas fa-exclamation-circle" id="nomeIError"></i>
-                    </div>
-                    <div class="form-item">
-                        <label for="FinputCPF" id="labelCpf">CPF</label>
-                        <small></small>
-                        <input type="text" class="form-control" id="FinputCPF"
-                               placeholder="Informe o CPF do cliente." maxlength="11"
-                               onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
-                        <i class="fas fa-check-circle" id="cpfISuc"></i>
-                        <i class="fas fa-exclamation-circle" id="cpfIError"></i>
-                    </div>
-                    <div class="form-item">
-                        <label for="FinputEmail" id="labelEmail">E-mail</label>
-                        <small></small>
-                        <input type="email" class="form-control" id="FinputEmail"
-                               placeholder="Informe o email do cliente." maxlength="60">
-                        <i class="fas fa-check-circle" id="emailISuc"></i>
-                        <i class="fas fa-exclamation-circle" id="emailIError"></i>
-                    </div>
+@if (TempData["MensagemDeSucesso"] != null) {
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemDeSucesso"]
+        <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <!--Cadastro, edição e desativação de clientes-->
+    <h3 id="bac">
+        <i class="fa fa-users"></i> Clientes
+        <hr style="margin-top: 3px;">
+    </h3>
+    <div class="cliente">
+        <div class="flex-btn">
+            <div class="flex-item">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn filtrar_btn enum">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked> Habilitados
+                    </label>
+                    <label class="btn filtrar_btn noCheck">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> Desabilitados
+                    </label>
                 </div>
-                <div class="flex-filtro">
-                    <div class="item-filtro">
-                        <button type="submit" class="btn filtrar_btn filt" onclick="filtros()">
-                            Filtrar
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!--Cadastro, edição e desativação de clientes-->
-        <h3 id="bac">
-            <i class="fa fa-users"></i> Clientes
-            <hr>
-        </h3>
-        <div class="clientes">
-            <div class="flex-btn">
-                <div class="flex-item">
-                    <div>
-                        <button class="btn filtrar_btn enum" asp-controller="Cliente" asp-action="NovoCliente">
-                            Ativados
-                        </button>
-                        <button class="btn filtrar_btn enum">
-                            Desativados
-                        </button>
-                    </div>
+                <div>
                     <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoCliente" style="margin-left: 6px;">
-                        Novo cliente
+                        + Pessoa física
+                    </a>
+                    <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoClienteJuridico" style="margin-left: 6px;">
+                        + Pessoa júridica
                     </a>
                 </div>
             </div>
-            <table class="table shadow p-3 mb-5 bg-white rounded">
-                <thead>
-                    <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">Cidade</th>
-                        <th scope="col">Opção</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any()) {
-                        foreach (Cliente cliente in Model) {
-                            <tr class="row-hover">
-                                <th scope="row">@cliente.Id</th>
-                                <td>@cliente.Name</td>
-                                <td>@cliente.Cpf</td>
-                                <td>@cliente.Cidade</td>
-                                <td>
-                                    <a class="link" asp-action="EditarCliente" asp-route-id="@cliente.Id">
-                                        <i class="fa fa-pen"></i>
-                                    </a>
-                                    <a class="link" asp-action="Visualisar" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
-                                    <a class="link" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
-                                    <a class="link" asp-route-id="@cliente.Id" data-target="#janelaModalManterUser"
-                               data-toggle="modal"><i class="fa fa-user-check"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-            <tfoot class="pagination">
-                <div class="pag">
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            @if (Model.Count < 10) {
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">
-                                        <i class="fa fa-arrow-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item disabled">
-                                    <p class="page-link">@Model.Count/@Model.Count</p>
-                                </li>
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
-                                </li>
-                            }
-                            else {
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">
-                                        <i class="fa fa-arrow-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item disabled">
-                                    <p class="page-link">10/@Model.Count</p>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" tabindex="-1">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </nav>
-                </div>
-            </tfoot>
         </div>
-    </section>
-</main>
+        <table id="table-cliente" class="table shadow p-3 mb-5 bg-white rounded">
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Opção</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any()) {
+                    foreach (Cliente cliente in Model) {
+                        <tr class="row-hover">
+                            <th scope="row">@cliente.Id</th>
+                            <td>@cliente.Name</td>
+                            <td>@cliente.Telefone</td>
+                            <td>@cliente.Cidade</td>
+                            <td>
+                                <a class="link" asp-action="EditarCliente" asp-route-id="@cliente.Id">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                <a class="link" asp-action="Visualisar" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
+                                <a class="link" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
 <script src="~/Js copy/FiltrosCliente.js"></script>
 <script src="~/Js copy/ModalCliente.js"></script>
 <script src="~/js/site.js"></script>
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#table-cliente').DataTable({
+                "ordering": true,
+                "paging": true,
+                "searching": true,
+                "oLanguage": {
+                    "sEmptyTable": "Não existe registros no sistema.",
+                    "sInfo": "",
+                    "sInfoEmpty": "",
+                    "sInfoFiltered": "",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado.",
+                    "sSearch": "Pesquisar:  ",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+        });
+    </script>
+}
