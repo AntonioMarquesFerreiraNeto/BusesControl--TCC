@@ -14,10 +14,14 @@ namespace BusesControl.Controllers {
 
         public IActionResult Index() {
             ViewData["Title"] = "Clientes";
-            List<Cliente> clientes = _clienteRepositorio.BuscarTodos();
-            return View(clientes);
+            List<Cliente> clientesHabilitados = _clienteRepositorio.BuscarTodosHabilitados();
+            return View(clientesHabilitados);
         }
-
+        public IActionResult Desabilitados() {
+            ViewData["Title"] = "Clientes";
+            List<Cliente> clientesDesabilitados = _clienteRepositorio.BuscarTodosDesabilitados();
+            return View("Index", clientesDesabilitados);
+        }
 
         public IActionResult NovoCliente() {
             ViewData["Title"] = "Incluir cliente";
@@ -79,6 +83,29 @@ namespace BusesControl.Controllers {
                 return View(cliente);
             }
         }
+
+        public IActionResult Desabilitar(long id) {
+            Cliente cliente = _clienteRepositorio.ListarPorId(id);
+            return View(cliente);
+        }
+        [HttpPost]
+        public IActionResult Desabilitar(Cliente cliente) {
+            _clienteRepositorio.Desabilitar(cliente);
+            TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Habilitar(long id) {
+            Cliente cliente = _clienteRepositorio.ListarPorId(id);
+            return View(cliente);
+        }
+        [HttpPost]
+        public IActionResult Habilitar(Cliente cliente) {
+            _clienteRepositorio.Habilitar(cliente);
+            TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
+            return RedirectToAction("Index");
+        }
+
         //Método apenas para retornar mensagem de erro em geral. 
         public bool ValidarCampo(Cliente cliente) {
             if (cliente.Name == null || cliente.Cpf == null || cliente.Rg == null || cliente.NameMae == null || cliente.Cep == null ||

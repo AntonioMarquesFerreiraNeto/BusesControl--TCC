@@ -19,24 +19,18 @@
         <hr style="margin-top: 3px;">
     </h3>
     <div class="cliente">
-        <div class="flex-btn">
-            <div class="flex-item">
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn filtrar_btn enum">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked> Habilitados
-                    </label>
-                    <label class="btn filtrar_btn noCheck">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> Desabilitados
-                    </label>
-                </div>
-                <div>
-                    <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoCliente" style="margin-left: 6px;">
-                        + Pessoa física
-                    </a>
-                    <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoClienteJuridico" style="margin-left: 6px;">
-                        + Pessoa júridica
-                    </a>
-                </div>
+        <div class="flex-item">
+            <div>
+                <a asp-controller="Cliente" asp-action="Index" class="btn filtrar_btn enum">Habilitados</a>
+                <a asp-controller="Cliente" asp-action="Desabilitados" class="btn filtrar_btn noCheck" type="submit">Desabilitados</a>
+            </div>
+            <div>
+                <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoCliente">
+                    + Pessoa física
+                </a>
+                <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoClienteJuridico">
+                    + Pessoa jurídica
+                </a>
             </div>
         </div>
         <table id="table-cliente" class="table shadow p-3 mb-5 bg-white rounded">
@@ -62,7 +56,12 @@
                                     <i class="fa fa-pen"></i>
                                 </a>
                                 <a class="link" asp-action="Visualisar" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
-                                <a class="link" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
+                                @if (cliente.Status == StatuCliente.Habilitado) {
+                                    <a class="link" asp-action="Desabilitar" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
+                                }
+                                else {
+                                    <a class="link" asp-action="Habilitar" asp-route-id="@cliente.Id"><i class="fa fa-user"></i></a>
+                                }
                             </td>
                         </tr>
                     }
@@ -93,7 +92,7 @@
                     "sLengthMenu": "",
                     "sLoadingRecords": "Carregando...",
                     "sProcessing": "Processando...",
-                    "sZeroRecords": "Nenhum registro encontrado.",
+                    "sZeroRecords": "Sua pesquisa não encontrou nenhum registro correspondente.",
                     "sSearch": "Pesquisar:  ",
                     "oPaginate": {
                         "sNext": "Próximo",

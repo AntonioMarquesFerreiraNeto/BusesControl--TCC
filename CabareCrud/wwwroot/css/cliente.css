@@ -151,7 +151,7 @@ input#form-control {
 /*Sobre a sessão de controle de clientes/*/
 .clientes {
     width: 94%;
-    padding: 10px;
+    padding: 15px;
     padding-top: 0px;
     margin: auto;
     display: flex;
@@ -160,19 +160,12 @@ input#form-control {
     justify-content: center
 }
 
-.flex-btn {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 .flex-item {
     width: 100%;
     display: flex;
     margin-top: -16px;
     margin-bottom: 30px;
     flex-direction: row;
-    margin-left: 0px;
     padding: 0;
 }
 
@@ -193,9 +186,7 @@ input#form-control {
 
 .filtrar_btn {
     margin-bottom: 2px;
-    font-size: 9pt;
     border: none;
-    width: 115px;
     height: 30px;
     color: white;
     background-color: #2b65c2;
@@ -209,6 +200,7 @@ input#form-control {
 
 .btn-group .btn-group-toggle{
     display: flex;
+    flex-wrap: wrap;
 }
 .enum {
     background-color: limegreen;
@@ -224,7 +216,7 @@ input#form-control {
 }
 
     .noCheck:hover {
-        background-color: red;
+        background-color: darkred;
     }
 
 .filtrar_btn2 {
@@ -366,15 +358,9 @@ td {
     .flex-filtro {
         justify-content: center;
     }
-
     .flex-item {
         justify-content: space-between;
     }
-
-    .flex-btn {
-        justify-content: center;
-    }
-
     .clientes {
         flex-direction: auto;
     }
@@ -396,9 +382,17 @@ td {
         height: 33px;
         font-size: 8pt;
     }
+    .filtrar_btn {
+        font-size: 8pt;
+        margin: 1px;
+        width: 100%;
+    }
 }
 
 @media(min-width: 510px) {
+    .btn-group .btn-group-toggle{
+        flex-direction: row;
+    }
     .filtra_btn, .filtrar_btn2 {
         width: 110px;
     }
@@ -418,17 +412,16 @@ td {
         width: 114px;
         font-size: 9pt;
     }
+    .filtrar_btn {
+        font-size: 9pt;
+        width: 115px;
+    }
 }
 
 @media(min-width: 941px) {
     .filtro {
         width: 80%;
     }
-
-    .flex-item {
-        justify-content: space-between;
-    }
-
     .flex-filtro {
         justify-content: flex-end;
     }
