@@ -3,7 +3,7 @@
 namespace BusesControl.Controllers {
     public class FuncionarioController : Controller {
 
-        public IActionResult index() {
+        public IActionResult Index() {
             ViewData["Title"] = "Funcionários";
             return View();
         }

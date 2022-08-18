@@ -4,13 +4,20 @@ using System.Collections.Generic;
 
 namespace BusesControl.Repositorio {
     public interface IClienteRepositorio  {
-        List<Cliente> BuscarTodosHabilitados();
-        List<Cliente> BuscarTodosDesabilitados();
-        Cliente Adicionar(Cliente cliente);
-        Cliente ListarPorId(long id);
-        Cliente Editar(Cliente cliente);
-        Cliente Desabilitar(Cliente cliente);
-        Cliente Habilitar(Cliente cliente);
-        Exception TratarErro(Cliente cliente, Exception erro);
+        List<PessoaFisica> BuscarTodosHabilitados();
+        List<PessoaJuridica> BuscarTodosHabJuridico();
+        List<PessoaFisica> BuscarTodosDesabilitados();
+        List<PessoaJuridica> BuscarTodosDesaJuridico();
+        PessoaFisica Adicionar(PessoaFisica cliente);
+        PessoaJuridica AdicionarJ(PessoaJuridica cliente);
+        PessoaFisica ListarPorId(long id);
+        PessoaJuridica ListarPorIdJuridico(long id);
+        PessoaFisica Editar(PessoaFisica cliente);
+        PessoaJuridica EditarJurico(PessoaJuridica cliente);
+        PessoaFisica Desabilitar(PessoaFisica cliente);
+        PessoaJuridica DesabilitarJuridico(PessoaJuridica cliente);
+        PessoaFisica Habilitar(PessoaFisica cliente);
+        PessoaJuridica HabilitarJuridico(PessoaJuridica cliente);
+        Exception TratarErro(PessoaFisica cliente, Exception erro);
     }
 }

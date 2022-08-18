@@ -1,4 +1,4 @@
-﻿@model PessoaFisica
+﻿@model PessoaJuridica
 <link rel="stylesheet" href="~/css/Visualisar.css">
 <section class="clientes  shadow p-1 mb-3 bg-white rounded">
     <div class="row view">
@@ -7,7 +7,7 @@
                 <div class="fil">
                     <label for="" class="titleModal">
                         <i class="fa fa-user"></i>
-                        Dados pessoais
+                        Dados jurídicos
                         <hr style="margin-top: 5px;">
                     </label>
                     @if (Model.Status == StatuCliente.Habilitado) {
@@ -16,11 +16,11 @@
                     else {
                         <p><b>Status do cliente: </b>Desabilitado,</p>
                     }
-                    <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
-                    <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
-                    <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
-                    <p><b>RG:</b> @Html.DisplayFor(model => model.Rg),</p>
-
+                    <p><b>Nome fantasia: </b>@Html.DisplayFor(model => model.NomeFantasia),</p>
+                    <p><b>Razão social:</b> @Html.DisplayFor(model => model.RazaoSocial),</p>
+                    <p><b>CNPJ:</b> @Html.DisplayFor(model => model.Cnpj),</p>
+                    <p><b>Inscrição estadual:</b> @Html.DisplayFor(model => model.InscricaoEstadual),</p>
+                    <p><b>Inscrição municipal:</b> @Html.DisplayFor(model => model.InscricaoMunicipal),</p>
                     @if (Model.Email == null) {
                         <p><b>E-mail:</b> E-mail não registrado,</p>
 
@@ -30,7 +30,6 @@
                     }
                     </p>
                     <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
-                    <p><b>Nome da mãe:</b> @Html.DisplayFor(model => model.NameMae),</p>
                 </div>
                 <div class="fil">
                     <label for="" class="titleModal">
@@ -52,5 +51,5 @@
     </div>
 </section>
 <section class="container-button">
-    <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
+    <a class="btn filtrar_btn" style="color: white" asp-action="IndexJuridico">Voltar</a>
 </section>

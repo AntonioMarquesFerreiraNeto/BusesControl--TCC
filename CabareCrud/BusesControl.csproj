@@ -10,7 +10,7 @@
     <Compile Remove="Controllers\NovaPasta2\**" />
     <Compile Remove="Controllers\NovaPasta3\**" />
     <Compile Remove="Controllers\NovaPasta\**" />
-    <Compile Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
+    <Compile Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <Compile Remove="Services\**" />
     <Compile Remove="Views\css\**" />
     <Compile Remove="Views\NovaPasta1\**" />
@@ -21,7 +21,7 @@
     <Content Remove="Controllers\NovaPasta2\**" />
     <Content Remove="Controllers\NovaPasta3\**" />
     <Content Remove="Controllers\NovaPasta\**" />
-    <Content Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
+    <Content Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <Content Remove="Services\**" />
     <Content Remove="Views\css\**" />
     <Content Remove="Views\NovaPasta1\**" />
@@ -32,7 +32,7 @@
     <EmbeddedResource Remove="Controllers\NovaPasta2\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta3\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta\**" />
-    <EmbeddedResource Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
+    <EmbeddedResource Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="Views\css\**" />
     <EmbeddedResource Remove="Views\NovaPasta1\**" />
@@ -43,7 +43,7 @@
     <None Remove="Controllers\NovaPasta2\**" />
     <None Remove="Controllers\NovaPasta3\**" />
     <None Remove="Controllers\NovaPasta\**" />
-    <None Remove="Models\ValidacoesCliente\ModelValidaCEP\**" />
+    <None Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <None Remove="Services\**" />
     <None Remove="Views\css\**" />
     <None Remove="Views\NovaPasta1\**" />
@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\ValidacoesCliente\ModelValidarDate\ValidarAnoLong.cs" />
+    <Compile Remove="Models\ValidacoesDados\ModelValidarDate\ValidarAnoLong.cs" />
   </ItemGroup>
 
   <ItemGroup>

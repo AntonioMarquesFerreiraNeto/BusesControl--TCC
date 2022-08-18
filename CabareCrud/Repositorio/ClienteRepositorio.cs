@@ -13,18 +13,27 @@ namespace BusesControl.Repositorio {
             _bancocontext = bancoContext;
         }
 
-        public List<Cliente> BuscarTodosHabilitados() {
-            var buscar = _bancocontext.Cliente.ToList();
+        public List<PessoaFisica> BuscarTodosHabilitados() {
+            var buscar = _bancocontext.PessoaFisica.ToList();
             return buscar.Where(x => x.Status == StatuCliente.Habilitado).ToList();
         }
-        public List<Cliente> BuscarTodosDesabilitados() {
-            var buscar = _bancocontext.Cliente.ToList();
+        public List<PessoaJuridica> BuscarTodosHabJuridico() {
+            var buscar = _bancocontext.PessoaJuridica.ToList();
+            return buscar.Where(x => x.Status == StatuCliente.Habilitado).ToList();
+        }
+
+        public List<PessoaFisica> BuscarTodosDesabilitados() {
+            var buscar = _bancocontext.PessoaFisica.ToList();
             return buscar.Where(x => x.Status == StatuCliente.Desabilitado).ToList();
         }
-        public Cliente Adicionar(Cliente cliente) {
+        public List<PessoaJuridica> BuscarTodosDesaJuridico() {
+            var buscar = _bancocontext.PessoaJuridica.ToList();
+            return buscar.Where(x => x.Status == StatuCliente.Desabilitado).ToList();
+        }
+
+        public PessoaFisica Adicionar(PessoaFisica cliente) {
             try {
-                //Adiciona o cliente no banco de dados. 
-                _bancocontext.Cliente.Add(cliente);
+                _bancocontext.PessoaFisica.Add(cliente);
                 _bancocontext.SaveChanges();
                 return cliente;
             }
@@ -33,14 +42,27 @@ namespace BusesControl.Repositorio {
                 return null;
             }
         }
-
-        public Cliente ListarPorId(long id) {
-            return _bancocontext.Cliente.FirstOrDefault(x => x.Id == id);
+        public PessoaJuridica AdicionarJ(PessoaJuridica cliente) {
+            try {
+                _bancocontext.PessoaJuridica.Add(cliente);
+                _bancocontext.SaveChanges();
+                return cliente;
+            }
+            catch (Exception erro) {
+                TratarErroJ(cliente, erro);
+                return null;
+            }
         }
 
-        public Cliente Editar(Cliente cliente) {
+        public PessoaFisica ListarPorId(long id) {
+            return _bancocontext.PessoaFisica.FirstOrDefault(x => x.Id == id);
+        }
+        public PessoaJuridica ListarPorIdJuridico(long id) {
+            return _bancocontext.PessoaJuridica.FirstOrDefault(x => x.Id == id);
+        }
+        public PessoaFisica Editar(PessoaFisica cliente) {
             try {
-                Cliente clienteBD = ListarPorId(cliente.Id);
+                PessoaFisica clienteBD = ListarPorId(cliente.Id);
                 if (clienteBD == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
                 clienteBD.Name = cliente.Name;
                 clienteBD.DataNascimento = cliente.DataNascimento;
@@ -53,10 +75,10 @@ namespace BusesControl.Repositorio {
                 clienteBD.ComplementoResidencial = cliente.ComplementoResidencial;
                 clienteBD.Logradouro = cliente.Logradouro;
                 clienteBD.NumeroResidencial = cliente.NumeroResidencial;
+                clienteBD.Ddd = cliente.Ddd;
                 clienteBD.Bairro = cliente.Bairro;
                 clienteBD.Cidade = cliente.Cidade;
                 clienteBD.Estado = cliente.Estado;
-
                 _bancocontext.Update(clienteBD);
                 _bancocontext.SaveChanges();
 
@@ -67,30 +89,98 @@ namespace BusesControl.Repositorio {
                 return null;
             }
         }
-
-        public Cliente Desabilitar(Cliente cliente) {
-            Cliente clienteDesabilitado = ListarPorId(cliente.Id);
+        public PessoaJuridica EditarJurico(PessoaJuridica cliente) {
+            try {
+                PessoaJuridica clienteUpdate = ListarPorIdJuridico(cliente.Id);
+                if (clienteUpdate == null) throw new System.Exception("Desculpe, houve um erro ao editar.");
+                clienteUpdate.NomeFantasia = cliente.NomeFantasia;
+                clienteUpdate.RazaoSocial = cliente.RazaoSocial;
+                clienteUpdate.Cnpj = cliente.Cnpj;
+                clienteUpdate.InscricaoEstadual = cliente.InscricaoEstadual;
+                clienteUpdate.InscricaoMunicipal = cliente.InscricaoMunicipal;
+                clienteUpdate.Email = cliente.Email;
+                clienteUpdate.Telefone = cliente.Telefone;
+                clienteUpdate.Cep = cliente.Cep;
+                clienteUpdate.Logradouro = cliente.Logradouro;
+                clienteUpdate.NumeroResidencial = cliente.NumeroResidencial;
+                clienteUpdate.ComplementoResidencial = cliente.ComplementoResidencial;
+                clienteUpdate.Ddd = cliente.Ddd;
+                clienteUpdate.Bairro = cliente.Bairro;
+                clienteUpdate.Cidade = cliente.Cidade;
+                clienteUpdate.Estado = cliente.Estado;
+                _bancocontext.Update(clienteUpdate);
+                _bancocontext.SaveChanges();
+                return cliente;
+            }
+            catch (Exception erro) {
+                TratarErroJ(cliente, erro);
+                return null;
+            }
+            
+        }
+        public PessoaFisica Desabilitar(PessoaFisica cliente) {
+            PessoaFisica clienteDesabilitado = ListarPorId(cliente.Id);
             if (clienteDesabilitado == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
             return cliente;
         }
+        public PessoaJuridica DesabilitarJuridico(PessoaJuridica cliente) {
+            PessoaJuridica clienteDesabilitado = ListarPorIdJuridico(cliente.Id);
+            if (clienteDesabilitado == null) throw new Exception("Desculpe, houve um erro ao desabilitar");  
+            clienteDesabilitado.Status = StatuCliente.Desabilitado;
+            _bancocontext.Update(clienteDesabilitado);
+            _bancocontext.SaveChanges();
+            return clienteDesabilitado;
+        }
 
-        public Cliente Habilitar(Cliente cliente) {
-            Cliente clienteHabilitado = ListarPorId(cliente.Id);
+        public PessoaFisica Habilitar(PessoaFisica cliente) {
+            PessoaFisica clienteHabilitado = ListarPorId(cliente.Id);
             if (clienteHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");
             clienteHabilitado.Status = StatuCliente.Habilitado;
             _bancocontext.Update(clienteHabilitado);
             _bancocontext.SaveChanges();
             return cliente;
-        } 
-
-        public Exception TratarErro(Cliente cliente, Exception erro) {
+        }
+        public PessoaJuridica HabilitarJuridico(PessoaJuridica cliente) {
+            PessoaJuridica clienteHabilitado = ListarPorIdJuridico(cliente.Id);
+            if (clienteHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");
+            clienteHabilitado.Status = StatuCliente.Habilitado;
+            _bancocontext.Update(clienteHabilitado);
+            _bancocontext.SaveChanges();
+            return clienteHabilitado;
+        }
+       
+        public Exception TratarErro(PessoaFisica cliente, Exception erro) {
             if (erro.InnerException.Message.Contains(cliente.Cpf)) {
                 throw new System.Exception("Cliente já se encontra cadastrado!");
             }
             if (erro.InnerException.Message.Contains(cliente.Rg)) {
+                throw new System.Exception("Cliente já se encontra cadastrado!");
+            }
+            if (erro.InnerException.Message.Contains(cliente.Email)) {
+                throw new System.Exception("Cliente já se encontra cadastrado!");
+            }
+            if (erro.InnerException.Message.Contains(cliente.Telefone)){
+                throw new System.Exception("Cliente já se encontra cadastrado!");
+            }
+            throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+        }
+        public Exception TratarErroJ(PessoaJuridica cliente, Exception erro) {
+            if (erro.InnerException.Message.Contains(cliente.Cnpj)) {
+                throw new System.Exception("Cliente já se encontra cadastrado!");
+            }
+            if (erro.InnerException.Message.Contains(cliente.NomeFantasia)) {
+                throw new System.Exception("Cliente já se encontra cadastrado!");
+            }
+            if (erro.InnerException.Message.Contains(cliente.InscricaoEstadual)) {
+                throw new System.Exception("Cliente já se encontra cadastrado!");
+            }
+            if (erro.InnerException.Message.Contains(cliente.RazaoSocial)) {
+                throw new System.Exception("Cliente já se encontra cadastrado!");
+            }
+            if (erro.InnerException.Message.Contains(cliente.Telefone)) {
                 throw new System.Exception("Cliente já se encontra cadastrado!");
             }
             if (erro.InnerException.Message.Contains(cliente.Email)) {
