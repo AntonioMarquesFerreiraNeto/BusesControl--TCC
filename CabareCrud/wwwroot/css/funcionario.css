@@ -1,86 +1,182 @@
+@charset "utf-8";
 @charset "UTF-8";
-body{
-    overflow-x: hidden;
+
+.sectionCliente {
+    margin: 1px 1px 1px 1px;
 }
 
-/*EXCLUIR O OPACITY 0 NO MOMENTO QUE IMPLEMENTAR AS AÇÕES DOS ÍCONES*/
-.form-it .i i{
-    position: absolute;
-    top: 7px;
-    right: 20px;
-    opacity: 0;
+input {
+    border: solid 1px #2b65c2;
 }
-.sectionUsuario{
-    margin: 10px 1px 10px 1px;
+#iconDisabled {
+    margin-top: -1.1%;
+    padding-top: 0;
+    padding-bottom: 0;
 }
-#bac{
+#bac {
     margin: 0px;
-    font-size: 10pt;
-    border-radius: 2px;
-    padding: 7px;
-    font-weight: bold;
+    margin-top: 5px;
+    font-size: 11pt;
+    border-radius: 5px;
+    padding: 2px;
+    font-weight: normal;
     color: #2b2b2bba;
 }
-.filtro{
+
+.titleModal {
+    margin: 0px;
+    font-size: 11pt;
+    font-family: 'Poppinns', sans-serif;
+}
+
+.view {
+    color: black;
+}
+
+.filtro {
+    margin-top: 0px;
     margin: auto;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-around;
 }
-.form-flex{
+
+.form-flex {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     flex-direction: row;
 }
-.form-item{
+
+.form-item {
     margin: 2px;
+    margin-bottom: 4px;
+    margin-top: 4px;
     flex: 1 1 300px;
 }
-label{
+
+label {
     font-size: 10.5pt;
     margin-bottom: 0px;
     margin-top: 0px;
 }
-.flex-filtro{
+
+.flex-filtro {
     display: flex;
     margin-top: 10px;
 }
-.form-control{
-    font-size: 10.5pt;
-    height: 30px;
+
+.form-control {
+    height: 28px;
     font-size: 11pt;
     border-radius: 5px;
     border: 1px solid #81818192;
 }
-#cadEdit .form-control{
+
+input#form-control {
+    min-width: 250px;
+}
+
+#cadEdit .form-control {
     border-radius: 0px 5px 5px 0px;
 }
-.form-control:focus{
+
+.form-control:focus {
     box-shadow: none;
-    border: solid 1px #2b65c2;;
+    border: solid 1px #2b65c2;
+}
+/*Icones de erro e sucesso da sessão filtros*/
+.form-item {
+    position: relative;
+}
+
+    .form-item i {
+        position: absolute;
+        top: 33px;
+        right: 4px;
+    }
+
+        .form-item i#nomeISuc {
+            color: #3ffc3fca;
+            opacity: 0;
+        }
+
+        .form-item i#cpfISuc {
+            color: #3ffc3fca;
+            opacity: 0;
+        }
+
+        .form-item i#emailISuc {
+            color: #3ffc3fca;
+            opacity: 0;
+        }
+
+        .form-item i#nomeIError {
+            color: #ff3535dc;
+            opacity: 0;
+        }
+
+        .form-item i#cpfIError {
+            color: #ff3535dc;
+            opacity: 0;
+        }
+
+        .form-item i#emailIError {
+            color: #ff3535dc;
+            opacity: 0;
+        }
+
+    .form-item small {
+        position: absolute;
+        top: 60px;
+        left: 1px;
+        color: #ff0000;
+        font-size: 9pt;
+    }
+/*Icones de erro e sucesso da sessão modal cliente*/
+.form-it .i i {
+    position: absolute;
+    top: 7px;
+    right: 20px;
+    opacity: 0;
+}
+
+.form-it .i small {
+    position: absolute;
+    top: 23px;
+    right: 15px;
+    font-size: 9pt;
+    color: red;
+}
+
+.cliente {
+    width: 96%;
 }
 /*Sobre a sessão de controle de clientes/*/
-.funcionarios{
-    padding: 10px;
-    margin-top: 0;
+.clientes {
+    width: 94%;
+    padding: 15px;
+    padding-top: 0px;
+    margin: auto;
     display: flex;
     flex-wrap: wrap;
     align-content: center;
-    justify-content: center;
+    justify-content: center
 }
-.flex-btn{
+
+.flex-item {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-}
-.flex-item{
-    margin: 10px;
+    margin-top: -16px;
+    margin-bottom: 30px;
+    flex-direction: row;
     padding: 0;
 }
+
 .filtra_btn {
-    padding: 7px;
+    font-size: 9pt;
+    padding: 8px;
     border: none;
-    width: 110px;
     margin-bottom: 55px;
     color: white;
     background-color: #2b65c2;
@@ -91,214 +187,255 @@ label{
         color: white;
         background-color: #0091ff;
     }
-.filtrar_btn{
-    font-size: 9pt;
-    padding: 7px;
+
+.filtrar_btn {
+    margin-bottom: 2px;
     border: none;
-    width: 110px;
+    height: 30px;
     color: white;
     background-color: #2b65c2;
     transition: 01s;
 }
-.filtrar_btn:hover{
-    color: white;
-    background-color: #0091ff;
+
+    .filtrar_btn:hover {
+        color: white;
+        background-color: #0091ff;
+    }
+
+.btn-group .btn-group-toggle{
+    display: flex;
+    flex-wrap: wrap;
 }
-.filtrar_btn2{
-    color: white;
-    padding: 7px;
+.enum {
+    background-color: limegreen;
+}
+
+    .enum:hover {
+        background-color: limegreen;
+        background-color: forestgreen;
+    }
+
+.noCheck {
+    background-color: red;
+}
+
+    .noCheck:hover {
+        background-color: darkred;
+    }
+
+.filtrar_btn2 {
+    padding: 8px;
     border: none;
-    width: 110px;
     margin-bottom: 55px;
     background-color: #ff0000d2;
     transition: 0.4s;
 }
-.filtrar_btn2:hover{
-    color: white;
-    background-color: #ff0000fe;
-}
+
+    .filtrar_btn2:hover {
+        background-color: #ff0000fe;
+    }
+
 .api {
     background-color: #0099f2db;
 }
-.filtrar_habilitar{
-    font-size: 9pt;
-    padding: 7px;
-    border: none;
-    width: 110px;
-    margin-bottom: 55px;
-    color: white;
-    background-color: #0099f2db;
-    transition: 01s;
-}
-.filtrar_habilitar:hover{
-    color: white;
-    background-color: #0091ff;
-}
-/*Modal*/
-.modal-header{ 
+
+.modal-header {
     background-color: #fbfbfb;
 }
-.modal-title{
+
+.form-it {
+    padding-bottom: 6px;
+}
+
+.paiAlert {
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+    height: 4px;
+    opacity: 0;
+}
+
+.alert-danger {
+    display: flex;
+    position: relative;
+    text-align: center;
+    font-size: 11pt;
+    transition: 1s;
+}
+
+.modal-title {
     font-weight: normal;
 }
-.col-md-12, .col-md-6{
+
+.col-md-12, .col-md-6 {
     margin-bottom: 10px;
 }
-.row{
-    margin-top: 0px;
+
+.table {
+    background-color: #ffff;
+    border: 1px solid black;
+    width: 90%;
 }
 /*Caixa de entrada de usuário*/
 .input-group-prepend span {
-    width: 40px;
     background-color: #2b65c2;
     color: #ffffff;
     border: 0 !important;
+    height: 28px;
+    width: 40px;
 }
+
 input:focus {
     outline: 0 0 0 0 !important;
     box-shadow: 0 0 0 0 !important;
+}
 
+.row-hover:hover {
+    background-color: #dedede;
 }
-.form-control{
-    border: 1px solid #7a797970;
-    border-radius: 5px;
+
+.link {
+    margin: 10px;
+    color: #3497e3;
 }
-.btn-ende{
+
+.btn-ende {
     text-align: center;
     padding: 7px;
     border: none;
-    font-size: 9pt;
-    width: 135px;
     transition: 0.4s;
     background-color: #2b65c2;
 }
-.btn-ende:hover{
-    background-color: #0091ff;
-}
-.table{
-    background-color: #ffff;
-    border: 1px solid black;
-}
-thead{
-    color: #ffffffea;
-    text-align: center;
-    background-image: url(Imagens/backMenu.jpeg);
-}
-th{
-    font-size: 10pt;
-    border: 1px solid #b5b5b5;
-    text-align: center;
-    padding: 0;
-}
-td{
-    font-size: 10pt;
-    border: 1px solid #b5b5b5;
-    text-align: center;
-    padding: 0;
-}
-.row-hover:hover{
-    background-color: #dedede;
-}
-.link{
-    color: #3497e3;
-}
-.link{
-    margin: 10px;
-}
+
+    .btn-ende:hover {
+        background-color: #0091ff;
+    }
+
 #janelaModalConfirm {
-    margin-top: 10px;
+    margin-top: 5px;
     background-color: #0000003b;
 }
+
 .modal-footer {
     width: 100%;
     padding-top: 57px;
     margin-bottom: 1px;
     height: 50px;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
 }
-.left-hab{
-    justify-content: flex-end;
+
+thead {
+    color: #ffffffea;
+    text-align: center;
+    background-image: url(Imagens/backMenu.jpeg);
 }
-.pagination{
+
+th {
+    font-size: 10pt;
+    border: 1px solid #b5b5b5;
+    text-align: center;
+    padding: 0;
+}
+
+td {
+    font-size: 10pt;
+    border: 1px solid #b5b5b5;
+    text-align: center;
+    padding: 0;
+}
+
+.pagination {
     margin-top: -10px;
     display: flex;
     justify-content: center;
+    align-content: center;
 }
-.page-link{
+
+.page-link {
     text-align: center;
     align-items: center;
 }
 
-@media(min-width: 0px){
-    .flex-filtro{
+@media(min-width: 0px) {
+    .flex-filtro {
         justify-content: center;
     }
-    .table{
-        width: 85%;
-        align-content: center;
-        justify-content: center;
+    .flex-item {
+        justify-content: space-between;
     }
-    .flex-btn{
-        justify-content: center;
+    .clientes {
+        flex-direction: auto;
     }
-    .page-link{
+
+    .page-link {
         width: 12vh;
         font-size: 9pt;
     }
-    .filtro{
+
+    .filtro {
         width: 85%;
     }
+
+    #formAdd {
+        width: 100%;
+    }
     .filtra_btn, .filtrar_btn2 {
-        width: 105px;
+        width: 100px;
+        height: 33px;
         font-size: 8pt;
     }
-}
-@media(min-width: 510px) {
-    .filtra_btn, .filtrar_btn2 {
-        width: 115px;
+    .filtrar_btn {
+        font-size: 8pt;
+        margin: 1px;
+        width: 110px;
     }
 }
-@media(min-width: 768px){
-    .funcionarios{
+
+@media(min-width: 510px) {
+    .btn-group .btn-group-toggle{
+        flex-direction: row;
+    }
+    .filtra_btn, .filtrar_btn2 {
+        width: 110px;
+    }
+}
+
+@media(min-width: 768px) {
+    .clientes {
         flex-direction: column;
     }
-    .page-link{
+
+    .page-link {
         width: 20vh;
         font-size: 10pt;
     }
+
     .filtra_btn, .filtrar_btn2 {
-        width: 125px;
-        font-size: 9.5pt;
+        width: 114px;
+        font-size: 9pt;
+    }
+    .filtrar_btn {
+        font-size: 9pt;
+        width: 130px;
     }
 }
-@media(min-width: 941px){
-    .filtro{
+
+@media(min-width: 941px) {
+    .filtro {
         width: 80%;
     }
-    .flex-filtro{
+    .flex-filtro {
         justify-content: flex-end;
     }
-    .flex-btn{
-        justify-content: flex-end;
-        width: 98.3%;
-    }
-    .table{
-        width: 97.3%;
-    }
+
     #janelaModalConfirm {
         margin-top: -20px;
     }
-    .page-link{
+
+    .page-link {
         width: 22vh;
         font-size: 11pt;
-    }
-}
-@media(min-width: 1170px){
-    .flex-btn{
-        width: 78.4%;
-    }
-    .table{
-        width: 77.5%;
     }
 }

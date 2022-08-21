@@ -1,6 +1,6 @@
-﻿@model PessoaJuridica
+﻿@model Funcionario
 <link rel="stylesheet" href="~/css/Visualisar.css">
-<form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Cliente" asp-action="HabilitarJuridico" method="post">
+<form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Funcionario" asp-action="Desabilitar" method="post">
     <input type="hidden" asp-for="Id">
     <div class="row view">
         <div class="col-md-12">
@@ -8,28 +8,30 @@
                 <div class="fil">
                     <label for="" class="titleModal">
                         <i class="fa fa-user"></i>
-                        Dados jurídicos
+                        Dados pessoais
                         <hr style="margin-top: 5px;">
                     </label>
-                    @if (Model.Status == StatuCliente.Habilitado) {
+                    @if (Model.Status == StatuFuncionario.Habilitado) {
                         <p><b>Status do cliente: </b>Habilitado,</p>
                     }
                     else {
                         <p><b>Status do cliente: </b>Desabilitado,</p>
                     }
-                    <p><b>Nome fantasia: </b>@Html.DisplayFor(model => model.NomeFantasia),</p>
-                    <p><b>Razão social:</b> @Html.DisplayFor(model => model.RazaoSocial),</p>
-                    <p><b>CNPJ:</b> @Html.DisplayFor(model => model.Cnpj),</p>
-                    <p><b>Inscrição estadual:</b> @Html.DisplayFor(model => model.InscricaoEstadual),</p>
-                    <p><b>Inscrição municipal:</b> @Html.DisplayFor(model => model.InscricaoMunicipal),</p>
-                    @if (Model.Email == null) {
-                        <p><b>E-mail:</b> E-mail não registrado,</p>
+                    @if (Model.Cargos == CargoFuncionario.Administrador) {
 
+                        <p><b>Cargo do funcionário: </b>Administrador.</p>
+                    }
+                    else if (Model.Cargos == CargoFuncionario.Assistente) {
+
+                        <p><b>Cargo do funcionário: </b>Assistente.</p>
                     }
                     else {
-                        <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
+                        <p><b>Cargo do funcionário: </b>Motorista.</p>
                     }
-                    </p>
+                    <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
+                    <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
+                    <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
+                    <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
                     <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
                 </div>
                 <div class="fil">
@@ -61,11 +63,11 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        Deseja realmente habilitar o cliente?
+                        Deseja realmente desabilitar o funcionário?
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary filtra_btn" asp-action="HabilitarJuridico" asp-controller="Cliente">Sim</button>
+                    <button type="submit" class="btn btn-primary filtra_btn" asp-action="Desabilitar" asp-controller="Funcionario">Sim</button>
                     <button type="button" class="btn btn-secondary filtrar_btn2"
                             data-dismiss="modal">
                         Não
@@ -75,8 +77,8 @@
         </div>
     </div>
 </form>
-<div class="container-button">
-    <a class="btn filtrar_btn" style="color: white" asp-action="DesabilitadosJuridico">Voltar</a>
-    <a class="btn filtrar_btn hab" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Habilitar</a>
-</div>
+<section class="container-button">
+    <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
+    <a class="btn filtrar_btn desa" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Desabilitar</a>
+</section>
 <script src="~/js/jquery.min.js"></script>

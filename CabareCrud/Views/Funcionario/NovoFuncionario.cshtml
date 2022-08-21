@@ -1,6 +1,6 @@
-﻿@model PessoaFisica;
+﻿@model Funcionario;
 <link rel="stylesheet" href="~/css/style.css">
-<link rel="stylesheet" href="~/css/cliente.css">
+<link rel="stylesheet" href="~/css/funcionario.css">
 <link rel="stylesheet" href="~/css/home.css">
 @if (TempData["MensagemDeErro"] != null) {
     <div class="alert alert-danger" role="alert">
@@ -11,11 +11,25 @@
 <section class="clientes">
     <h3 id="bac">
         <i class="fa fa-users"></i>
-        Incluir cliente físico
-         <hr style="margin-top: 2px;">
+        Incluir funcionário
+        <hr style="margin-top: 2px;">
     </h3>
-    <form id="formAdd" asp-controller="Cliente" asp-action="NovoCLiente" method="post">
+    <form id="formAdd" asp-controller="Funcionario" asp-action="NovoFuncionario" method="post">
         <div class="row">
+            <div class="col-md-6 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-user-tie"></i>
+                    </span>
+                </div>
+                <select id="cargo" class="form-control campUser" asp-for="Cargos">
+                    <optgroup>
+                        <option value="1">Assistente</option>
+                        <option value="2">Administrador</option>
+                        <option value="0">Motorista</option>
+                    </optgroup>
+                </select>
+            </div>
             <div class="col-md-6 input-group form-group form-it">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -23,7 +37,7 @@
                     </span>
                 </div>
                 <input type="text" class="form-control" id="inputNome"
-                       placeholder="Informe o nome completo do cliente." maxlength="60" asp-for="Name">
+                       placeholder="Informe o nome completo do funcionário." maxlength="60" asp-for="Name">
                 <div class="i">
                     <small class="errorMsg">
                         @Html.ValidationMessageFor(x => x.Name)
@@ -37,7 +51,7 @@
                     </span>
                 </div>
                 <input type="date" class="form-control" id="inputDate"
-                       asp-for="DataNascimento" requerid>
+                       asp-for="DataNascimento">
                 <div class="i">
                     <small class="errorMsg">@Html.ValidationMessageFor(x => x.DataNascimento)</small>
                 </div>
@@ -49,7 +63,7 @@
                     </span>
                 </div>
                 <input type="text" class="form-control" id="inputCpf"
-                       placeholder="Informe o CPF do cliente." maxlength="11"
+                       placeholder="Informe o CPF do funcionário." maxlength="11"
                        onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Cpf">
                 <div class="i">
                     <small class="errorMsg">@Html.ValidationMessageFor(x => x.Cpf)</small>
@@ -58,24 +72,11 @@
             <div class="col-md-6 input-group form-group form-it">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
-                        <i class="fas fa-address-card"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputRg"
-                       placeholder="Informe o RG do cliente." maxlength="9"
-                       onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Rg">
-                <div class="i">
-                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.Rg)</small>
-                </div>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
                         <i class="fa fa-envelope"></i>
                     </span>
                 </div>
-                <input type="text" class="form-control" id="inputEmail"
-                       placeholder="Informe o email do cliente." maxlength="60" asp-for="Email">
+                <input type="email" class="form-control" id="inputEmail"
+                       placeholder="Informe o email do funcionário." maxlength="60" asp-for="Email">
                 <div class="i">
                     <small class="errorMsg">@Html.ValidationMessageFor(x => x.Email)</small>
                 </div>
@@ -85,25 +86,12 @@
                     <span class="input-group-text"><i class="fa fa-phone"></i></span>
                 </div>
                 <input type="tel" class="form-control" id="inputTel"
-                       placeholder="Informe o telefone do cliente."
+                       placeholder="Informe o telefone do funcionário."
                        maxlength="9"
                        onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
                        asp-for="Telefone">
                 <div class="i">
                     <small class="errorMsg">@Html.ValidationMessageFor(x => x.Telefone)</small>
-                </div>
-            </div>
-            <div class="col-md-12 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fa fa-user"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputMae"
-                       placeholder="Informe o nome completo da mãe do cliente."
-                       maxlength="60" asp-for="NameMae">
-                <div class="i">
-                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.NameMae)</small>
                 </div>
             </div>
             <!-- Cadastro de endereço-->
@@ -225,7 +213,7 @@
                         </button>
                         <div>
                             <button type="button" class="btn btn-secondary filtrar_btn2"
-                                    data-target ="#ConfirmSair" data-toggle = "modal">
+                                    data-target="#ConfirmSair" data-toggle="modal">
                                 Voltar
                             </button>
                             <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
@@ -277,7 +265,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <a id="enviar" type="submit" class="btn btn-primary filtra_btn" asp-controller="Cliente" asp-action="Index">Sim</a>
+                    <a id="enviar" type="submit" class="btn btn-primary filtra_btn" asp-controller="Funcionario" asp-action="Index">Sim</a>
                     <button type="button" class="btn btn-secondary filtrar_btn2"
                             data-dismiss="modal">
                         Não

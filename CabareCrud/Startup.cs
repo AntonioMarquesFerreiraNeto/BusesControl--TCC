@@ -25,6 +25,7 @@ namespace BusesControl {
             services.AddDbContext<BancoContext>(options => options.UseMySql
             (Configuration.GetConnectionString("BancoContext"), builder => builder.MigrationsAssembly("BusesControl")));
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+            services.AddScoped<IFuncionarioRepositorio, FuncionarioRepositorio>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

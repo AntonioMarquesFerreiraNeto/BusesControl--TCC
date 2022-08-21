@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20220818153158_Client")]
-    partial class Client
+    [Migration("20220820223738_Funcionario")]
+    partial class Funcionario
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,86 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Cliente");
                 });
 
+            modelBuilder.Entity("BusesControl.Models.Funcionario", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Bairro")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Cargos")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cep")
+                        .IsRequired()
+                        .HasColumnType("varchar(8) CHARACTER SET utf8mb4")
+                        .HasMaxLength(8);
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ComplementoResidencial")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("DataNascimento")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Ddd")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Logradouro")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("NumeroResidencial")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("varchar(9) CHARACTER SET utf8mb4")
+                        .HasMaxLength(9);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Cpf")
+                        .IsUnique();
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Telefone")
+                        .IsUnique();
+
+                    b.ToTable("Funcionario");
+                });
+
             modelBuilder.Entity("BusesControl.Models.PessoaFisica", b =>
                 {
                     b.HasBaseType("BusesControl.Models.Cliente");
@@ -130,7 +210,19 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
+                    b.Property<string>("InscricaoEstadual")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("InscricaoMunicipal")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("NomeFantasia")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RazaoSocial")
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
@@ -138,28 +230,16 @@ namespace BusesControl.Migrations
                         .HasColumnName("PessoaJuridica_Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("inscricaoEstadual")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("inscricaoMunicipal")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("razaoSocial")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasIndex("Cnpj")
+                        .IsUnique();
+
+                    b.HasIndex("InscricaoEstadual")
                         .IsUnique();
 
                     b.HasIndex("NomeFantasia")
                         .IsUnique();
 
-                    b.HasIndex("inscricaoEstadual")
-                        .IsUnique();
-
-                    b.HasIndex("razaoSocial")
+                    b.HasIndex("RazaoSocial")
                         .IsUnique();
 
                     b.HasDiscriminator().HasValue("PessoaJuridica");

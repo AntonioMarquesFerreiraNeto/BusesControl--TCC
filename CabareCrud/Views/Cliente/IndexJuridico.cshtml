@@ -22,7 +22,7 @@
         <div class="flex-item">
             <div>
                 <a asp-controller="Cliente" asp-action="IndexJuridico" class="btn filtrar_btn enum">Habilitados</a>
-                <a asp-controller="Cliente" asp-action="DesabilitadosJudi" class="btn filtrar_btn noCheck" type="submit">Desabilitados</a>
+                <a asp-controller="Cliente" asp-action="DesabilitadosJuridico" class="btn filtrar_btn noCheck" type="submit">Desabilitados</a>
             </div>
             <div>
                 <a type="submit" class="btn filtrar_btn" asp-controller="Cliente" asp-action="NovoClienteJuridico">
@@ -37,7 +37,7 @@
             <thead>
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">Nome</th>
+                    <th scope="col">Nome fantasia</th>
                     <th scope="col">Telefone</th>
                     <th scope="col">Cidade</th>
                     <th scope="col">Opção</th>
@@ -56,11 +56,11 @@
                                     <a class="link" asp-action="EditarClienteJuridico" asp-route-id="@cliente.Id">
                                         <i class="fa fa-pen"></i>
                                     </a>
-                                    <a class="link" asp-action="VisualisarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
+                                    <a class="link" asp-action="VisualizarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
                                     <a class="link" asp-action="DesabilitarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
                                 }
                                 else {
-                                    <a class="link" asp-action="VisualisarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
+                                    <a class="link" asp-action="VisualizarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
                                     <a class="link" asp-action="HabilitarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-user"></i></a>
                                 }
                             </td>

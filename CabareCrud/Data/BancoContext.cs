@@ -9,8 +9,10 @@ namespace BusesControl.Data {
         //Tabela cliente está sendo criada e depois acessada.
         public DbSet<PessoaFisica> PessoaFisica { get; set; }
         public DbSet<PessoaJuridica> PessoaJuridica { get; set; }
+        public DbSet<Funcionario> Funcionario { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            //Evitar duplicatas dos atributos de cliente físico e jurídico. 
             modelBuilder.Entity<PessoaFisica>()
                 .HasIndex(p => p.Cpf)
                 .IsUnique(true);
@@ -38,6 +40,18 @@ namespace BusesControl.Data {
             modelBuilder.Entity<PessoaJuridica>()
                .HasIndex(p => p.NomeFantasia)
                .IsUnique(true);
+
+            //Evitar duplicatas dos atributos de funcionário. 
+            modelBuilder.Entity<Funcionario>()
+                .HasIndex(p => p.Cpf)
+                .IsUnique(true);
+            modelBuilder.Entity<Funcionario>()
+                .HasIndex(p => p.Email)
+                .IsUnique(true);
+            modelBuilder.Entity<Funcionario>()
+                .HasIndex(p => p.Telefone)
+                .IsUnique(true);
         }
+
     }
 }

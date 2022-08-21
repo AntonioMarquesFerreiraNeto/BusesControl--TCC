@@ -89,7 +89,7 @@
                         <i class="fa fa-envelope"></i>
                     </span>
                 </div>
-                <input type="email" class="form-control" id="inputEmail"
+                <input type="text" class="form-control" id="inputEmail"
                        placeholder="Informe o email do cliente." maxlength="60" asp-for="Email">
                 <div class="i">
                     <small class="errorMsg">@Html.ValidationMessageFor(x => x.Email)</small>
@@ -162,7 +162,7 @@
                             </span>
                         </div>
                         <input type="text" class="form-control" id="inputLog"
-                               maxlength="20"
+                               maxlength="50"
                                placeholder="Informe o logradouro." asp-for="Logradouro">
                         <div class="i">
                             <small class="errorMsg">@Html.ValidationMessageFor(x => x.Logradouro)</small>
@@ -189,7 +189,7 @@
                             </span>
                         </div>
                         <input type="text" class="form-control" id="inputBar"
-                               maxlength="20"
+                               maxlength="50"
                                placeholder="Informe o bairro." asp-for="Bairro">
                         <div class="i">
                             <small class="errorMsg">@Html.ValidationMessageFor(x => x.ComplementoResidencial)</small>

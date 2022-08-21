@@ -28,7 +28,7 @@ namespace BusesControl.Controllers {
             List<PessoaFisica> clientesDesabilitados = _clienteRepositorio.BuscarTodosDesabilitados();
             return View("Index", clientesDesabilitados);
         }
-        public IActionResult DesabilitadosJudi() {
+        public IActionResult DesabilitadosJuridico() {
             ViewData["Title"] = "clientes";
             List<PessoaJuridica> clienteDesabilitados = _clienteRepositorio.BuscarTodosDesaJuridico();
             return View("IndexJuridico", clienteDesabilitados);
@@ -85,12 +85,12 @@ namespace BusesControl.Controllers {
             }
         }
 
-        public IActionResult Visualisar(long id) {
+        public IActionResult Visualizar(long id) {
             ViewData["Title"] = "Visualisar";
             PessoaFisica cliente = _clienteRepositorio.ListarPorId(id);
             return View(cliente);
         }
-        public IActionResult VisualisarJuridico(long id) {
+        public IActionResult VisualizarJuridico(long id) {
             ViewData["Title"] = "Visualisar";
             PessoaJuridica cliente = _clienteRepositorio.ListarPorIdJuridico(id);
             return View(cliente);
@@ -144,6 +144,7 @@ namespace BusesControl.Controllers {
                 return View(cliente);
             }
         }
+
         public IActionResult Desabilitar(long id) {
             ViewData["Title"] = "Desabilitar";
             PessoaFisica cliente = _clienteRepositorio.ListarPorId(id);

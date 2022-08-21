@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BusesControl.Migrations
 {
-    public partial class Client : Migration
+    public partial class Cliente : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,14 +33,41 @@ namespace BusesControl.Migrations
                     Status = table.Column<int>(nullable: true),
                     NomeFantasia = table.Column<string>(nullable: true),
                     Cnpj = table.Column<string>(nullable: true),
-                    razaoSocial = table.Column<string>(nullable: true),
-                    inscricaoEstadual = table.Column<string>(nullable: true),
-                    inscricaoMunicipal = table.Column<string>(nullable: true),
+                    RazaoSocial = table.Column<string>(nullable: true),
+                    InscricaoEstadual = table.Column<string>(nullable: true),
+                    InscricaoMunicipal = table.Column<string>(nullable: true),
                     PessoaJuridica_Status = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cliente", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Funcionario",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    Cpf = table.Column<string>(nullable: false),
+                    DataNascimento = table.Column<DateTime>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Telefone = table.Column<string>(maxLength: 9, nullable: false),
+                    Cep = table.Column<string>(maxLength: 8, nullable: false),
+                    NumeroResidencial = table.Column<string>(nullable: false),
+                    Logradouro = table.Column<string>(nullable: false),
+                    ComplementoResidencial = table.Column<string>(nullable: false),
+                    Bairro = table.Column<string>(nullable: false),
+                    Cidade = table.Column<string>(nullable: false),
+                    Estado = table.Column<string>(nullable: false),
+                    Ddd = table.Column<string>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    Cargos = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Funcionario", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
@@ -80,21 +107,39 @@ namespace BusesControl.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cliente_InscricaoEstadual",
+                table: "Cliente",
+                column: "InscricaoEstadual",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cliente_NomeFantasia",
                 table: "Cliente",
                 column: "NomeFantasia",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cliente_inscricaoEstadual",
+                name: "IX_Cliente_RazaoSocial",
                 table: "Cliente",
-                column: "inscricaoEstadual",
+                column: "RazaoSocial",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cliente_razaoSocial",
-                table: "Cliente",
-                column: "razaoSocial",
+                name: "IX_Funcionario_Cpf",
+                table: "Funcionario",
+                column: "Cpf",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Funcionario_Email",
+                table: "Funcionario",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Funcionario_Telefone",
+                table: "Funcionario",
+                column: "Telefone",
                 unique: true);
         }
 
@@ -102,6 +147,9 @@ namespace BusesControl.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Cliente");
+
+            migrationBuilder.DropTable(
+                name: "Funcionario");
         }
     }
 }

@@ -92,7 +92,7 @@ namespace BusesControl.Repositorio {
         public PessoaJuridica EditarJurico(PessoaJuridica cliente) {
             try {
                 PessoaJuridica clienteUpdate = ListarPorIdJuridico(cliente.Id);
-                if (clienteUpdate == null) throw new System.Exception("Desculpe, houve um erro ao editar.");
+                if (clienteUpdate == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
                 clienteUpdate.NomeFantasia = cliente.NomeFantasia;
                 clienteUpdate.RazaoSocial = cliente.RazaoSocial;
                 clienteUpdate.Cnpj = cliente.Cnpj;
