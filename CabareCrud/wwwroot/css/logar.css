@@ -1,0 +1,175 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap');
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url(Imagens/back.png);
+}
+.mensagemErro{
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+}
+.alert {
+    position: absolute;
+    top: 15px;
+    width: 400px;
+}
+
+.close-alert {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    text-align: center;
+    border-radius: 35px;
+    border: 1px solid #72a67e;
+    color: black;
+    width: 30px;
+    height: 31px;
+    transition: 0.5s;
+}
+
+.sucesso {
+    background-color: #c5f0cf;
+}
+
+    .sucesso:hover {
+        border: 1px solid #72a67e;
+        background-color: #7ea588;
+    }
+
+.erro {
+    background-color: #f8d7da;
+    border: 1px solid #d3b3b5;
+}
+
+    .erro:hover {
+        border: 1px solid #d3b3b5;
+        background-color: #c09da0;
+    }
+
+.form-control{
+    font-size: 11pt;
+    border-radius: 1px;
+}
+.errorMsg {
+    position: absolute;
+    top: 36px;
+    right: 1px;
+    font-size: 9pt;
+    color: red;
+}
+#Login{
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+.card {
+    flex: auto auto auto;
+    margin: 5px;
+    background-color: #ffffff !important;
+    box-shadow: 1px 1px 1px #000000b2;
+}
+.card-header h3 {
+    color: #2b2b2bd0;
+    font-size: 18pt;
+    font-weight: normal;
+}
+/*Caixa de entrada de usuário*/
+.input-group-prepend span {
+    background-color: #2b65c2;
+    color: #ffffff;
+    border: 0 !important;
+}
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+
+}
+/*Caixa de lembrar de mim*/
+.remember {
+    color: #000000dc;
+}
+.remember input {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+/*botão Login*/
+.login_btn {
+    font-size: 11pt;
+    padding: 7px;
+    width: 32%;
+    border: none;
+    color: white;
+    background-color: #2b65c2;
+    transition: 0.6s;
+}
+.login_btn:hover{
+    background-color: #0091ff;
+    color: white;
+}
+.links {
+    color: #000000dc;
+}
+.links a {
+    margin-left: 4px;
+}
+#esque{
+    color: #2b65c2;
+}
+@media(min-width: 0px){
+    .card{
+        width: 280px;
+    }
+    body{
+        background-size: auto;
+        background-repeat: no-repeat;
+    }
+} 
+@media(min-width: 0px){
+    .card{
+        width: 270px;
+    }
+}
+@media(min-width: 340px){
+    .card{
+        width: 340px;
+    }
+}
+@media(min-width: 800px){
+    .card{
+        width: 420px;
+    }
+    .input-group-prepend span {
+        width: 40px;
+    }
+}
+@media(min-width: 1050px){
+    body{
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}
+@media(min-width: 1500px){
+    .card{
+        width: 550px;
+    }
+}
+@media(min-width: 2500px){
+    .card{
+        width: 750px;
+        height: 400px;
+    }
+}
+@media(min-width: 4000px){
+    .card{
+        width: 950px;
+        height: 500px;
+        font-size: 18pt;
+    }
+}

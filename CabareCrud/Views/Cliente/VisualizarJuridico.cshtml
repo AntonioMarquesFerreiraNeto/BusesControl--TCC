@@ -1,0 +1,66 @@
+﻿@model PessoaJuridica
+<link rel="stylesheet" href="~/css/Visualisar.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 3px;">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes  shadow p-1 mb-3 bg-white rounded">
+    <div class="row view">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="fil">
+                    <label for="" class="titleModal">
+                        <i class="fa fa-user"></i>
+                        Dados jurídicos
+                        <hr style="margin-top: 5px;">
+                    </label>
+                    @if (Model.Status == StatuCliente.Habilitado) {
+                        <p><b>Status do cliente: </b>Habilitado,</p>
+                    }
+                    else {
+                        <p><b>Status do cliente: </b>Desabilitado,</p>
+                    }
+                    <p><b>Nome fantasia: </b>@Html.DisplayFor(model => model.NomeFantasia),</p>
+                    <p><b>Razão social:</b> @Html.DisplayFor(model => model.RazaoSocial),</p>
+                    <p><b>CNPJ:</b> @Html.DisplayFor(model => model.Cnpj),</p>
+                    <p><b>Inscrição estadual:</b> @Html.DisplayFor(model => model.InscricaoEstadual),</p>
+                    <p><b>Inscrição municipal:</b> @Html.DisplayFor(model => model.InscricaoMunicipal),</p>
+                    @if (Model.Email == null) {
+                        <p><b>E-mail:</b> E-mail não registrado,</p>
+
+                    }
+                    else {
+                        <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
+                    }
+                    </p>
+                    <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
+                </div>
+                <div class="fil">
+                    <label for="" class="titleModal">
+                        <i class="fa fa-home"></i>
+                        Endereço
+                        <hr style="margin-top: 5px;">
+                    </label>
+                    <p><b>CEP:</b> @Html.DisplayFor(model => model.Cep),</p>
+                    <p> <b>Complemento residencial:</b> @Html.DisplayFor(model => model.ComplementoResidencial),</p>
+                    <p> <b>Número residencial:</b> @Html.DisplayFor(model => model.NumeroResidencial),</p>
+                    <p><b>Logradouro:</b> @Html.DisplayFor(model => model.Logradouro),</p>
+                    <p><b>DDD: </b> @Html.DisplayFor(model => model.Ddd),</p>
+                    <p><b>Bairro:</b> @Html.DisplayFor(model => model.Bairro),</p>
+                    <p><b>Cidade:</b> @Html.DisplayFor(model => model.Cidade),</p>
+                    <p><b>Estado:</b> @Html.DisplayFor(model => model.Estado),</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="container-button">
+    @if (Model.Status == StatuCliente.Habilitado) {
+        <a class="btn filtrar_btn" style="color: white" asp-action="IndexJuridico">Voltar</a>
+    }
+    else {
+        <a class="btn filtrar_btn" style="color: white" asp-action="DesabilitadosJuridico">Voltar</a>
+    }
+</section>

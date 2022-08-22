@@ -1,0 +1,142 @@
+﻿@charset "UTF-8";
+
+.clientes {
+    margin-top: 2px;
+    margin: auto;
+    width: 90%;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 20px;
+}
+
+.row {
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.space {
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.titleModal {
+    width: 40vh;
+    text-align: center;
+}
+
+p {
+    text-align: justify;
+}
+
+.container-button {
+    margin: auto;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-footer {
+    width: 100%;
+    padding-top: 57px;
+    margin: 2px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+.filtrar_btn {
+    font-size: 9pt;
+    padding: 9px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    background-color: transparent;
+    border: none;
+    background-color: #2b65c2;
+    transition: 01s;
+}
+
+    .filtrar_btn:hover {
+        background-color: #0091ff;
+    }
+
+
+.filtra_btn {
+    font-size: 9pt;
+    padding: 8px;
+    border: none;
+    margin: 3px;
+    margin-bottom: 55px;
+    color: white;
+    background-color: #2b65c2;
+    transition: 01s;
+}
+
+    .filtra_btn:hover {
+        color: white;
+        background-color: #0091ff;
+    }
+
+.filtrar_btn2 {
+    padding: 8px;
+    border: none;
+    margin-bottom: 55px;
+    background-color: #ff0000d2;
+    transition: 0.4s;
+}
+
+    .filtrar_btn2:hover {
+        background-color: #ff0000fe;
+    }
+
+.desa{
+    background-color: red;
+}
+.desa:hover{
+    background-color: darkred;
+}
+.hab{
+    background-color: limegreen;
+}
+.hab:hover{
+    background-color:forestgreen;
+}
+.container-button {
+    display: flex;
+    justify-content: center;
+}
+@media(min-width: 0px) {
+    .filtra_btn, .filtrar_btn2 {
+        width: 100px;
+        height: 33px;
+        font-size: 8pt;
+    }
+    .container-button {
+        flex-direction: column;
+    }
+    .filtrar_btn{
+        width: 100%;
+    }
+}
+
+@media(min-width: 510px) {
+
+    .filtra_btn, .filtrar_btn2 {
+        width: 110px;
+    }
+    .container-button {
+        flex-direction: row;
+    }
+    .filtrar_btn {
+        width: 155px;
+    }
+}
+
+@media(min-width: 768px) {
+
+    .filtra_btn, .filtrar_btn2 {
+        width: 114px;
+        font-size: 9pt;
+    }
+}
