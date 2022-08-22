@@ -11,6 +11,7 @@ namespace BusesControl.Data {
         public DbSet<PessoaJuridica> PessoaJuridica { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             //Evitar duplicatas dos atributos de cliente físico e jurídico. 
             modelBuilder.Entity<PessoaFisica>()
@@ -41,7 +42,7 @@ namespace BusesControl.Data {
                .HasIndex(p => p.NomeFantasia)
                .IsUnique(true);
 
-            //Evitar duplicatas dos atributos de funcionário. 
+            //Evitar duplicatas dos atributos de funcionários. 
             modelBuilder.Entity<Funcionario>()
                 .HasIndex(p => p.Cpf)
                 .IsUnique(true);

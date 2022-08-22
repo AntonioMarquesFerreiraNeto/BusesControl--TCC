@@ -16,7 +16,6 @@ namespace BusesControl.Models {
         [CpfValidation(ErrorMessage = "Campo inválido!")]
         public string Cpf { get; set; }
 
-
         [Required(ErrorMessage = "Campo obrigatório!")]
         [DataType(DataType.Date, ErrorMessage = "Campo inválido!")]
         [ValidarData(ErrorMessage = "Data de nascimento inválida!")]
@@ -64,5 +63,15 @@ namespace BusesControl.Models {
 
         public StatuFuncionario Status { get; set; }
         public CargoFuncionario Cargos { get; set; }
+        public UsuarioStatus StatusUsuario { get; set; }
+
+        public bool ValidarSenha(string cep) {
+            if (cep == Cep) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }

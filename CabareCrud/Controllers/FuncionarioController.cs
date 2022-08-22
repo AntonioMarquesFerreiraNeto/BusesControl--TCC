@@ -8,7 +8,6 @@ namespace BusesControl.Controllers {
     public class FuncionarioController : Controller {
 
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
-
         public FuncionarioController(IFuncionarioRepositorio funcionarioRepositorio) {
             _funcionarioRepositorio = funcionarioRepositorio;
         }
@@ -22,7 +21,6 @@ namespace BusesControl.Controllers {
             List<Funcionario> funcionariosDesabilitados = _funcionarioRepositorio.ListarTodosDesa();
             return View("Index", funcionariosDesabilitados);
         }
-
         public IActionResult NovoFuncionario() {
             ViewData["Title"] = "Incluir";
             return View();
@@ -36,6 +34,9 @@ namespace BusesControl.Controllers {
                 }
                 else if (ModelState.IsValid) {
                     funcionario.Status = StatuFuncionario.Habilitado;
+                    if (ValidarCargo(funcionario)) {
+                        funcionario.StatusUsuario = UsuarioStatus.Ativado;
+                    }
                     _funcionarioRepositorio.Adicionar(funcionario);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
@@ -44,7 +45,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(funcionario);  
+                return View(funcionario);
             }
         }
 
@@ -60,7 +61,7 @@ namespace BusesControl.Controllers {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
                     return View(funcionario);
                 }
-                else if (ModelState.IsValid) {
+                if (ModelState.IsValid) {
                     _funcionarioRepositorio.EditarFuncionario(funcionario);
                     TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
@@ -83,9 +84,15 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Desabilitar(Funcionario funcionario) {
-            _funcionarioRepositorio.Desabilitar(funcionario);
-            TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
-            return RedirectToAction("Index");
+            try {
+                _funcionarioRepositorio.Desabilitar(funcionario);
+                TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(funcionario);
+            }
         }
 
         public IActionResult Habilitar(long id) {
@@ -94,22 +101,52 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Habilitar(Funcionario funcionario) {
-            _funcionarioRepositorio.Habilitar(funcionario);
-            TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
-            return RedirectToAction("Index");
+            try {
+                _funcionarioRepositorio.Habilitar(funcionario);
+                TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(funcionario);
+            }
+        }
+
+        public IActionResult HabilitarUsuario(long id) {
+            Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
+            return View(funcionario);
+        }
+        [HttpPost]
+        public IActionResult HabilitarUsuario(Funcionario funcionario) {
+            try {
+                _funcionarioRepositorio.HabilitarUsuario(funcionario);
+                TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(funcionario);
+            }
         }
 
         //Métodos abaixo apenas para retornar mensagem de erro em geral, já que a ModelState não os deixa serem registrados no banco de dados
         public bool ValidarCampo(Funcionario value) {
-            if (value.Name == null || value.DataNascimento == null || value.Cpf == null || 
-                value.Email == null || value.Telefone == null|| value.Cep == null || 
-                value.Logradouro == null || value.NumeroResidencial == null || value.ComplementoResidencial == null || 
+            if (value.Name == null || value.DataNascimento == null || value.Cpf == null ||
+                value.Email == null || value.Telefone == null || value.Cep == null ||
+                value.Logradouro == null || value.NumeroResidencial == null || value.ComplementoResidencial == null ||
                 value.Ddd == null || value.Bairro == null || value.Cidade == null || value.Estado == null) {
                 return true;
             }
             else {
                 return false;
             }
+        }
+
+        public bool ValidarCargo(Funcionario funcionario) {
+            if (funcionario.Cargos == CargoFuncionario.Administrador || funcionario.Cargos == CargoFuncionario.Assistente) {
+                return true;
+            }
+            else return false;
         }
     }
 }

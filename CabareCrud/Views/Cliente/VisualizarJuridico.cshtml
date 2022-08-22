@@ -1,5 +1,11 @@
 ﻿@model PessoaJuridica
 <link rel="stylesheet" href="~/css/Visualisar.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 3px;">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
 <section class="clientes  shadow p-1 mb-3 bg-white rounded">
     <div class="row view">
         <div class="col-md-12">

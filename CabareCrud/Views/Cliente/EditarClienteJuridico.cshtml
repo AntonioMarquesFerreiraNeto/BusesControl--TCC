@@ -12,12 +12,12 @@
     <h3 id="bac">
         <i class="fa fa-users"></i>
         Editar cliente jurídico
-         <hr style="margin-top: 2px;">
+        <hr style="margin-top: 2px;">
     </h3>
     <form id="formAdd" asp-controller="Cliente" asp-action="EditarCLienteJuridico" method="post">
         <input type="hidden" asp-for="Id">
         <div class="row">
-             <div class="col-md-6 input-group form-group form-it">
+            <div class="col-md-6 input-group form-group form-it">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
                         <i class="fa fa-user-tie"></i>
@@ -31,10 +31,10 @@
                     </small>
                 </div>
             </div>
-           <div class="col-md-6 input-group form-group form-it">
+            <div class="col-md-6 input-group form-group form-it">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
-                       <i class="fas fa-user-tie"></i>
+                        <i class="fas fa-user-tie"></i>
                     </span>
                 </div>
                 <input type="text" class="form-control" id="inputRasaoSocial"
@@ -227,7 +227,7 @@
                         </button>
                         <div>
                             <button type="button" class="btn btn-secondary filtrar_btn2"
-                                    data-target ="#ConfirmSair" data-toggle = "modal">
+                                    data-target="#ConfirmSair" data-toggle="modal">
                                 Voltar
                             </button>
                             <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
@@ -289,6 +289,21 @@
         </div>
     </div>
 </section>
+<script>
+    const cidade = document.querySelector("input#inputCid");
+    const estado = document.querySelector("input#inputEstado");
 
-<script src="~/js/jquery.min.js"></script>
+    noNumero(cidade);
+    noNumero(estado);
+
+    function noNumero(no) {
+        no.addEventListener("keypress", function(e) {
+            const keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode > 47 && keycode < 58) {
+                e.preventDefault();
+            }
+        });
+    }
+</script>
 <script src="~/Js copy/ModalCliente.js"></script>
+<script src="~/js/jquery.min.js"></script>

@@ -31,12 +31,14 @@ namespace BusesControl.Repositorio {
                 return null;
             }
         }
-
         public Funcionario EditarFuncionario(Funcionario funcionario) {
             try {
                 Funcionario funcionarioDB = ListarPorId(funcionario.Id);
                 if (funcionarioDB == null) {
                     throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+                }
+                if (funcionario.Cargos == CargoFuncionario.Motorista) {
+                    funcionarioDB.StatusUsuario = UsuarioStatus.Desativado;
                 }
                 funcionarioDB.Name = funcionario.Name;
                 funcionarioDB.DataNascimento = funcionario.DataNascimento;
@@ -66,11 +68,14 @@ namespace BusesControl.Repositorio {
             Funcionario funcionario = _bancocontext.Funcionario.FirstOrDefault(x => x.Id == id);
             return funcionario;
         }
-
+        public Funcionario ListarPorlogin(string cpf) {
+            return _bancocontext.Funcionario.FirstOrDefault(x => x.Cpf == cpf && x.StatusUsuario == UsuarioStatus.Ativado);
+        }
         public Funcionario Desabilitar(Funcionario funcionario) {
             Funcionario funcionarioDesabilitado = ListarPorId(funcionario.Id);
             if (funcionarioDesabilitado == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");
             funcionarioDesabilitado.Status = StatuFuncionario.Desabilitado;
+            funcionarioDesabilitado.StatusUsuario = UsuarioStatus.Desativado;
             _bancocontext.Update(funcionarioDesabilitado);
             _bancocontext.SaveChanges();
             return funcionario;
@@ -84,7 +89,14 @@ namespace BusesControl.Repositorio {
             _bancocontext.SaveChanges();
             return funcionario;
         }
-
+        public Funcionario HabilitarUsuario(Funcionario funcionario) {
+            Funcionario usuarioHabilitado = ListarPorId(funcionario.Id);
+            if (usuarioHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");
+            usuarioHabilitado.StatusUsuario = UsuarioStatus.Ativado;
+            _bancocontext.Update(usuarioHabilitado);
+            _bancocontext.SaveChanges();
+            return funcionario;
+        }
         public Exception TratarErro(Funcionario funcionario, Exception erro) {
             if (erro.InnerException.Message.Contains(funcionario.Cpf)) {
                 throw new System.Exception("Funcionário já se encontra cadastrado!");

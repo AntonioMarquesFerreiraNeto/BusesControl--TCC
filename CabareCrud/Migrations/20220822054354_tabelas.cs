@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BusesControl.Migrations
 {
-    public partial class Cliente : Migration
+    public partial class tabelas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,7 +63,8 @@ namespace BusesControl.Migrations
                     Estado = table.Column<string>(nullable: false),
                     Ddd = table.Column<string>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    Cargos = table.Column<int>(nullable: false)
+                    Cargos = table.Column<int>(nullable: false),
+                    StatusUsuario = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

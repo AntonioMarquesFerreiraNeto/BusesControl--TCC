@@ -1,6 +1,7 @@
 ﻿@charset "UTF-8";
 
 .clientes {
+    margin-top: 2px;
     margin: auto;
     width: 90%;
     background-color: white;

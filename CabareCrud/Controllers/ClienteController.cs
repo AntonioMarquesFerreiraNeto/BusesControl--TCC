@@ -139,7 +139,8 @@ namespace BusesControl.Controllers {
                     return RedirectToAction("IndexJuridico");
                 }
                 return View(cliente);
-            }catch(Exception erro) {
+            }
+            catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
                 return View(cliente);
             }
@@ -157,15 +158,27 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Desabilitar(PessoaFisica cliente) {
-            _clienteRepositorio.Desabilitar(cliente);
-            TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
-            return RedirectToAction("Index");
+            try {
+                _clienteRepositorio.Desabilitar(cliente);
+                TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(cliente);
+            }
         }
         [HttpPost]
         public IActionResult DesabilitarJuridico(PessoaJuridica cliente) {
-            _clienteRepositorio.DesabilitarJuridico(cliente);
-            TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
-            return RedirectToAction("IndexJuridico");
+            try {
+                _clienteRepositorio.DesabilitarJuridico(cliente);
+                TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
+                return RedirectToAction("IndexJuridico");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(cliente);
+            }
         }
 
         public IActionResult Habilitar(long id) {
@@ -180,15 +193,27 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult HabilitarJuridico(PessoaJuridica cliente) {
-            _clienteRepositorio.HabilitarJuridico(cliente);
-            TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
-            return RedirectToAction("IndexJuridico");
+            try {
+                _clienteRepositorio.HabilitarJuridico(cliente);
+                TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
+                return RedirectToAction("IndexJuridico");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(cliente);
+            }
         }
         [HttpPost]
         public IActionResult Habilitar(PessoaFisica cliente) {
-            _clienteRepositorio.Habilitar(cliente);
-            TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
-            return RedirectToAction("Index");
+            try {
+                _clienteRepositorio.Habilitar(cliente);
+                TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(cliente);
+            }
         }
 
         //Métodos abaixo apenas para retornar mensagem de erro em geral, já que a ModelState não os deixa serem registrados no banco de dados. 

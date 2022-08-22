@@ -275,6 +275,21 @@
         </div>
     </div>
 </section>
+<script>
+    const cidade = document.querySelector("input#inputCid");
+    const estado = document.querySelector("input#inputEstado");
 
-<script src="~/js/jquery.min.js"></script>
+    noNumero(cidade);
+    noNumero(estado);
+
+    function noNumero(no) {
+        no.addEventListener("keypress", function(e) {
+            const keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode > 47 && keycode < 58) {
+                e.preventDefault();
+            }
+        });
+    }
+</script>
 <script src="~/Js copy/ModalCliente.js"></script>
+<script src="~/js/jquery.min.js"></script>

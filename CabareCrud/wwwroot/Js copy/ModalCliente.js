@@ -2,6 +2,8 @@
 //Campos do modal que serão validados no Js.
 const _nome = document.querySelector("input#inputNome");
 const _nomeMae = document.querySelector("input#inputMae");
+const _cidade = document.getElementById('inputCid');
+const _estado = document.getElementById('inputEstado');
 const _cep = document.querySelector("input#inputCep");
 const alert = document.getElementById('alerta');
 const salvar = document.getElementById('salvar');
@@ -10,6 +12,8 @@ const salvar = document.getElementById('salvar');
 // Validação para não deixar que o usuário entre com números nos campos. 
 noNum(_nome);
 noNum(_nomeMae);
+noNum(_cidade);
+noNum(_estado);
 function noNum(no) {
     no.addEventListener("keypress", function (e) {
         const keycode = (e.keyCode ? e.keyCode : e.which);

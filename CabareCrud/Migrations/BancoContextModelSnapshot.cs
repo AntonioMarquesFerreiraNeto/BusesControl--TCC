@@ -145,6 +145,9 @@ namespace BusesControl.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("StatusUsuario")
+                        .HasColumnType("int");
+
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("varchar(9) CHARACTER SET utf8mb4")

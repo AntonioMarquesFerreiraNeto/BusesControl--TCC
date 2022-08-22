@@ -6,9 +6,59 @@ body{
     padding: 0;
     background-image: url(Imagens/back.png);
 }
+.mensagemErro{
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+}
+.alert {
+    position: absolute;
+    top: 15px;
+    width: 400px;
+}
+
+.close-alert {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    text-align: center;
+    border-radius: 35px;
+    border: 1px solid #72a67e;
+    color: black;
+    width: 30px;
+    height: 31px;
+    transition: 0.5s;
+}
+
+.sucesso {
+    background-color: #c5f0cf;
+}
+
+    .sucesso:hover {
+        border: 1px solid #72a67e;
+        background-color: #7ea588;
+    }
+
+.erro {
+    background-color: #f8d7da;
+    border: 1px solid #d3b3b5;
+}
+
+    .erro:hover {
+        border: 1px solid #d3b3b5;
+        background-color: #c09da0;
+    }
+
 .form-control{
     font-size: 11pt;
     border-radius: 1px;
+}
+.errorMsg {
+    position: absolute;
+    top: 36px;
+    right: 1px;
+    font-size: 9pt;
+    color: red;
 }
 #Login{
     height: 100vh;
@@ -61,6 +111,7 @@ input:focus {
 }
 .login_btn:hover{
     background-color: #0091ff;
+    color: white;
 }
 .links {
     color: #000000dc;

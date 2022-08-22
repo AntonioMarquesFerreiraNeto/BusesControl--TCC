@@ -62,7 +62,7 @@
                                     <a class="link" asp-action="Visualizar" asp-route-id="@funcionario.Id"><i class="fa fa-eye"></i></a>
                                     <a class="link" asp-action="Desabilitar" asp-route-id="@funcionario.Id"><i class="fa fa-user-slash"></i></a>
                                     @if (funcionario.Cargos == CargoFuncionario.Assistente || funcionario.Cargos == CargoFuncionario.Administrador) {
-                                        <a class="link" asp-route-id="@funcionario.Id"><i class="fa fa-user-check"></i></a>
+                                        <a class="link" asp-route-id="@funcionario.Id"  asp-action="HabilitarUsuario"><i class="fa fa-user-check"></i></a>
                                     }
                                     else {
                                         <a id="iconDisabled" class="btn disabled" asp-route-id="@funcionario.Id"><i class="fa fa-user-check" style="font-size: 10pt;"></i></a>
@@ -80,8 +80,6 @@
         </table>
     </div>
 </section>
-<script src="~/Js copy/FiltrosCliente.js"></script>
-<script src="~/Js copy/ModalCliente.js"></script>
 <script src="~/js/site.js"></script>
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
