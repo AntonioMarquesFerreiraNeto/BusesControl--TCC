@@ -89,6 +89,14 @@ namespace BusesControl.Repositorio {
             _bancocontext.SaveChanges();
             return funcionario;
         }
+        public Funcionario DesabilitarUsuario(Funcionario funcionario) {
+            Funcionario usuarioDesabilitado = ListarPorId(funcionario.Id);
+            if (usuarioDesabilitado == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");
+            usuarioDesabilitado.StatusUsuario = UsuarioStatus.Desativado;
+            _bancocontext.Update(usuarioDesabilitado);
+            _bancocontext.SaveChanges();
+            return funcionario;
+        }
         public Funcionario HabilitarUsuario(Funcionario funcionario) {
             Funcionario usuarioHabilitado = ListarPorId(funcionario.Id);
             if (usuarioHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");

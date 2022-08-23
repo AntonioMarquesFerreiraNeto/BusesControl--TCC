@@ -108,7 +108,8 @@ namespace BusesControl.Controllers {
             }
         }
 
-        public IActionResult HabilitarUsuario(long id) {
+        public IActionResult ControlarUsuario(long id) {
+            ViewData["Title"] = "Controlar usuário"; 
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
             return View(funcionario);
         }
@@ -117,6 +118,18 @@ namespace BusesControl.Controllers {
             try {
                 _funcionarioRepositorio.HabilitarUsuario(funcionario);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(funcionario);
+            }
+        }
+        [HttpPost]
+        public IActionResult DesabilitarUsuario(Funcionario funcionario) {
+            try {
+                _funcionarioRepositorio.DesabilitarUsuario(funcionario);
+                TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch (Exception erro) {

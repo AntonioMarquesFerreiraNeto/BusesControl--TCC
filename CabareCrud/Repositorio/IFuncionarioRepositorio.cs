@@ -11,6 +11,7 @@ namespace BusesControl.Repositorio {
         public List<Funcionario> ListarTodosHab();
         public List<Funcionario> ListarTodosDesa();
         public Funcionario Desabilitar(Funcionario funcionario);
+        public Funcionario DesabilitarUsuario(Funcionario funcionario);
         public Funcionario Habilitar(Funcionario funcionario);
         public Funcionario HabilitarUsuario(Funcionario funcionario);
         public Exception TratarErro(Funcionario funcionario, Exception erro);
