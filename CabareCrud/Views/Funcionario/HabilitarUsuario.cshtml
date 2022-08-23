@@ -18,10 +18,16 @@
                         <hr style="margin-top: 5px;">
                     </label>
                     @if (Model.Status == StatuFuncionario.Habilitado) {
-                        <p><b>Status do cliente: </b>Habilitado,</p>
+                        <p><b>Status do funcionário: </b>Habilitado,</p>
                     }
                     else {
-                        <p><b>Status do cliente: </b>Desabilitado,</p>
+                        <p><b>Status do funcionário: </b>Desabilitado,</p>
+                    }
+                    @if  (Model.StatusUsuario == UsuarioStatus.Ativado)  {
+                        <p><b>Status do usuário: </b>Ativado,</p>
+                    }
+                    else {
+                        <p><b>Status do usuário: </b>Negativo,</p>
                     }
                     @if (Model.Cargos == CargoFuncionario.Administrador) {
 
@@ -69,7 +75,7 @@
     </div>
 </form>
 <section class="container-button">
-    <a class="btn filtrar_btn" style="color: white" asp-action="Desabilitados">Voltar</a>
+    <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
     <a class="btn filtrar_btn hab" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Habilitar</a>
 </section>
 <script src="~/js/jquery.min.js"></script>

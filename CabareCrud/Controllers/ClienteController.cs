@@ -84,18 +84,6 @@ namespace BusesControl.Controllers {
                 return View(cliente);
             }
         }
-
-        public IActionResult Visualizar(long id) {
-            ViewData["Title"] = "Visualisar";
-            PessoaFisica cliente = _clienteRepositorio.ListarPorId(id);
-            return View(cliente);
-        }
-        public IActionResult VisualizarJuridico(long id) {
-            ViewData["Title"] = "Visualisar";
-            PessoaJuridica cliente = _clienteRepositorio.ListarPorIdJuridico(id);
-            return View(cliente);
-        }
-
         public IActionResult EditarCliente(long id) {
             ViewData["Title"] = "Editar";
             PessoaFisica cliente = _clienteRepositorio.ListarPorId(id);

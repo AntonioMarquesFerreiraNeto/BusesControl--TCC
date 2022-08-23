@@ -54,11 +54,9 @@
                             <td>
                                 @if (cliente.Status == StatuCliente.Habilitado) {
                                     <a class="link" asp-action="EditarCliente" asp-route-id="@cliente.Id"><i class="fa fa-pen"></i></a>
-                                    <a class="link" asp-action="Visualizar" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
                                     <a title="Visualizar" class="link" asp-action="Desabilitar" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
                                 }
                                 else {
-                                    <a class="link" asp-action="Visualizar" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
                                     <a class="link" asp-action="Habilitar" asp-route-id="@cliente.Id"><i class="fa fa-user"></i></a>
                                 }
                             </td>

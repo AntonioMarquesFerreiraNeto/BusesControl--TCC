@@ -56,11 +56,9 @@
                                     <a class="link" asp-action="EditarClienteJuridico" asp-route-id="@cliente.Id">
                                         <i class="fa fa-pen"></i>
                                     </a>
-                                    <a class="link" asp-action="VisualizarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
                                     <a class="link" asp-action="DesabilitarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
                                 }
                                 else {
-                                    <a class="link" asp-action="VisualizarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-eye"></i></a>
                                     <a class="link" asp-action="HabilitarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-user"></i></a>
                                 }
                             </td>

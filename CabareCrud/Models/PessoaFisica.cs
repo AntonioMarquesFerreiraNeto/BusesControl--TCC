@@ -22,6 +22,7 @@ namespace BusesControl.Models {
         public DateTime? DataNascimento { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
+        [MinLength(5, ErrorMessage = "Campo inválido!")]
         public string Rg { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]

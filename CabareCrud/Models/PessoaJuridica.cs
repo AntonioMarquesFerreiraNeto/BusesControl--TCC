@@ -14,7 +14,7 @@ namespace BusesControl.Models {
         public string Cnpj { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
-        [MinLength(6, ErrorMessage = "Campo inválido!")]
+        [MinLength(3, ErrorMessage = "Campo inválido!")]
         public string RazaoSocial { get; set; }
 
 
