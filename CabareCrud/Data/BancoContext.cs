@@ -64,9 +64,5 @@ namespace BusesControl.Data {
                 .HasIndex(p => p.Renavam)
                 .IsUnique(true);
         }
-
-        internal Onibus FirstOrDefault() {
-            throw new NotImplementedException();
-        }
     }
 }

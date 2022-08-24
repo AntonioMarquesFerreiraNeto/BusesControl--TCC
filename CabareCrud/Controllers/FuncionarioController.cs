@@ -75,6 +75,7 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult Desabilitar(long id) {
+            ViewData["Title"] = "Desabilitar";
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
             return View(funcionario);
         }
@@ -92,6 +93,7 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult Habilitar(long id) {
+            ViewData["Title"] = "Habilitar";
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
             return View(funcionario);
         }

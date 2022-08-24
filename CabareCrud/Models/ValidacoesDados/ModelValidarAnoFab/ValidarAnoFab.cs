@@ -9,17 +9,13 @@ namespace BusesControl.Models.ValidacoesDados.ModelValidarAnoFab {
             return validarAno(value.ToString());
         }
         public bool validarAno(string ano) {
-            long ano_long = Int64.Parse(ano);
-            DateTime dataAtual = DateTime.Now;
-            string data = dataAtual.ToString();
-            long dataAtual_long = Int64.Parse(data);
-
-            if (ano_long > dataAtual_long || ano_long < 1980) {
+            DateTime anoAtual = DateTime.Now;
+            long anoFab = Int64.Parse(ano);
+            long ianoAtual = anoAtual.Year;
+            if (anoFab > ianoAtual || anoFab < 1970) {
                 return false;
             }
-            else {
-                return true;
-            }
+            return true;
         }
     }
 }

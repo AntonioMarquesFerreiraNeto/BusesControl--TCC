@@ -36,7 +36,27 @@ namespace BusesControl.Repositorio {
             Onibus onibus = _bancoContext.Onibus.FirstOrDefault(x => x.Id == id);
             return onibus;
         }
-
+        public Onibus EditarOnibus(Onibus onibus) {
+            try {
+                Onibus onibusDB = ListarPorId(onibus.Id);
+                if (onibusDB == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+                onibusDB.NameBus = onibus.NameBus;
+                onibusDB.Marca = onibus.Marca;
+                onibusDB.DataFabricacao = onibus.DataFabricacao;
+                onibusDB.Placa = onibus.Placa;
+                onibusDB.Renavam = onibus.Renavam;
+                onibusDB.Assentos = onibus.Assentos;
+                onibusDB.Chassi = onibus.Chassi;
+                onibusDB.corBus = onibus.corBus;
+                _bancoContext.Update(onibusDB);
+                _bancoContext.SaveChanges();
+                return onibus;
+            }
+            catch (Exception erro) {
+                TratarErro(onibus, erro);
+                return null;
+            }
+        }
         public Onibus Desabilitar(Onibus onibus) {
             Onibus onibusDesabilitar = ListarPorId(onibus.Id);
             if (onibusDesabilitar == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");

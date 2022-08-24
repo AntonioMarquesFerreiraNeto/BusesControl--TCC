@@ -27,6 +27,10 @@ namespace BusesControl.Controllers {
         [HttpPost]
         public IActionResult NovoOnibus(Onibus onibus) {
             try {
+                if (ValidarCampo(onibus)) {
+                    TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
+                    return View(onibus);
+                }
                 if (ModelState.IsValid) {
                     onibus.StatusOnibus = OnibusStatus.Habilitado;
                     _onibusRepositorio.AdicionarBus(onibus);
@@ -41,7 +45,33 @@ namespace BusesControl.Controllers {
             }
         }
 
+        public IActionResult Editar(long id) {
+            ViewData["Title"] = "Editar";
+            Onibus onibus = _onibusRepositorio.ListarPorId(id);
+            return View(onibus);
+        }
+        [HttpPost]
+        public IActionResult Editar(Onibus onibus) {
+            try {
+                if (ValidarCampo(onibus)) {
+                    TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
+                    return View(onibus);
+                }
+                if (ModelState.IsValid) {
+                    _onibusRepositorio.EditarOnibus(onibus);
+                    TempData["MensagemDeSucesso"] = "Editado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+                return View(onibus);
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(onibus);
+            }
+        }
+
         public IActionResult Desabilitar(long id) {
+            ViewData["Title"] = "Desabilitar";
             Onibus onibus = _onibusRepositorio.ListarPorId(id);
             return View(onibus);
         }
@@ -59,6 +89,7 @@ namespace BusesControl.Controllers {
         }
         
         public IActionResult Habilitar(long id) {
+            ViewData["Title"] = "Habilitar";
             Onibus onibus = _onibusRepositorio.ListarPorId(id);
             return View(onibus);
         }
@@ -72,6 +103,16 @@ namespace BusesControl.Controllers {
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
                 return View(onibus);
+            }
+        }
+
+        public bool ValidarCampo(Onibus onibus) {
+            if (onibus.Marca == null || onibus.NameBus == null || onibus.DataFabricacao == null || onibus.Placa == null || onibus.Renavam == null
+                || onibus.Chassi == null || onibus.Assentos == null) {
+                return true;
+            }
+            else {
+                return false;
             }
         }
     }

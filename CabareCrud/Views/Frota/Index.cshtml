@@ -50,7 +50,7 @@
                             <td>@onibus.Assentos</td> 
                             <td>
                                  @if (onibus.StatusOnibus == OnibusStatus.Habilitado) {
-                                    <a class="link" asp-action="EditarCliente" asp-route-id="@onibus.Id"><i class="fa fa-pen"></i></a>
+                                    <a class="link" asp-action="Editar" asp-route-id="@onibus.Id"><i class="fa fa-pen"></i></a>
                                     <a class="link" asp-action="Desabilitar" asp-route-id="@onibus.Id"><i class="fa fa-user-slash"></i></a>
                                 }
                                 else {

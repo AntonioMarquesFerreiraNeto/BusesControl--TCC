@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20220823195329_Buses")]
-    partial class Buses
+    [Migration("20220824041151_tabelas")]
+    partial class tabelas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,16 +175,17 @@ namespace BusesControl.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<long>("Assentos")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Assentos")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Chassi")
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime?>("DataFabricacao")
+                    b.Property<string>("DataFabricacao")
                         .IsRequired()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Marca")
                         .IsRequired()

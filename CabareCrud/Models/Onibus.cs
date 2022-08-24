@@ -1,4 +1,5 @@
 ﻿using BusesControl.Models.ValidacoesDados.ModelValidarAnoFab;
+using BusesControl.Models.ValidacoesDados.ModelValidarAssentos;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,8 +15,10 @@ namespace BusesControl.Models {
         [MinLength(3, ErrorMessage = "Campo inválido.")]
         public string NameBus { get; set; }
 
-        //[ValidarAnoFab(ErrorMessage = "Campo inválido!")]
-        public int DataFabricacao { get; set; }
+        [Required(ErrorMessage = "Campo obrigatório!")]
+        [ValidarAnoFab(ErrorMessage = "Campo inválido!")]
+        [MinLength(4, ErrorMessage = "Campo inválido!")]
+        public string DataFabricacao { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(8, ErrorMessage = "Campo inválido.")]
@@ -30,7 +33,8 @@ namespace BusesControl.Models {
         public string Chassi { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
-        public int Assentos { get; set; }
+        [ValAssentos(ErrorMessage = "Campo inválido!")]
+        public string Assentos { get; set; }
 
         public OnibusStatus StatusOnibus { get; set; }
         public CorBus corBus { get; set; }
