@@ -26,6 +26,7 @@ namespace BusesControl {
             (Configuration.GetConnectionString("BancoContext"), builder => builder.MigrationsAssembly("BusesControl")));
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
             services.AddScoped<IFuncionarioRepositorio, FuncionarioRepositorio>();
+            services.AddScoped<IOnibusRepositorio, OnibusRepositorio>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

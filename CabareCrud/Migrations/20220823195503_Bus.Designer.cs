@@ -3,14 +3,16 @@ using System;
 using BusesControl.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20220823195503_Bus")]
+    partial class Bus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,15 +175,15 @@ namespace BusesControl.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Assentos")
-                        .HasColumnType("int");
+                    b.Property<long>("Assentos")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Chassi")
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<int>("DataFabricacao")
-                        .HasColumnType("int");
+                    b.Property<long>("DataFabricacao")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Marca")
                         .IsRequired()

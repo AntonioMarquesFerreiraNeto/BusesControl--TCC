@@ -1,1 +1,103 @@
-﻿
+﻿@model List<Onibus>
+<link rel="stylesheet" href="~/css/frota.css">
+@if (TempData["MensagemDeSucesso"] != null) {
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemDeSucesso"]
+        <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <!--Cadastro, edição e desativação de clientes-->
+    <h3 id="bac">
+        <i class="fa fa-bus"></i> Frota
+        <hr style="margin-top: 3px;">
+    </h3>
+    <div class="cliente">
+        <div class="flex-item">
+            <div>
+                <a asp-controller="Frota" asp-action="Index" class="btn filtrar_btn enum">Habilitados</a>
+                <a asp-controller="Frota" asp-action="Desabilitados" class="btn filtrar_btn noCheck" type="submit">Desabilitados</a>
+            </div>
+            <div>
+                <a type="submit" class="btn filtrar_btn" asp-controller="Frota" asp-action="NovoOnibus">
+                    + Ônibus
+                </a>
+            </div>
+        </div>
+        <table id="table-frota" class="table shadow p-3 mb-5 bg-white rounded">
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Assentos</th>
+                    <th scope="col">Opção</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any()) {
+                    foreach (Onibus onibus in Model) {
+                        <tr class="row-hover">
+                            <th scope="row">@onibus.Id</th>
+                            <td>@onibus.NameBus</td>
+                            <td>@onibus.Placa</td>
+                            <td>@onibus.Assentos</td> 
+                            <td>
+                                 @if (onibus.StatusOnibus == OnibusStatus.Habilitado) {
+                                    <a class="link" asp-action="EditarCliente" asp-route-id="@onibus.Id"><i class="fa fa-pen"></i></a>
+                                    <a class="link" asp-action="Desabilitar" asp-route-id="@onibus.Id"><i class="fa fa-user-slash"></i></a>
+                                }
+                                else {
+                                    <a class="link" asp-action="Habilitar" asp-route-id="@onibus.Id"><i class="fa fa-user"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+<script src="~/js/site.js"></script>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#table-frota').DataTable({
+                "ordering": true,
+                "paging": true,
+                "searching": true,
+                "oLanguage": {
+                    "sEmptyTable": "Não existe registros no sistema.",
+                    "sInfo": "",
+                    "sInfoEmpty": "",
+                    "sInfoFiltered": "",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Sua pesquisa não encontrou nenhum registro correspondente.",
+                    "sSearch": "Pesquisar:  ",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -1,5 +1,6 @@
 ﻿using BusesControl.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace BusesControl.Data {
     public class BancoContext : DbContext {
@@ -10,8 +11,7 @@ namespace BusesControl.Data {
         public DbSet<PessoaFisica> PessoaFisica { get; set; }
         public DbSet<PessoaJuridica> PessoaJuridica { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
-
-
+        public DbSet<Onibus> Onibus { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             //Evitar duplicatas dos atributos de cliente físico e jurídico. 
             modelBuilder.Entity<PessoaFisica>()
@@ -52,7 +52,21 @@ namespace BusesControl.Data {
             modelBuilder.Entity<Funcionario>()
                 .HasIndex(p => p.Telefone)
                 .IsUnique(true);
+
+            //Evitar duplicatas de atributos de ônibus.
+            modelBuilder.Entity<Onibus>()
+                .HasIndex(p => p.Placa)
+                .IsUnique(true);
+            modelBuilder.Entity<Onibus>()
+                .HasIndex(p => p.Chassi)
+                .IsUnique(true);
+            modelBuilder.Entity<Onibus>()
+                .HasIndex(p => p.Renavam)
+                .IsUnique(true);
         }
 
+        internal Onibus FirstOrDefault() {
+            throw new NotImplementedException();
+        }
     }
 }
