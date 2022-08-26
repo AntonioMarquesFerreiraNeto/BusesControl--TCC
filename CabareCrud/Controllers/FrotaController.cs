@@ -11,11 +11,12 @@ namespace BusesControl.Controllers {
             _onibusRepositorio = onibusRepositorio;
         }
         public IActionResult Index() {
-            ViewData["Title"] = "Frota";
+            ViewData["Title"] = "Ônibus habilitados";
             List<Onibus> onibusHabilitados = _onibusRepositorio.ListarTodosHab();
             return View(onibusHabilitados);
         }
         public IActionResult Desabilitados() {
+            ViewData["Title"] = "Ônibus desabilitados";
             List<Onibus> onibusDesabilitados = _onibusRepositorio.ListarTodosDesa();
             return View("Index", onibusDesabilitados);
         }

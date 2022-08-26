@@ -13,23 +13,23 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult Index() {
-            ViewData["Title"] = "Clientes";
+            ViewData["Title"] = "Clientes físicos habilitados";
             List<PessoaFisica> clientesHabilitados = _clienteRepositorio.BuscarTodosHabilitados();
             return View(clientesHabilitados);
         }
         public IActionResult IndexJuridico() {
-            ViewData["Title"] = "Clientes";
+            ViewData["Title"] = "Clientes jurídicos habilitados";
             List<PessoaJuridica> clientesHabilitados = _clienteRepositorio.BuscarTodosHabJuridico();
             return View(clientesHabilitados);
         }
 
         public IActionResult Desabilitados() {
-            ViewData["Title"] = "Clientes";
+            ViewData["Title"] = "Clientes físicos desabilitados";
             List<PessoaFisica> clientesDesabilitados = _clienteRepositorio.BuscarTodosDesabilitados();
             return View("Index", clientesDesabilitados);
         }
         public IActionResult DesabilitadosJuridico() {
-            ViewData["Title"] = "clientes";
+            ViewData["Title"] = "Clientes jurídicos desabilitados";
             List<PessoaJuridica> clienteDesabilitados = _clienteRepositorio.BuscarTodosDesaJuridico();
             return View("IndexJuridico", clienteDesabilitados);
         }

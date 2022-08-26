@@ -51,7 +51,7 @@
                     </span>
                 </div>
                 <input type="text" class="form-control" id="inputAnoOnibus"
-                       placeholder="Informe o ano de fabricação." maxlength="4" asp-for="DataFabricacao" 
+                       placeholder="Informe o ano de fabricação." maxlength="4" asp-for="DataFabricacao"
                        onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
                 <div class="i">
                     <small class="errorMsg">
@@ -156,8 +156,8 @@
                             Deseja realmente salvar os dados?
                         </p>
                     </div>
-                    <div class="modal-footer">
-                        <button id="enviar" type="submit" class="btn btn-primary filtra_btn" onclick="salva()">Sim</button>
+                    <div class="modal-footer confirm-modal">
+                        <button id="enviar" type="submit" class="btn filtra_btn" onclick="salva()">Sim</button>
                         <button type="button" class="btn btn-secondary filtrar_btn2"
                                 data-dismiss="modal">
                             Não
@@ -181,8 +181,8 @@
                         Deseja realmente sair durante esta operação? Caso tenha alterações não salvas, elas serão perdidas!
                     </p>
                 </div>
-                <div class="modal-footer">
-                    <a id="enviar" type="submit" class="btn btn-primary filtra_btn" asp-controller="Frota" asp-action="Index">Sim</a>
+                <div class="modal-footer confirm-modal">
+                    <a id="enviar" type="submit" class="btn filtra_btn" asp-controller="Frota" asp-action="Index">Sim</a>
                     <button type="button" class="btn btn-secondary filtrar_btn2"
                             data-dismiss="modal">
                         Não
@@ -193,6 +193,8 @@
     </div>
 </section>
 <script>
+    marca = document.getElementById('inputMarca');
+    noNumero(marca);
     function noNumero(no) {
         no.addEventListener("keypress", function(e) {
             const keycode = (e.keyCode ? e.keyCode : e.which);

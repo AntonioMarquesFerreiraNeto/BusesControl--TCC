@@ -328,7 +328,9 @@ input:focus {
     flex-direction: row;
     justify-content: flex-end;
 }
-
+.confirm-modal {
+    justify-content: space-between;
+}
 thead {
     color: #ffffffea;
     text-align: center;

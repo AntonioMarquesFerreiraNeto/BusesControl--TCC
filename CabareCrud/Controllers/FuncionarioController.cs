@@ -12,12 +12,12 @@ namespace BusesControl.Controllers {
             _funcionarioRepositorio = funcionarioRepositorio;
         }
         public IActionResult Index() {
-            ViewData["Title"] = "Funcionários";
+            ViewData["Title"] = "Funcionários habilitados";
             List<Funcionario> funcionariosHabilitados = _funcionarioRepositorio.ListarTodosHab();
             return View(funcionariosHabilitados);
         }
         public IActionResult Desabilitados() {
-            ViewData["Title"] = "Funcionários";
+            ViewData["Title"] = "Funcionários desabilitados";
             List<Funcionario> funcionariosDesabilitados = _funcionarioRepositorio.ListarTodosDesa();
             return View("Index", funcionariosDesabilitados);
         }
