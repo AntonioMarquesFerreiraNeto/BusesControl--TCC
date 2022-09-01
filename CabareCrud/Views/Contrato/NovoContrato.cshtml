@@ -1,0 +1,212 @@
+﻿@model Onibus;
+<link rel="stylesheet" href="~/css/style.css">
+<link rel="stylesheet" href="~/css/contrato.css">
+<link rel="stylesheet" href="~/css/home.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <h3 id="bac">
+        <i class="fa fa-file-contract"></i>
+        @ViewData["Title"]
+        <hr style="margin-top: 2px;">
+    </h3>
+    <form id="formAdd" asp-controller="Contrato" asp-action="NovoContrato" method="post">
+        <div class="row">
+            <div class="col-md-6 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+                <select id="cliente" class="form-control campUser">
+                    <optgroup label="Selecione o cliente">
+                        <option>Selecione o cliente.</option>
+                        <option value="2">Fabrica de roupa SetMares - CNPJ: 88579810000195</option>
+                        <option value="0">Fabrica de Software Turing - CNPJ: 78579810000195</option>
+                        <option value="1">Fernando Ferreira Filho - CPF: 70630220113</option>
+                        <option value="3">Eduardo Augusto Marques Mendes - CPF: 30232010127</option>
+                        <option value="4">Antonio Marques Ferreira Neto - CPF: 1201012734</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="col-md-6 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-bus"></i>
+                    </span>
+                </div>
+                <select id="onibus" class="form-control campUser">
+                    <optgroup label="Seleciona o ônibus">
+                        <option>Selecione o ônibus.</option>
+                        <option value="0">Paradiso g2 - Placa: RIO2018</option>
+                        <option value="1">Paradiso g4 - Placa: GOA1092</option>
+                        <option value="1">Paradiso g2 - Placa: RIO2392</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="col-md-12 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-user-tie"></i>
+                    </span>
+                </div>
+                <select id="motorista" class="form-control campUser">
+                    <optgroup label="Selecione o motorista">
+                        <option>Selecione o motorista.</option>
+                        <option value="3">Eduardo Augusto Marques Mendes - CPF: 30232010127</option>
+                        <option value="4">Antonio Marques Ferreira Neto - CPF: 1201012734</option>
+                        <option value="3">Severino Augusto Lates - CPF: 10230230212</option>
+                        <option value="4">Pedro Gomes - CPF: 30210120345</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="col-md-6 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-dollar-sign" style="margin-left: 3px;"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" id="inputValor"
+                       placeholder="Informe o valor monetário total da alocação." maxlength="40" asp-for="NameBus">
+                <div class="i">
+                    <small class="errorMsg">
+
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-6 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-file-signature"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" id="inputQuantiParcela"
+                       placeholder="Informe a quantidade parcelas." maxlength="2" asp-for="DataFabricacao"
+                       onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                <div class="i">
+                    <small class="errorMsg">
+                        @Html.ValidationMessageFor(x => x.DataFabricacao)
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-6 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+                <input type="date" class="form-control" id="inputDate">
+                <div class="i">
+                    <small class="errorMsg"></small>
+                </div>
+                <div class="legend-data">
+                    <small>Data de emissão do contrato.</small>
+                </div>
+            </div>
+            <div class="col-md-6 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+                <input type="date" class="form-control" id="inputDate" value="Data de vencimento.">
+                <div class="i">
+                    <small class="errorMsg"></small>
+                </div>
+                <div class="legend-data">
+                    <small>Data de vencimento do contrato.</small>
+                </div>
+            </div>
+            <div class="col-md-12 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-road"></i>
+                    </span>
+                </div>
+                <textarea type="text" class="form-control" id="inputRota" rows="3" style="resize: none"
+                          placeholder="Informe detalhadamente a rota da alocação." maxlength="255" asp-for="Placa"><</textarea>
+                <div class="i">
+                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.Placa)</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button type="button" class="btn btn-secondary filtrar_btn2"
+                            data-target="#ConfirmSair" data-toggle="modal">
+                        Voltar
+                    </button>
+                    <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
+                            data-toggle="modal">
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="janelaModalConfirm" class="modal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmação</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Deseja realmente salvar os dados?
+                        </p>
+                    </div>
+                    <div class="modal-footer confirm-modal">
+                        <button id="enviar" type="submit" class="btn filtra_btn" onclick="salva()">Sim</button>
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Não
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="ConfirmSair" class="modal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Deseja realmente sair durante esta operação? Caso tenha alterações não salvas, elas serão perdidas!
+                    </p>
+                </div>
+                <div class="modal-footer confirm-modal">
+                    <a id="enviar" type="submit" class="btn filtra_btn" asp-controller="Contrato" asp-action="Index">Sim</a>
+                    <button type="button" class="btn btn-secondary filtrar_btn2"
+                            data-dismiss="modal">
+                        Não
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    marca = document.getElementById('inputMarca');
+    noNumero(marca);
+    function noNumero(no) {
+        no.addEventListener("keypress", function(e) {
+            const keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode > 47 && keycode < 58) {
+                e.preventDefault();
+            }
+        });
+    }
+</script>
+<script src="~/js/jquery.min.js"></script>
