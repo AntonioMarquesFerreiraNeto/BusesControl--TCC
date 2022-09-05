@@ -7,12 +7,13 @@ namespace BusesControl.Data {
         public BancoContext(DbContextOptions<BancoContext> options) : base(options) {
         }
 
-        //Tabela cliente está sendo criada e depois acessada.
+        //Tabela cliente está sendo criada e depois acessadas.
         public DbSet<PessoaFisica> PessoaFisica { get; set; }
         public DbSet<PessoaJuridica> PessoaJuridica { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
         public DbSet<Onibus> Onibus { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+
             //Evitar duplicatas dos atributos de cliente físico e jurídico. 
             modelBuilder.Entity<PessoaFisica>()
                 .HasIndex(p => p.Cpf)
