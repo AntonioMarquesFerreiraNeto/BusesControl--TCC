@@ -67,8 +67,6 @@
     <Content Remove="Views\Cliente\NewCliente.cshtml" />
     <Content Remove="Views\Financeiro\Index1.cshtml" />
     <Content Remove="Views\Home\Privacy.cshtml" />
-    <Content Remove="wwwroot\js\all.min.js" />
-    <Content Remove="wwwroot\js\fontawesome.min.js" />
   </ItemGroup>
 
   <ItemGroup>

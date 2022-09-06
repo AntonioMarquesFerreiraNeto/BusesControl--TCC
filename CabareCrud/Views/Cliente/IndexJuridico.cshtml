@@ -54,7 +54,7 @@
                             <td>
                                 @if (cliente.Status == StatuCliente.Habilitado) {
                                     <a class="link" asp-action="EditarClienteJuridico" asp-route-id="@cliente.Id">
-                                        <i class="fa fa-pen"></i>
+                                        <i class="fa fa-edit"></i>
                                     </a>
                                     <a class="link" asp-action="DesabilitarJuridico" asp-route-id="@cliente.Id"><i class="fa fa-user-slash"></i></a>
                                 }

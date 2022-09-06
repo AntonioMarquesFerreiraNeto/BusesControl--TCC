@@ -58,7 +58,7 @@
                             }
                             <td>
                                 @if (funcionario.Status == StatuFuncionario.Habilitado) {
-                                    <a class="link" asp-action="EditarFuncionario" asp-route-id="@funcionario.Id"><i class="fa fa-pen"></i></a>
+                                    <a class="link" asp-action="EditarFuncionario" asp-route-id="@funcionario.Id"><i class="fa fa-edit"></i></a>
                                     <a class="link" asp-action="Desabilitar" asp-route-id="@funcionario.Id"><i class="fa fa-user-slash"></i></a>
                                     @if (funcionario.Cargos == CargoFuncionario.Assistente || funcionario.Cargos == CargoFuncionario.Administrador) {
                                         @if(funcionario.StatusUsuario == UsuarioStatus.Ativado){
@@ -69,7 +69,7 @@
                                         }
                                     }
                                     else {
-                                        <a id="iconDisabled" class="btn disabled" asp-route-id="@funcionario.Id"><i class="fa fa-user-check" style="font-size: 10pt;"></i></a>
+                                      <a class="link"><i class="fa fa-user-check" style="color: gray;"></i></a>
                                     }
                                 }
                                 else {
