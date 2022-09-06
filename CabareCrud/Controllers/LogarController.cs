@@ -33,7 +33,7 @@ namespace BusesControl.Controllers {
                 return View(login);
             }
             catch(Exception erro) {
-                TempData["MensagemDeErro"] = "CPF ou senha inválida!" + erro.Message;
+                TempData["MensagemDeErro"] = "Erro ao autenticar! Detalhe: " + erro.Message;
                 return View(login);
             }
         }

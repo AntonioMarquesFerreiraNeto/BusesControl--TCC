@@ -159,10 +159,10 @@ namespace BusesControl.Repositorio {
             if (erro.InnerException.Message.Contains(cliente.Rg)) {
                 throw new System.Exception("Cliente já se encontra cadastrado!");
             }
-            if (erro.InnerException.Message.Contains(cliente.Email)) {
+            if (erro.InnerException.Message.Contains(cliente.Telefone)) {
                 throw new System.Exception("Cliente já se encontra cadastrado!");
             }
-            if (erro.InnerException.Message.Contains(cliente.Telefone)){
+            if (erro.InnerException.Message.Contains(cliente.Email)) {
                 throw new System.Exception("Cliente já se encontra cadastrado!");
             }
             throw new System.Exception("Desculpe, houve alguma falha na aplicação.");

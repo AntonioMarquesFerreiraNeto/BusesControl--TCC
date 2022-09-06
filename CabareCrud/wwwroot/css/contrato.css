@@ -95,7 +95,7 @@ input#form-control {
         position: absolute;
         font-size: 13pt;
         top: 1px;
-        left: 160px;
+        left: 155px;
     }
     .form-item i {
         position: absolute;
@@ -378,6 +378,9 @@ td {
 }
 
 @media(min-width: 0px) {
+    .font-place {
+        font-size: 9pt;
+    }
     .flex-filtro {
         justify-content: center;
     }
@@ -418,6 +421,9 @@ td {
 }
 
 @media(min-width: 510px) {
+    .font-place {
+        font-size: 9pt;
+    }
     .btn-group .btn-group-toggle {
         flex-direction: row;
     }
@@ -428,6 +434,9 @@ td {
 }
 
 @media(min-width: 768px) {
+    .font-place {
+        font-size: 9pt;
+    }
     .clientes {
         flex-direction: column;
     }
@@ -449,6 +458,9 @@ td {
 }
 
 @media(min-width: 941px) {
+    .font-place{
+        font-size: 11pt;
+    }
     .filtro {
         width: 80%;
     }

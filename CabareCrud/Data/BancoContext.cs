@@ -30,6 +30,7 @@ namespace BusesControl.Data {
             modelBuilder.Entity<Cliente>()
                 .HasIndex(p => p.Telefone)
                 .IsUnique(true);
+
             modelBuilder.Entity<PessoaJuridica>()
            .HasIndex(p => p.Cnpj)
            .IsUnique(true);

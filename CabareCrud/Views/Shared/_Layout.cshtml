@@ -22,7 +22,7 @@
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
-            <h1><a asp-area="" asp-controller="Logar" asp-action="Index" class="logo"><span class="fa fa-bus"></span></a></h1>
+            <h1><a class="logo"><span class="fa fa-bus"></span></a></h1>
             <ul class="list-unstyled components mb-5">
                 <li class="linha">
                     <a asp-area="" asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span> Home</a>
@@ -39,6 +39,11 @@
                 <li class="linha">
                     <a asp-area="" asp-controller="Contrato" asp-action="Index"><span class="fa fa-file"></span> Contratos</a>
                 </li>
+                <br>
+                 <li class="linha">
+                    <a asp-action="Index" asp-controller="Logar"><span class="fa fa-door-closed"></span> Deslogar</a>
+                </li>
+                <br>
             </ul>
             <div class="footer">
                 <p style="text-align: justify;">
