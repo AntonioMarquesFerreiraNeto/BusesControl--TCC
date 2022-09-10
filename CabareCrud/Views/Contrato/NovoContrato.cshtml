@@ -1,4 +1,4 @@
-﻿@model Onibus;
+﻿
 <link rel="stylesheet" href="~/css/style.css">
 <link rel="stylesheet" href="~/css/contrato.css">
 <link rel="stylesheet" href="~/css/home.css">
@@ -14,7 +14,8 @@
         @ViewData["Title"]
         <hr style="margin-top: 2px;">
     </h3>
-    <form id="formAdd" asp-controller="Contrato" asp-action="NovoContrato" method="post">
+    <section class="cliente">
+        <form id="formAdd" asp-controller="Contrato" asp-action="NovoContrato" method="post">
         <div class="row">
             <div class="col-md-6 input-group form-group form-it">
                 <div class="input-group-prepend">
@@ -71,7 +72,7 @@
                     </span>
                 </div>
                 <input type="text" class="form-control" id="inputValor"
-                       placeholder="Informe o valor monetário total da alocação." maxlength="10" asp-for="NameBus">
+                       placeholder="Informe o valor monetário total da alocação." maxlength="10">
                 <div class="i">
                     <small class="errorMsg">
 
@@ -85,11 +86,11 @@
                     </span>
                 </div>
                 <input type="text" class="form-control" id="inputQuantiParcela"
-                       placeholder="Informe a quantidade parcelas." maxlength="2" asp-for="DataFabricacao"
+                       placeholder="Informe a quantidade parcelas." maxlength="2"
                        onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
                 <div class="i">
                     <small class="errorMsg">
-                        @Html.ValidationMessageFor(x => x.DataFabricacao)
+                       
                     </small>
                 </div>
             </div>
@@ -128,9 +129,9 @@
                     </span>
                 </div>
                 <textarea type="text" class="form-control" id="inputRota" rows="3" style="resize: none"
-                          placeholder="Informe detalhadamente a rota da alocação." maxlength="255" asp-for="Placa"><</textarea>
+                          placeholder="Informe detalhadamente a rota da alocação." maxlength="255"></textarea>
                 <div class="i">
-                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.Placa)</small>
+           
                 </div>
             </div>
             <div class="modal-footer">
@@ -172,6 +173,7 @@
             </div>
         </div>
     </form>
+    </section>
     <div id="ConfirmSair" class="modal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">

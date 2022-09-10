@@ -8,7 +8,14 @@ body {
 .navbar {
     background-image: url(Imagens/backMenu.jpeg);
 }
-
+.upercase{
+    color: white;
+    text-transform: uppercase;
+}
+.dropdown-menu{
+    padding: 5px;
+    border-radius: 4px;
+}
 /*Sobre a sessão de controle de clientes/*/
 .principais {
     width: 90%;
@@ -37,11 +44,16 @@ body {
     font-size: 10pt;
 }
 .btn-outline-primary {
-    border-radius: 4px;
+    background-color: aliceblue;
     font-size: 9pt;
-    padding: 4px;
-    width: 110px;
+    padding: 5px;
+    width: 115px;
     transition: 01s;
+}
+
+#janelaModalConfirm {
+    margin-top: 5px;
+    background-color: #0000003b;
 }
 #titlePrincipal {
     width: 100%;
@@ -54,12 +66,36 @@ body {
     color: #2b2b2bba;
 }
 
-.alert {
-    top: 92px;
-    right: 54px;
-    position: absolute;
+.foote {
+    width: 100%;
+    padding-top: 57px;
+    margin-bottom: 1px;
     height: 50px;
-    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.btn-senha {
+    color: white;
+    background-color: deepskyblue;
+    margin-bottom: 55px;
+    font-size: 10pt;
+    padding: 5px;
+    width: 100%;
+    transition: 01s;
+}
+
+    .btn-senha:hover {
+        color: white;
+        background-color: rgb(0, 123, 255);
+    }
+
+.alert {
+    min-width: 250px;
+    padding: 10px;
+    top: 92px;
+    right: 76px;
+    position: absolute;
 }
 .close-alert {
     position: absolute;
@@ -134,7 +170,11 @@ body {
             color: black;
         }
 }
-
+@media(min-width: 550px){
+    .alert {
+        width: 350px;
+    }
+}
 @media(min-width: 770px) {
     .navbar-transparent {
         height: 90px;

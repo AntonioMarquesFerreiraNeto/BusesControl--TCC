@@ -1,5 +1,4 @@
 ﻿@model Funcionario
-
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -23,8 +22,20 @@
                     <li class="nav-item linha">
                         <a class="nav-link linkMenu" asp-area="" asp-controller="AprovarContrato" asp-action="Index">Aprovar contratos</a>
                     </li>
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu" style="color: transparent; opacity: 0;">#</a>
+                    </li>
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Name</a>
+                    </li>
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu" style="color: transparent; opacity: 0;">#</a>
+                    </li>
                 }
                 else {
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Name</a>
+                    </li>
                     <li class="nav-item linha">
                         <a class="nav-link linkMenu" style="color: transparent; opacity: 0;">#</a>
                     </li>
@@ -33,8 +44,24 @@
         </div>
     </div>
 </nav>
-
-<script src="~/js/bootstrap.min.js"></script>
+<div id="janelaModalPerfil" class="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Perfil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Olá, @Model.Name.
+                </p>
+            </div>
+            <div class="modal-footer foote" style="margin-botton: 20px;">
+                <button id="enviar" class="btn btn-senha">Redefinir senha</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/js/jquery.min.js"></script>
-<script src="~/js/popper.js"></script>
-<script src="~/js/site.js"></script>

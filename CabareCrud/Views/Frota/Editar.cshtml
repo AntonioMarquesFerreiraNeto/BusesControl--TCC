@@ -14,159 +14,161 @@
         Editar ônibus
         <hr style="margin-top: 2px;">
     </h3>
-    <form id="formAdd" asp-controller="Frota" asp-action="Editar" method="post">
-        <div class="row">
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-bus"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputMarca"
-                       placeholder="Informe a marca do ônibus." maxlength="40" asp-for="Marca">
-                <div class="i">
-                    <small class="errorMsg">
-                        @Html.ValidationMessageFor(x => x.Marca)
-                    </small>
-                </div>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-bus"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputNomeOnibus"
-                       placeholder="Informe o nome do ônibus." maxlength="40" asp-for="NameBus">
-                <div class="i">
-                    <small class="errorMsg">
-                        @Html.ValidationMessageFor(x => x.NameBus)
-                    </small>
-                </div>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-bus"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputAnoOnibus"
-                       placeholder="Informe o ano de fabricação." maxlength="4" asp-for="DataFabricacao"
-                       onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
-                <div class="i">
-                    <small class="errorMsg">
-                        @Html.ValidationMessageFor(x => x.DataFabricacao)
-                    </small>
-                </div>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-bus"></i>
-                    </span>
-                </div>
-                <select id="cor" class="form-control campUser" asp-for="corBus">
-                    <optgroup>
-                        <option value="0">Branco</option>
-                        <option value="1">Vermelho</option>
-                        <option value="2">Azul</option>
-                        <option value="3">Preto</option>
-                        <option value="4">Cinza</option>
-                        <option value="5">Prata</option>
-                        <option value="6">Amarelo</option>
-                        <option value="7">Verde</option>
-                    </optgroup>
-                </select>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-bus"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputRenavam"
-                       placeholder="Informe o código renavam." maxlength="11"
-                       onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Renavam">
-                <div class="i">
-                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.Renavam)</small>
-                </div>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-bus"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputPlaca"
-                       placeholder="Informe a placa do ônibus." maxlength="7" oninput="this.value = this.value.toUpperCase()" asp-for="Placa">
-                <div class="i">
-                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.Placa)</small>
-                </div>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-bus"></i></span>
-                </div>
-                <input type="tel" class="form-control" id="inputChassi"
-                       placeholder="Informe o número de chassi do ônibus."
-                       maxlength="17"
-                       asp-for="Chassi">
-                <div class="i">
-                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.Chassi)</small>
-                </div>
-            </div>
-            <div class="col-md-6 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-bus"></i>
-                    </span>
-                </div>
-                <input type="text" class="form-control" id="inputAssento"
-                       placeholder="Informe a quantidade de assentos do ônibus." maxlength="3" asp-for="Assentos"
-                       onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
-                <div class="i">
-                    <small class="errorMsg">@Html.ValidationMessageFor(x => x.Assentos)</small>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div>
-                    <button type="button" class="btn btn-secondary filtrar_btn2"
-                            data-target="#ConfirmSair" data-toggle="modal">
-                        Voltar
-                    </button>
-                    <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
-                            data-toggle="modal">
-                        Salvar
-                    </button>
-                </div>
-            </div>
-        </div>
-        </div>
-        <div id="janelaModalConfirm" class="modal">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Confirmação</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <section class="cliente">
+        <form id="formAdd" asp-controller="Frota" asp-action="Editar" method="post">
+            <div class="row">
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
                     </div>
-                    <div class="modal-body">
-                        <p>
-                            Deseja realmente salvar os dados?
-                        </p>
+                    <input type="text" class="form-control" id="inputMarca"
+                           placeholder="Informe a marca do ônibus." maxlength="40" asp-for="Marca">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Marca)
+                        </small>
                     </div>
-                    <div class="modal-footer confirm-modal">
-                        <button id="enviar" type="submit" class="btn filtra_btn" onclick="salva()">Sim</button>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputNomeOnibus"
+                           placeholder="Informe o nome do ônibus." maxlength="40" asp-for="NameBus">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.NameBus)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputAnoOnibus"
+                           placeholder="Informe o ano de fabricação." maxlength="4" asp-for="DataFabricacao"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.DataFabricacao)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+                    <select id="cor" class="form-control campUser" asp-for="corBus">
+                        <optgroup>
+                            <option value="0">Branco</option>
+                            <option value="1">Vermelho</option>
+                            <option value="2">Azul</option>
+                            <option value="3">Preto</option>
+                            <option value="4">Cinza</option>
+                            <option value="5">Prata</option>
+                            <option value="6">Amarelo</option>
+                            <option value="7">Verde</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputRenavam"
+                           placeholder="Informe o código renavam." maxlength="11"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Renavam">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Renavam)</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputPlaca"
+                           placeholder="Informe a placa do ônibus." maxlength="7" oninput="this.value = this.value.toUpperCase()" asp-for="Placa">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Placa)</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-bus"></i></span>
+                    </div>
+                    <input type="tel" class="form-control" id="inputChassi"
+                           placeholder="Informe o número de chassi do ônibus."
+                           maxlength="17"
+                           asp-for="Chassi">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Chassi)</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputAssento"
+                           placeholder="Informe a quantidade de assentos do ônibus." maxlength="3" asp-for="Assentos"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Assentos)</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div>
                         <button type="button" class="btn btn-secondary filtrar_btn2"
-                                data-dismiss="modal">
-                            Não
+                                data-target="#ConfirmSair" data-toggle="modal">
+                            Voltar
+                        </button>
+                        <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
+                                data-toggle="modal">
+                            Salvar
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+            </div>
+            <div id="janelaModalConfirm" class="modal">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Confirmação</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Deseja realmente salvar os dados?
+                            </p>
+                        </div>
+                        <div class="modal-footer confirm-modal">
+                            <button id="enviar" type="submit" class="btn filtra_btn" onclick="salva()">Sim</button>
+                            <button type="button" class="btn btn-secondary filtrar_btn2"
+                                    data-dismiss="modal">
+                                Não
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
     <div id="ConfirmSair" class="modal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
