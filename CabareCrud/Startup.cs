@@ -1,7 +1,9 @@
 using BusesControl.Data;
+using BusesControl.Helper;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,9 +26,18 @@ namespace BusesControl {
             services.AddControllersWithViews();
             services.AddDbContext<BancoContext>(options => options.UseMySql
             (Configuration.GetConnectionString("BancoContext"), builder => builder.MigrationsAssembly("BusesControl")));
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
             services.AddScoped<IFuncionarioRepositorio, FuncionarioRepositorio>();
             services.AddScoped<IOnibusRepositorio, OnibusRepositorio>();
+            services.AddScoped<ISection, Section>();
+
+            services.AddSession(o => {
+                o.Cookie.HttpOnly = true;
+                o.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +56,8 @@ namespace BusesControl {
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(

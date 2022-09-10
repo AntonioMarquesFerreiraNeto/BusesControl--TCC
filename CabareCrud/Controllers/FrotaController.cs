@@ -1,10 +1,12 @@
-﻿using BusesControl.Models;
+﻿using BusesControl.Filter;
+using BusesControl.Models;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
 namespace BusesControl.Controllers {
+    [PagUserAutenticado]
     public class FrotaController : Controller {
         private readonly IOnibusRepositorio _onibusRepositorio;
         public FrotaController(IOnibusRepositorio onibusRepositorio) {

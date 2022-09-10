@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusesControl.Filter;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace BusesControl.Controllers {
+    [PagUserAutenticado]
     public class ContratoController : Controller {
         public IActionResult Index() {
             ViewData["Title"] = "Contratos ativos";

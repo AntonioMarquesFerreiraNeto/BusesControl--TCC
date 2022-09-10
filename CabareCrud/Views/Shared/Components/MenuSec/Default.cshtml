@@ -1,0 +1,40 @@
+﻿@model Funcionario
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+            <i class="fa fa-bars"></i>
+            <span class="sr-only">Toggle Menu</span>
+        </button>
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+                @if (Model.Cargos == CargoFuncionario.Administrador) {
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu" asp-area="" asp-controller="Relatorio" asp-action="Index">Relatórios</a>
+                    </li>
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu" asp-area="" asp-controller="Financeiro" asp-action="Index">Financeiro</a>
+                    </li>
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu" asp-area="" asp-controller="AprovarContrato" asp-action="Index">Aprovar contratos</a>
+                    </li>
+                }
+                else {
+                    <li class="nav-item linha">
+                        <a class="nav-link linkMenu" style="color: transparent; opacity: 0;">#</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.js"></script>
+<script src="~/js/site.js"></script>

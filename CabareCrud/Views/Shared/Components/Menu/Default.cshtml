@@ -1,0 +1,25 @@
+﻿@model Funcionario;
+<ul class="list-unstyled components mb-5">
+    <li class="linha">
+        <a asp-area="" asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span> Home</a>
+    </li>
+    <li class="linha">
+        <a asp-area="" asp-controller="Cliente" asp-action="Index"><span class="fa fa-user"></span> Clientes</a>
+    </li>
+    @if (Model.Cargos == CargoFuncionario.Administrador) {
+        <li class="linha">
+            <a asp-area="" asp-controller="Funcionario" asp-action="Index"><span class="fa fa-user"></span> Funcio&shy;nários</a>
+        </li>
+    }
+    <li class="linha">
+        <a asp-area="" asp-controller="Frota" asp-action="Index"><span class="fa fa-bus"></span> Frota</a>
+    </li>
+    <li class="linha">
+        <a asp-area="" asp-controller="Contrato" asp-action="Index"><span class="fa fa-file"></span> Contratos</a>
+    </li>
+    <br>
+    <li class="linha">
+        <a asp-action="Sair" asp-controller="Logar"><span class="fa fa-door-open" style="font-size: 14pt;"></span> Sair</a>
+    </li>
+    <br>
+</ul>

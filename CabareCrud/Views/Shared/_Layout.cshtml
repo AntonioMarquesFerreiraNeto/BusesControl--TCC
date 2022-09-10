@@ -23,28 +23,7 @@
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
             <h1><a class="logo"><span class="fa fa-bus"></span></a></h1>
-            <ul class="list-unstyled components mb-5">
-                <li class="linha">
-                    <a asp-area="" asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span> Home</a>
-                </li>
-                <li class="linha">
-                    <a asp-area="" asp-controller="Cliente" asp-action="Index"><span class="fa fa-user"></span> Clientes</a>
-                </li>
-                <li class="linha">
-                    <a asp-area="" asp-controller="Funcionario" asp-action="Index"><span class="fa fa-user"></span> Funcio&shy;nários</a>
-                </li>
-                <li class="linha">
-                    <a asp-area="" asp-controller="Frota" asp-action="Index"><span class="fa fa-bus"></span> Frota</a>
-                </li>
-                <li class="linha">
-                    <a asp-area="" asp-controller="Contrato" asp-action="Index"><span class="fa fa-file"></span> Contratos</a>
-                </li>
-                <br>
-                <li class="linha">
-                    <a asp-action="Index" asp-controller="Logar"><span class="fa fa-door-open" style="font-size: 14pt;"></span> Sair</a>
-                </li>
-                <br>
-            </ul>
+            @await Component.InvokeAsync("Menu")
             <div class="footer">
                 <p style="text-align: justify;">
                     Copyright &copy;
@@ -54,34 +33,7 @@
         </nav>
         <!-- Page Content  -->
         <div id="content" class="p-0 p-md-0" role="main">
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                        <i class="fa fa-bars"></i>
-                        <span class="sr-only">Toggle Menu</span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item linha">
-                                <a class="nav-link linkMenu" asp-area="" asp-controller="Relatorio" asp-action="Index">Relatórios</a>
-                            </li>
-                            <li class="nav-item linha">
-                                <a class="nav-link linkMenu" asp-area="" asp-controller="Financeiro" asp-action="Index">Financeiro</a>
-                            </li>
-                            <li class="nav-item linha">
-                                <a class="nav-link linkMenu" asp-area="" asp-controller="AprovarContrato" asp-action="Index">Aprovar contratos</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+           @await Component.InvokeAsync("MenuSec")
             @RenderBody()
         </div>
     </div>

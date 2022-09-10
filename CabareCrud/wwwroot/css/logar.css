@@ -13,14 +13,13 @@ body{
 }
 .alert {
     position: absolute;
-    top: 15px;
-    width: 400px;
+    top: 18px;
 }
 
 .close-alert {
     position: absolute;
     right: -10px;
-    top: -10px;
+    top: -15px;
     text-align: center;
     border-radius: 35px;
     border: 1px solid #72a67e;
@@ -40,22 +39,24 @@ body{
     }
 
 .erro {
-    background-color: #f8d7da;
-    border: 1px solid #d3b3b5;
+    background-color: #F14E55;
+    color: white;
+    border: none;
 }
 
     .erro:hover {
-        border: 1px solid #d3b3b5;
-        background-color: #c09da0;
+        border: none;
+        background-color: #CA0009;
     }
 
 .form-control{
     font-size: 11pt;
     border-radius: 1px;
+    height: 30px;
 }
 .errorMsg {
     position: absolute;
-    top: 36px;
+    top: 27px;
     right: 1px;
     font-size: 9pt;
     color: red;
@@ -102,8 +103,8 @@ input:focus {
 /*botão Login*/
 .login_btn {
     font-size: 11pt;
-    padding: 7px;
-    width: 32%;
+    padding: 5px;
+    width: 28%;
     border: none;
     color: white;
     background-color: #2b65c2;
@@ -138,12 +139,18 @@ input:focus {
 }
 @media(min-width: 340px){
     .card{
-        width: 340px;
+        width: 370px;
+    }
+    .alert {
+        width: 370px;
     }
 }
 @media(min-width: 800px){
     .card{
-        width: 420px;
+        width: 400px;
+    }
+    .alert {
+        width: 400px;
     }
     .input-group-prepend span {
         width: 40px;
@@ -157,13 +164,19 @@ input:focus {
 }
 @media(min-width: 1500px){
     .card{
-        width: 550px;
+        width: 470px;
+    }
+    .alert {
+        width: 470px;
     }
 }
 @media(min-width: 2500px){
     .card{
-        width: 750px;
+        width: 550px;
         height: 400px;
+    }
+    .alert {
+        width: 550px;
     }
 }
 @media(min-width: 4000px){
@@ -171,5 +184,8 @@ input:focus {
         width: 950px;
         height: 500px;
         font-size: 18pt;
+    }
+    .alert {
+        width: 950px;
     }
 }

@@ -9,6 +9,50 @@ body {
     background-image: url(Imagens/backMenu.jpeg);
 }
 
+/*Sobre a sessão de controle de clientes/*/
+.principais {
+    width: 90%;
+    padding: 15px;
+    padding-top: 0px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+.card {
+    margin: auto;
+    background-color: transparent;
+    margin-bottom: 15px;
+    border-radius: 0px;
+}
+.card-title {
+    font-size: 11pt;
+    font-style: italic;
+    font-weight: normal;
+    color: #2b2b2bba;
+}
+.card-text{
+    text-align: justify;
+    font-size: 10pt;
+}
+.btn-outline-primary {
+    border-radius: 4px;
+    font-size: 9pt;
+    padding: 4px;
+    width: 110px;
+    transition: 01s;
+}
+#titlePrincipal {
+    width: 100%;
+    margin: 0px;
+    margin-top: 5px;
+    font-size: 11pt;
+    border-radius: 5px;
+    padding: 2px;
+    font-weight: normal;
+    color: #2b2b2bba;
+}
 
 .alert {
     top: 92px;
@@ -30,22 +74,25 @@ body {
     transition: 0.5s;
 }
 .sucesso {
-    background-color: #c5f0cf;
+    background-color: seagreen;
+    border: none;
+    color: white;
 }
 
     .sucesso:hover {
-        border: 1px solid #72a67e;
-        background-color: #7ea588;
+        border: none;
+        background-color: darkgreen;
     }
 
 .erro {
-    background-color: #f8d7da;
-    border: 1px solid #d3b3b5;
+    background-color: #F14E55;
+    color: white;
+    border: none;
 }
 
     .erro:hover {
-        border: 1px solid #d3b3b5;
-        background-color: #c09da0;
+        border: none;
+        background-color: #CA0009;
     }
 
 #sidebarCollapse {

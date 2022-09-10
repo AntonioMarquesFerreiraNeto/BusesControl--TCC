@@ -1,10 +1,12 @@
-﻿using BusesControl.Models;
+﻿using BusesControl.Filter;
+using BusesControl.Models;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
 namespace BusesControl.Controllers {
+    [PagUserAdmin]
     public class FuncionarioController : Controller {
 
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
@@ -111,7 +113,7 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult ControlarUsuario(long id) {
-            ViewData["Title"] = "Controlar usuário"; 
+            ViewData["Title"] = "Controlar usuário";
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
             return View(funcionario);
         }

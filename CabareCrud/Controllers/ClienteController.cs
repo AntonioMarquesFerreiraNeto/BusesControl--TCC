@@ -1,4 +1,5 @@
-﻿using BusesControl.Models;
+﻿using BusesControl.Filter;
+using BusesControl.Models;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 
 namespace BusesControl.Controllers {
+    [PagUserAutenticado]
     public class ClienteController : Controller {
         private readonly IClienteRepositorio _clienteRepositorio;
         public ClienteController(IClienteRepositorio iclienteRepositorio) {

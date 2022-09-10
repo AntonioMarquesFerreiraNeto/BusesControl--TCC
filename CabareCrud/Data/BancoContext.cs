@@ -46,6 +46,9 @@ namespace BusesControl.Data {
 
             //Evitar duplicatas dos atributos de funcionários. 
             modelBuilder.Entity<Funcionario>()
+                .HasIndex(p => p.Id)
+                .IsUnique(true);
+            modelBuilder.Entity<Funcionario>()
                 .HasIndex(p => p.Cpf)
                 .IsUnique(true);
             modelBuilder.Entity<Funcionario>()
@@ -56,6 +59,9 @@ namespace BusesControl.Data {
                 .IsUnique(true);
 
             //Evitar duplicatas de atributos de ônibus.
+            modelBuilder.Entity<Onibus>()
+                .HasIndex(p => p.Id)
+                .IsUnique(true);
             modelBuilder.Entity<Onibus>()
                 .HasIndex(p => p.Placa)
                 .IsUnique(true);
