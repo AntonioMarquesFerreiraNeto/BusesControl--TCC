@@ -113,7 +113,6 @@ input#form-control {
     flex-direction: row;
     padding: 0;
 }
-
 .filtra_btn {
     font-size: 9pt;
     padding: 8px;
@@ -314,7 +313,12 @@ td {
     .filtrar_btn {
         font-size: 8pt;
         margin: 1px;
-        width: 100%;
+        width: 130px;
+    }
+    .test1 {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
     }
 }
 
@@ -326,7 +330,13 @@ td {
         width: 110px;
     }
 }
-
+@media (min-width: 650px){
+    .test1 {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+    }
+}
 @media(min-width: 768px) {
     .clientes {
         flex-direction: column;
