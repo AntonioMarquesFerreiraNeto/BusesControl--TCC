@@ -39,6 +39,16 @@ body {
     font-weight: normal;
     color: #2b2b2bba;
 }
+.font {
+    font-size: 14pt;
+    font-weight: normal;
+    color: darkslategray
+}
+.font-min{
+    padding: 0px;
+    font-size: 10.5pt;
+    color: darkslategray
+}
 .card-text{
     text-align: justify;
     font-size: 10pt;
@@ -69,15 +79,16 @@ body {
 .foote {
     width: 100%;
     padding-top: 57px;
-    margin-bottom: 1px;
+    margin-bottom: -11px;
     height: 50px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
 .btn-senha {
-    color: white;
-    background-color: deepskyblue;
+    color: seagreen;
+    background-color: aliceblue;
+    border: 1px solid seagreen;
     margin-bottom: 55px;
     font-size: 10pt;
     padding: 5px;
@@ -87,7 +98,7 @@ body {
 
     .btn-senha:hover {
         color: white;
-        background-color: rgb(0, 123, 255);
+        background-color: seagreen;
     }
 
 .alert {

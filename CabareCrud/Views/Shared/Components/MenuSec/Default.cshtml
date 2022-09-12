@@ -42,18 +42,29 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Perfil</h5>
+                @if (Model.Cargos == CargoFuncionario.Administrador) {
+                    <h5 class="modal-title font">
+                        <i class="fa fa-user-tie"></i> Perfil administrador
+                    </h5>
+                }
+                else {
+                    <h5 class="modal-title font">
+                        <i class="fa fa-user-tie"></i> Perfil assistente
+                    </h5>
+                }
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>
-                    Olá, @Model.Name.
+                <p class="font-min">
+                    <b>Nome:</b> @Model.Name. <br>
+                    <b>Email:</b> @Model.Email. <br>
+                    <b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento).
                 </p>
             </div>
-            <div class="modal-footer foote" style="margin-botton: 20px;">
-                <button id="enviar" class="btn btn-senha">Redefinir senha</button>
+            <div class="modal-footer foote">
+                <button id="enviar" class="btn btn-senha">Alterar senha</button>
             </div>
         </div>
     </div>
