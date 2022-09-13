@@ -38,10 +38,12 @@ namespace BusesControl.Controllers {
 
         public IActionResult NovoCliente() {
             ViewData["Title"] = "Incluir";
+            TempData["MensagemDeInfo"] = "O e-mail não é obrigatório para clientes.";
             return View();
         }
         public IActionResult NovoClienteJuridico() {
             ViewData["Title"] = "Incluir";
+            TempData["MensagemDeInfo"] = "O e-mail não é obrigatório para clientes.";
             return View();
         }
         [HttpPost]
