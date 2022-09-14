@@ -1,11 +1,22 @@
 ﻿using BusesControl.Filter;
+using BusesControl.Helper;
 using BusesControl.Models;
+using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace BusesControl.Controllers {
     [PagUserAutenticado]
     public class MudarSenhaController : Controller {
+
+        private readonly IFuncionarioRepositorio _funcionarioRepositorio;
+        private readonly ISection _section;
+
+        public MudarSenhaController(IFuncionarioRepositorio funcionarioRepositorio, ISection section) {
+            _funcionarioRepositorio = funcionarioRepositorio;
+            _section = section;
+        }
+
         public IActionResult Index() {
             ViewData["Title"] = "Alterar senha";
             TempData["MensagemDeInfo"] = "Descrição: As senhas deverão ser maiores que oito dígitos e menores que 14 dígitos.";
@@ -14,16 +25,16 @@ namespace BusesControl.Controllers {
 
         [HttpPost]
         public IActionResult Index(MudarSenha mudarSenha) {
+            ViewData["Title"] = "Alterar senha";
             try {
-                /* if (usuario.ValidarDuplicata(mudarSenha.NovaSenha) == true) {
-                    TempData["MensagemDeErro"] = "A nova senha não pode ser igual a atual!";
-                    return View(mudarSenha);
-                }*/
-                if (mudarSenha.ValidarSenhaAtual() != true) {
-                    TempData["MensagemDeErro"] = "Nova senha e confirmar senha não são iguais!";
-                    return View(mudarSenha);
-                }
-                if(ModelState.IsValid) {
+                Funcionario usuarioAutenticado = _section.buscarSectionUser();
+                mudarSenha.Id = usuarioAutenticado.Id;
+                if (ModelState.IsValid) {
+                    if (mudarSenha.ValNovaSenhaConfirmSenha() != true) {
+                        TempData["MensagemDeErro"] = "Nova senha e confirmar senha não são iguais!";
+                        return View(mudarSenha);
+                    }
+                    _funcionarioRepositorio.AlterarSenha(mudarSenha);
                     TempData["MensagemDeSucesso"] = "Senha alterada com sucesso!";
                     return RedirectToAction("Index", "Home");
                 }

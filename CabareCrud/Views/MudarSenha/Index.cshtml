@@ -41,7 +41,7 @@
                 <h5>Alterar senha</h5>
             </div>
             <div class="card-body">
-                <form asp-controller="Logar" asp-action="Index" method="post">
+                <form asp-controller="MudarSenha" asp-action="Index" method="post">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -71,7 +71,7 @@
                     </div>
                     <small style="font-size: 10pt; color: rgba(0, 0, 0, 0.8);"><input type="checkbox" onclick="OcultDisplay()"> Mostrar senhas</small>
                     <div class="form-group">
-                        <button type="submit" class="btn float-right login_btn" asp-controller="MudarSenha" asp-action="Index">Salvar</button>
+                        <button type="submit" class="btn float-right login_btn">Salvar</button>
                     </div>
                 </form>
             </div>

@@ -106,6 +106,17 @@ namespace BusesControl.Repositorio {
             _bancocontext.SaveChanges();
             return funcionario;
         }
+        public Funcionario AlterarSenha(MudarSenha mudarSenha) {
+            Funcionario usuarioDB = ListarPorId(mudarSenha.Id);
+            if (usuarioDB == null) throw new System.Exception("Desculpe, houve um erro ao trocar a senha.");
+            if (!usuarioDB.ValidarSenha(mudarSenha.SenhaAtual)) throw new System.Exception("Senha atual inválida!");
+            if (usuarioDB.ValidarDuplicataSenha(mudarSenha.NovaSenha)) throw new System.Exception("A nova senha não pode ser igual a atual!");
+            usuarioDB.Cep = mudarSenha.NovaSenha;
+            _bancocontext.Update(usuarioDB);
+            _bancocontext.SaveChanges();
+            return usuarioDB;
+        }
+
         public Exception TratarErro(Funcionario funcionario, Exception erro) {
             if (erro.InnerException.Message.Contains(funcionario.Cpf)) {
                 throw new System.Exception("Funcionário já se encontra cadastrado!");

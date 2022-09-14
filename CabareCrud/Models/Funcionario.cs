@@ -79,7 +79,7 @@ namespace BusesControl.Models {
             }
         }
 
-        public bool ValidarDuplicata(string newSenha) {
+        public bool ValidarDuplicataSenha(string newSenha) {
             bool result = (Cep == newSenha) ? true : false;
             return result;
         }
