@@ -1,4 +1,5 @@
-﻿@model Funcionario
+﻿@using BusesControl.Models.Enums
+@model Funcionario
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -64,7 +65,7 @@
                 </p>
             </div>
             <div class="modal-footer foote">
-                <button id="enviar" class="btn btn-senha">Alterar senha</button>
+                <a class="btn btn-senha" asp-controller="MudarSenha" asp-action="Index">Alterar senha</a>
             </div>
         </div>
     </div>

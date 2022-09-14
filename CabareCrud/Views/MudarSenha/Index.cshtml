@@ -1,0 +1,84 @@
+﻿@model MudarSenha;
+@{
+    Layout = "_LayoutNoConect";
+}
+<!--Colocando a imagem icone do título.-->
+<link rel="icon" href="css/Imagens/techsolutions.png">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<!--Css da página-->
+<link rel="stylesheet" href="css/mudarSenha.css">
+<div class="mensagemErro">
+    @if (TempData["MensagemDeErro"] != null) {
+        <div class="alert alert-danger" role="alert">
+            @TempData["MensagemDeErro"]
+            <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+        </div>
+    }
+</div>
+<div class="mensagemErro">
+    @if (TempData["MensagemDeSucesso"] != null) {
+        <div class="alert alert-success" role="alert">
+            @TempData["MensagemDeSucesso"]
+            <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
+        </div>
+    }
+</div>
+<div class="mensagemErro">
+    @if (TempData["MensagemDeInfo"] != null) {
+        <div class="alert alert-info" role="alert">
+            @TempData["MensagemDeInfo"]
+            <button type="button" class="btn btn-danger btn-sm close-alert info" aria-label="Close"> X </button>
+        </div>
+    }
+</div>
+<a class="btn link-home" asp-controller="Home" asp-action="Index"> <i class="fa fa-home"></i> Home</a>
+<main>
+    <section id="Login">
+        <div class="card">
+            <div class="card-header">
+                <h5>Alterar senha</h5>
+            </div>
+            <div class="card-body">
+                <form asp-controller="Logar" asp-action="Index" method="post">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Informe sua senha atual." maxlength="14" asp-for="SenhaAtual" id="senha_atual">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.SenhaAtual)
+                        </small>
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Informe a nova senha." maxlength="14" asp-for="NovaSenha" id="senha">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.NovaSenha)
+                        </small>
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Confirme a nova senha." maxlength="14" asp-for="ConfirmarSenha" id="confirm_senha">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.ConfirmarSenha)
+                        </small>
+                    </div>
+                    <small style="font-size: 10pt; color: rgba(0, 0, 0, 0.8);"><input type="checkbox" onclick="OcultDisplay()"> Mostrar senhas</small>
+                    <div class="form-group">
+                        <button type="submit" class="btn float-right login_btn" asp-controller="MudarSenha" asp-action="Index">Salvar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer" style="padding: 15px;">
+                <!--Apenas para ter uma borda de rodapé do card-->
+            </div>
+        </div>
+    </section>
+</main>
+<script src="~/js/OcultarMostrarSenha.js"></script>

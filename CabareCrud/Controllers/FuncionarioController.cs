@@ -1,5 +1,6 @@
 ﻿using BusesControl.Filter;
 using BusesControl.Models;
+using BusesControl.Models.Enums;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,6 +30,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult NovoFuncionario(Funcionario funcionario) {
+            ViewData["Title"] = "Incluir";
             try {
                 if (ValidarCampo(funcionario)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
@@ -58,6 +60,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult EditarFuncionario(Funcionario funcionario) {
+            ViewData["Title"] = "Editar";
             try {
                 if (ValidarCampo(funcionario)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
@@ -83,6 +86,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Desabilitar(Funcionario funcionario) {
+            ViewData["Title"] = "Desabilitar";
             try {
                 _funcionarioRepositorio.Desabilitar(funcionario);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -101,6 +105,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Habilitar(Funcionario funcionario) {
+            ViewData["Title"] = "Habilitar";
             try {
                 _funcionarioRepositorio.Habilitar(funcionario);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
@@ -119,6 +124,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult HabilitarUsuario(Funcionario funcionario) {
+            ViewData["Title"] = "Controlar usuário";
             try {
                 _funcionarioRepositorio.HabilitarUsuario(funcionario);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
@@ -131,6 +137,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult DesabilitarUsuario(Funcionario funcionario) {
+            ViewData["Title"] = "Controlar usuário";
             try {
                 _funcionarioRepositorio.DesabilitarUsuario(funcionario);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";

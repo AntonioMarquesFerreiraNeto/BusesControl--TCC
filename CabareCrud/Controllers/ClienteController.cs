@@ -1,5 +1,6 @@
 ﻿using BusesControl.Filter;
 using BusesControl.Models;
+using BusesControl.Models.Enums;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -100,6 +101,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult EditarCliente(PessoaFisica cliente) {
+            ViewData["Title"] = "Editar";
             try {
                 if (ValidarCampo(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
@@ -120,6 +122,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult EditarClienteJuridico(PessoaJuridica cliente) {
+            ViewData["Title"] = "Editar";
             try {
                 if (ValidarCampoJurico(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
@@ -150,6 +153,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Desabilitar(PessoaFisica cliente) {
+            ViewData["Title"] = "Desabilitar";
             try {
                 _clienteRepositorio.Desabilitar(cliente);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -162,6 +166,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult DesabilitarJuridico(PessoaJuridica cliente) {
+            ViewData["Title"] = "Desabilitar";
             try {
                 _clienteRepositorio.DesabilitarJuridico(cliente);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -185,6 +190,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult HabilitarJuridico(PessoaJuridica cliente) {
+            ViewData["Title"] = "Habilitar";
             try {
                 _clienteRepositorio.HabilitarJuridico(cliente);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
@@ -197,6 +203,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Habilitar(PessoaFisica cliente) {
+            ViewData["Title"] = "Habilitar";
             try {
                 _clienteRepositorio.Habilitar(cliente);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";

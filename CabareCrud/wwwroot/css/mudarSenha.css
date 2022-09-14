@@ -1,21 +1,33 @@
-@charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Numans');
-body{
-    height: 100%;
-    margin: 0;
-    padding: 0;
+﻿@charset "UTF-8";
+body {
     background-image: url(Imagens/back.png);
 }
-.mensagemErro{
+.link-home {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 10.5pt;
+    width: 150px;
+    height: 33px;
+    color: black;
+    border: 1px solid initial;
+    background-color: rgb(255, 255, 255);
+    transition: 0.6s;
+}
+    .link-home:hover {
+        background-color: #6570ce;
+        color: white;
+    }
+
+.mensagemErro {
     padding: 0px;
     display: flex;
     justify-content: center;
 }
+
 .alert {
     padding: 10px;
     position: absolute;
-    top: 18px;
+    top: 28px;
 }
 
 .close-alert {
@@ -51,10 +63,22 @@ body{
         background-color: #CA0009;
     }
 
-.form-control{
+.info {
+    border: none;
+    color: white;
+    background-color: rgb(43, 177, 215);
+}
+
+    .info:hover {
+        border: none;
+        background-color: rgb(43, 147, 162);
+    }
+
+.form-control {
     font-size: 11pt;
     height: 32px;
 }
+
 .errorMsg {
     position: absolute;
     top: 27px;
@@ -62,19 +86,23 @@ body{
     font-size: 9pt;
     color: red;
 }
-#Login{
-    height: 100vh;
+
+#Login {
+    height: 90vh;
     display: flex;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
 }
+
 .card {
     flex: auto auto auto;
     margin: 5px;
+    border-radius: 7px;
     background-color: #ffffff !important;
-    box-shadow: 1px 1px 1px #000000b2;
+    box-shadow: 1px 1px 1px white;
 }
+
 .card-header h5 {
     font-size: 16pt;
     font-weight: normal;
@@ -86,93 +114,109 @@ body{
     color: #ffffff;
     border: 0 !important;
 }
+
 input:focus {
     outline: 0 0 0 0 !important;
     box-shadow: 0 0 0 0 !important;
-
 }
 /*Caixa de lembrar de mim*/
 .remember {
     color: #000000dc;
 }
-.remember input {
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-    margin-right: 5px;
-}
+
+    .remember input {
+        width: 20px;
+        height: 20px;
+        margin-left: 15px;
+        margin-right: 5px;
+    }
 /*botão Login*/
 .login_btn {
     font-size: 11pt;
     padding: 4px;
-    width: 36%;
+    width: 35%;
     color: rgb(0, 123, 255);
     border: 1px solid rgb(0, 123, 255);
     background-color: aliceblue;
     transition: 0.6s;
 }
-.login_btn:hover{
-    background-color: #0091ff;
-    color: white;
-}
+
+    .login_btn:hover {
+        background-color: #0091ff;
+        color: white;
+    }
+
 .links {
     color: #000000dc;
 }
-.links a {
-    margin-left: 4px;
-}
-#esque{
+
+    .links a {
+        margin-left: 4px;
+    }
+
+#esque {
     color: #2b65c2;
 }
-@media(min-width: 0px){
-    .card{
+
+@media(min-width: 0px) {
+    .card {
         width: 280px;
     }
-    body{
+
+    body {
         background-size: auto;
         background-repeat: no-repeat;
     }
-} 
-@media(min-width: 0px){
-    .card{
+}
+
+@media(min-width: 0px) {
+    .card {
+        width: 270px;
+    }
+    .alert {
         width: 270px;
     }
 }
-@media(min-width: 340px){
-    .card{
+
+@media(min-width: 340px) {
+    .card {
         width: 370px;
     }
     .alert {
         width: 370px;
     }
 }
-@media(min-width: 800px){
-    .card{
-        width: 400px;
+
+@media(min-width: 800px) {
+    .card {
+        width: 500px;
     }
-    .alert {
-        width: 400px;
+    .alert{
+        width: 500px;
     }
     .input-group-prepend span {
         width: 40px;
     }
 }
-@media(min-width: 1050px){
-    body{
+
+@media(min-width: 1050px) {
+    body {
         background-size: cover;
         background-repeat: no-repeat;
     }
 }
-@media(min-width: 1500px){
-    .card{
-        width: 470px;
+
+@media(min-width: 1500px) {
+    .card {
+        width: 550px;
     }
     .alert {
-        width: 470px;
+        width: 550px;
     }
 }
-@media(min-width: 2500px){
-    .card{
+
+@media(min-width: 2500px) {
+    .card {
         width: 550px;
         height: 400px;
     }
@@ -180,8 +224,9 @@ input:focus {
         width: 550px;
     }
 }
-@media(min-width: 4000px){
-    .card{
+
+@media(min-width: 4000px) {
+    .card {
         width: 950px;
         height: 500px;
         font-size: 18pt;

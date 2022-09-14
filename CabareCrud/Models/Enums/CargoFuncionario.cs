@@ -1,4 +1,4 @@
-﻿namespace BusesControl.Models {
+﻿namespace BusesControl.Models.Enums {
     public enum CargoFuncionario : int {
         Motorista = 0,
         Assistente = 1,

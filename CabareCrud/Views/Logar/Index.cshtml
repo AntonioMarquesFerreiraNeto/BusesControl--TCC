@@ -23,8 +23,8 @@
 <main>
     <section id="Login">
         <div class="card">
-            <div class="card-header">
-                <h3>Conectar</h3>
+           <div class="card-header">
+                <h5>Conectar</h5>
             </div>
             <div class="card-body">
                 <form asp-controller="Logar" asp-action="Index" method="post">
@@ -42,7 +42,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" class="form-control" placeholder="Informe sua senha" maxlength="20" asp-for="Cep" id="senha">
+                        <input type="password" class="form-control" placeholder="Informe sua senha" maxlength="14" asp-for="Cep" id="senha">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Cep)
                         </small>

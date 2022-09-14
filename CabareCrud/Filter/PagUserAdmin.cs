@@ -1,4 +1,5 @@
 ﻿using BusesControl.Models;
+using BusesControl.Models.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

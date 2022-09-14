@@ -1,4 +1,5 @@
-﻿using BusesControl.Models.ValidacoesDados.ModelValidarAnoFab;
+﻿using BusesControl.Models.Enums;
+using BusesControl.Models.ValidacoesDados.ModelValidarAnoFab;
 using BusesControl.Models.ValidacoesDados.ModelValidarAssentos;
 using System;
 using System.ComponentModel.DataAnnotations;

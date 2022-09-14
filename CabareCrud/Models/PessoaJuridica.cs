@@ -1,4 +1,5 @@
-﻿using BusesControl.Models.ValidacoesCliente.ModelValidarCnpj;
+﻿using BusesControl.Models.Enums;
+using BusesControl.Models.ValidacoesCliente.ModelValidarCnpj;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {

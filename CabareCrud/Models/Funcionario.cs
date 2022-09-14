@@ -1,4 +1,5 @@
-﻿using BusesControl.Models.ModelValidarCPF;
+﻿using BusesControl.Models.Enums;
+using BusesControl.Models.ModelValidarCPF;
 using BusesControl.Models.ValidacoesCliente.ModelValidarDate;
 using BusesControl.Models.ValidacoesDados.ModelValidarEmail;
 using System;
@@ -76,6 +77,11 @@ namespace BusesControl.Models {
             else {
                 return false;
             }
+        }
+
+        public bool ValidarDuplicata(string newSenha) {
+            bool result = (Cep == newSenha) ? true : false;
+            return result;
         }
     }
 }

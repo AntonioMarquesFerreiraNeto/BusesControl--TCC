@@ -48,7 +48,7 @@ body {
 .font {
     font-size: 14pt;
     font-weight: normal;
-    color: darkslategray
+    color: darkslategray;
 }
 
 .font-min {
@@ -158,12 +158,12 @@ body {
 .info {
     border: none;
     color: white;
-    background-color: rgb(43, 147, 162);
+    background-color: rgb(43, 177, 215);
 }
 
     .info:hover {
         border: none;
-        background-color: rgb(43, 147, 255);
+        background-color: rgb(43, 147, 162);
     }
 
 #sidebarCollapse {

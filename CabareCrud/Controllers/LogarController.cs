@@ -21,6 +21,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public ActionResult Index(Login login) {
+            ViewData["Title"] = "Autenticar";
             try {
                 if (ModelState.IsValid) {
                     Funcionario usuario = _funcionarioRepositorio.ListarPorlogin(login.Cpf);
@@ -38,7 +39,6 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "CPF ou senha inválida!";
                     }
                 }
-                ViewData["Title"] = "Autenticar";
                 return View(login);
             }
             catch(Exception erro) {

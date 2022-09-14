@@ -1,5 +1,6 @@
 ﻿using BusesControl.Filter;
 using BusesControl.Models;
+using BusesControl.Models.Enums;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,6 +30,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult NovoOnibus(Onibus onibus) {
+            ViewData["Title"] = "Incluir";
             try {
                 if (ValidarCampo(onibus)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
@@ -55,6 +57,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Editar(Onibus onibus) {
+            ViewData["Title"] = "Editar";
             try {
                 if (ValidarCampo(onibus)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
@@ -80,6 +83,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Desabilitar(Onibus onibus) {
+            ViewData["Title"] = "Desabilitar";
             try {
                 _onibusRepositorio.Desabilitar(onibus);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -98,6 +102,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Habilitar(Onibus onibus) {
+            ViewData["Title"] = "Habilitar";
             try {
                 _onibusRepositorio.Habilitar(onibus);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
