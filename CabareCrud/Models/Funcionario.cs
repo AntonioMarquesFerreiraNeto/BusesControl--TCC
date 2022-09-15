@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
     public class Funcionario {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(5, ErrorMessage = "Campo inválido.")]
@@ -65,13 +65,14 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string Ddd { get; set; }
-
+        
+        public string Senha { get; set; }
         public StatuFuncionario Status { get; set; }
         public CargoFuncionario Cargos { get; set; }
         public UsuarioStatus StatusUsuario { get; set; }
 
         public bool ValidarSenha(string cep) {
-            if (cep == Cep) {
+            if (cep == Senha) {
                 return true;
             }
             else {
@@ -80,8 +81,12 @@ namespace BusesControl.Models {
         }
 
         public bool ValidarDuplicataSenha(string newSenha) {
-            bool result = (Cep == newSenha) ? true : false;
+            bool result = (Senha == newSenha) ? true : false;
             return result;
+        }
+
+        public string GerarSenha() {
+            return "66262685";
         }
     }
 }

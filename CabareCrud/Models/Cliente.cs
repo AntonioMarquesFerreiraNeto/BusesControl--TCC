@@ -6,7 +6,7 @@ using BusesControl.Models.ValidacoesDados.ModelValidarEmail;
 
 namespace BusesControl.Models {
     public class Cliente {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [ValidarEmail(ErrorMessage = "Campo inválido!")]
         [MinLength(5, ErrorMessage = "Campo inválido!")]

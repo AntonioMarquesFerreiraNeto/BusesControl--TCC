@@ -42,9 +42,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" class="form-control" placeholder="Informe sua senha" maxlength="14" asp-for="Cep" id="senha">
+                        <input type="password" class="form-control" placeholder="Informe sua senha" maxlength="14" asp-for="Senha" id="senha">
                         <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.Cep)
+                            @Html.ValidationMessageFor(x => x.Senha)
                         </small>
                     </div>
                      <small><input type="checkbox" onclick="OcultDisplay()"> Mostrar senha</small>

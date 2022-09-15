@@ -2,7 +2,7 @@
 
 namespace BusesControl.Models {
     public class MudarSenha {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(8, ErrorMessage = "Senha atual inválida!")]

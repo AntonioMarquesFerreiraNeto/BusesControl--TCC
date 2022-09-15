@@ -26,7 +26,7 @@ namespace BusesControl.Controllers {
                 if (ModelState.IsValid) {
                     Funcionario usuario = _funcionarioRepositorio.ListarPorlogin(login.Cpf);
                     if (usuario != null) {
-                        if (usuario.ValidarSenha(login.Cep)) {
+                        if (usuario.ValidarSenha(login.Senha)) {
                             _section.CriarSection(usuario);
                             TempData["MensagemDeSucesso"] = "Autenticado com sucesso!";
                             return RedirectToAction("Index", "Home");

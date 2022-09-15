@@ -38,9 +38,14 @@ namespace BusesControl.Repositorio {
                 if (funcionarioDB == null) {
                     throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
                 }
+                if (funcionario.Cargos != CargoFuncionario.Motorista && funcionarioDB.Senha == null) {
+                    funcionario.Senha = funcionario.GerarSenha();
+                    funcionarioDB.Senha = funcionario.Senha;
+                }
                 if (funcionario.Cargos == CargoFuncionario.Motorista) {
                     funcionarioDB.StatusUsuario = UsuarioStatus.Desativado;
                 }
+
                 funcionarioDB.Name = funcionario.Name;
                 funcionarioDB.DataNascimento = funcionario.DataNascimento;
                 funcionarioDB.Cpf = funcionario.Cpf;
@@ -111,7 +116,7 @@ namespace BusesControl.Repositorio {
             if (usuarioDB == null) throw new System.Exception("Desculpe, houve um erro ao trocar a senha.");
             if (!usuarioDB.ValidarSenha(mudarSenha.SenhaAtual)) throw new System.Exception("Senha atual inválida!");
             if (usuarioDB.ValidarDuplicataSenha(mudarSenha.NovaSenha)) throw new System.Exception("A nova senha não pode ser igual a atual!");
-            usuarioDB.Cep = mudarSenha.NovaSenha;
+            usuarioDB.Senha = mudarSenha.NovaSenha;
             _bancocontext.Update(usuarioDB);
             _bancocontext.SaveChanges();
             return usuarioDB;

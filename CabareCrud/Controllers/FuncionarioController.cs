@@ -39,6 +39,7 @@ namespace BusesControl.Controllers {
                 else if (ModelState.IsValid) {
                     funcionario.Status = StatuFuncionario.Habilitado;
                     if (ValidarCargo(funcionario)) {
+                        funcionario.Senha = funcionario.GerarSenha();
                         funcionario.StatusUsuario = UsuarioStatus.Ativado;
                     }
                     _funcionarioRepositorio.Adicionar(funcionario);
