@@ -1,4 +1,5 @@
 ﻿using BusesControl.Data;
+using BusesControl.Helper;
 using BusesControl.Models;
 using BusesControl.Models.Enums;
 using System;
@@ -8,8 +9,10 @@ using System.Linq;
 namespace BusesControl.Repositorio {
     public class FuncionarioRepositorio : IFuncionarioRepositorio {
         private readonly BancoContext _bancocontext;
-        public FuncionarioRepositorio(BancoContext bancocontext) {
+        private readonly IEmail _email;
+        public FuncionarioRepositorio(BancoContext bancocontext, IEmail email) {
             _bancocontext = bancocontext;
+            _email = email;
         }
 
         public List<Funcionario> ListarTodosHab() {
@@ -39,7 +42,12 @@ namespace BusesControl.Repositorio {
                     throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
                 }
                 if (funcionario.Cargos != CargoFuncionario.Motorista && string.IsNullOrEmpty(funcionarioDB.Senha)) {
-                    funcionarioDB.Senha = funcionario.Senha;
+                    funcionarioDB.Senha = funcionario.GerarSenha();
+                    bool emailEnviado = EnviarSenha(funcionario.Name, funcionarioDB.Senha, funcionario.Email);
+                    if (!emailEnviado) {
+                        throw new System.Exception("Não conseguimos enviar o e-mail com a senha, " +
+                                "valide se ele é existente.");
+                    }
                 }
                 if (funcionario.Cargos == CargoFuncionario.Motorista) {
                     funcionarioDB.StatusUsuario = UsuarioStatus.Desativado;
@@ -144,6 +152,16 @@ namespace BusesControl.Repositorio {
                 throw new System.Exception("Funcionário já se encontra cadastrado!");
             }
             throw new System.Exception($"Desculpe, houve alguma falha na aplicação!");
+        }
+
+        public bool EnviarSenha(string name, string senha, string email) {
+            string mensagem = $"Informamos que foi gerado uma senha para o usuário {name}. <br> A senha gerada para o usuário é: <strong>{senha}<strong/>";
+            if (_email.Enviar(email, "Buses Control - Gerador de senhas", mensagem)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 }

@@ -44,7 +44,8 @@ namespace BusesControl.Controllers {
                     if (ValidarCargo(funcionario)) {
                         funcionario.Senha = funcionario.GerarSenha();
                         funcionario.StatusUsuario = UsuarioStatus.Ativado;
-                        if (EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email) == false) {
+                        bool emailEnviado = EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email);
+                        if (!emailEnviado) {
                             TempData["MensagemDeErro"] = "Não conseguimos enviar o e-mail com a senha, " +
                                 "valide se ele é existente.";
                             return View(funcionario);
