@@ -7,6 +7,23 @@ body{
     padding: 0;
     background-image: url(Imagens/back.png);
 }
+.link-home {
+    position: fixed;
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 11pt;
+    width: 150px;
+    height: 33px;
+    color: black;
+    border: 1px solid initial;
+    background-color: rgb(255, 255, 255);
+    transition: 0.6s;
+}
+
+    .link-home:hover {
+        background-color: #6570ce;
+        color: white;
+    }
 .mensagemErro{
     padding: 0px;
     display: flex;
@@ -63,7 +80,7 @@ body{
     color: red;
 }
 #Login{
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-wrap: wrap;
     align-content: center;

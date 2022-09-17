@@ -1,4 +1,4 @@
-﻿@model Login
+﻿@model RedefinirSenha
 @{
     Layout = "_LayoutNoConect";
 }
@@ -10,8 +10,7 @@
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
       integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<!--Css da página-->
-<link rel="stylesheet" href="css/logar.css">
+<link rel="stylesheet" href="~/css/logar.css">
 <div class="mensagemErro">
     @if (TempData["MensagemDeErro"] != null) {
         <div class="alert alert-danger" role="alert">
@@ -20,27 +19,20 @@
         </div>
     }
 </div>
-<div class="mensagemErro">
-    @if (TempData["MensagemDeSucesso"] != null) {
-        <div class="alert alert-success" role="alert">
-            @TempData["MensagemDeSucesso"]
-            <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
-        </div>
-    }
-</div>
+<a class="btn link-home" asp-controller="Logar" asp-action="Index"> <i class="fa fa-home"></i> Voltar</a>
 <main>
     <section id="Login">
         <div class="card">
            <div class="card-header">
-                <h5>Conectar</h5>
+                <h5>Redefinir senha</h5>
             </div>
             <div class="card-body">
-                <form asp-controller="Logar" asp-action="Index" method="post">
+                <form asp-controller="Logar" asp-action="RedefinirSenha" method="post">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-address-card"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Informe seu CPF." maxlength="11"
+                        <input type="text" class="form-control" placeholder="Informe seu CPF" maxlength="11"
                                onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Cpf">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Cpf)
@@ -48,22 +40,22 @@
                     </div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                         </div>
-                        <input type="password" class="form-control" placeholder="Informe sua senha." maxlength="14" asp-for="Senha" id="senha">
+                        <input type="text" class="form-control" placeholder="Informe seu e-mail" maxlength="60" asp-for="Email" id="email">
                         <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.Senha)
+                            @Html.ValidationMessageFor(x => x.Email)
                         </small>
                     </div>
-                     <small><input type="checkbox" onclick="OcultDisplay()"> Mostrar senha</small>
+                    <br>
                     <div class="form-group">
-                        <button type="submit" class="btn float-right login_btn">Logar</button>
+                        <button type="submit" class="btn float-right login_btn">Redefinir senha</button>
                     </div>
                 </form>
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-center">
-                     <a asp-action="RedefinirSenha" asp-controller="Logar">Esqueceu sua senha?</a>
+                    <br>
                 </div>
             </div>
         </div>

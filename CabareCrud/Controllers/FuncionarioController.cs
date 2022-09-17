@@ -1,4 +1,5 @@
 ﻿using BusesControl.Filter;
+using BusesControl.Helper;
 using BusesControl.Models;
 using BusesControl.Models.Enums;
 using BusesControl.Repositorio;
@@ -11,8 +12,10 @@ namespace BusesControl.Controllers {
     public class FuncionarioController : Controller {
 
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
-        public FuncionarioController(IFuncionarioRepositorio funcionarioRepositorio) {
+        private readonly IEmail _email;
+        public FuncionarioController(IFuncionarioRepositorio funcionarioRepositorio, IEmail email) {
             _funcionarioRepositorio = funcionarioRepositorio;
+            _email = email;
         }
         public IActionResult Index() {
             ViewData["Title"] = "Funcionários habilitados";
@@ -41,6 +44,11 @@ namespace BusesControl.Controllers {
                     if (ValidarCargo(funcionario)) {
                         funcionario.Senha = funcionario.GerarSenha();
                         funcionario.StatusUsuario = UsuarioStatus.Ativado;
+                        if (EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email) == false) {
+                            TempData["MensagemDeErro"] = "Não conseguimos enviar o e-mail com a senha, " +
+                                "valide se ele é existente.";
+                            return View(funcionario);
+                        }
                     }
                     _funcionarioRepositorio.Adicionar(funcionario);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
@@ -168,6 +176,16 @@ namespace BusesControl.Controllers {
                 return true;
             }
             else return false;
+        }
+        
+        public bool EnviarSenha(string name, string senha, string email) {
+            string mensagem = $"Informamos que foi gerado uma senha para o usuário {name}. <br> A senha gerada para o usuário é: <strong>{senha}<strong/>";
+            if (_email.Enviar(email, "Buses Control - Gerador de senhas", mensagem)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 }

@@ -8,10 +8,12 @@ namespace BusesControl.Controllers {
     public class LogarController : Controller {
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
         private readonly ISection _section;
-        public LogarController(IFuncionarioRepositorio funcionarioRepositorio, ISection section) {
+        private readonly IEmail _email;
+        public LogarController(IFuncionarioRepositorio funcionarioRepositorio, ISection section, IEmail email) {
             _funcionarioRepositorio = funcionarioRepositorio;
             _section = section;
-        } 
+            _email = email;
+        }
         public ActionResult Index() {
             ViewData["Title"] = "Autenticar";
             if (_section.buscarSectionUser() != null) {
@@ -31,13 +33,8 @@ namespace BusesControl.Controllers {
                             TempData["MensagemDeSucesso"] = "Autenticado com sucesso!";
                             return RedirectToAction("Index", "Home");
                         }
-                        else {
-                            TempData["MensagemDeErro"] = "CPF ou senha inválida!";
-                        }
                     }
-                    else {
-                        TempData["MensagemDeErro"] = "CPF ou senha inválida!";
-                    }
+                    TempData["MensagemDeErro"] = "CPF ou senha inválida!";
                 }
                 return View(login);
             }
@@ -47,6 +44,40 @@ namespace BusesControl.Controllers {
             }
         }
 
+        public IActionResult RedefinirSenha() {
+            ViewData["Title"] = "Redefinir senha";
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RedefinirSenha(RedefinirSenha redefinirSenha) {
+            ViewData["Title"] = "Redefinir senha";
+            try {
+                if (ModelState.IsValid) {
+                    Funcionario usuario = _funcionarioRepositorio.ListarPorloginAndEmail(redefinirSenha.Email, redefinirSenha.Cpf);
+                    if (usuario != null) {
+                        usuario.Senha = usuario.GerarSenha();
+                        string mensagem = $"Informamos que a senha do usuário {usuario.Name} foi redefinida para: <strong>{usuario.Senha}<strong/>";
+                        bool emailEnviado = _email.Enviar(usuario.Email, "Buses Control - Redefinição de senhas", mensagem);
+                        if (emailEnviado) {
+                            _funcionarioRepositorio.NovaSenha(usuario);
+                            TempData["MensagemDeSucesso"] = "Enviamos para seu e-mail uma nova senha!";
+                            return RedirectToAction("Index", "Logar");
+                        }
+                        else {
+                            TempData["MensagemDeErro"] = $"Não conseguimos enviar o e-mail com a senha, valide se ele é existente.";
+                            return View(redefinirSenha);
+                        }
+                    }
+                }
+                TempData["MensagemDeErro"] = "CPF ou e-mail inválido!";
+                return View(redefinirSenha);
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = "Erro ao redefinir! Detalhe: " + erro.Message;
+                return View(redefinirSenha);
+            }
+        }
         public ActionResult Sair() {
             _section.EncerrarSection();
             return RedirectToAction("Index", "Logar");

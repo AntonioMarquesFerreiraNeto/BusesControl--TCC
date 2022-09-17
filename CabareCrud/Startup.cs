@@ -33,6 +33,7 @@ namespace BusesControl {
             services.AddScoped<IFuncionarioRepositorio, FuncionarioRepositorio>();
             services.AddScoped<IOnibusRepositorio, OnibusRepositorio>();
             services.AddScoped<ISection, Section>();
+            services.AddScoped<IEmail, Email>();
 
             services.AddSession(o => {
                 o.Cookie.HttpOnly = true;

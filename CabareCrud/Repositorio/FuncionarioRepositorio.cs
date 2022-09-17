@@ -38,8 +38,7 @@ namespace BusesControl.Repositorio {
                 if (funcionarioDB == null) {
                     throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
                 }
-                if (funcionario.Cargos != CargoFuncionario.Motorista && funcionarioDB.Senha == null) {
-                    funcionario.Senha = funcionario.GerarSenha();
+                if (funcionario.Cargos != CargoFuncionario.Motorista && string.IsNullOrEmpty(funcionarioDB.Senha)) {
                     funcionarioDB.Senha = funcionario.Senha;
                 }
                 if (funcionario.Cargos == CargoFuncionario.Motorista) {
@@ -76,6 +75,9 @@ namespace BusesControl.Repositorio {
         }
         public Funcionario ListarPorlogin(string cpf) {
             return _bancocontext.Funcionario.FirstOrDefault(x => x.Cpf == cpf && x.StatusUsuario == UsuarioStatus.Ativado);
+        }
+        public Funcionario ListarPorloginAndEmail(string email, string login) {
+            return _bancocontext.Funcionario.FirstOrDefault(x => x.Email == email && x.Cpf == login && x.StatusUsuario == UsuarioStatus.Ativado);
         }
         public Funcionario Desabilitar(Funcionario funcionario) {
             Funcionario funcionarioDesabilitado = ListarPorId(funcionario.Id);
@@ -121,7 +123,16 @@ namespace BusesControl.Repositorio {
             _bancocontext.SaveChanges();
             return usuarioDB;
         }
-
+        public Funcionario NovaSenha(Funcionario usuario) {
+            Funcionario usuarioDB = ListarPorId(usuario.Id);
+            if (usuarioDB == null) {
+                throw new System.Exception("Desculpe, houve um erro ao trocar a senha.");
+            }
+            usuarioDB.Senha = usuario.Senha;
+            _bancocontext.Update(usuarioDB);
+            _bancocontext.SaveChanges();
+            return usuarioDB;
+        }
         public Exception TratarErro(Funcionario funcionario, Exception erro) {
             if (erro.InnerException.Message.Contains(funcionario.Cpf)) {
                 throw new System.Exception("Funcionário já se encontra cadastrado!");

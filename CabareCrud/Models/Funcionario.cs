@@ -4,6 +4,7 @@ using BusesControl.Models.ValidacoesCliente.ModelValidarDate;
 using BusesControl.Models.ValidacoesDados.ModelValidarEmail;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace BusesControl.Models {
     public class Funcionario {
@@ -71,8 +72,8 @@ namespace BusesControl.Models {
         public CargoFuncionario Cargos { get; set; }
         public UsuarioStatus StatusUsuario { get; set; }
 
-        public bool ValidarSenha(string cep) {
-            if (cep == Senha) {
+        public bool ValidarSenha(string senha) {
+            if (senha == Senha) {
                 return true;
             }
             else {
@@ -86,7 +87,20 @@ namespace BusesControl.Models {
         }
 
         public string GerarSenha() {
-            return "66262685";
+
+            Random random = new Random();
+
+            int rdn = random.Next(2);
+            int tamanhoSenha = (rdn == 0) ? 8 : 10;
+
+            string caixaCaracteres = "ABCDEFGHIJKLNOPQIWYZK" + "ABCDEFGHIJKLNOPQIWYZK".ToLower() + "@#$%&*!" + "123456789";
+            StringBuilder senhaUser = new StringBuilder();
+
+            for (int cont = 0; cont < tamanhoSenha; cont++) {
+                int indiceCaracter = random.Next(0, caixaCaracteres.Length -1);
+                senhaUser.Append(caixaCaracteres[indiceCaracter]);
+            }
+            return Convert.ToString(senhaUser);
         }
     }
 }

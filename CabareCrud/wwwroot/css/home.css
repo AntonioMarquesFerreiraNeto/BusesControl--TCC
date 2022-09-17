@@ -113,10 +113,8 @@ body {
     }
 
 .alert {
-    min-width: 250px;
     padding: 10px;
     top: 92px;
-    right: 76px;
     position: absolute;
 }
 
@@ -193,7 +191,9 @@ body {
         height: auto;
         padding: 4px 4px 4px 4px;
     }
-
+    .alert {
+        right: 36px;
+    }
     .navbar-nav {
         margin-top: 5px;
         border-radius: 10px;
@@ -207,8 +207,9 @@ body {
 }
 
 @media(min-width: 550px) {
-    .alert {
-        width: 350px;
+    .alert{
+        right: 46px;
+        min-width: 350px;
     }
 }
 
@@ -217,7 +218,9 @@ body {
         height: 90px;
         padding: 54px 4px 54px 4px;
     }
-
+    .alert{
+        right: 76px;
+    }
     .navbar-nav {
         background-color: #24292f00;
         border: none;

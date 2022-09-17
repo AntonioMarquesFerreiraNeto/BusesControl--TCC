@@ -7,6 +7,7 @@ namespace BusesControl.Repositorio {
         public Funcionario Adicionar(Funcionario funcionario);
         public Funcionario ListarPorId(long id);
         public Funcionario ListarPorlogin(string cpf);
+        public Funcionario ListarPorloginAndEmail(string email, string login);
         public Funcionario EditarFuncionario(Funcionario funcionario);
         public List<Funcionario> ListarTodosHab();
         public List<Funcionario> ListarTodosDesa();
@@ -15,6 +16,7 @@ namespace BusesControl.Repositorio {
         public Funcionario Habilitar(Funcionario funcionario);
         public Funcionario HabilitarUsuario(Funcionario funcionario);
         public Funcionario AlterarSenha(MudarSenha mudarSenha);
+        public Funcionario NovaSenha(Funcionario usuario);
         public Exception TratarErro(Funcionario funcionario, Exception erro);
     }
 }
