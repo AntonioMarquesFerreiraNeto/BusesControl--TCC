@@ -26,14 +26,28 @@
                     <li class="nav-item linha">
                         <a class="nav-link linkMenu" style="color: transparent; opacity: 0;">#</a>
                     </li>
-                    <li class="nav-item linha">
-                        <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Name</a>
-                    </li>
+                    @if (string.IsNullOrEmpty(Model.Apelido)) {
+                        <li class="nav-item linha">
+                            <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Name</a>
+                        </li>
+                    }
+                    else {
+                        <li class="nav-item linha">
+                            <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Apelido</a>
+                        </li>
+                    }
                 }
                 else {
-                    <li class="nav-item linha">
-                        <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Name</a>
-                    </li>
+                    @if (string.IsNullOrEmpty(Model.Apelido)) {
+                        <li class="nav-item linha">
+                            <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Name</a>
+                        </li>
+                    }
+                    else {
+                        <li class="nav-item linha">
+                            <a class="nav-link linkMenu upercase" data-toggle="modal" data-target="#janelaModalPerfil" href="#"><i class="fa fa-user-tie" style="margin-right: 3px;"></i>  @Model.Apelido</a>
+                        </li>
+                    }
                 }
             </ul>
         </div>
@@ -41,7 +55,7 @@
 </nav>
 <div id="janelaModalPerfil" class="modal">
     <div class="modal-dialog modal-sm">
-        <div class="modal-content">
+        <div class="modal-content perfil-body">
             <div class="modal-header">
                 @if (Model.Cargos == CargoFuncionario.Administrador) {
                     <h5 class="modal-title font">
@@ -66,8 +80,38 @@
             </div>
             <div class="modal-footer foote">
                 <a class="btn btn-senha" asp-controller="MudarSenha" asp-action="Index">Alterar senha</a>
+                <a class="btn btn-senha" data-toggle="modal" data-target="#janelaModalApelido" href="#" data-dismiss="modal" aria-label="Close">Incluir apelido</a>
             </div>
         </div>
     </div>
+</div>
+<div id="janelaModalApelido" class="modal">
+    <form asp-controller="Apelido" asp-action="InserirApelido" method="post">
+        <input type="hidden" asp-for="Id">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font2">
+                        Registro de apelido
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-inline-flex">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="radius-none">
+                            <i class="fa fa-user-tie"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="radius-none" placeholder="Informe o seu apelido." maxlength="25" asp-for="Apelido">
+                </div>
+                <div class="modal-footer foote2 justify-content-end">
+                    <button class="btn btn-outline-primary ms-3 btn-apelido" type="submit">Incluir</button>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <script src="~/js/jquery.min.js"></script>

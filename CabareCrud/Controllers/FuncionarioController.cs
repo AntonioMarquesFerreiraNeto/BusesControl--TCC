@@ -12,10 +12,8 @@ namespace BusesControl.Controllers {
     public class FuncionarioController : Controller {
 
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
-        private readonly IEmail _email;
         public FuncionarioController(IFuncionarioRepositorio funcionarioRepositorio, IEmail email) {
             _funcionarioRepositorio = funcionarioRepositorio;
-            _email = email;
         }
         public IActionResult Index() {
             ViewData["Title"] = "Funcionários habilitados";
@@ -39,17 +37,10 @@ namespace BusesControl.Controllers {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
                     return View(funcionario);
                 }
-                else if (ModelState.IsValid) {
+                if (ModelState.IsValid) {
                     funcionario.Status = StatuFuncionario.Habilitado;
                     if (ValidarCargo(funcionario)) {
-                        funcionario.Senha = funcionario.GerarSenha();
                         funcionario.StatusUsuario = UsuarioStatus.Ativado;
-                        bool emailEnviado = EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email);
-                        if (!emailEnviado) {
-                            TempData["MensagemDeErro"] = "Não conseguimos enviar o e-mail com a senha, " +
-                                "valide se ele é existente.";
-                            return View(funcionario);
-                        }
                     }
                     _funcionarioRepositorio.Adicionar(funcionario);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
@@ -177,16 +168,6 @@ namespace BusesControl.Controllers {
                 return true;
             }
             else return false;
-        }
-        
-        public bool EnviarSenha(string name, string senha, string email) {
-            string mensagem = $"Informamos que foi gerado uma senha para o usuário {name}. <br> A senha gerada para o usuário é: <strong>{senha}<strong/>";
-            if (_email.Enviar(email, "Buses Control - Gerador de senhas", mensagem)) {
-                return true;
-            }
-            else {
-                return false;
-            }
         }
     }
 }

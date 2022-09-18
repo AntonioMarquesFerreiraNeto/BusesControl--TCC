@@ -65,12 +65,12 @@ namespace BusesControl.Controllers {
                             return RedirectToAction("Index", "Logar");
                         }
                         else {
-                            TempData["MensagemDeErro"] = $"Não conseguimos enviar o e-mail com a senha, valide se ele é existente.";
+                            TempData["MensagemDeErro"] = $"Não conseguimos enviar o e-mail com a senha.";
                             return View(redefinirSenha);
                         }
                     }
+                    TempData["MensagemDeErro"] = "CPF ou e-mail inválido!";
                 }
-                TempData["MensagemDeErro"] = "CPF ou e-mail inválido!";
                 return View(redefinirSenha);
             }
             catch (Exception erro) {

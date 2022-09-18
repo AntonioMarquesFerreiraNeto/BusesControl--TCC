@@ -30,31 +30,33 @@ body{
     justify-content: center;
 }
 .alert {
-    padding: 10px;
+    padding: 13px;
     position: absolute;
     top: 18px;
 }
 
 .close-alert {
     position: absolute;
-    right: -10px;
+    right: -14px;
     top: -15px;
     text-align: center;
     border-radius: 35px;
     border: 1px solid #72a67e;
     color: black;
     width: 30px;
-    height: 30px;
+    height: 31px;
     transition: 0.5s;
 }
 
 .sucesso {
-    background-color: #c5f0cf;
+    background-color: #0aac3f;
+    border: none;
+    color: white;
 }
 
     .sucesso:hover {
-        border: 1px solid #72a67e;
-        background-color: #7ea588;
+        border: none;
+        background-color: #028a32;
     }
 
 .erro {

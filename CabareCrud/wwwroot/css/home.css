@@ -50,13 +50,20 @@ body {
     font-weight: normal;
     color: darkslategray;
 }
-
+.font2 {
+    font-size: 14pt;
+    font-weight: normal;
+    color: darkslategray;
+}
 .font-min {
     padding: 0px;
     font-size: 10.5pt;
     color: darkslategray
 }
-
+.perfil-body{
+    margin-left: -25px;
+    min-width: 360px;
+}
 .card-text {
     text-align: justify;
     font-size: 10pt;
@@ -74,7 +81,6 @@ body {
     margin-top: 5px;
     background-color: #0000003b;
 }
-
 #titlePrincipal {
     width: 100%;
     margin: 0px;
@@ -90,26 +96,51 @@ body {
     width: 100%;
     padding-top: 57px;
     margin-bottom: -11px;
-    height: 50px;
+    height: 44px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
 
+.foote2 {
+    width: 100%;
+    padding-top: 57px;
+    margin-bottom: -11px;
+    height: 44px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 .btn-senha {
     color: seagreen;
     background-color: aliceblue;
     border: 1px solid seagreen;
     margin-bottom: 55px;
     font-size: 10pt;
-    padding: 5px;
+    padding: 4px;
     width: 100%;
     transition: 01s;
 }
 
     .btn-senha:hover {
         color: white;
-        background-color: seagreen;
+        background-color: #089b26;
+    }
+#radius-none {
+    border-radius: 2px;
+}
+.btn-apelido {
+    background-color: #0089fe19;  
+    margin-bottom: 55px;
+    margin-left: -5px;
+    font-size: 10pt;
+    padding: 4px;
+    width: 110px;
+    transition: 01s;
+}
+
+    .btn-apelido:hover {
+        color: white;
     }
 
 .alert {
@@ -132,7 +163,7 @@ body {
 }
 
 .sucesso {
-    background-color: seagreen;
+    background-color: #01ba27;
     border: none;
     color: white;
 }
@@ -186,14 +217,50 @@ body {
     color: #00ffff;
 }
 
+/*Folhas de estilos para formulários do registrar apelido do usuário.*/
+.form-control {
+    height: 28px;
+    font-size: 11pt;
+    border-radius: 5px;
+    border: 1px solid #81818192;
+}
+
+input#form-control {
+    min-width: 250px;
+}
+
+#cadEdit .form-control {
+    border-radius: 0px 5px 5px 0px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border: solid 1px #2b65c2;
+}
+/*Caixa de entrada de usuário*/
+.input-group-prepend span {
+    background-color: #2b65c2;
+    color: #ffffff;
+    border: 0 !important;
+    height: 28px;
+    width: 40px;
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
 @media(min-width: 108px) {
     .navbar-transparent {
         height: auto;
         padding: 4px 4px 4px 4px;
     }
+
     .alert {
         right: 36px;
     }
+
     .navbar-nav {
         margin-top: 5px;
         border-radius: 10px;
@@ -207,7 +274,7 @@ body {
 }
 
 @media(min-width: 550px) {
-    .alert{
+    .alert {
         right: 46px;
         min-width: 350px;
     }
@@ -218,9 +285,11 @@ body {
         height: 90px;
         padding: 54px 4px 54px 4px;
     }
-    .alert{
+
+    .alert {
         right: 76px;
     }
+
     .navbar-nav {
         background-color: #24292f00;
         border: none;

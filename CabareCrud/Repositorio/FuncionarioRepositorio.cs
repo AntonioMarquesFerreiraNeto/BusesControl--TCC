@@ -26,6 +26,18 @@ namespace BusesControl.Repositorio {
 
         public Funcionario Adicionar(Funcionario funcionario) {
             try {
+                if (funcionario.Cargos != CargoFuncionario.Motorista) {
+                    funcionario.Senha = funcionario.GerarSenha();
+                    bool emailEnviado = EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email);
+                    if (!emailEnviado) {
+                        throw new Exception("Não conseguimos enviar o e-mail com a senha.");
+                    }
+                    else {
+                        _bancocontext.Funcionario.Add(funcionario);
+                        _bancocontext.SaveChanges();
+                        return funcionario;
+                    }
+                }
                 _bancocontext.Funcionario.Add(funcionario);
                 _bancocontext.SaveChanges();
                 return funcionario;
@@ -39,20 +51,11 @@ namespace BusesControl.Repositorio {
             try {
                 Funcionario funcionarioDB = ListarPorId(funcionario.Id);
                 if (funcionarioDB == null) {
-                    throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
-                }
-                if (funcionario.Cargos != CargoFuncionario.Motorista && string.IsNullOrEmpty(funcionarioDB.Senha)) {
-                    funcionarioDB.Senha = funcionario.GerarSenha();
-                    bool emailEnviado = EnviarSenha(funcionario.Name, funcionarioDB.Senha, funcionario.Email);
-                    if (!emailEnviado) {
-                        throw new System.Exception("Não conseguimos enviar o e-mail com a senha, " +
-                                "valide se ele é existente.");
-                    }
+                    throw new Exception("Desculpe, houve alguma falha na aplicação.");
                 }
                 if (funcionario.Cargos == CargoFuncionario.Motorista) {
                     funcionarioDB.StatusUsuario = UsuarioStatus.Desativado;
                 }
-
                 funcionarioDB.Name = funcionario.Name;
                 funcionarioDB.DataNascimento = funcionario.DataNascimento;
                 funcionarioDB.Cpf = funcionario.Cpf;
@@ -67,6 +70,20 @@ namespace BusesControl.Repositorio {
                 funcionarioDB.Cidade = funcionario.Cidade;
                 funcionarioDB.Estado = funcionario.Estado;
                 funcionarioDB.Cargos = funcionario.Cargos;
+
+                if (funcionario.Cargos != CargoFuncionario.Motorista && string.IsNullOrEmpty(funcionarioDB.Senha)) {
+                    funcionario.Senha = funcionario.GerarSenha();
+                    bool emailEnviado = EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email);
+                    if (!emailEnviado) {
+                        throw new Exception("Não conseguimos enviar o e-mail com a senha.");
+                    }
+                    else {
+                        funcionarioDB.Senha = funcionario.Senha;
+                        _bancocontext.Update(funcionarioDB);
+                        _bancocontext.SaveChanges();
+                        return funcionario;
+                    }
+                }
                 _bancocontext.Update(funcionarioDB);
                 _bancocontext.SaveChanges();
                 return funcionario;
@@ -132,15 +149,31 @@ namespace BusesControl.Repositorio {
             return usuarioDB;
         }
         public Funcionario NovaSenha(Funcionario usuario) {
+            try {
+                Funcionario usuarioDB = ListarPorId(usuario.Id);
+                if (usuarioDB == null) {
+                    throw new System.Exception("Desculpe, houve uma falha na aplicação.");
+                }
+                usuarioDB.Senha = usuario.Senha;
+                _bancocontext.Update(usuarioDB);
+                _bancocontext.SaveChanges();
+                return usuarioDB;
+            }
+            catch (Exception erro) {
+                throw new System.Exception("Desculpe, houve alguma falha na aplicação");
+            }
+        }
+        public Funcionario RegistroApelido(Funcionario usuario) {
             Funcionario usuarioDB = ListarPorId(usuario.Id);
             if (usuarioDB == null) {
-                throw new System.Exception("Desculpe, houve um erro ao trocar a senha.");
+                throw new System.Exception("Desculpe, houve um erro na aplicação");
             }
-            usuarioDB.Senha = usuario.Senha;
+            usuarioDB.Apelido = usuario.Apelido;
             _bancocontext.Update(usuarioDB);
             _bancocontext.SaveChanges();
             return usuarioDB;
         }
+
         public Exception TratarErro(Funcionario funcionario, Exception erro) {
             if (erro.InnerException.Message.Contains(funcionario.Cpf)) {
                 throw new System.Exception("Funcionário já se encontra cadastrado!");
@@ -151,7 +184,7 @@ namespace BusesControl.Repositorio {
             if (erro.InnerException.Message.Contains(funcionario.Telefone)) {
                 throw new System.Exception("Funcionário já se encontra cadastrado!");
             }
-            throw new System.Exception($"Desculpe, houve alguma falha na aplicação!");
+            return null;
         }
 
         public bool EnviarSenha(string name, string senha, string email) {

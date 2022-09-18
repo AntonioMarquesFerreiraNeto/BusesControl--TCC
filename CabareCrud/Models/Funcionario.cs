@@ -66,7 +66,8 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string Ddd { get; set; }
-        
+
+        public string Apelido { get; set; }
         public string Senha { get; set; }
         public StatuFuncionario Status { get; set; }
         public CargoFuncionario Cargos { get; set; }
