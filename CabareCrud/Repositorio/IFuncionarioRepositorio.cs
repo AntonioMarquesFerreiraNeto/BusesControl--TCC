@@ -18,6 +18,7 @@ namespace BusesControl.Repositorio {
         public Funcionario AlterarSenha(MudarSenha mudarSenha);
         public Funcionario NovaSenha(Funcionario usuario);
         public Funcionario RegistroApelido(Funcionario usuario);
-        public Exception TratarErro(Funcionario funcionario, Exception erro);
+        public bool Duplicata(Funcionario funcionario);
+        public bool DuplicataEditar(Funcionario funcionario, Funcionario funcionarioDB);
     }
 }

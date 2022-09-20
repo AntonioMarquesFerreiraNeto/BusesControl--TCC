@@ -18,16 +18,6 @@ namespace BusesControl.Models.ValidacoesCliente.ModelValidarDate {
                 return false;
             }
             else {
-                string year = dataNascimento.Year.ToString();
-                return ValidarAno(year);
-            }
-        }
-
-        public bool ValidarAno(string ano) {
-            if (ano.Length < 4 || ano.Length > 4) {
-                return false;
-            }
-            else {
                 return true;
             }
         }

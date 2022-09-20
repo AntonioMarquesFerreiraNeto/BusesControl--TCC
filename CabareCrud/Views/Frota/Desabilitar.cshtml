@@ -7,86 +7,91 @@
         <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
     </div>
 }
-<form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Frota" asp-action="Desabilitar" method="post">
-    <input type="hidden" asp-for="Id">
-    <div class="row view">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="fil">
-                    <label for="" class="titleModal">
-                        <i class="fa fa-user"></i>
-                        Informações sobre o ônibus
-                        <hr style="margin-top: 5px;">
-                    </label>
-                    @if (Model.StatusOnibus == OnibusStatus.Habilitado) {
-                        <p><b>Status do ônibus: </b>Habilitado,</p>
-                    }
-                    else {
-                        <p><b>Status do ônibus: </b>Desabilitado,</p>
-                    }
-                    <p><b>Marca: </b>@Html.DisplayFor(model => model.Marca),</p>
-                    <p><b>Nome:</b> @Html.DisplayFor(model => model.NameBus),</p>
-                    <p><b>Ano de fabricação:</b> @Html.DisplayFor(model => model.DataFabricacao),</p>
-                    @if (Model.corBus == CorBus.Branco) {
-                        <p><b>Cor:</b> branca,</p>
-                    }
-                    else if (Model.corBus == CorBus.Amarelo) {
-                        <p><b>Cor:</b> branca,</p>
-                    }
-                    else if (Model.corBus == CorBus.Azul) {
-                        <p><b>Cor:</b> azul,</p>
-                    }
-                    else if (Model.corBus == CorBus.Verde) {
-                        <p><b>Cor:</b> verde,</p>
-                    }
-                    else if (Model.corBus == CorBus.Vermelho) {
-                        <p><b>Cor:</b> vermelho,</p>
-                    }
-                    else if (Model.corBus == CorBus.Cinza) {
-                        <p><b>Cor:</b> cinza,</p>
-                    }
-                    else if (Model.corBus == CorBus.Prata) {
-                        <p><b>Cor:</b> prata,</p>
-                    }
-                    else if (Model.corBus == CorBus.Preto) {
-                        <p><b>Cor:</b> preto,</p>
-                    }
-                    <p><b>Placa:</b> @Html.DisplayFor(model => model.Placa),</p>
-                    <p><b>Renavam:</b> @Html.DisplayFor(model => model.Renavam),</p>
-                    <p><b>Numero de chassi:</b> @Html.DisplayFor(model => model.Chassi),</p>
-                    <p><b>Quantidade de assentos:</b> @Html.DisplayFor(model => model.Assentos),</p>
+<section class="principais">
+    <h3 id="titlePrincipal">
+        <hr class="text-hide">
+    </h3>
+    <form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Frota" asp-action="Desabilitar" method="post">
+        <input type="hidden" asp-for="Id">
+        <div class="row view">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="fil">
+                        <label for="" class="titleModal">
+                            <i class="fa fa-user"></i>
+                            Informações sobre o ônibus
+                            <hr style="margin-top: 5px;">
+                        </label>
+                        @if (Model.StatusOnibus == OnibusStatus.Habilitado) {
+                            <p><b>Status do ônibus: </b>Habilitado,</p>
+                        }
+                        else {
+                            <p><b>Status do ônibus: </b>Desabilitado,</p>
+                        }
+                        <p><b>Marca: </b>@Html.DisplayFor(model => model.Marca),</p>
+                        <p><b>Nome:</b> @Html.DisplayFor(model => model.NameBus),</p>
+                        <p><b>Ano de fabricação:</b> @Html.DisplayFor(model => model.DataFabricacao),</p>
+                        @if (Model.corBus == CorBus.Branco) {
+                            <p><b>Cor:</b> branca,</p>
+                        }
+                        else if (Model.corBus == CorBus.Amarelo) {
+                            <p><b>Cor:</b> branca,</p>
+                        }
+                        else if (Model.corBus == CorBus.Azul) {
+                            <p><b>Cor:</b> azul,</p>
+                        }
+                        else if (Model.corBus == CorBus.Verde) {
+                            <p><b>Cor:</b> verde,</p>
+                        }
+                        else if (Model.corBus == CorBus.Vermelho) {
+                            <p><b>Cor:</b> vermelho,</p>
+                        }
+                        else if (Model.corBus == CorBus.Cinza) {
+                            <p><b>Cor:</b> cinza,</p>
+                        }
+                        else if (Model.corBus == CorBus.Prata) {
+                            <p><b>Cor:</b> prata,</p>
+                        }
+                        else if (Model.corBus == CorBus.Preto) {
+                            <p><b>Cor:</b> preto,</p>
+                        }
+                        <p><b>Placa:</b> @Html.DisplayFor(model => model.Placa),</p>
+                        <p><b>Renavam:</b> @Html.DisplayFor(model => model.Renavam),</p>
+                        <p><b>Numero de chassi:</b> @Html.DisplayFor(model => model.Chassi),</p>
+                        <p><b>Quantidade de assentos:</b> @Html.DisplayFor(model => model.Assentos),</p>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="janelaConfirm" class="modal">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Confirmação</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Deseja realmente desabilitar o ônibus?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn filtra_btn" asp-action="Desabilitar" asp-controller="Frota">Sim</button>
-                    <button type="button" class="btn btn-secondary filtrar_btn2"
-                            data-dismiss="modal">
-                        Não
-                    </button>
+        <div id="janelaConfirm" class="modal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content modal-largura">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmação</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Deseja realmente desabilitar o ônibus?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn filtra_btn" asp-action="Desabilitar" asp-controller="Frota">Sim</button>
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Não
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
-<section class="container-button">
-    <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
-    <a class="btn filtrar_btn desa" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Desabilitar</a>
+    </form>
+    <section class="container-button">
+        <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
+        <a class="btn filtrar_btn desa" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Desabilitar</a>
+    </section>
 </section>
 <script src="~/js/jquery.min.js"></script>

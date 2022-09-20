@@ -12,7 +12,7 @@ namespace BusesControl.Controllers {
     public class FuncionarioController : Controller {
 
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
-        public FuncionarioController(IFuncionarioRepositorio funcionarioRepositorio, IEmail email) {
+        public FuncionarioController(IFuncionarioRepositorio funcionarioRepositorio) {
             _funcionarioRepositorio = funcionarioRepositorio;
         }
         public IActionResult Index() {
@@ -88,6 +88,8 @@ namespace BusesControl.Controllers {
         [HttpPost]
         public IActionResult Desabilitar(Funcionario funcionario) {
             ViewData["Title"] = "Desabilitar";
+            //Usado para não deixar os campos do funcionário nulo na visualização em uma eventual exceção.
+            Funcionario funcionarioError = _funcionarioRepositorio.ListarPorId(funcionario.Id);
             try {
                 _funcionarioRepositorio.Desabilitar(funcionario);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -95,7 +97,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(funcionario);
+                return View(funcionarioError);
             }
         }
 
@@ -107,6 +109,7 @@ namespace BusesControl.Controllers {
         [HttpPost]
         public IActionResult Habilitar(Funcionario funcionario) {
             ViewData["Title"] = "Habilitar";
+            Funcionario funcionarioError = _funcionarioRepositorio.ListarPorId(funcionario.Id);
             try {
                 _funcionarioRepositorio.Habilitar(funcionario);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
@@ -114,7 +117,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(funcionario);
+                return View(funcionarioError);
             }
         }
 
@@ -126,6 +129,7 @@ namespace BusesControl.Controllers {
         [HttpPost]
         public IActionResult HabilitarUsuario(Funcionario funcionario) {
             ViewData["Title"] = "Controlar usuário";
+            Funcionario funcionarioError = _funcionarioRepositorio.ListarPorId(funcionario.Id);
             try {
                 _funcionarioRepositorio.HabilitarUsuario(funcionario);
                 TempData["MensagemDeSucesso"] = "Habilitado com sucesso!";
@@ -133,12 +137,13 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(funcionario);
+                return View("ControlarUsuario", funcionarioError);
             }
         }
         [HttpPost]
         public IActionResult DesabilitarUsuario(Funcionario funcionario) {
             ViewData["Title"] = "Controlar usuário";
+            Funcionario funcionarioError = _funcionarioRepositorio.ListarPorId(funcionario.Id);
             try {
                 _funcionarioRepositorio.DesabilitarUsuario(funcionario);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -146,7 +151,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(funcionario);
+                return View("ControlarUsuario", funcionarioError);
             }
         }
 

@@ -14,13 +14,15 @@ namespace BusesControl.Repositorio {
 
         public Onibus AdicionarBus(Onibus onibus) {
             try {
+                if (Duplicata(onibus)) {
+                    throw new Exception("Ônibus já se encontra cadastrado!");
+                }
                 _bancoContext.Onibus.Add(onibus);
                 _bancoContext.SaveChanges();
                 return onibus;
             }
             catch (Exception erro) {
-                TratarErro(onibus, erro);
-                return null;
+                throw new Exception(erro.Message);
             }
         }
 
@@ -40,6 +42,9 @@ namespace BusesControl.Repositorio {
         public Onibus EditarOnibus(Onibus onibus) {
             try {
                 Onibus onibusDB = ListarPorId(onibus.Id);
+                if (DuplicataEditar(onibus, onibusDB)) {
+                    throw new Exception("Ônibus já se encontra cadastrado!");
+                }
                 if (onibusDB == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
                 onibusDB.NameBus = onibus.NameBus;
                 onibusDB.Marca = onibus.Marca;
@@ -54,8 +59,7 @@ namespace BusesControl.Repositorio {
                 return onibus;
             }
             catch (Exception erro) {
-                TratarErro(onibus, erro);
-                return null;
+                throw new Exception(erro.Message);
             }
         }
         public Onibus Desabilitar(Onibus onibus) {
@@ -74,17 +78,20 @@ namespace BusesControl.Repositorio {
             _bancoContext.SaveChanges();
             return onibus;
         }
-        public Exception TratarErro(Onibus onibus, Exception erro) {
-            if (erro.InnerException.Message.Contains(onibus.Placa)) {
-                throw new System.Exception("Ônibus já se encontra cadastrado.");
+       
+        public bool Duplicata(Onibus onibus) {
+            if (_bancoContext.Onibus.Any(x => x.Placa == onibus.Placa || x.Renavam == onibus.Renavam || x.Chassi == onibus.Chassi)) {
+                return true;
             }
-            if (erro.InnerException.Message.Contains(onibus.Renavam)) {
-                throw new System.Exception("Ônibus já se encontra cadastrado.");
+            return false;
+        }
+        public bool DuplicataEditar(Onibus onibus, Onibus onibusBD) {
+            if (_bancoContext.Onibus.Any(x => (x.Placa == onibus.Placa && onibus.Placa != onibusBD.Placa)
+               || (x.Renavam == onibus.Renavam && onibus.Renavam != onibusBD.Renavam)
+               || (x.Chassi == onibus.Chassi && onibus.Chassi != onibusBD.Chassi))) {
+                return true;
             }
-            if (erro.InnerException.Message.Contains(onibus.Chassi)) {
-                throw new System.Exception("Ônibus já se encontra cadastrado.");
-            }
-            throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+            return false;
         }
     }
 }

@@ -11,7 +11,6 @@ namespace BusesControl.ViewComponents {
             string sectionUser = HttpContext.Session.GetString("sectionUserAutenticado");
 
             if (string.IsNullOrEmpty(sectionUser)) {
-                TempData["MensagemDeErro"] = "Não é possível autenticar via URL!";
                 return null;
             }
             Funcionario funcionario = JsonConvert.DeserializeObject<Funcionario>(sectionUser);

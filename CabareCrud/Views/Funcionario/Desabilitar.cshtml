@@ -7,85 +7,90 @@
         <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
     </div>
 }
-<form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Funcionario" asp-action="Desabilitar" method="post">
-    <input type="hidden" asp-for="Id">
-    <div class="row view">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="fil">
-                    <label for="" class="titleModal">
-                        <i class="fa fa-user"></i>
-                        Dados pessoais do funcionário
-                        <hr style="margin-top: 5px;">
-                    </label>
-                    @if (Model.Status == StatuFuncionario.Habilitado) {
-                        <p><b>Status do funcionário: </b>Habilitado,</p>
-                    }
-                    else {
-                        <p><b>Status do funcionário: </b>Desabilitado,</p>
-                    }
-                    @if (Model.Cargos == CargoFuncionario.Administrador) {
+<section class="principais">
+    <h3 id="titlePrincipal">
+        <hr class="text-hide">
+    </h3>
+    <form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Funcionario" asp-action="Desabilitar" method="post">
+        <input type="hidden" asp-for="Id">
+        <div class="row view">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="fil">
+                        <label for="" class="titleModal">
+                            <i class="fa fa-user"></i>
+                            Dados pessoais do funcionário
+                            <hr style="margin-top: 5px;">
+                        </label>
+                        @if (Model.Status == StatuFuncionario.Habilitado) {
+                            <p><b>Status do funcionário: </b>Habilitado,</p>
+                        }
+                        else {
+                            <p><b>Status do funcionário: </b>Desabilitado,</p>
+                        }
+                        @if (Model.Cargos == CargoFuncionario.Administrador) {
 
-                        <p><b>Cargo do funcionário: </b>Administrador.</p>
-                    }
-                    else if (Model.Cargos == CargoFuncionario.Assistente) {
+                            <p><b>Cargo do funcionário: </b>Administrador.</p>
+                        }
+                        else if (Model.Cargos == CargoFuncionario.Assistente) {
 
-                        <p><b>Cargo do funcionário: </b>Assistente.</p>
-                    }
-                    else {
-                        <p><b>Cargo do funcionário: </b>Motorista.</p>
-                    }
-                    <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
-                    <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
-                    <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
-                    <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
-                    <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
-                </div>
-                <div class="fil">
-                    <label for="" class="titleModal">
-                        <i class="fa fa-home"></i>
-                        Endereço
-                        <hr style="margin-top: 5px;">
-                    </label>
-                    <p><b>CEP:</b> @Html.DisplayFor(model => model.Cep),</p>
-                    <p> <b>Complemento residencial:</b> @Html.DisplayFor(model => model.ComplementoResidencial),</p>
-                    <p> <b>Número residencial:</b> @Html.DisplayFor(model => model.NumeroResidencial),</p>
-                    <p><b>Logradouro:</b> @Html.DisplayFor(model => model.Logradouro),</p>
-                    <p><b>DDD: </b> @Html.DisplayFor(model => model.Ddd),</p>
-                    <p><b>Bairro:</b> @Html.DisplayFor(model => model.Bairro),</p>
-                    <p><b>Cidade:</b> @Html.DisplayFor(model => model.Cidade),</p>
-                    <p><b>Estado:</b> @Html.DisplayFor(model => model.Estado),</p>
+                            <p><b>Cargo do funcionário: </b>Assistente.</p>
+                        }
+                        else {
+                            <p><b>Cargo do funcionário: </b>Motorista.</p>
+                        }
+                        <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
+                        <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
+                        <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
+                        <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
+                        <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
+                    </div>
+                    <div class="fil">
+                        <label for="" class="titleModal">
+                            <i class="fa fa-home"></i>
+                            Endereço
+                            <hr style="margin-top: 5px;">
+                        </label>
+                        <p><b>CEP:</b> @Html.DisplayFor(model => model.Cep),</p>
+                        <p> <b>Complemento residencial:</b> @Html.DisplayFor(model => model.ComplementoResidencial),</p>
+                        <p> <b>Número residencial:</b> @Html.DisplayFor(model => model.NumeroResidencial),</p>
+                        <p><b>Logradouro:</b> @Html.DisplayFor(model => model.Logradouro),</p>
+                        <p><b>DDD: </b> @Html.DisplayFor(model => model.Ddd),</p>
+                        <p><b>Bairro:</b> @Html.DisplayFor(model => model.Bairro),</p>
+                        <p><b>Cidade:</b> @Html.DisplayFor(model => model.Cidade),</p>
+                        <p><b>Estado:</b> @Html.DisplayFor(model => model.Estado),</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="janelaConfirm" class="modal">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Confirmação</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Deseja realmente desabilitar o funcionário?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn filtra_btn" asp-action="Desabilitar" asp-controller="Funcionario">Sim</button>
-                    <button type="button" class="btn btn-secondary filtrar_btn2"
-                            data-dismiss="modal">
-                        Não
-                    </button>
+        <div id="janelaConfirm" class="modal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content modal-largura">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmação</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Deseja realmente desabilitar o funcionário?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn filtra_btn" asp-action="Desabilitar" asp-controller="Funcionario">Sim</button>
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Não
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
-<section class="container-button">
-    <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
-    <a class="btn filtrar_btn desa" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Desabilitar</a>
+    </form>
+    <section class="container-button">
+        <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
+        <a class="btn filtrar_btn desa" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Desabilitar</a>
+    </section>
 </section>
 <script src="~/js/jquery.min.js"></script>

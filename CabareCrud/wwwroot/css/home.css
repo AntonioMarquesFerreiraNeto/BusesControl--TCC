@@ -50,20 +50,19 @@ body {
     font-weight: normal;
     color: darkslategray;
 }
+
 .font2 {
     font-size: 14pt;
     font-weight: normal;
     color: darkslategray;
 }
+
 .font-min {
     padding: 0px;
     font-size: 10.5pt;
     color: darkslategray
 }
-.perfil-body{
-    margin-left: -25px;
-    min-width: 360px;
-}
+
 .card-text {
     text-align: justify;
     font-size: 10pt;
@@ -80,6 +79,10 @@ body {
 #janelaModalConfirm {
     margin-top: 5px;
     background-color: #0000003b;
+}
+.modal-title {
+    color: #010434;
+    font-size: 15pt;
 }
 #titlePrincipal {
     width: 100%;
@@ -111,6 +114,7 @@ body {
     flex-direction: row;
     justify-content: flex-end;
 }
+
 .btn-senha {
     color: seagreen;
     background-color: aliceblue;
@@ -126,11 +130,13 @@ body {
         color: white;
         background-color: #089b26;
     }
+
 #radius-none {
     border-radius: 2px;
 }
+
 .btn-apelido {
-    background-color: #0089fe19;  
+    background-color: #0089fe19;
     margin-bottom: 55px;
     margin-left: -5px;
     font-size: 10pt;
@@ -271,12 +277,32 @@ input:focus {
         .navbar-nav:hover {
             color: black;
         }
+
+    .modal-largura {
+        min-width: 220px;
+    }
+
+    .perfil-body {
+        min-width: 360px;
+    }
 }
 
 @media(min-width: 550px) {
     .alert {
         right: 46px;
         min-width: 350px;
+    }
+}
+
+@media(min-width: 577px) {
+    .modal-largura {
+        margin-left: -45px;
+        min-width: 390px;
+    }
+
+    .perfil-body {
+        margin-left: -25px;
+        min-width: 360px;
     }
 }
 

@@ -26,6 +26,9 @@ namespace BusesControl.Repositorio {
 
         public Funcionario Adicionar(Funcionario funcionario) {
             try {
+                if (Duplicata(funcionario)) {
+                    throw new Exception("Funcionário já se encontra cadastrado!");
+                }
                 if (funcionario.Cargos != CargoFuncionario.Motorista) {
                     funcionario.Senha = funcionario.GerarSenha();
                     bool emailEnviado = EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email);
@@ -43,13 +46,15 @@ namespace BusesControl.Repositorio {
                 return funcionario;
             }
             catch (Exception erro) {
-                TratarErro(funcionario, erro);
-                return null;
+                throw new Exception(erro.Message);
             }
         }
         public Funcionario EditarFuncionario(Funcionario funcionario) {
             try {
                 Funcionario funcionarioDB = ListarPorId(funcionario.Id);
+                if (DuplicataEditar(funcionario, funcionarioDB)) {
+                    throw new Exception("Funcionário já se encontra cadastrado!");
+                }
                 if (funcionarioDB == null) {
                     throw new Exception("Desculpe, houve alguma falha na aplicação.");
                 }
@@ -89,8 +94,7 @@ namespace BusesControl.Repositorio {
                 return funcionario;
             }
             catch (Exception erro) {
-                TratarErro(funcionario, erro);
-                return null;
+                throw new Exception(erro.Message);
             }
         }
 
@@ -152,7 +156,7 @@ namespace BusesControl.Repositorio {
             try {
                 Funcionario usuarioDB = ListarPorId(usuario.Id);
                 if (usuarioDB == null) {
-                    throw new System.Exception("Desculpe, houve uma falha na aplicação.");
+                    throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
                 }
                 usuarioDB.Senha = usuario.Senha;
                 _bancocontext.Update(usuarioDB);
@@ -160,31 +164,18 @@ namespace BusesControl.Repositorio {
                 return usuarioDB;
             }
             catch (Exception erro) {
-                throw new System.Exception("Desculpe, houve alguma falha na aplicação");
+                throw new Exception(erro.Message);
             }
         }
         public Funcionario RegistroApelido(Funcionario usuario) {
             Funcionario usuarioDB = ListarPorId(usuario.Id);
             if (usuarioDB == null) {
-                throw new System.Exception("Desculpe, houve um erro na aplicação");
+                throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
             }
             usuarioDB.Apelido = usuario.Apelido;
             _bancocontext.Update(usuarioDB);
             _bancocontext.SaveChanges();
             return usuarioDB;
-        }
-
-        public Exception TratarErro(Funcionario funcionario, Exception erro) {
-            if (erro.InnerException.Message.Contains(funcionario.Cpf)) {
-                throw new System.Exception("Funcionário já se encontra cadastrado!");
-            }
-            if (erro.InnerException.Message.Contains(funcionario.Email)) {
-                throw new System.Exception("Funcionário já se encontra cadastrado!");
-            }
-            if (erro.InnerException.Message.Contains(funcionario.Telefone)) {
-                throw new System.Exception("Funcionário já se encontra cadastrado!");
-            }
-            return null;
         }
 
         public bool EnviarSenha(string name, string senha, string email) {
@@ -195,6 +186,21 @@ namespace BusesControl.Repositorio {
             else {
                 return false;
             }
+        }
+
+        public bool Duplicata(Funcionario funcionario) {
+            if (_bancocontext.Funcionario.Any(x => x.Cpf == funcionario.Cpf || x.Telefone == funcionario.Telefone || x.Email == funcionario.Email)) {
+                return true;
+            }
+            return false;
+        }
+        public bool DuplicataEditar(Funcionario funcionario, Funcionario funcionarioDB) {
+            if (_bancocontext.Funcionario.Any(x => (x.Cpf == funcionario.Cpf && funcionario.Cpf != funcionarioDB.Cpf)
+                || (x.Email == funcionario.Email && funcionario.Email != funcionarioDB.Email)
+                || (x.Telefone == funcionario.Telefone && funcionario.Telefone != funcionarioDB.Telefone))) {
+                return true;
+            }
+            return false;
         }
     }
 }
