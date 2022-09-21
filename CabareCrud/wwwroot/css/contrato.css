@@ -94,7 +94,7 @@ input#form-control {
     .legend-data{
         position: absolute;
         font-size: 13pt;
-        top: 1px;
+        top: -2px;
         left: 155px;
     }
     .form-item i {
@@ -476,5 +476,11 @@ td {
     .page-link {
         width: 22vh;
         font-size: 11pt;
+    }
+}
+
+@media(min-width: 1100px){
+    .legend-data {
+        left: 164px;
     }
 }

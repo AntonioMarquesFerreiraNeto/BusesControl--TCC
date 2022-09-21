@@ -23,7 +23,10 @@ namespace BusesControl.Repositorio {
             var buscar = _bancocontext.Funcionario.ToList();
             return buscar.Where(x => x.Status == StatuFuncionario.Desabilitado).ToList();
         }
-
+        public List<Funcionario> ListarTodosMotoristasHab() {
+            var buscar = _bancocontext.Funcionario.ToList();
+            return buscar.Where(x => x.Status == StatuFuncionario.Habilitado && x.Cargos == CargoFuncionario.Motorista).ToList();
+        }
         public Funcionario Adicionar(Funcionario funcionario) {
             try {
                 if (Duplicata(funcionario)) {
