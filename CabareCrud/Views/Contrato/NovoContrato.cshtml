@@ -28,7 +28,7 @@
                         <optgroup label="Selecione o cliente">
                             @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any()) 
                                 || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
-                                     <option>Selecionar cliente</option>
+                                     <option value="">Selecionar cliente</option>
                                 @foreach (var clientesFisicos in Model.ClienteFisicoList) {
                                     <option value="@clientesFisicos.Id">@clientesFisicos.Name – CPF: @clientesFisicos.Cpf</option>
                                 }
@@ -37,7 +37,7 @@
                                 }
                             }
                             else {
-                                <option>Não existe registros no sistema.</option>
+                                 <option value="">Não existe cadastros.</option>
                             }
                         </optgroup>
                     </select>
@@ -56,15 +56,15 @@
                     <select id="onibus" class="form-control campUser" asp-for="Contrato.IdOnibus">
                         <optgroup label="Selecione o ônibus">
                             @if (Model.OnibusList != null || Model.OnibusList.Any()) {
-                                 <option>Selecionar ônibus</option>
+                                 <option value="">Selecionar ônibus</option>
                                 @foreach (var onibus in Model.OnibusList) {
-                                    <option value="">
+                                    <option value="@onibus.Id">
                                         @onibus.NameBus – <b>Placa: </b>@onibus.Placa
                                     </option>
                                 }
                             }
                             else {
-                                <option>Não existe registros no sistema.</option>
+                                 <option value="">Não existe cadastros.</option>
                             }
                         </optgroup>
                     </select>
@@ -83,13 +83,13 @@
                     <select id="motorista" class="form-control campUser" asp-for="Contrato.IdMotorista">
                         <optgroup label="Selecione o motorista">
                             @if(Model.MotoristaList != null && Model.MotoristaList.Any()){
-                                <option>Selecionar motorista</option>
+                                <option value="">Selecionar motorista</option>
                                 @foreach (var motorista in Model.MotoristaList) {
                                     <option value="@motorista.Id">@motorista.Name – CPF: @motorista.Cpf</option>
                                 }
                             }
                             else {
-                                <option>Não existe registros no sistema.</option>
+                                <option value="">Não existe cadastros.</option>
                             }
                         </optgroup>
                     </select>

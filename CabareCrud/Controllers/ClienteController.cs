@@ -1,6 +1,7 @@
 ﻿using BusesControl.Filter;
 using BusesControl.Models;
 using BusesControl.Models.Enums;
+using BusesControl.Models.ViewModels;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -39,8 +40,13 @@ namespace BusesControl.Controllers {
 
         public IActionResult NovoCliente() {
             ViewData["Title"] = "Incluir";
+            ModelsCliente modelsCliente = new ModelsCliente {
+                ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico(),
+                ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados()
+            };
+
             TempData["MensagemDeInfo"] = "O e-mail não é obrigatório para clientes.";
-            return View();
+            return View(modelsCliente);
         }
         public IActionResult NovoClienteJuridico() {
             ViewData["Title"] = "Incluir";
@@ -48,28 +54,36 @@ namespace BusesControl.Controllers {
             return View();
         }
         [HttpPost]
-        public IActionResult NovoCliente(PessoaFisica cliente) {
+        public IActionResult NovoCliente(ModelsCliente modelsCliente) {
             ViewData["Title"] = "Incluir";
             try {
+                modelsCliente.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
+                modelsCliente.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
+                PessoaFisica cliente = modelsCliente.ClienteFisico;
+
                 if (ValidarCampo(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
-                    return View(cliente);
+                    return View(modelsCliente);
                 }
-                if (ValidationMenorIdade(cliente.DataNascimento.ToString())) {
+                if (ValidationVinculoMenorIdade(cliente.DataNascimento.ToString(), cliente.IdVinculacaoContratual.ToString())) {
                     TempData["MensagemDeErro"] = "Cliente menor de idade sem vínculo ao mesmo!";
-                    return View(cliente);
+                    return View(modelsCliente);
                 }
                 if (ModelState.IsValid) {
+                    if (ValidationVinculoMaiorIdade(cliente.DataNascimento.ToString(), cliente.IdVinculacaoContratual.ToString())) {
+                        TempData["MensagemDeErro"] = "Não é possível vincular cliente maior de idade!";
+                        return View(modelsCliente);
+                    }
                     cliente.Status = StatuCliente.Habilitado;
                     _clienteRepositorio.Adicionar(cliente);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
                 }
-                return View(cliente);
+                return View(modelsCliente);
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(cliente);
+                return View(modelsCliente);
             }
         }
         [HttpPost]
@@ -95,8 +109,12 @@ namespace BusesControl.Controllers {
         }
         public IActionResult EditarCliente(long id) {
             ViewData["Title"] = "Editar";
-            PessoaFisica cliente = _clienteRepositorio.ListarPorId(id);
-            return View(cliente);
+            ModelsCliente modelsCliente = new ModelsCliente {
+                ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico(),
+                ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados(),
+                ClienteFisico = _clienteRepositorio.ListarPorId(id)
+            };
+            return View(modelsCliente);
         }
         public IActionResult EditarClienteJuridico(long id) {
             ViewData["Title"] = "Editar";
@@ -104,28 +122,35 @@ namespace BusesControl.Controllers {
             return View(cliente);
         }
         [HttpPost]
-        public IActionResult EditarCliente(PessoaFisica cliente) {
+        public IActionResult EditarCliente(ModelsCliente modelsCliente) {
             ViewData["Title"] = "Editar";
+            modelsCliente.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
+            modelsCliente.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
+            PessoaFisica cliente = modelsCliente.ClienteFisico;
             try {
                 if (ValidarCampo(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
-                    return View(cliente);
+                    return View(modelsCliente);
                 }
-                if (ValidationMenorIdade(cliente.DataNascimento.ToString())) {
+                if (ValidationVinculoMenorIdade(cliente.DataNascimento.ToString(), cliente.IdVinculacaoContratual.ToString())) {
                     TempData["MensagemDeErro"] = "Cliente menor de idade sem vínculo ao mesmo!";
-                    return View(cliente);
+                    return View(modelsCliente);
                 }
                 if (ModelState.IsValid) {
+                    if (ValidationVinculoMaiorIdade(cliente.DataNascimento.ToString(), cliente.IdVinculacaoContratual.ToString())) {
+                        TempData["MensagemDeErro"] = "Não é possível vincular cliente maior de idade!";
+                        return View(modelsCliente);
+                    }
                     _clienteRepositorio.Editar(cliente);
                     TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
                 }
-                return View(cliente);
+                return View(modelsCliente);
 
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(cliente);
+                return View(modelsCliente);
             }
         }
         [HttpPost]
@@ -242,20 +267,31 @@ namespace BusesControl.Controllers {
                 return false;
             }
         }
-        public bool ValidationMenorIdade(string date) {
+        public bool ValidationVinculoMenorIdade(string date, string vinculo) {
             DateTime dataNascimento = DateTime.Parse(date);
             DateTime dataAtual = DateTime.Now;
 
             long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
-
             long idade = dias / 365;
 
-            if (idade > 0 && idade < 18) {
+            if ((idade > 0 && idade < 18) && (string.IsNullOrEmpty(vinculo))) {
                 return true;
             }
             else {
                 return false;
             }
+        }
+        public bool ValidationVinculoMaiorIdade(string date, string vinculo) {
+            DateTime dataAtual = DateTime.Now;
+            DateTime dataNascimento = DateTime.Parse(date);
+
+            long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
+            long idade = dias / 365;
+
+            if (idade >= 18 && string.IsNullOrEmpty(vinculo) != true) {
+                return true;
+            }
+            return false;
         }
     }
 }

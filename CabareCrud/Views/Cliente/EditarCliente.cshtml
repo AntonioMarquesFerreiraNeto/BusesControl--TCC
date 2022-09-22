@@ -1,4 +1,4 @@
-﻿@model PessoaFisica;
+﻿@model BusesControl.Models.ViewModels.ModelsCliente;
 <link rel="stylesheet" href="~/css/style.css">
 <link rel="stylesheet" href="~/css/cliente.css">
 <link rel="stylesheet" href="~/css/home.css">
@@ -16,7 +16,7 @@
     </h3>
     <div class="cliente">
         <form id="formAdd" asp-controller="Cliente" asp-action="EditarCliente" method="post">
-            <input asp-for="Id" type="hidden">
+            <input asp-for="ClienteFisico.Id" type="hidden">
             <div class="row">
                 <div class="col-md-6 input-group form-group form-it">
                     <div class="input-group-prepend">
@@ -25,10 +25,10 @@
                         </span>
                     </div>
                     <input type="text" class="form-control" id="inputNome"
-                           placeholder="Informe o nome completo do cliente." maxlength="60" asp-for="Name">
+                           placeholder="Informe o nome completo do cliente." maxlength="60" asp-for="ClienteFisico.Name">
                     <div class="i">
                         <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.Name)
+                            @Html.ValidationMessageFor(x => x.ClienteFisico.Name)
                         </small>
                     </div>
                 </div>
@@ -39,9 +39,9 @@
                         </span>
                     </div>
                     <input type="date" class="form-control" id="inputDate"
-                           asp-for="DataNascimento">
+                           asp-for="ClienteFisico.DataNascimento">
                     <div class="i">
-                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.DataNascimento)</small>
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.DataNascimento)</small>
                     </div>
                 </div>
                 <div class="col-md-6 input-group form-group form-it">
@@ -52,9 +52,9 @@
                     </div>
                     <input type="text" class="form-control" id="inputCpf"
                            placeholder="Informe o CPF do cliente." maxlength="11"
-                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Cpf">
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="ClienteFisico.Cpf">
                     <div class="i">
-                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Cpf)</small>
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Cpf)</small>
                     </div>
                 </div>
                 <div class="col-md-6 input-group form-group form-it">
@@ -65,9 +65,9 @@
                     </div>
                     <input type="text" class="form-control" id="inputRg"
                            placeholder="Informe o RG do cliente." maxlength="9"
-                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Rg">
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="ClienteFisico.Rg">
                     <div class="i">
-                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Rg)</small>
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Rg)</small>
                     </div>
                 </div>
                 <div class="col-md-6 input-group form-group form-it">
@@ -77,9 +77,9 @@
                         </span>
                     </div>
                     <input type="text" class="form-control" id="inputEmail"
-                           placeholder="Informe o email do cliente." maxlength="60" asp-for="Email">
+                           placeholder="Informe o email do cliente." maxlength="60" asp-for="ClienteFisico.Email">
                     <div class="i">
-                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Email)</small>
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Email)</small>
                     </div>
                 </div>
                 <div class="col-md-6 input-group form-group form-it">
@@ -90,9 +90,9 @@
                            placeholder="Informe o telefone do cliente."
                            maxlength="9"
                            onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
-                           asp-for="Telefone">
+                           asp-for="ClienteFisico.Telefone">
                     <div class="i">
-                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Telefone)</small>
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Telefone)</small>
                     </div>
                 </div>
                 <div class="col-md-6 input-group form-group form-it">
@@ -103,20 +103,34 @@
                     </div>
                     <input type="text" class="form-control" id="inputMae"
                            placeholder="Informe o nome completo da mãe do cliente."
-                           maxlength="60" asp-for="NameMae">
+                           maxlength="60" asp-for="ClienteFisico.NameMae">
                     <div class="i">
-                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.NameMae)</small>
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.NameMae)</small>
                     </div>
                 </div>
                 <div class="col-md-6 input-group form-group form-it">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
-                            <i class="fa fa-user"></i>
+                            <i class="fas fa-address-card"></i>
                         </span>
                     </div>
-                    <select id="cliente" class="form-control campUser">
+                    <select id="cliente" class="form-control campUser" asp-for="ClienteFisico.IdVinculacaoContratual">
                         <optgroup label="Vinculação contratual.">
-                            <option>Não existe cadastros.</option>
+                            @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
+                            || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
+                                <option value="">Vincular menor de idade</option>
+                                @foreach (var cliente in Model.ClienteFisicoList) {
+                                    @if (cliente.Id != Model.ClienteFisico.Id) {
+                                        <option value="@cliente.Id">@cliente.Name – CPF: @cliente.Cpf</option>
+                                    }
+                                }
+                                @foreach (var clienteJuridico in Model.ClienteJuridicoList) {
+                                    <option value="@clienteJuridico.Id">@clienteJuridico.RazaoSocial – CNPJ: @clienteJuridico.Cnpj</option>
+                                }
+                            }
+                            else {
+                                <option value="">Não existe cadastros.</option>
+                            }
                         </optgroup>
                     </select>
                 </div>
@@ -135,9 +149,9 @@
                             </div>
                             <input type="text" class="form-control" id="inputCep"
                                    maxlength="8" placeholder="Informe o CEP."
-                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Cep">
+                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="ClienteFisico.Cep">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Cep)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Cep)</small>
                             </div>
                         </div>
                         <div class="col-md-6 input-group form-group form-it">
@@ -148,9 +162,9 @@
                             </div>
                             <input type="text" class="form-control" id="inputComple"
                                    maxlength="50"
-                                   placeholder="Complemento residencial." asp-for="ComplementoResidencial">
+                                   placeholder="Complemento residencial." asp-for="ClienteFisico.ComplementoResidencial">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ComplementoResidencial)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.ComplementoResidencial)</small>
                             </div>
                         </div>
                         <div class="col-md-4 input-group form-group form-it">
@@ -162,9 +176,9 @@
                             <input type="text" class="form-control" id="inputRes"
                                    maxlength="10"
                                    placeholder="Número residencial."
-                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="NumeroResidencial">
+                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="ClienteFisico.NumeroResidencial">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.NumeroResidencial)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.NumeroResidencial)</small>
                             </div>
                         </div>
                         <div class="col-md-4 input-group form-group form-it">
@@ -175,9 +189,9 @@
                             </div>
                             <input type="text" class="form-control" id="inputLog"
                                    maxlength="50"
-                                   placeholder="Informe o logradouro." asp-for="Logradouro">
+                                   placeholder="Informe o logradouro." asp-for="ClienteFisico.Logradouro">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Logradouro)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Logradouro)</small>
                             </div>
                         </div>
                         <div class="col-md-4 input-group form-group form-it">
@@ -189,9 +203,9 @@
                             <input type="text" class="form-control" id="inputDdd"
                                    maxlength="2" placeholder="Informe o DDD."
                                    onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
-                                   asp-for="Ddd">
+                                   asp-for="ClienteFisico.Ddd">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Ddd)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Ddd)</small>
                             </div>
                         </div>
                         <div class="col-md-4 input-group form-group form-it">
@@ -202,9 +216,9 @@
                             </div>
                             <input type="text" class="form-control" id="inputBar"
                                    maxlength="50"
-                                   placeholder="Informe o bairro." asp-for="Bairro">
+                                   placeholder="Informe o bairro." asp-for="ClienteFisico.Bairro">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ComplementoResidencial)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Bairro)</small>
                             </div>
                         </div>
                         <div class="col-md-4 input-group form-group form-it">
@@ -215,9 +229,9 @@
                             </div>
                             <input type="text" class="form-control" id="inputCid"
                                    maxlength="20"
-                                   placeholder="Informe a cidade." asp-for="Cidade">
+                                   placeholder="Informe a cidade." asp-for="ClienteFisico.Cidade">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Cidade)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Cidade)</small>
                             </div>
                         </div>
                         <div class="col-md-4 input-group form-group form-it">
@@ -228,9 +242,9 @@
                             </div>
                             <input type="text" class="form-control" id="inputEstado"
                                    maxlength="20"
-                                   placeholder="Informe o estado." asp-for="Estado">
+                                   placeholder="Informe o estado." asp-for="ClienteFisico.Estado">
                             <div class="i">
-                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Estado)</small>
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ClienteFisico.Estado)</small>
                             </div>
                         </div>
                         <div class="modal-footer">

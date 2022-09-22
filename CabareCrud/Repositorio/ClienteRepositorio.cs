@@ -80,6 +80,9 @@ namespace BusesControl.Repositorio {
                 clienteBD.Bairro = cliente.Bairro;
                 clienteBD.Cidade = cliente.Cidade;
                 clienteBD.Estado = cliente.Estado;
+                if (!string.IsNullOrEmpty(cliente.IdVinculacaoContratual.ToString())) {
+                    clienteBD.IdVinculacaoContratual = cliente.IdVinculacaoContratual;
+                }
                 _bancocontext.Update(clienteBD);
                 _bancocontext.SaveChanges();
 

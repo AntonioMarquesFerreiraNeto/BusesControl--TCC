@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BusesControl.Migrations
 {
-    public partial class ContratoTeste : Migration
+    public partial class contratos : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

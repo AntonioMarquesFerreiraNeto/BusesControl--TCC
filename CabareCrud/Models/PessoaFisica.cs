@@ -17,7 +17,6 @@ namespace BusesControl.Models {
         [CpfValidation(ErrorMessage = "Campo inválido!")]
         public string Cpf { get; set; }
 
-
         [Required(ErrorMessage = "Campo obrigatório!")]
         [DataType(DataType.Date, ErrorMessage = "Campo inválido!")]
         [ValidarDataCliente(ErrorMessage = "Data de nascimento inválida!")]
@@ -31,6 +30,8 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(5, ErrorMessage = "Campo inválido")]
         public string NameMae { get; set; }
+
+        public int? IdVinculacaoContratual { get; set; }
 
         public StatuCliente Status { get; set; }
 

@@ -78,8 +78,10 @@
     <Compile Include="Migrations\20220915203702_corrigir senha.Designer.cs" />
     <Compile Include="Migrations\20220917160117_Apelido cliente.cs" />
     <Compile Include="Migrations\20220917160117_Apelido cliente.Designer.cs" />
-    <Compile Include="Migrations\20220921212052_Contrato-Teste.cs" />
-    <Compile Include="Migrations\20220921212052_Contrato-Teste.Designer.cs" />
+    <Compile Include="Migrations\20220922043525_contratos.cs" />
+    <Compile Include="Migrations\20220922043525_contratos.Designer.cs" />
+    <Compile Include="Migrations\20220922193337_Cliente alter.cs" />
+    <Compile Include="Migrations\20220922193337_Cliente alter.Designer.cs" />
     <Compile Include="Migrations\BancoContextModelSnapshot.cs" />
   </ItemGroup>
 

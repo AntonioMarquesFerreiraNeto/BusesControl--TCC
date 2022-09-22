@@ -5,6 +5,9 @@ namespace BusesControl.Models.ViewModels {
         public List<PessoaFisica> ClienteFisicoList { get; set; }
         public List<PessoaJuridica> ClienteJuridicoList { get; set; }
         public PessoaFisica ClienteFisico { get; set; }
-        public PessoaJuridica ClienteJuridico { get; set; }
+
+        public ModelsCliente() {
+
+        }
     }
 }

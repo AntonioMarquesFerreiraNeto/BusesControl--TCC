@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20220921212052_Contrato-Teste")]
-    partial class ContratoTeste
+    [Migration("20220922043525_contratos")]
+    partial class contratos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
