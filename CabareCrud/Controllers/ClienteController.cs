@@ -55,6 +55,10 @@ namespace BusesControl.Controllers {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
                     return View(cliente);
                 }
+                if (ValidationMenorIdade(cliente.DataNascimento.ToString())) {
+                    TempData["MensagemDeErro"] = "Cliente menor de idade sem vínculo ao mesmo!";
+                    return View(cliente);
+                }
                 if (ModelState.IsValid) {
                     cliente.Status = StatuCliente.Habilitado;
                     _clienteRepositorio.Adicionar(cliente);
@@ -105,6 +109,10 @@ namespace BusesControl.Controllers {
             try {
                 if (ValidarCampo(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
+                    return View(cliente);
+                }
+                if (ValidationMenorIdade(cliente.DataNascimento.ToString())) {
+                    TempData["MensagemDeErro"] = "Cliente menor de idade sem vínculo ao mesmo!";
                     return View(cliente);
                 }
                 if (ModelState.IsValid) {
@@ -228,6 +236,21 @@ namespace BusesControl.Controllers {
             if (cliente.NomeFantasia == null || cliente.Cnpj == null || cliente.InscricaoEstadual == null || cliente.InscricaoMunicipal == null || cliente.RazaoSocial == null || cliente.Cep == null ||
                    cliente.NumeroResidencial == null || cliente.ComplementoResidencial == null ||
                    cliente.Logradouro == null || cliente.Bairro == null || cliente.Cidade == null || cliente.Estado == null || cliente.Ddd == null || cliente.Telefone == null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        public bool ValidationMenorIdade(string date) {
+            DateTime dataNascimento = DateTime.Parse(date);
+            DateTime dataAtual = DateTime.Now;
+
+            long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
+
+            long idade = dias / 365;
+
+            if (idade > 0 && idade < 18) {
                 return true;
             }
             else {
