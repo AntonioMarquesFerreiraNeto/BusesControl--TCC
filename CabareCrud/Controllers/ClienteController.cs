@@ -124,10 +124,10 @@ namespace BusesControl.Controllers {
         [HttpPost]
         public IActionResult EditarCliente(ModelsCliente modelsCliente) {
             ViewData["Title"] = "Editar";
-            modelsCliente.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
-            modelsCliente.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
-            PessoaFisica cliente = modelsCliente.ClienteFisico;
             try {
+                modelsCliente.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
+                modelsCliente.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
+                PessoaFisica cliente = modelsCliente.ClienteFisico;
                 if (ValidarCampo(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
                     return View(modelsCliente);

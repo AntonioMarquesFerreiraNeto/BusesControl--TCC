@@ -8121,13 +8121,14 @@ h1, h2, h3, h4, h5,
   width: 100%; }
 
 #sidebar {
-  min-width: 270px;
-  max-width: 270px;
-  background: #3e64ff;
-  color: #fff;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s; }
+    min-width: 270px;
+    max-width: 270px;
+    background-image: url(Imagens/newBackTable.jpg);
+    color: #fff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
   #sidebar.active {
     min-width: 80px;
     max-width: 80px;

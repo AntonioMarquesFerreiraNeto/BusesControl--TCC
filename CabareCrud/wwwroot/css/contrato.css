@@ -186,13 +186,13 @@ input#form-control {
     border: none;
     margin-bottom: 55px;
     color: white;
-    background-color: #2b65c2;
+    background-color: rgb(0, 34, 142);
     transition: 01s;
 }
 
     .filtra_btn:hover {
         color: white;
-        background-color: #0091ff;
+        background-color: rgb(0, 04, 112);
     }
 
 .filtrar_btn {
@@ -200,14 +200,15 @@ input#form-control {
     border: none;
     height: 30px;
     color: white;
-    background-color: #2b65c2;
+    background-color: rgb(0, 34, 142);
     transition: 01s;
 }
 
     .filtrar_btn:hover {
         color: white;
-        background-color: #0091ff;
+        background-color: rgb(0, 04, 112);
     }
+
 
 .btn-group .btn-group-toggle {
     display: flex;
@@ -215,7 +216,7 @@ input#form-control {
 }
 
 .enum {
-    background-color: limegreen;
+    background-color: #02de00;
 }
 
     .enum:hover {
@@ -235,12 +236,12 @@ input#form-control {
     padding: 8px;
     border: none;
     margin-bottom: 55px;
-    background-color: #ff0000d2;
+    background-color: #ff0000fe;
     transition: 0.4s;
 }
 
     .filtrar_btn2:hover {
-        background-color: #ff0000fe;
+        background-color: #b60000;
     }
 
 .api {
@@ -311,7 +312,7 @@ input:focus {
 
 .link {
     margin: 10px;
-    color: #3497e3;
+    color: rgb(0, 7, 182);
 }
 
 .btn-ende {
@@ -348,7 +349,7 @@ input:focus {
 thead {
     color: #ffffffea;
     text-align: center;
-    background-image: url(Imagens/backMenu.jpeg);
+    background-image: url(Imagens/newBackTable.jpg);
 }
 
 th {

@@ -7,7 +7,7 @@ body {
 }
 
 .navbar {
-    background-image: url(Imagens/backMenu.jpeg);
+    background-image: url(Imagens/newBackTable.jpg);
 }
 
 .upercase {
@@ -245,7 +245,7 @@ input#form-control {
 }
 /*Caixa de entrada de usuário*/
 .input-group-prepend span {
-    background-color: #2b65c2;
+    background-color: rgb(0, 34, 142);
     color: #ffffff;
     border: 0 !important;
     height: 28px;
