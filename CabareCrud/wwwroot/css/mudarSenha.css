@@ -11,10 +11,12 @@ body {
     color: black;
     border: 1px solid initial;
     background-color: rgb(255, 255, 255);
-    transition: 0.6s;
+    box-shadow: 1px 1px 2px #0000009e;
+    transition: 0.8s;
 }
     .link-home:hover {
-        background-color: #6570ce;
+        background-color: rgb(0, 04, 112);
+        box-shadow: 1px 1px 2px #000000dd;
         color: white;
     }
 

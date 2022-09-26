@@ -39,6 +39,7 @@ namespace BusesControl.Repositorio {
                         throw new Exception("Não conseguimos enviar o e-mail com a senha.");
                     }
                     else {
+                        funcionario.setPasswordHash();
                         _bancocontext.Funcionario.Add(funcionario);
                         _bancocontext.SaveChanges();
                         return funcionario;
@@ -87,6 +88,7 @@ namespace BusesControl.Repositorio {
                     }
                     else {
                         funcionarioDB.Senha = funcionario.Senha;
+                        funcionarioDB.setPasswordHash();
                         _bancocontext.Update(funcionarioDB);
                         _bancocontext.SaveChanges();
                         return funcionario;

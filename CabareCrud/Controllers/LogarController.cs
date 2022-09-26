@@ -57,7 +57,9 @@ namespace BusesControl.Controllers {
                     Funcionario usuario = _funcionarioRepositorio.ListarPorloginAndEmail(redefinirSenha.Email, redefinirSenha.Cpf);
                     if (usuario != null) {
                         usuario.Senha = usuario.GerarSenha();
-                        string mensagem = $"Informamos que a senha do usuário {usuario.Name} foi redefinida para: <strong>{usuario.Senha}<strong/>";
+                        string senhaUser = usuario.Senha;
+                        usuario.setPasswordHash();
+                        string mensagem = $"Informamos que a senha do usuário {usuario.Name} foi redefinida para: <strong>{senhaUser}<strong/>";
                         bool emailEnviado = _email.Enviar(usuario.Email, "Buses Control - Redefinição de senhas", mensagem);
                         if (emailEnviado) {
                             _funcionarioRepositorio.NovaSenha(usuario);

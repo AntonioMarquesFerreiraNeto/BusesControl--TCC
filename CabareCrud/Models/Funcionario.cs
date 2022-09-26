@@ -1,4 +1,5 @@
-﻿using BusesControl.Models.Enums;
+﻿using BusesControl.Helper;
+using BusesControl.Models.Enums;
 using BusesControl.Models.ModelValidarCPF;
 using BusesControl.Models.ValidacoesCliente.ModelValidarDate;
 using BusesControl.Models.ValidacoesDados.ModelValidarEmail;
@@ -25,7 +26,7 @@ namespace BusesControl.Models {
         public DateTime? DataNascimento { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
-        [ValidarEmail (ErrorMessage = "Campo inválido!")]
+        [ValidarEmail(ErrorMessage = "Campo inválido!")]
         [MinLength(5, ErrorMessage = "Campo inválido!")]
         public string Email { get; set; }
 
@@ -74,7 +75,7 @@ namespace BusesControl.Models {
         public UsuarioStatus StatusUsuario { get; set; }
 
         public bool ValidarSenha(string senha) {
-            if (senha == Senha) {
+            if (senha.GerarHash() == Senha) {
                 return true;
             }
             else {
@@ -98,10 +99,15 @@ namespace BusesControl.Models {
             StringBuilder senhaUser = new StringBuilder();
 
             for (int cont = 0; cont < tamanhoSenha; cont++) {
-                int indiceCaracter = random.Next(0, caixaCaracteres.Length -1);
+                int indiceCaracter = random.Next(0, caixaCaracteres.Length - 1);
                 senhaUser.Append(caixaCaracteres[indiceCaracter]);
             }
             return Convert.ToString(senhaUser);
         }
+
+        public void setPasswordHash() {
+            Senha = Senha.GerarHash();
+        }
+
     }
 }
