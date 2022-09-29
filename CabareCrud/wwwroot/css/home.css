@@ -256,6 +256,41 @@ input:focus {
     outline: 0 0 0 0 !important;
     box-shadow: 0 0 0 0 !important;
 }
+.main-louding {
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.logoLouding {
+    width: 150px;
+    height: 150px;
+}
+
+.animation-bar {
+    width: 150px;
+    height: 2px;
+    overflow: hidden;
+    margin-top: -12px;
+    position: relative;
+    background-color: #cecece;
+}
+
+    .animation-bar::before {
+        content: "";
+        width: 110px;
+        background-color: #00228e;
+        position: absolute;
+        height: 2px;
+        left: -40px;
+        animation: animation 1.5s infinite ease;
+    }
 
 @media(min-width: 108px) {
     .navbar-transparent {
@@ -286,7 +321,11 @@ input:focus {
         min-width: 360px;
     }
 }
-
+@keyframes animation {
+    50% {
+        left: 76px;
+    }
+}
 @media(min-width: 550px) {
     .alert {
         right: 46px;

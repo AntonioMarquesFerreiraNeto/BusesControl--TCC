@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="~/css/datatables.min.css">
 </head>
 
-<body>
-    <div class="wrapper d-flex align-items-stretch">
+<body onLoad="carregando()">
+    <div id="carregado" class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
             <h1><a class="logo"><span class="fa fa-bus"></span></a></h1>
             @await Component.InvokeAsync("Menu")
@@ -37,12 +37,24 @@
             @RenderBody()
         </div>
     </div>
+    <div class="main-louding">
+        <div class="louding">
+            <img src="css/imagens/logoLouding.png" class="logoLouding">
+            <div class="animation-bar"></div>
+        </div>
+    </div>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/popper.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/datatables.min.js"></script>
+    <script>
+        function carregando(){
+            document.getElementsByClassName('main-louding')[0].style.display = "none"
+            document.getElementById("carregado").style.opacity = "1"
+        }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 
