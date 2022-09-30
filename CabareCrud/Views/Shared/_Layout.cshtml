@@ -20,6 +20,12 @@
 </head>
 
 <body onLoad="carregando()">
+    <div class="main-louding">
+        <div class="louding">
+            <img  src="~/css/Imagens/logoLouding.png" alt="espere..." class="logoLouding">
+            <div class="animation-bar"></div>
+        </div>
+    </div>
     <div id="carregado" class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
             <h1><a class="logo"><span class="fa fa-bus"></span></a></h1>
@@ -37,24 +43,13 @@
             @RenderBody()
         </div>
     </div>
-    <div class="main-louding">
-        <div class="louding">
-            <img src="css/imagens/logoLouding.png" class="logoLouding">
-            <div class="animation-bar"></div>
-        </div>
-    </div>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/popper.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/datatables.min.js"></script>
-    <script>
-        function carregando(){
-            document.getElementsByClassName('main-louding')[0].style.display = "none"
-            document.getElementById("carregado").style.opacity = "1"
-        }
-    </script>
+    <script src="~/js/Pre-Louding.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 
