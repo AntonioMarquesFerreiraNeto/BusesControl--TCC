@@ -12,5 +12,6 @@ namespace BusesControl.Repositorio {
         public Onibus Habilitar(Onibus onibus);
         public bool Duplicata(Onibus onibus);
         public bool DuplicataEditar(Onibus onibus, Onibus onibusBD);
+        public Onibus TrimOnibus(Onibus value);
     }
 }

@@ -32,6 +32,7 @@ namespace BusesControl.Repositorio {
                 if (Duplicata(funcionario)) {
                     throw new Exception("Funcionário já se encontra cadastrado!");
                 }
+                funcionario = TrimFuncionario(funcionario);
                 if (funcionario.Cargos != CargoFuncionario.Motorista) {
                     funcionario.Senha = funcionario.GerarSenha();
                     bool emailEnviado = EnviarSenha(funcionario.Name, funcionario.Senha, funcionario.Email);
@@ -65,19 +66,19 @@ namespace BusesControl.Repositorio {
                 if (funcionario.Cargos == CargoFuncionario.Motorista) {
                     funcionarioDB.StatusUsuario = UsuarioStatus.Desativado;
                 }
-                funcionarioDB.Name = funcionario.Name;
+                funcionarioDB.Name = funcionario.Name.Trim();
                 funcionarioDB.DataNascimento = funcionario.DataNascimento;
                 funcionarioDB.Cpf = funcionario.Cpf;
                 funcionarioDB.Email = funcionario.Email;
-                funcionarioDB.Telefone = funcionario.Telefone;
-                funcionarioDB.Cep = funcionario.Cep;
-                funcionarioDB.Logradouro = funcionario.Logradouro;
-                funcionarioDB.NumeroResidencial = funcionario.NumeroResidencial;
-                funcionarioDB.ComplementoResidencial = funcionario.ComplementoResidencial;
-                funcionarioDB.Ddd = funcionario.Ddd;
-                funcionarioDB.Bairro = funcionario.Bairro;
-                funcionarioDB.Cidade = funcionario.Cidade;
-                funcionarioDB.Estado = funcionario.Estado;
+                funcionarioDB.Telefone = funcionario.Telefone.Trim();
+                funcionarioDB.Cep = funcionario.Cep.Trim();
+                funcionarioDB.Logradouro = funcionario.Logradouro.Trim();
+                funcionarioDB.NumeroResidencial = funcionario.NumeroResidencial.Trim();
+                funcionarioDB.ComplementoResidencial = funcionario.ComplementoResidencial.Trim();
+                funcionarioDB.Ddd = funcionario.Ddd.Trim();
+                funcionarioDB.Bairro = funcionario.Bairro.Trim();
+                funcionarioDB.Cidade = funcionario.Cidade.Trim();
+                funcionarioDB.Estado = funcionario.Estado.Trim();
                 funcionarioDB.Cargos = funcionario.Cargos;
 
                 if (funcionario.Cargos != CargoFuncionario.Motorista && string.IsNullOrEmpty(funcionarioDB.Senha)) {
@@ -192,7 +193,19 @@ namespace BusesControl.Repositorio {
                 return false;
             }
         }
-
+        public Funcionario TrimFuncionario(Funcionario value) {
+            value.Name = value.Name.Trim();
+            value.Telefone = value.Telefone.Trim();
+            value.Cep = value.Cep.Trim();
+            value.Logradouro = value.Logradouro.Trim();
+            value.NumeroResidencial = value.NumeroResidencial.Trim();
+            value.ComplementoResidencial = value.ComplementoResidencial.Trim();
+            value.Ddd = value.Ddd.Trim();
+            value.Bairro = value.Bairro.Trim();
+            value.Cidade = value.Cidade.Trim();
+            value.Estado = value.Estado.Trim();
+            return value;
+        }
         public bool Duplicata(Funcionario funcionario) {
             if (_bancocontext.Funcionario.Any(x => x.Cpf == funcionario.Cpf || x.Telefone == funcionario.Telefone || x.Email == funcionario.Email)) {
                 return true;

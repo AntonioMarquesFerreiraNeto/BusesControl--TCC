@@ -16,6 +16,7 @@ namespace BusesControl.Controllers {
         public IActionResult InserirApelido(Funcionario funcionario) {
             try {
                 if (!string.IsNullOrEmpty(funcionario.Apelido)) {
+                    funcionario.Apelido = funcionario.Apelido.Trim();
                     _funcionarioRepositorio.RegistroApelido(funcionario);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index", "Home");

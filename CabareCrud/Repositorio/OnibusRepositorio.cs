@@ -11,12 +11,13 @@ namespace BusesControl.Repositorio {
         public OnibusRepositorio(BancoContext bancoContext) {
             _bancoContext = bancoContext;
         }
-
         public Onibus AdicionarBus(Onibus onibus) {
             try {
                 if (Duplicata(onibus)) {
                     throw new Exception("Ônibus já se encontra cadastrado!");
                 }
+                //Chamando o método "TrimOnibus" para retirar os espaços vázios do objeto (antes e depois do mesmo).
+                onibus = TrimOnibus(onibus);
                 _bancoContext.Onibus.Add(onibus);
                 _bancoContext.SaveChanges();
                 return onibus;
@@ -25,7 +26,6 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
-
         public List<Onibus> ListarTodosHab() {
             var list = _bancoContext.Onibus.ToList();
             return list.Where(x => x.StatusOnibus == OnibusStatus.Habilitado).ToList();
@@ -46,13 +46,13 @@ namespace BusesControl.Repositorio {
                     throw new Exception("Ônibus já se encontra cadastrado!");
                 }
                 if (onibusDB == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
-                onibusDB.NameBus = onibus.NameBus;
-                onibusDB.Marca = onibus.Marca;
-                onibusDB.DataFabricacao = onibus.DataFabricacao;
-                onibusDB.Placa = onibus.Placa;
-                onibusDB.Renavam = onibus.Renavam;
-                onibusDB.Assentos = onibus.Assentos;
-                onibusDB.Chassi = onibus.Chassi;
+                onibusDB.NameBus = onibus.NameBus.Trim();
+                onibusDB.Marca = onibus.Marca.Trim();
+                onibusDB.DataFabricacao = onibus.DataFabricacao.Trim();
+                onibusDB.Placa = onibus.Placa.Trim();
+                onibusDB.Renavam = onibus.Renavam.Trim();
+                onibusDB.Assentos = onibus.Assentos.Trim();
+                onibusDB.Chassi = onibus.Chassi.Trim();
                 onibusDB.corBus = onibus.corBus;
                 _bancoContext.Update(onibusDB);
                 _bancoContext.SaveChanges();
@@ -78,7 +78,18 @@ namespace BusesControl.Repositorio {
             _bancoContext.SaveChanges();
             return onibus;
         }
-       
+
+        public Onibus TrimOnibus(Onibus value) {
+            value.NameBus = value.NameBus.Trim();
+            value.Marca = value.Marca.Trim();
+            value.DataFabricacao = value.DataFabricacao.Trim();
+            value.Placa = value.Placa.Trim();
+            value.Renavam = value.Renavam.Trim();
+            value.Assentos = value.Assentos.Trim();
+            value.Chassi = value.Chassi.Trim();
+            return value;
+        }
+
         public bool Duplicata(Onibus onibus) {
             if (_bancoContext.Onibus.Any(x => x.Placa == onibus.Placa || x.Renavam == onibus.Renavam || x.Chassi == onibus.Chassi)) {
                 return true;

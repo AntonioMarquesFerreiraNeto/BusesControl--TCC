@@ -19,6 +19,7 @@ namespace BusesControl.Repositorio {
         public Funcionario AlterarSenha(MudarSenha mudarSenha);
         public Funcionario NovaSenha(Funcionario usuario);
         public Funcionario RegistroApelido(Funcionario usuario);
+        public Funcionario TrimFuncionario(Funcionario value);
         public bool Duplicata(Funcionario funcionario);
         public bool DuplicataEditar(Funcionario funcionario, Funcionario funcionarioDB);
     }

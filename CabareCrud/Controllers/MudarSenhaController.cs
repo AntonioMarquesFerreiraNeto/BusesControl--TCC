@@ -34,6 +34,7 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "Nova senha e confirmar senha não são iguais!";
                         return View(mudarSenha);
                     }
+                    mudarSenha.NovaSenha = mudarSenha.NovaSenha.Trim();
                     mudarSenha.NovaSenha = mudarSenha.NovaSenha.GerarHash();
                     _funcionarioRepositorio.AlterarSenha(mudarSenha);
                     TempData["MensagemDeSucesso"] = "Senha alterada com sucesso!";
