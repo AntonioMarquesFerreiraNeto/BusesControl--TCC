@@ -34,6 +34,7 @@ namespace BusesControl.Repositorio {
 
         public PessoaFisica Adicionar(PessoaFisica cliente) {
             try {
+                cliente = TrimPessoaFisica(cliente);
                 _bancocontext.PessoaFisica.Add(cliente);
                 _bancocontext.SaveChanges();
                 return cliente;
@@ -45,6 +46,7 @@ namespace BusesControl.Repositorio {
         }
         public PessoaJuridica AdicionarJ(PessoaJuridica cliente) {
             try {
+                cliente = TrimPessoaJuridica(cliente);
                 _bancocontext.PessoaJuridica.Add(cliente);
                 _bancocontext.SaveChanges();
                 return cliente;
@@ -154,7 +156,39 @@ namespace BusesControl.Repositorio {
             _bancocontext.SaveChanges();
             return clienteHabilitado;
         }
-       
+        public PessoaFisica TrimPessoaFisica(PessoaFisica value) {
+            value.Name = value.Name.Trim();
+            value.Rg = value.Rg.Trim();
+            value.Telefone = value.Telefone.Trim();
+            value.NameMae = value.NameMae.Trim();
+            value.Cep = value.Cep.Trim();
+            value.ComplementoResidencial = value.ComplementoResidencial.Trim();
+            value.Logradouro = value.Logradouro.Trim();
+            value.NumeroResidencial = value.NumeroResidencial.Trim();
+            value.Ddd = value.Ddd.Trim();
+            value.Bairro = value.Bairro.Trim();
+            value.Cidade = value.Cidade.Trim();
+            value.Estado = value.Estado.Trim();
+
+            return value;
+        }
+        public PessoaJuridica TrimPessoaJuridica(PessoaJuridica value) {
+            value.NomeFantasia = value.NomeFantasia.Trim();
+            value.RazaoSocial = value.RazaoSocial.Trim();
+            value.InscricaoEstadual = value.InscricaoEstadual.Trim();
+            value.InscricaoMunicipal = value.InscricaoMunicipal.Trim();
+            value.Telefone = value.Telefone.Trim();
+            value.Cep = value.Cep.Trim();
+            value.Logradouro = value.Logradouro.Trim();
+            value.NumeroResidencial = value.NumeroResidencial.Trim();
+            value.ComplementoResidencial = value.ComplementoResidencial.Trim();
+            value.Ddd = value.Ddd.Trim();
+            value.Bairro = value.Bairro.Trim();
+            value.Cidade = value.Cidade.Trim();
+            value.Estado = value.Estado.Trim();
+
+            return value;
+        }
         public Exception TratarErro(PessoaFisica cliente, Exception erro) {
             if (erro.InnerException.Message.Contains(cliente.Cpf)) {
                 throw new System.Exception("Cliente já se encontra cadastrado!");

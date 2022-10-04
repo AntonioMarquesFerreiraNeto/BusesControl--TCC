@@ -63,7 +63,7 @@ namespace BusesControl.Controllers {
                         bool emailEnviado = _email.Enviar(usuario.Email, "Buses Control - Redefinição de senhas", mensagem);
                         if (emailEnviado) {
                             _funcionarioRepositorio.NovaSenha(usuario);
-                            TempData["MensagemDeSucesso"] = "Enviamos para seu e-mail uma nova senha!";
+                            TempData["MensagemDeSucesso"] = "Enviamos uma nova senha para seu e-mail!";
                             return RedirectToAction("Index", "Logar");
                         }
                         else {

@@ -157,8 +157,8 @@ body {
 
 .close-alert {
     position: absolute;
-    right: -10px;
-    top: -15px;
+    right: -15px;
+    top: -16px;
     text-align: center;
     border-radius: 35px;
     border: 1px solid #72a67e;
