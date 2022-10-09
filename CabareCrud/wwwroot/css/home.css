@@ -154,13 +154,19 @@ body {
     top: 92px;
     position: absolute;
 }
-
+.alert-info {
+    border: 1px solid rgb(154, 197, 209, 0,51);
+}
+.alert-danger {
+    box-shadow: 1px 1px 2px #7c7c7c36;
+}
 .close-alert {
     position: absolute;
     right: -15px;
     top: -16px;
     text-align: center;
     border-radius: 35px;
+    box-shadow: 1px 1px 2px #7c7c7c70;
     border: 1px solid #72a67e;
     color: black;
     width: 30px;
