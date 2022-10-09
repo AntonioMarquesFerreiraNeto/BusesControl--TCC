@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 
 namespace BusesControl.Filter {
     public class PagUserAdmin : ActionFilterAttribute {
-        public object TempData { get; private set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             string sectionUser = filterContext.HttpContext.Session.GetString("sectionUserAutenticado");
