@@ -1,0 +1,54 @@
+﻿@model Funcionario;
+@if (TempData["MensagemDeSucesso"] != null) {
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemDeSucesso"]
+        <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 3px;">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<link rel="stylesheet" href="css/home.css">
+<section class="principais">
+    <h3 id="titlePrincipal">
+        <i class="fa fa-home"></i> Buses Control - @ViewData["Title"]
+        <hr style="margin-top: 3px;">
+    </h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        Descrição sobre os clientes
+                    </h3>
+                    <p class="card-text">
+                        O cliente não se encontra cadastrado? Não perca tempo, realize o registro dele agora mesmo!
+                        Sabemos da importância de ter clientes registrados na aplicação,
+                        pensando neste quesito, permitimos que você cadastre seus clientes, que será essencial
+                        em ações futuras.
+                    </p>
+                    <a asp-controller="Cliente" asp-action="NovoCliente" class="btn btn-outline-primary ms-3">+ Cliente físico</a>
+                    <a asp-controller="Cliente" asp-action="NovoClienteJuridico" class="btn btn-outline-primary ms-3">+ Cliente jurídico</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        Descrição sobre os contratos
+                    </h3>
+                    <p class="card-text">
+                        O cliente já se encontra cadastrado? Não perca tempo, realize contrato dele agora mesmo!
+                        Um dos nossos principais objetivos é auxiliar no processo de formalização de alocações,
+                        e o primeiro passo é o registro do contrato.
+                    </p>
+                    <a asp-controller="Contrato" asp-action="NovoContrato" class="btn btn-outline-primary ms-3">+ Contrato</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

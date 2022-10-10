@@ -1,18 +1,12 @@
 ﻿using BusesControl.Filter;
-using BusesControl.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BusesControl.Controllers {
     [PagUserAutenticado]
-    public class HomeController : Controller {
+    public class HomeAcessoNegadoController : Controller {
         public IActionResult Index() {
             ViewData["Title"] = "Principal";
+            TempData["MensagemDeErro"] = "Desculpe, seu acesso foi negado!";
             return View();
         }
     }

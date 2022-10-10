@@ -21,7 +21,7 @@ namespace BusesControl.Filter {
                     filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Logar" }, { "action", "Index" } });
                 }
                 if (usuario.Cargos != CargoFuncionario.Administrador) {
-                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Home" }, { "action", "Index" } });
+                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "HomeAcessoNegado" }, { "action", "Index" } });
                 }
             }
             base.OnActionExecuting(filterContext);
