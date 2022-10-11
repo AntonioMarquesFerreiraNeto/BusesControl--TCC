@@ -42,8 +42,8 @@ namespace BusesControl.Controllers {
 
             modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
             modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
-            modelsContrato.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
-            modelsContrato.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
+            modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
+            modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
             return View(modelsContrato);
         }
 
@@ -53,8 +53,8 @@ namespace BusesControl.Controllers {
             try {
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
-                modelsContrato.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
-                modelsContrato.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
+                modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
+                modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
 
                 Contrato contrato = modelsContrato.Contrato;
                 modelsContrato.Contrato = contrato;
@@ -71,7 +71,7 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
                         return View(modelsContrato);
                     }
-                    contrato.StatusContrato = ContratoStatus.ativo;
+                    contrato.StatusContrato = ContratoStatus.Ativo;
                     contrato.Aprovacao = StatusAprovacao.EmAnalise;
                     _contratoRepositorio.Adicionar(contrato);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";

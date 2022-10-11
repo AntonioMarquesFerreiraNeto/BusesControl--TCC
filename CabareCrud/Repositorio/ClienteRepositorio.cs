@@ -9,9 +9,23 @@ using System.Web.Mvc;
 
 namespace BusesControl.Repositorio {
     public class ClienteRepositorio : IClienteRepositorio {
+        
         private readonly BancoContext _bancocontext;
+       
         public ClienteRepositorio(BancoContext bancoContext) {
             _bancocontext = bancoContext;
+        }
+        //Adicionar as regras de negócio para clientes físicos que podem realizar contratos neste método.
+        public List<PessoaFisica> ListClienteFisicoLegal() {
+            var list = _bancocontext.PessoaFisica.ToList();
+            return list.Where(x => x.Status == StatuCliente.Habilitado 
+                && string.IsNullOrEmpty(x.IdVinculacaoContratual.ToString())).ToList();
+        }
+
+        //Adicionar as regras de negócio para clientes jurídicos que podem realizar contratos neste método.
+        public List<PessoaJuridica> ListClienteJuridicoLegal() {
+            var list = _bancocontext.PessoaJuridica.ToList();
+            return list.Where(x => x.Status == StatuCliente.Habilitado).ToList();
         }
 
         public List<PessoaFisica> BuscarTodosHabilitados() {

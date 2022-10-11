@@ -150,7 +150,7 @@ namespace BusesControl.Repositorio {
         }
         public Funcionario AlterarSenha(MudarSenha mudarSenha) {
             Funcionario usuarioDB = ListarPorId(mudarSenha.Id);
-            if (usuarioDB == null) throw new System.Exception("Desculpe, houve um erro ao trocar a senha.");
+            if (usuarioDB == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
             if (!usuarioDB.ValidarSenha(mudarSenha.SenhaAtual)) throw new System.Exception("Senha atual inválida!");
             if (usuarioDB.ValidarDuplicataSenha(mudarSenha.NovaSenha)) throw new System.Exception("A nova senha não pode ser igual a atual!");
             usuarioDB.Senha = mudarSenha.NovaSenha;

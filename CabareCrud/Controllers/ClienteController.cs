@@ -41,8 +41,8 @@ namespace BusesControl.Controllers {
         public IActionResult NovoCliente() {
             ViewData["Title"] = "Incluir";
             ModelsCliente modelsCliente = new ModelsCliente {
-                ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico(),
-                ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados()
+                ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal(),
+                ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal()
             };
 
             TempData["MensagemDeInfo"] = "O e-mail não é obrigatório para clientes.";
@@ -57,8 +57,8 @@ namespace BusesControl.Controllers {
         public IActionResult NovoCliente(ModelsCliente modelsCliente) {
             ViewData["Title"] = "Incluir";
             try {
-                modelsCliente.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
-                modelsCliente.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
+                modelsCliente.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
+                modelsCliente.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 PessoaFisica cliente = modelsCliente.ClienteFisico;
 
                 if (ValidarCampo(cliente)) {
@@ -110,8 +110,8 @@ namespace BusesControl.Controllers {
         public IActionResult EditarCliente(long id) {
             ViewData["Title"] = "Editar";
             ModelsCliente modelsCliente = new ModelsCliente {
-                ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico(),
-                ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados(),
+                ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal(),
+                ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal(),
                 ClienteFisico = _clienteRepositorio.ListarPorId(id)
             };
             return View(modelsCliente);
@@ -125,8 +125,8 @@ namespace BusesControl.Controllers {
         public IActionResult EditarCliente(ModelsCliente modelsCliente) {
             ViewData["Title"] = "Editar";
             try {
-                modelsCliente.ClienteJuridicoList = _clienteRepositorio.BuscarTodosHabJuridico();
-                modelsCliente.ClienteFisicoList = _clienteRepositorio.BuscarTodosHabilitados();
+                modelsCliente.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
+                modelsCliente.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 PessoaFisica cliente = modelsCliente.ClienteFisico;
                 if (ValidarCampo(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";

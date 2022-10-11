@@ -120,10 +120,8 @@
                             || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
                                 <option value="">Vincular menor de idade</option>
                                 @foreach (var cliente in Model.ClienteFisicoList) {
-                                    @if (string.IsNullOrEmpty(cliente.IdVinculacaoContratual.ToString())) {
-                                        @if (cliente.Id != Model.ClienteFisico.Id) {
-                                            <option value="@cliente.Id">@cliente.Name – CPF: @cliente.Cpf</option>
-                                        }
+                                    @if (cliente.Id != Model.ClienteFisico.Id) {
+                                        <option value="@cliente.Id">@cliente.Name – CPF: @cliente.Cpf</option>
                                     }
                                 }
                                 @foreach (var clienteJuridico in Model.ClienteJuridicoList) {
