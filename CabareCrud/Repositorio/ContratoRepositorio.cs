@@ -1,5 +1,6 @@
 ﻿using BusesControl.Data;
 using BusesControl.Models;
+using System.Globalization;
 using System;
 
 namespace BusesControl.Repositorio {
@@ -13,6 +14,7 @@ namespace BusesControl.Repositorio {
 
         public Contrato Adicionar(Contrato contrato) {
             try {
+                //adicionar apenas dois números após a vírgula neste local, para ficar dentro da normalidade.
                 _bancoContext.Contrato.Add(contrato);
                 _bancoContext.SaveChanges();
                 return contrato;

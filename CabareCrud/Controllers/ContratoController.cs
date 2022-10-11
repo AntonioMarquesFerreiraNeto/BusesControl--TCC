@@ -1,5 +1,6 @@
 ﻿using BusesControl.Filter;
 using BusesControl.Models;
+using BusesControl.Models.Enums;
 using BusesControl.Models.ViewModels;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
@@ -57,19 +58,60 @@ namespace BusesControl.Controllers {
 
                 Contrato contrato = modelsContrato.Contrato;
                 modelsContrato.Contrato = contrato;
-
-                if (!ModelState.IsValid) {
+                if (ValidarCampo(contrato) != true) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
                     return View(modelsContrato);
                 }
-                _contratoRepositorio.Adicionar(contrato);
-                TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
-                return RedirectToAction("Index");
+                if (ModelState.IsValid) {
+                    if (ValidationDateEmissaoAndVencimento(contrato)) {
+                        TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
+                        return View(modelsContrato);
+                    }
+                    if (ValidationDateVencimento(contrato.DataVencimento.ToString())) {
+                        TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
+                        return View(modelsContrato);
+                    }
+                    contrato.StatusContrato = ContratoStatus.ativo;
+                    contrato.Aprovacao = StatusAprovacao.EmAnalise;
+                    _contratoRepositorio.Adicionar(contrato);
+                    TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+                return View(modelsContrato);
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
                 return View(modelsContrato);
             }
+        }
+
+        public bool ValidarCampo(Contrato contrato) {
+
+            if (contrato.IdCliente == null || contrato.IdMotorista == null || contrato.IdOnibus == null 
+                || contrato.DataEmissao == null || contrato.DataVencimento == null || contrato.Detalhamento == null 
+                || contrato.ValorMonetario == null || contrato.QtParcelas == null) {
+                return false;
+            }
+            return true;
+        }
+
+        public bool ValidationDateEmissaoAndVencimento(Contrato contrato) {
+            if (contrato.DataEmissao >= contrato.DataVencimento) {
+                return true;
+            }
+            return false;
+        }
+        public bool ValidationDateVencimento(string value) {
+            DateTime dataVencimento = DateTime.Parse(value);
+            DateTime dataAtual = DateTime.Now;
+
+            long dias = (int)dataVencimento.Subtract(dataAtual).TotalDays;
+            long tempoValidation = dias / 365;
+
+            if (tempoValidation >= 2) {
+                return true;
+            }
+            return false;
         }
     }
 }

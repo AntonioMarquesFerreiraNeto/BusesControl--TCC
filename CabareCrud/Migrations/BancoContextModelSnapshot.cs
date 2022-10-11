@@ -90,6 +90,21 @@ namespace BusesControl.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("Aprovacao")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataEmissao")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DataVencimento")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Detalhamento")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int?>("IdCliente")
                         .IsRequired()
                         .HasColumnType("int");
@@ -101,6 +116,17 @@ namespace BusesControl.Migrations
                     b.Property<int?>("IdOnibus")
                         .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<int?>("QtParcelas")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusContrato")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("ValorMonetario")
+                        .IsRequired()
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 

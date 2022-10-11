@@ -98,36 +98,6 @@ input#form-control {
         right: 4px;
     }
 
-        .form-item i#nomeISuc {
-            color: #3ffc3fca;
-            opacity: 0;
-        }
-
-        .form-item i#cpfISuc {
-            color: #3ffc3fca;
-            opacity: 0;
-        }
-
-        .form-item i#emailISuc {
-            color: #3ffc3fca;
-            opacity: 0;
-        }
-
-        .form-item i#nomeIError {
-            color: #ff3535dc;
-            opacity: 0;
-        }
-
-        .form-item i#cpfIError {
-            color: #ff3535dc;
-            opacity: 0;
-        }
-
-        .form-item i#emailIError {
-            color: #ff3535dc;
-            opacity: 0;
-        }
-
     .form-item small {
         position: absolute;
         top: 60px;
@@ -136,13 +106,6 @@ input#form-control {
         font-size: 9pt;
     }
 /*Icones de erro e sucesso da sessão modal cliente*/
-.form-it .i i {
-    position: absolute;
-    top: 7px;
-    right: 20px;
-    opacity: 0;
-}
-
 .form-it .i small {
     position: absolute;
     top: 23px;

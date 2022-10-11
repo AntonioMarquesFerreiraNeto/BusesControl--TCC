@@ -106,10 +106,10 @@
                         </span>
                     </div>
                     <input type="text" class="form-control" id="inputValor"
-                           placeholder="Informe o valor monetário total da alocação." maxlength="10">
+                           placeholder="Informe o valor monetário total da alocação." maxlength="10" asp-for ="Contrato.ValorMonetario" onkeyup="mascaraMoeda(this, event)">
                     <div class="i">
                         <small class="errorMsg">
-
+                            @Html.ValidationMessageFor(x => x.Contrato.ValorMonetario)
                         </small>
                     </div>
                 </div>
@@ -121,10 +121,10 @@
                     </div>
                     <input type="text" class="form-control" id="inputQuantiParcela"
                            placeholder="Informe a quantidade parcelas." maxlength="2"
-                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Contrato.QtParcelas">
                     <div class="i">
                         <small class="errorMsg">
-
+                            @Html.ValidationMessageFor(x => x.Contrato.QtParcelas)
                         </small>
                     </div>
                 </div>
@@ -134,9 +134,11 @@
                             <i class="fa fa-calendar"></i>
                         </span>
                     </div>
-                    <input type="date" class="form-control" id="inputDate">
+                    <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataEmissao">
                     <div class="i">
-                        <small class="errorMsg"></small>
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.DataEmissao)
+                        </small>
                     </div>
                     <div class="legend-data">
                         <small class="font-place">Data de emissão.</small>
@@ -148,9 +150,11 @@
                             <i class="fa fa-calendar"></i>
                         </span>
                     </div>
-                    <input type="date" class="form-control" id="inputDate" value="Data de vencimento.">
+                    <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataVencimento">
                     <div class="i">
-                        <small class="errorMsg"></small>
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.DataVencimento)  
+                        </small>
                     </div>
                     <div class="legend-data">
                         <small class="font-place">Data de vencimento.</small>
@@ -163,8 +167,11 @@
                         </span>
                     </div>
                     <textarea type="text" class="form-control" id="inputRota" rows="3" style="resize: none"
-                              placeholder="Informe detalhadamente a rota da alocação." maxlength="255"></textarea>
-                    <div class="i">
+                              placeholder="Informe detalhadamente a rota da alocação." maxlength="255" asp-for="Contrato.Detalhamento"></textarea>
+                    <div class="i-detalhe">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.Detalhamento)
+                        </small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -244,3 +251,4 @@
     }
 </script>
 <script src="~/js/jquery.min.js"></script>
+<script src="~/js/mascaraMoney.js"></script>

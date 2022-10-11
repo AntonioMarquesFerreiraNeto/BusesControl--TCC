@@ -10,12 +10,12 @@ namespace BusesControl.Models.ValidacoesDados.ModelValidarDate {
             return ValidationDateInvalid(value.ToString());
         }
         public bool ValidationDateInvalid(string date) {
-            DateTime dataNascimento = DateTime.Parse(date);
-            DateTime dataAtual = DateTime.Now;
+            DateTime dataNascimento = DateTime.Parse(date).Date;
+            DateTime dataAtual = DateTime.Now.Date;
 
             long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
             long idade = dias / 365;
-            if (idade <= 0 || idade > 132) {
+            if (dataNascimento > dataAtual || idade > 132) {
                 return false;
             }
             else {

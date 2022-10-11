@@ -21,7 +21,7 @@ namespace BusesControl.Models {
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [DataType(DataType.Date, ErrorMessage = "Campo inválido!")]
-        [ValidarData(ErrorMessage = "Data de nascimento inválida!")]
+        [ValidarDataFuncionario(ErrorMessage = "Data de nascimento inválida!")]
         [Display(Name = "Data de nascimento")]
         public DateTime? DataNascimento { get; set; }
 

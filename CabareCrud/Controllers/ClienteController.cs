@@ -282,8 +282,8 @@ namespace BusesControl.Controllers {
             }
         }
         public bool ValidationVinculoMaiorIdade(string date, string vinculo) {
-            DateTime dataAtual = DateTime.Now;
-            DateTime dataNascimento = DateTime.Parse(date);
+            DateTime dataAtual = DateTime.Now.Date;
+            DateTime dataNascimento = DateTime.Parse(date).Date;
 
             long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
             long idade = dias / 365;
