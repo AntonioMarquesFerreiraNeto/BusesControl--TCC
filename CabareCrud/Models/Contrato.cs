@@ -1,5 +1,7 @@
 ﻿using BusesControl.Models.Enums;
 using BusesControl.Models.ValidacoesDados.ModelValidarDate;
+using BusesControl.Models.ValidacoesDados.ModelValidarParcela;
+using BusesControl.Models.ValidacoesDados.ModelValidarValorMonetario;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,9 +20,11 @@ namespace BusesControl.Models {
         public int? IdOnibus { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
+        [ValidarValorMonetario(ErrorMessage = "Campo inválido!")]
         public decimal? ValorMonetario { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
+        [ValidationMinParcela(ErrorMessage = "Campo inválido!")]
         public int? QtParcelas { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
@@ -31,10 +35,18 @@ namespace BusesControl.Models {
         public DateTime? DataVencimento { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
+        [MinLength(30, ErrorMessage = "Campo inválido!")]
         public string Detalhamento { get; set; }
 
         public ContratoStatus StatusContrato { get; set; }
 
         public StatusAprovacao Aprovacao { get; set; }
+
+        public bool ValidarValorMonetario() {
+            if (ValorMonetario < 150) {
+                return false;
+            }
+            return true;
+        }
     }
 }

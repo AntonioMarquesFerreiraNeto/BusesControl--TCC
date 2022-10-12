@@ -37,6 +37,7 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult NovoContrato() {
+            TempData["MensagemDeInfo"] = "Nº de parcelas não pode ultrapassar a quantidade meses do contrato.";
             ViewData["Title"] = "Novo contrato";
             ModelsContrato modelsContrato = new ModelsContrato();
 
@@ -63,6 +64,10 @@ namespace BusesControl.Controllers {
                     return View(modelsContrato);
                 }
                 if (ModelState.IsValid) {
+                    if (!contrato.ValidarValorMonetario()) {
+                        TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
+                        return View(modelsContrato);
+                    }
                     if (ValidationDateEmissaoAndVencimento(contrato)) {
                         TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
                         return View(modelsContrato);
@@ -112,6 +117,9 @@ namespace BusesControl.Controllers {
                 return true;
             }
             return false;
+        }
+        public bool ValidationQtParcelas() {
+            return true;
         }
     }
 }

@@ -9,6 +9,12 @@
         <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
     </div>
 }
+@if (TempData["MensagemDeInfo"] != null) {
+    <div class="alert alert-info" role="alert">
+        @TempData["MensagemDeInfo"]
+        <button type="button" class="btn btn-danger btn-sm close-alert info" aria-label="Close"> X </button>
+    </div>
+}
 <section class="clientes">
     <h3 id="bac">
         <i class="fa fa-file-contract"></i>
