@@ -1,4 +1,4 @@
-﻿@model List<Onibus>
+﻿@model List<Contrato>
 <link rel="stylesheet" href="~/css/contrato.css">
 @if (TempData["MensagemDeSucesso"] != null) {
     <div class="alert alert-success" role="alert">
@@ -22,7 +22,7 @@
         <div class="flex-item">
             <div>
                 <a asp-controller="Contrato" asp-action="Index" class="btn filtrar_btn enum">Ativos</a>
-                <a asp-controller="Contrato" asp-action="Desabilitados" class="btn filtrar_btn noCheck" type="submit">Inativos</a>
+                <a asp-controller="Contrato" asp-action="Inativos" class="btn filtrar_btn noCheck" type="submit">Inativos</a>
             </div>
             <div>
                 <a type="submit" class="btn filtrar_btn" asp-controller="Contrato" asp-action="NovoContrato">
@@ -41,129 +41,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2023</td>
-                    <td>R$ 12.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                        <i class="fa-thin fa-xmark"></i>
-                        <i class="fa-light fa-pen-slash"></i>
-                        <i class="fa fa-pencil-slash"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>SetMares confecções LTDA</td>
-                    <td>29/08/2023</td>
-                    <td>R$ 13.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Loja center LTDA</td>
-                    <td>29/08/2023</td>
-                    <td>R$ 11.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Bruna Ferreira Filha</td>
-                    <td>29/11/2023</td>
-                    <td>R$ 25.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Alex Rações - Soluções agro LTDA</td>
-                    <td>29/08/2022</td>
-                    <td>R$ 55.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2025</td>
-                    <td>R$ 15.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2025</td>
-                    <td>R$ 15.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2025</td>
-                    <td>R$ 15.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2025</td>
-                    <td>R$ 15.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2025</td>
-                    <td>R$ 15.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2025</td>
-                    <td>R$ 15.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>Antonio Marques Ferreira Neto</td>
-                    <td>29/08/2025</td>
-                    <td>R$ 15.000</td>
-                    <td>
-                        <a class="link" asp-action="Index"><i class="fa fa-edit"></i></a>
-                        <a class="link" asp-action="Index"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
+                @if (Model != null || Model.Any()) {
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>Antonio Marques Ferreira Neto</td>
+                            <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
+                            <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
+                            <td>
+                                <a class="link" asp-route-id="@item.Id" asp-action="Index"><i class="fa fa-edit"></i></a>
+                                <a class="link" asp-route-id="@item.Id" asp-action="Index"><i class="fa fa-trash"></i></a>
+                                <i class="fa-thin fa-xmark"></i>
+                                <i class="fa-light fa-pen-slash"></i>
+                                <i class="fa fa-pencil-slash"></i>
+                            </td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>

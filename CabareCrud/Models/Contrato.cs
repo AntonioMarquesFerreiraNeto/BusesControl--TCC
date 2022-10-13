@@ -21,6 +21,7 @@ namespace BusesControl.Models {
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [ValidarValorMonetario(ErrorMessage = "Campo inválido!")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorMonetario { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
@@ -29,9 +30,11 @@ namespace BusesControl.Models {
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [ValidarDataEmissao(ErrorMessage = "Campo inválido!")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataEmissao { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataVencimento { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]

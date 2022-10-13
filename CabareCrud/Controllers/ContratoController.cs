@@ -6,6 +6,7 @@ using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace BusesControl.Controllers {
@@ -28,16 +29,17 @@ namespace BusesControl.Controllers {
 
         public IActionResult Index() {
             ViewData["Title"] = "Contratos ativos";
-            return View();
+            List<Contrato> ListContrato = _contratoRepositorio.ListContratoAtivo();
+            return View(ListContrato);
         }
-
-        public IActionResult Desabilitados() {
-            ViewData["Title"] = "Contratos inativos";
-            return View("Index");
+        public IActionResult Inativos() {
+            ViewData["Title"] = "Contrato inativos";
+            List<Contrato> ListContrato = _contratoRepositorio.ListContratoInativo();
+            return View("Index", ListContrato);
         }
 
         public IActionResult NovoContrato() {
-            TempData["MensagemDeInfo"] = "Nº de parcelas não pode ultrapassar a quantidade meses do contrato.";
+            TempData["MensagemDeInfo"] = "Nº de parcelas não pode ultrapassar a quantidade de meses do contrato.";
             ViewData["Title"] = "Novo contrato";
             ModelsContrato modelsContrato = new ModelsContrato();
 
@@ -76,6 +78,10 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
                         return View(modelsContrato);
                     }
+                    if (ValidationQtParcelas(contrato)) {
+                        TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
+                        return View(modelsContrato);
+                    }
                     contrato.StatusContrato = ContratoStatus.Ativo;
                     contrato.Aprovacao = StatusAprovacao.EmAnalise;
                     _contratoRepositorio.Adicionar(contrato);
@@ -99,7 +105,6 @@ namespace BusesControl.Controllers {
             }
             return true;
         }
-
         public bool ValidationDateEmissaoAndVencimento(Contrato contrato) {
             if (contrato.DataEmissao >= contrato.DataVencimento) {
                 return true;
@@ -118,8 +123,15 @@ namespace BusesControl.Controllers {
             }
             return false;
         }
-        public bool ValidationQtParcelas() {
-            return true;
+        public bool ValidationQtParcelas(Contrato contrato) {
+
+            DateTime dateVencimento = DateTime.Parse(contrato.DataVencimento.ToString());
+            DateTime dataEmissao = DateTime.Parse(contrato.DataEmissao.ToString());
+
+            float dias = (float)dateVencimento.Subtract(dataEmissao).TotalDays;
+            float ano = dias/365;
+            bool resultado = (contrato.QtParcelas > ano * 12) ? true : false;
+            return resultado;
         }
     }
 }
