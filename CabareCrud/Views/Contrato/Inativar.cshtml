@@ -1,0 +1,78 @@
+﻿@using BusesControl.Models.Enums
+@model Contrato
+<link rel="stylesheet" href="~/css/Visualisar.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 3px;">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="principais">
+    <h3 id="titlePrincipal">
+        <hr class="text-hide">
+    </h3>
+    <form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Contrato" asp-action="Inativar" method="post">
+        <input type="hidden" asp-for="Id">
+        <div class="row view">
+            <label for="" class="titleModal">
+                <i class="fa fa-file-contract"></i>
+                Informações sobre o contrato
+                <hr style="margin-top: 5px;">
+            </label>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="fil">
+                        @if (Model.StatusContrato == ContratoStatus.Ativo) {
+                            <p><b>Status do contrato do cliente: </b>Ativo</p>
+                        }
+                        else {
+                            <p><b>Status do ônibus: </b>Inativo</p>
+                        }
+                        <p><b>Nome do cliente físico/jurídico: </b>@Html.DisplayFor(model => model.IdCliente)</p>
+                        <p><b>Nome do motorista do contrato:</b> @Html.DisplayFor(model => model.IdMotorista)</p>
+                        <p><b>Detalhes do ônibus do contrato:</b> @Html.DisplayFor(model => model.IdOnibus)</p>
+                    </div>
+                    <div class="fil">
+                        <p><b>Valor monetário do contrato:</b> R$ @Html.DisplayFor(model => model.ValorMonetario)</p>
+                        <p><b>Quantidade de parcelas de pagamento:</b> @Html.DisplayFor(model => model.QtParcelas)</p>
+                        <p><b>Data de emissão do contrato:</b> @Html.DisplayFor(model => model.DataEmissao)</p>
+                        <p><b>Data de vencimento do contrato:</b> @Html.DisplayFor(model => model.DataVencimento)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="long-detalhe">
+                <br>
+                <b>Detalhamento da rota de alocação:</b> @Html.DisplayFor(model => model.Detalhamento)
+            </div>
+        </div>
+        <div id="janelaConfirm" class="modal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content modal-largura">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmação</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Deseja realmente inativar o contrato?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn filtra_btn">Sim</button>
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Não
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <section class="container-button">
+        <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
+        <a class="btn filtrar_btn desa" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Inativar</a>
+    </section>
+</section>
+<script src="~/js/jquery.min.js"></script>

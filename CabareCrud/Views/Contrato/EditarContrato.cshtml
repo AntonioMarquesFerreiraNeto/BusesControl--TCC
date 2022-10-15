@@ -1,0 +1,262 @@
+﻿@using BusesControl.Models.Enums
+@model BusesControl.Models.ViewModels.ModelsContrato
+<link rel="stylesheet" href="~/css/style.css">
+<link rel="stylesheet" href="~/css/contrato.css">
+<link rel="stylesheet" href="~/css/home.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeInfo"] != null) {
+    <div class="alert alert-info" role="alert">
+        @TempData["MensagemDeInfo"]
+        <button type="button" class="btn btn-danger btn-sm close-alert info" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <h3 id="bac">
+        <i class="fa fa-file-contract"></i>
+        @ViewData["Title"]
+        <hr style="margin-top: 2px;">
+    </h3>
+    <section class="cliente">
+        <form id="formAdd" asp-controller="Contrato" asp-action="EditarContrato" method="post">
+            <input  type="hidden" asp-for="@Model.Contrato.Id">
+            <div class="row">
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                    <select id="cliente" class="form-control campUser" asp-for="Contrato.IdCliente">
+                        <optgroup label="Selecione o cliente">
+                            @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any()) 
+                                || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
+                                     <option value="">Selecionar cliente</option>
+                                @foreach (var clientesFisicos in Model.ClienteFisicoList) {
+                                    <option value="@clientesFisicos.Id">@clientesFisicos.Name – CPF: @clientesFisicos.Cpf</option>
+                                }
+                                @foreach (var clientesJuri in Model.ClienteJuridicoList) {
+                                    <option value="@clientesJuri.Id">@clientesJuri.RazaoSocial – CNPJ: @clientesJuri.Cnpj</option>
+                                }
+                            }
+                            else {
+                                 <option value="">Não existe cadastros.</option>
+                            }
+                        </optgroup>
+                    </select>
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.IdCliente)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+                    <select id="onibus" class="form-control campUser" asp-for="Contrato.IdOnibus">
+                        <optgroup label="Selecione o ônibus">
+                            @if (Model.OnibusList != null || Model.OnibusList.Any()) {
+                                 <option value="">Selecionar ônibus</option>
+                                @foreach (var onibus in Model.OnibusList) {
+                                    <option value="@onibus.Id">
+                                        @onibus.NameBus – <b>Placa: </b>@onibus.Placa 
+                                    </option>
+                                }
+                            }
+                            else {
+                                 <option value="">Não existe cadastros.</option>
+                            }
+                        </optgroup>
+                    </select>
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.IdOnibus)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-user-tie"></i>
+                        </span>
+                    </div>
+                    <select id="motorista" class="form-control campUser" asp-for="Contrato.IdMotorista">
+                        <optgroup label="Selecione o motorista">
+                            @if(Model.MotoristaList != null && Model.MotoristaList.Any()){
+                                <option value="">Selecionar motorista</option>
+                                @foreach (var motorista in Model.MotoristaList) {
+                                    <option value="@motorista.Id">@motorista.Name – CPF: @motorista.Cpf</option>
+                                }
+                            }
+                            else {
+                                <option value="">Não existe cadastros.</option>
+                            }
+                        </optgroup>
+                    </select>
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.IdMotorista)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-dollar-sign" style="margin-left: 3px;"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputValor"
+                           placeholder="Informe o valor monetário total da alocação." maxlength="10" asp-for ="Contrato.ValorMonetario" onkeyup="mascaraMoeda(this, event)">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.ValorMonetario)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-file-signature"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputQuantiParcela"
+                           placeholder="Informe a quantidade parcelas." maxlength="2"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Contrato.QtParcelas">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.QtParcelas)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataEmissao">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.DataEmissao)
+                        </small>
+                    </div>
+                    <div class="legend-data">
+                        <small class="font-place">Data de emissão.</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataVencimento">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.DataVencimento)  
+                        </small>
+                    </div>
+                    <div class="legend-data">
+                        <small class="font-place">Data de vencimento.</small>
+                    </div>
+                </div>
+                <div class="col-md-12 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-road"></i>
+                        </span>
+                    </div>
+                    <textarea type="text" class="form-control" id="inputRota" rows="3" style="resize: none"
+                              placeholder="Informe detalhadamente a rota da alocação." maxlength="255" asp-for="Contrato.Detalhamento"></textarea>
+                    <div class="i-detalhe">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Contrato.Detalhamento)
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-target="#ConfirmSair" data-toggle="modal">
+                            Voltar
+                        </button>
+                        <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
+                                data-toggle="modal">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="janelaModalConfirm" class="modal">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content modal-largura">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Confirmação</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Deseja realmente salvar os dados?
+                            </p>
+                        </div>
+                        <div class="modal-footer confirm-modal">
+                            <button id="enviar" type="submit" class="btn filtra_btn" onclick="salva()">Sim</button>
+                            <button type="button" class="btn btn-secondary filtrar_btn2"
+                                    data-dismiss="modal">
+                                Não
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+    <div id="ConfirmSair" class="modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-largura">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Deseja realmente sair durante esta operação? Caso tenha alterações não salvas, elas serão perdidas!
+                    </p>
+                </div>
+                <div class="modal-footer confirm-modal">
+                    <a id="enviar" type="submit" class="btn filtra_btn" asp-controller="Contrato" asp-action="Index">Sim</a>
+                    <button type="button" class="btn btn-secondary filtrar_btn2"
+                            data-dismiss="modal">
+                        Não
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    marca = document.getElementById('inputMarca');
+    noNumero(marca);
+    function noNumero(no) {
+        no.addEventListener("keypress", function(e) {
+            const keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode > 47 && keycode < 58) {
+                e.preventDefault();
+            }
+        });
+    }
+</script>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/mascaraMoney.js"></script>
+

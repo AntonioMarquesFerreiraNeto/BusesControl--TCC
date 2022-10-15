@@ -22,5 +22,7 @@ namespace BusesControl.Repositorio {
         PessoaJuridica HabilitarJuridico(PessoaJuridica cliente);
         Exception TratarErro(PessoaFisica cliente, Exception erro);
         Exception TratarErroJ(PessoaJuridica cliente, Exception erro);
+        public PessoaJuridica TrimPessoaJuridica(PessoaJuridica value);
+        public PessoaFisica TrimPessoaFisica(PessoaFisica value);
     }
 }

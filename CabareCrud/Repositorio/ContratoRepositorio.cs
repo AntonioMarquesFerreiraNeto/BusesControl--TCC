@@ -28,6 +28,7 @@ namespace BusesControl.Repositorio {
         public Contrato Adicionar(Contrato contrato) {
             try {
                 //adicionar apenas dois números após a vírgula neste local, para ficar dentro da normalidade.
+                contrato = ContratoTrim(contrato);
                 _bancoContext.Contrato.Add(contrato);
                 _bancoContext.SaveChanges();
                 return contrato;
@@ -35,6 +36,57 @@ namespace BusesControl.Repositorio {
             catch (Exception erro) {
                 throw new Exception(erro.Message);
             }
+        }
+        public Contrato EditarContrato(Contrato contrato) {
+            try {
+                Contrato contratoDB = ListarPorId(contrato.Id);
+                if (contratoDB == null) throw new Exception("Desculpe, houve alguma falha na aplicação.");
+                contratoDB.IdCliente = contrato.IdCliente;
+                contratoDB.IdMotorista = contrato.IdMotorista;
+                contratoDB.IdOnibus = contrato.IdOnibus;
+                contratoDB.ValorMonetario = contrato.ValorMonetario;
+                contratoDB.QtParcelas = contrato.QtParcelas;
+                contratoDB.DataEmissao = contrato.DataEmissao;
+                contratoDB.DataVencimento = contrato.DataVencimento;
+                contratoDB.Detalhamento = contrato.Detalhamento.Trim();
+                _bancoContext.Update(contratoDB);
+                _bancoContext.SaveChanges();
+                return contratoDB;
+            }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
+            }
+        }
+        public Contrato InativarContrato(Contrato contrato) {
+            try {
+                Contrato contratoDB = ListarPorId(contrato.Id);
+                if (contratoDB == null) throw new Exception("Desculpe, houve alguma falha na aplicação.");
+                contratoDB.StatusContrato = ContratoStatus.Inativo;
+                _bancoContext.Contrato.Update(contratoDB);
+                _bancoContext.SaveChanges();
+                return contratoDB;
+            }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
+            }
+        }
+        public Contrato AtivarContrato(Contrato contrato) {
+            try {
+                Contrato contratoDB = ListarPorId(contrato.Id);
+                if (contratoDB == null) throw new Exception("Desculpe, houve alguma falha na aplicação.");
+                contratoDB.StatusContrato = ContratoStatus.Ativo;
+                _bancoContext.Update(contratoDB);
+                _bancoContext.SaveChanges();
+                return contratoDB;
+            }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
+            }
+        }
+
+        public Contrato ContratoTrim(Contrato contrato) {
+            contrato.Detalhamento = contrato.Detalhamento.Trim();
+            return contrato;
         }
     }
 }

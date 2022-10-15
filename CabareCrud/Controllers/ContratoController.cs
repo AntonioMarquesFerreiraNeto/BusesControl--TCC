@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace BusesControl.Controllers {
     [PagUserAutenticado]
     public class ContratoController : Controller {
-        
+
         private readonly IOnibusRepositorio _onibusRepositorio;
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
         private readonly IClienteRepositorio _clienteRepositorio;
@@ -96,10 +96,98 @@ namespace BusesControl.Controllers {
             }
         }
 
+        public IActionResult EditarContrato(int id) {
+            ViewData["Title"] = "Editar contrato";
+            ModelsContrato modelsContrato = new ModelsContrato {
+                ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal(),
+                ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal(),
+                MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab(),
+                OnibusList = _onibusRepositorio.ListarTodosHab(),
+                Contrato = _contratoRepositorio.ListarPorId(id)
+            };
+            return View(modelsContrato);
+        }
+        [HttpPost]
+        public IActionResult EditarContrato(ModelsContrato modelsContrato) {
+            ViewData["Title"] = "Editar contrato";
+            try {
+                modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
+                modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
+                modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
+                modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
+
+                Contrato contrato = modelsContrato.Contrato;
+                modelsContrato.Contrato = contrato;
+                if (ModelState.IsValid) {
+                    if (!contrato.ValidarValorMonetario()) {
+                        TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
+                        return View(modelsContrato);
+                    }
+                    if (ValidationDateEmissaoAndVencimento(contrato)) {
+                        TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
+                        return View(modelsContrato);
+                    }
+                    if (ValidationDateVencimento(contrato.DataVencimento.ToString())) {
+                        TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
+                        return View(modelsContrato);
+                    }
+                    if (ValidationQtParcelas(contrato)) {
+                        TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
+                        return View(modelsContrato);
+                    }
+                    _contratoRepositorio.EditarContrato(contrato);
+                    TempData["MensagemDeSucesso"] = "Editado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+                return View(modelsContrato);
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(modelsContrato);
+            }
+        }
+
+        public IActionResult Inativar(int id) {
+            ViewData["Title"] = "Inativar contrato";
+            Contrato contrato = _contratoRepositorio.ListarPorId(id);
+            return View(contrato);
+        }
+        [HttpPost]
+        public IActionResult Inativar(Contrato contrato) {
+            ViewData["Title"] = "Inativar contrato";
+            try {
+                _contratoRepositorio.InativarContrato(contrato);
+                TempData["MensagemDeSucesso"] = "Inativado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(contrato);
+            }
+        }
+        
+        public IActionResult Ativar(int id) {
+            ViewData["Title"] = "Ativar contrato";
+            Contrato contrato = _contratoRepositorio.ListarPorId(id);
+            return View(contrato);
+        }
+        [HttpPost]
+        public IActionResult Ativar(Contrato contrato) {
+            ViewData["Title"] = "Ativar contrato";
+            try {
+                _contratoRepositorio.AtivarContrato(contrato);
+                TempData["MensagemDeSucesso"] = "Ativado com sucesso!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return View(contrato);
+            }
+        }
         public bool ValidarCampo(Contrato contrato) {
 
-            if (contrato.IdCliente == null || contrato.IdMotorista == null || contrato.IdOnibus == null 
-                || contrato.DataEmissao == null || contrato.DataVencimento == null || contrato.Detalhamento == null 
+            if (contrato.IdCliente == null || contrato.IdMotorista == null || contrato.IdOnibus == null
+                || contrato.DataEmissao == null || contrato.DataVencimento == null || contrato.Detalhamento == null
                 || contrato.ValorMonetario == null || contrato.QtParcelas == null) {
                 return false;
             }
@@ -129,7 +217,7 @@ namespace BusesControl.Controllers {
             DateTime dataEmissao = DateTime.Parse(contrato.DataEmissao.ToString());
 
             float dias = (float)dateVencimento.Subtract(dataEmissao).TotalDays;
-            float ano = dias/365;
+            float ano = dias / 365;
             bool resultado = (contrato.QtParcelas > ano * 12) ? true : false;
             return resultado;
         }
