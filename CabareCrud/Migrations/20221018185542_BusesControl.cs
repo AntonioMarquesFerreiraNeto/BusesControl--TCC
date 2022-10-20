@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BusesControl.Migrations
 {
-    public partial class tabelas : Migration
+    public partial class BusesControl : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace BusesControl.Migrations
                 name: "Cliente",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(nullable: true),
                     Telefone = table.Column<string>(maxLength: 9, nullable: false),
@@ -30,6 +30,7 @@ namespace BusesControl.Migrations
                     DataNascimento = table.Column<DateTime>(nullable: true),
                     Rg = table.Column<string>(nullable: true),
                     NameMae = table.Column<string>(nullable: true),
+                    IdVinculacaoContratual = table.Column<int>(nullable: true),
                     Status = table.Column<int>(nullable: true),
                     NomeFantasia = table.Column<string>(nullable: true),
                     Cnpj = table.Column<string>(nullable: true),
@@ -47,7 +48,7 @@ namespace BusesControl.Migrations
                 name: "Funcionario",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     Cpf = table.Column<string>(nullable: false),
@@ -62,6 +63,8 @@ namespace BusesControl.Migrations
                     Cidade = table.Column<string>(nullable: false),
                     Estado = table.Column<string>(nullable: false),
                     Ddd = table.Column<string>(nullable: false),
+                    Apelido = table.Column<string>(nullable: true),
+                    Senha = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Cargos = table.Column<int>(nullable: false),
                     StatusUsuario = table.Column<int>(nullable: false)
@@ -69,6 +72,55 @@ namespace BusesControl.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Funcionario", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Onibus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Marca = table.Column<string>(nullable: false),
+                    NameBus = table.Column<string>(nullable: false),
+                    DataFabricacao = table.Column<string>(nullable: false),
+                    Renavam = table.Column<string>(nullable: false),
+                    Placa = table.Column<string>(nullable: false),
+                    Chassi = table.Column<string>(nullable: false),
+                    Assentos = table.Column<string>(nullable: false),
+                    StatusOnibus = table.Column<int>(nullable: false),
+                    corBus = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Onibus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contrato",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MotoristaId = table.Column<int>(nullable: false),
+                    ClienteId = table.Column<int>(nullable: false),
+                    OnibusId = table.Column<int>(nullable: false),
+                    ValorMonetario = table.Column<decimal>(nullable: false),
+                    QtParcelas = table.Column<int>(nullable: false),
+                    DataEmissao = table.Column<DateTime>(nullable: false),
+                    DataVencimento = table.Column<DateTime>(nullable: false),
+                    Detalhamento = table.Column<string>(nullable: false),
+                    StatusContrato = table.Column<int>(nullable: false),
+                    Aprovacao = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contrato", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contrato_Cliente_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Cliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -126,31 +178,24 @@ namespace BusesControl.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Funcionario_Cpf",
-                table: "Funcionario",
-                column: "Cpf",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Funcionario_Email",
-                table: "Funcionario",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Funcionario_Telefone",
-                table: "Funcionario",
-                column: "Telefone",
-                unique: true);
+                name: "IX_Contrato_ClienteId",
+                table: "Contrato",
+                column: "ClienteId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cliente");
+                name: "Contrato");
 
             migrationBuilder.DropTable(
                 name: "Funcionario");
+
+            migrationBuilder.DropTable(
+                name: "Onibus");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
         }
     }
 }

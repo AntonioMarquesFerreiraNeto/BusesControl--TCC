@@ -13,5 +13,6 @@ namespace BusesControl.Repositorio {
         public bool Duplicata(Onibus onibus);
         public bool DuplicataEditar(Onibus onibus, Onibus onibusBD);
         public Onibus TrimOnibus(Onibus value);
+        public string ReturnDetalhesBus(int id);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using BusesControl.Models.Enums;
 using BusesControl.Models.ModelValidarCPF;
-using BusesControl.Models.ValidacoesCliente.ModelValidarDate;
 using BusesControl.Models.ValidacoesDados.ModelValidarDate;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {

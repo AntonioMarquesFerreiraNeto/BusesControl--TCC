@@ -239,5 +239,15 @@ namespace BusesControl.Repositorio {
             }
             throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
         }
+
+        public string ReturnDetalhesCliente(int id) {
+            PessoaFisica pessoaFisica = ListarPorId(id);
+            if(pessoaFisica == null) {
+                PessoaJuridica pessoaJuridica = ListarPorIdJuridico(id);
+                if (pessoaJuridica == null && pessoaFisica == null) throw new Exception("Desculpe, houve uma falha na aplicação.");
+                return $"{pessoaJuridica.NomeFantasia} – CNPJ: {pessoaJuridica.Cnpj}";
+            }
+            return $"{pessoaFisica.Name} – CPF: {pessoaFisica.Cpf}";
+        }
     }
 }

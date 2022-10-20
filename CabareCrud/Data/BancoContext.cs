@@ -1,4 +1,5 @@
-﻿using BusesControl.Models;
+﻿using BusesControl.Data.Map;
+using BusesControl.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -7,7 +8,7 @@ namespace BusesControl.Data {
         public BancoContext(DbContextOptions<BancoContext> options) : base(options) {
         }
 
-        //Tabela cliente está sendo criada e depois acessadas.
+        //Tabelas estão sendo criadas e depois acessadas.
         public DbSet<PessoaFisica> PessoaFisica { get; set; }
         public DbSet<PessoaJuridica> PessoaJuridica { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
@@ -45,33 +46,8 @@ namespace BusesControl.Data {
                .HasIndex(p => p.NomeFantasia)
                .IsUnique(true);
 
-            //Evitar duplicatas dos atributos de funcionários. 
-            modelBuilder.Entity<Funcionario>()
-                .HasIndex(p => p.Id)
-                .IsUnique(true);
-            modelBuilder.Entity<Funcionario>()
-                .HasIndex(p => p.Cpf)
-                .IsUnique(true);
-            modelBuilder.Entity<Funcionario>()
-                .HasIndex(p => p.Email)
-                .IsUnique(true);
-            modelBuilder.Entity<Funcionario>()
-                .HasIndex(p => p.Telefone)
-                .IsUnique(true);
-
-            //Evitar duplicatas de atributos de ônibus.
-            modelBuilder.Entity<Onibus>()
-                .HasIndex(p => p.Id)
-                .IsUnique(true);
-            modelBuilder.Entity<Onibus>()
-                .HasIndex(p => p.Placa)
-                .IsUnique(true);
-            modelBuilder.Entity<Onibus>()
-                .HasIndex(p => p.Chassi)
-                .IsUnique(true);
-            modelBuilder.Entity<Onibus>()
-                .HasIndex(p => p.Renavam)
-                .IsUnique(true);
+            modelBuilder.ApplyConfiguration(new MapContrato());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -24,5 +24,6 @@ namespace BusesControl.Repositorio {
         Exception TratarErroJ(PessoaJuridica cliente, Exception erro);
         public PessoaJuridica TrimPessoaJuridica(PessoaJuridica value);
         public PessoaFisica TrimPessoaFisica(PessoaFisica value);
+        public string ReturnDetalhesCliente(int id);
     }
 }

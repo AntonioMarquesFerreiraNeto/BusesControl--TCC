@@ -41,9 +41,9 @@ namespace BusesControl.Repositorio {
             try {
                 Contrato contratoDB = ListarPorId(contrato.Id);
                 if (contratoDB == null) throw new Exception("Desculpe, houve alguma falha na aplicação.");
-                contratoDB.IdCliente = contrato.IdCliente;
-                contratoDB.IdMotorista = contrato.IdMotorista;
-                contratoDB.IdOnibus = contrato.IdOnibus;
+                contratoDB.ClienteId = contrato.ClienteId;
+                contratoDB.MotoristaId = contrato.MotoristaId;
+                contratoDB.OnibusId = contrato.OnibusId;
                 contratoDB.ValorMonetario = contrato.ValorMonetario;
                 contratoDB.QtParcelas = contrato.QtParcelas;
                 contratoDB.DataEmissao = contrato.DataEmissao;

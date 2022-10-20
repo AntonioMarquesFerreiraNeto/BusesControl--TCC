@@ -1,7 +1,9 @@
-﻿using BusesControl.Models.Enums;
+﻿using BusesControl.Data;
+using BusesControl.Models.Enums;
 using BusesControl.Models.ValidacoesDados.ModelValidarDate;
 using BusesControl.Models.ValidacoesDados.ModelValidarParcela;
 using BusesControl.Models.ValidacoesDados.ModelValidarValorMonetario;
+using BusesControl.Repositorio;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,13 +13,13 @@ namespace BusesControl.Models {
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
-        public int? IdMotorista { get; set; }
-        
+        public int? MotoristaId { get; set; }
+
         [Required(ErrorMessage = "Campo obrigatório!")]
-        public int? IdCliente { get; set; }
-        
+        public int? ClienteId { get; set; }
+
         [Required(ErrorMessage = "Campo obrigatório!")]
-        public int? IdOnibus { get; set; }
+        public int? OnibusId { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [ValidarValorMonetario(ErrorMessage = "Campo inválido!")]
@@ -44,6 +46,8 @@ namespace BusesControl.Models {
         public ContratoStatus StatusContrato { get; set; }
 
         public StatusAprovacao Aprovacao { get; set; }
+
+        public Cliente Cliente { get; set; }
 
         public bool ValidarValorMonetario() {
             if (ValorMonetario < 150) {

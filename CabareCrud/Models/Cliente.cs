@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using BusesControl.Models.ModelValidarCPF;
 using BusesControl.Models.ValidacoesCliente.ModelValidarDate;
@@ -52,5 +53,7 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string Ddd { get; set; }
+
+        public virtual List<Contrato> Contratos { get; set; }
     }
 }

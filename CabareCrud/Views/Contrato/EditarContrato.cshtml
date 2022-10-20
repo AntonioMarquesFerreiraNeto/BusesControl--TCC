@@ -31,7 +31,7 @@
                             <i class="fas fa-user"></i>
                         </span>
                     </div>
-                    <select id="cliente" class="form-control campUser" asp-for="Contrato.IdCliente">
+                    <select id="cliente" class="form-control campUser" asp-for="Contrato.ClienteId">
                         <optgroup label="Selecione o cliente">
                             @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any()) 
                                 || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
@@ -50,7 +50,7 @@
                     </select>
                     <div class="i">
                         <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.Contrato.IdCliente)
+                            @Html.ValidationMessageFor(x => x.Contrato.ClienteId)
                         </small>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                             <i class="fas fa-bus"></i>
                         </span>
                     </div>
-                    <select id="onibus" class="form-control campUser" asp-for="Contrato.IdOnibus">
+                    <select id="onibus" class="form-control campUser" asp-for="Contrato.OnibusId">
                         <optgroup label="Selecione o ônibus">
                             @if (Model.OnibusList != null || Model.OnibusList.Any()) {
                                  <option value="">Selecionar ônibus</option>
@@ -77,7 +77,7 @@
                     </select>
                     <div class="i">
                         <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.Contrato.IdOnibus)
+                            @Html.ValidationMessageFor(x => x.Contrato.OnibusId)
                         </small>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                             <i class="fas fa-user-tie"></i>
                         </span>
                     </div>
-                    <select id="motorista" class="form-control campUser" asp-for="Contrato.IdMotorista">
+                    <select id="motorista" class="form-control campUser" asp-for="Contrato.MotoristaId">
                         <optgroup label="Selecione o motorista">
                             @if(Model.MotoristaList != null && Model.MotoristaList.Any()){
                                 <option value="">Selecionar motorista</option>
@@ -102,7 +102,7 @@
                     </select>
                     <div class="i">
                         <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.Contrato.IdMotorista)
+                            @Html.ValidationMessageFor(x => x.Contrato.MotoristaId)
                         </small>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                         </span>
                     </div>
                     <textarea type="text" class="form-control" id="inputRota" rows="3" style="resize: none"
-                              placeholder="Informe detalhadamente a rota da alocação." maxlength="255" asp-for="Contrato.Detalhamento"></textarea>
+                              placeholder="Informe detalhadamente a rota da alocação." maxlength="355" asp-for="Contrato.Detalhamento"></textarea>
                     <div class="i-detalhe">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.Detalhamento)

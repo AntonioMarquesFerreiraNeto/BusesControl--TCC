@@ -93,6 +93,10 @@ namespace BusesControl.Migrations
                     b.Property<int>("Aprovacao")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClienteId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DataEmissao")
                         .IsRequired()
                         .HasColumnType("datetime(6)");
@@ -105,15 +109,11 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("IdCliente")
+                    b.Property<int?>("MotoristaId")
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdMotorista")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdOnibus")
+                    b.Property<int?>("OnibusId")
                         .IsRequired()
                         .HasColumnType("int");
 
@@ -129,6 +129,8 @@ namespace BusesControl.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Contrato");
                 });
@@ -164,7 +166,7 @@ namespace BusesControl.Migrations
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("DataNascimento")
                         .IsRequired()
@@ -176,7 +178,7 @@ namespace BusesControl.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -210,18 +212,6 @@ namespace BusesControl.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Cpf")
-                        .IsUnique();
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("Telefone")
-                        .IsUnique();
-
                     b.ToTable("Funcionario");
                 });
 
@@ -237,7 +227,7 @@ namespace BusesControl.Migrations
 
                     b.Property<string>("Chassi")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("DataFabricacao")
                         .IsRequired()
@@ -253,11 +243,11 @@ namespace BusesControl.Migrations
 
                     b.Property<string>("Placa")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Renavam")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("StatusOnibus")
                         .HasColumnType("int");
@@ -266,18 +256,6 @@ namespace BusesControl.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Chassi")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("Placa")
-                        .IsUnique();
-
-                    b.HasIndex("Renavam")
-                        .IsUnique();
 
                     b.ToTable("Onibus");
                 });
@@ -362,6 +340,15 @@ namespace BusesControl.Migrations
                         .IsUnique();
 
                     b.HasDiscriminator().HasValue("PessoaJuridica");
+                });
+
+            modelBuilder.Entity("BusesControl.Models.Contrato", b =>
+                {
+                    b.HasOne("BusesControl.Models.Cliente", "Cliente")
+                        .WithMany("Contratos")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

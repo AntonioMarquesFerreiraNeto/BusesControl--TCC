@@ -104,5 +104,11 @@ namespace BusesControl.Repositorio {
             }
             return false;
         }
+
+        public string ReturnDetalhesBus(int id) {
+            Onibus onibus = ListarPorId(id);
+            if (onibus == null) throw new Exception("Desculpe, houve um erro na aplicação.");
+            return $"{onibus.NameBus} – Placa: {onibus.Placa}";
+        }
     }
 }

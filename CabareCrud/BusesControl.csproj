@@ -10,7 +10,6 @@
     <Compile Remove="Controllers\NovaPasta2\**" />
     <Compile Remove="Controllers\NovaPasta3\**" />
     <Compile Remove="Controllers\NovaPasta\**" />
-    <Compile Remove="Migrations\**" />
     <Compile Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <Compile Remove="Services\**" />
     <Compile Remove="Views\css\**" />
@@ -22,7 +21,6 @@
     <Content Remove="Controllers\NovaPasta2\**" />
     <Content Remove="Controllers\NovaPasta3\**" />
     <Content Remove="Controllers\NovaPasta\**" />
-    <Content Remove="Migrations\**" />
     <Content Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <Content Remove="Services\**" />
     <Content Remove="Views\css\**" />
@@ -34,7 +32,6 @@
     <EmbeddedResource Remove="Controllers\NovaPasta2\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta3\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta\**" />
-    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="Views\css\**" />
@@ -46,7 +43,6 @@
     <None Remove="Controllers\NovaPasta2\**" />
     <None Remove="Controllers\NovaPasta3\**" />
     <None Remove="Controllers\NovaPasta\**" />
-    <None Remove="Migrations\**" />
     <None Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <None Remove="Services\**" />
     <None Remove="Views\css\**" />
@@ -67,24 +63,6 @@
     <Content Remove="Views\Cliente\NewCliente.cshtml" />
     <Content Remove="Views\Financeiro\Index1.cshtml" />
     <Content Remove="Views\Home\Privacy.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20220824042658_Table.cs" />
-    <Compile Include="Migrations\20220824042658_Table.Designer.cs" />
-    <Compile Include="Migrations\20220915203505_Incluindo senha.cs" />
-    <Compile Include="Migrations\20220915203505_Incluindo senha.Designer.cs" />
-    <Compile Include="Migrations\20220915203702_corrigir senha.cs" />
-    <Compile Include="Migrations\20220915203702_corrigir senha.Designer.cs" />
-    <Compile Include="Migrations\20220917160117_Apelido cliente.cs" />
-    <Compile Include="Migrations\20220917160117_Apelido cliente.Designer.cs" />
-    <Compile Include="Migrations\20220922043525_contratos.cs" />
-    <Compile Include="Migrations\20220922043525_contratos.Designer.cs" />
-    <Compile Include="Migrations\20220922193337_Cliente alter.cs" />
-    <Compile Include="Migrations\20220922193337_Cliente alter.Designer.cs" />
-    <Compile Include="Migrations\20221010205554_ContratoAtributes.cs" />
-    <Compile Include="Migrations\20221010205554_ContratoAtributes.Designer.cs" />
-    <Compile Include="Migrations\BancoContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>

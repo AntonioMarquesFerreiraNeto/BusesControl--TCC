@@ -220,5 +220,11 @@ namespace BusesControl.Repositorio {
             }
             return false;
         }
+
+        public string ReturnDetalhesFunc(int id) {
+            Funcionario funcionario = ListarPorId(id);
+            if(funcionario == null) throw new Exception("Desculpe, houve um erro na aplicação.");
+            return $"{funcionario.Name} – CPF: {funcionario.Cpf}";
+        }
     }
 }

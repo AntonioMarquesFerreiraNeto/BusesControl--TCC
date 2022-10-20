@@ -149,44 +149,60 @@ namespace BusesControl.Controllers {
 
         public IActionResult Inativar(int id) {
             ViewData["Title"] = "Inativar contrato";
+            //Objeto criado para receber os id´s necessários e passar para viewModel.
             Contrato contrato = _contratoRepositorio.ListarPorId(id);
-            return View(contrato);
+            ModelsContrato modelsContrato = new ModelsContrato {
+                DetalhesMotoristaView = _funcionarioRepositorio.ReturnDetalhesFunc((int)contrato.MotoristaId),
+                DetalheOnibusView = _onibusRepositorio.ReturnDetalhesBus((int)contrato.OnibusId),
+                DetalhesClienteView = _clienteRepositorio.ReturnDetalhesCliente((int)contrato.ClienteId),
+                Contrato = contrato
+            };
+            return View(modelsContrato);
         }
         [HttpPost]
-        public IActionResult Inativar(Contrato contrato) {
+        public IActionResult Inativar(ModelsContrato modelsContrato) {
             ViewData["Title"] = "Inativar contrato";
             try {
+                Contrato contrato = modelsContrato.Contrato;
                 _contratoRepositorio.InativarContrato(contrato);
                 TempData["MensagemDeSucesso"] = "Inativado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(contrato);
+                return View(modelsContrato);
             }
         }
-        
+
         public IActionResult Ativar(int id) {
             ViewData["Title"] = "Ativar contrato";
+            //Objeto criado para receber os Ids necessários e passar para viewModel.
             Contrato contrato = _contratoRepositorio.ListarPorId(id);
-            return View(contrato);
+            ModelsContrato modelsContrato = new ModelsContrato {
+                DetalhesClienteView = _clienteRepositorio.ReturnDetalhesCliente((int)contrato.ClienteId),
+                DetalhesMotoristaView = _funcionarioRepositorio.ReturnDetalhesFunc((int)contrato.MotoristaId),
+                DetalheOnibusView = _onibusRepositorio.ReturnDetalhesBus((int)contrato.OnibusId),
+                Contrato = contrato
+            };
+            return View(modelsContrato);
         }
         [HttpPost]
-        public IActionResult Ativar(Contrato contrato) {
+        public IActionResult Ativar(ModelsContrato modelsContrato) {
             ViewData["Title"] = "Ativar contrato";
             try {
+                Contrato contrato = modelsContrato.Contrato;
                 _contratoRepositorio.AtivarContrato(contrato);
                 TempData["MensagemDeSucesso"] = "Ativado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(contrato);
+                return View(modelsContrato);
             }
         }
         public bool ValidarCampo(Contrato contrato) {
 
-            if (contrato.IdCliente == null || contrato.IdMotorista == null || contrato.IdOnibus == null
+            if (contrato.ClienteId == null || contrato.MotoristaId == null || contrato.OnibusId == null
                 || contrato.DataEmissao == null || contrato.DataVencimento == null || contrato.Detalhamento == null
                 || contrato.ValorMonetario == null || contrato.QtParcelas == null) {
                 return false;

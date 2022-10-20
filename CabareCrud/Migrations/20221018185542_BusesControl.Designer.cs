@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20220822054354_tabelas")]
-    partial class tabelas
+    [Migration("20221018185542_BusesControl")]
+    partial class BusesControl
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,9 @@ namespace BusesControl.Migrations
 
             modelBuilder.Entity("BusesControl.Models.Cliente", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
                     b.Property<string>("Bairro")
                         .IsRequired()
@@ -86,11 +86,65 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Cliente");
                 });
 
+            modelBuilder.Entity("BusesControl.Models.Contrato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Aprovacao")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClienteId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataEmissao")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DataVencimento")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Detalhamento")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("MotoristaId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OnibusId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QtParcelas")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusContrato")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("ValorMonetario")
+                        .IsRequired()
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Contrato");
+                });
+
             modelBuilder.Entity("BusesControl.Models.Funcionario", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
+
+                    b.Property<string>("Apelido")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Bairro")
                         .IsRequired()
@@ -114,7 +168,7 @@ namespace BusesControl.Migrations
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("DataNascimento")
                         .IsRequired()
@@ -126,7 +180,7 @@ namespace BusesControl.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -144,6 +198,9 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<string>("Senha")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -157,16 +214,52 @@ namespace BusesControl.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Cpf")
-                        .IsUnique();
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Telefone")
-                        .IsUnique();
-
                     b.ToTable("Funcionario");
+                });
+
+            modelBuilder.Entity("BusesControl.Models.Onibus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Assentos")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Chassi")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("DataFabricacao")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("NameBus")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Placa")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Renavam")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("StatusOnibus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("corBus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Onibus");
                 });
 
             modelBuilder.Entity("BusesControl.Models.PessoaFisica", b =>
@@ -180,6 +273,9 @@ namespace BusesControl.Migrations
                     b.Property<DateTime?>("DataNascimento")
                         .IsRequired()
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("IdVinculacaoContratual")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -246,6 +342,15 @@ namespace BusesControl.Migrations
                         .IsUnique();
 
                     b.HasDiscriminator().HasValue("PessoaJuridica");
+                });
+
+            modelBuilder.Entity("BusesControl.Models.Contrato", b =>
+                {
+                    b.HasOne("BusesControl.Models.Cliente", "Cliente")
+                        .WithMany("Contratos")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

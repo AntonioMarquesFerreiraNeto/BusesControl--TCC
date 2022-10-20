@@ -22,5 +22,6 @@ namespace BusesControl.Repositorio {
         public Funcionario TrimFuncionario(Funcionario value);
         public bool Duplicata(Funcionario funcionario);
         public bool DuplicataEditar(Funcionario funcionario, Funcionario funcionarioDB);
+        public string ReturnDetalhesFunc(int id);
     }
 }
