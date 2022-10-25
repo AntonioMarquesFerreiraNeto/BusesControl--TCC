@@ -61,6 +61,7 @@ namespace BusesControl.Controllers {
         }
         [HttpPost]
         public IActionResult Editar(Onibus onibus) {
+            Onibus onibusError = _onibusRepositorio.ListarPorId(onibus.Id);
             ViewData["Title"] = "Editar";
             try {
                 if (ValidarCampo(onibus)) {
@@ -76,7 +77,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(onibus);
+                return View(onibusError);
             }
         }
 

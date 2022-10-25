@@ -114,6 +114,10 @@ namespace BusesControl.Controllers {
                 ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal(),
                 ClienteFisico = _clienteRepositorio.ListarPorId(id)
             };
+            if (modelsCliente.ClienteFisico == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return RedirectToAction("Index");
+            }
             return View(modelsCliente);
         }
         public IActionResult EditarClienteJuridico(long id) {

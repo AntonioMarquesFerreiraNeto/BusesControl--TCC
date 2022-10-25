@@ -16,49 +16,57 @@
         <div class="row view">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="fil">
-                        <label for="" class="titleModal">
-                            <i class="fa fa-user"></i>
-                            Dados pessoais
-                            <hr style="margin-top: 5px;">
-                        </label>
-                        @if (Model.Status == StatuCliente.Habilitado) {
-                            <p><b>Status do cliente: </b>Habilitado,</p>
-                        }
-                        else {
-                            <p><b>Status do cliente: </b>Desabilitado,</p>
-                        }
-                        <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
-                        <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
-                        <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
-                        <p><b>RG:</b> @Html.DisplayFor(model => model.Rg),</p>
+                    @if (Model == null) {
+                        <div class="fil">
+                            <br> <br>
+                            <p>Não se preocupe, as informações registradas não serão alteradas! <br> Continue usando a aplicação normalmente.</p>
+                            <br> <br>
+                        </div>
+                    }
+                    else {
+                        <div class="fil">
+                            <label for="" class="titleModal">
+                                <i class="fa fa-user"></i>
+                                Dados pessoais
+                                <hr style="margin-top: 5px;">
+                            </label>
+                            @if (Model.Status == StatuCliente.Habilitado) {
+                                <p><b>Status do cliente: </b>Habilitado,</p>
+                            }
+                            else {
+                                <p><b>Status do cliente: </b>Desabilitado,</p>
+                            }
+                            <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
+                            <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
+                            <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
+                            <p><b>RG:</b> @Html.DisplayFor(model => model.Rg),</p>
 
-                        @if (Model.Email == null) {
-                            <p><b>E-mail:</b> E-mail não registrado,</p>
+                            @if (Model.Email == null) {
+                                <p><b>E-mail:</b> E-mail não registrado,</p>
 
-                        }
-                        else {
-                            <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
-                        }
-                        </p>
-                        <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
-                        <p><b>Nome da mãe:</b> @Html.DisplayFor(model => model.NameMae),</p>
-                    </div>
-                    <div class="fil">
-                        <label for="" class="titleModal">
-                            <i class="fa fa-home"></i>
-                            Endereço
-                            <hr style="margin-top: 5px;">
-                        </label>
-                        <p><b>CEP:</b> @Html.DisplayFor(model => model.Cep),</p>
-                        <p> <b>Complemento residencial:</b> @Html.DisplayFor(model => model.ComplementoResidencial),</p>
-                        <p> <b>Número residencial:</b> @Html.DisplayFor(model => model.NumeroResidencial),</p>
-                        <p><b>Logradouro:</b> @Html.DisplayFor(model => model.Logradouro),</p>
-                        <p><b>DDD: </b> @Html.DisplayFor(model => model.Ddd),</p>
-                        <p><b>Bairro:</b> @Html.DisplayFor(model => model.Bairro),</p>
-                        <p><b>Cidade:</b> @Html.DisplayFor(model => model.Cidade),</p>
-                        <p><b>Estado:</b> @Html.DisplayFor(model => model.Estado),</p>
-                    </div>
+                            }
+                            else {
+                                <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
+                            }
+                            <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
+                            <p><b>Nome da mãe:</b> @Html.DisplayFor(model => model.NameMae),</p>
+                        </div>
+                        <div class="fil">
+                            <label for="" class="titleModal">
+                                <i class="fa fa-home"></i>
+                                Endereço
+                                <hr style="margin-top: 5px;">
+                            </label>
+                            <p><b>CEP:</b> @Html.DisplayFor(model => model.Cep),</p>
+                            <p> <b>Complemento residencial:</b> @Html.DisplayFor(model => model.ComplementoResidencial),</p>
+                            <p> <b>Número residencial:</b> @Html.DisplayFor(model => model.NumeroResidencial),</p>
+                            <p><b>Logradouro:</b> @Html.DisplayFor(model => model.Logradouro),</p>
+                            <p><b>DDD: </b> @Html.DisplayFor(model => model.Ddd),</p>
+                            <p><b>Bairro:</b> @Html.DisplayFor(model => model.Bairro),</p>
+                            <p><b>Cidade:</b> @Html.DisplayFor(model => model.Cidade),</p>
+                            <p><b>Estado:</b> @Html.DisplayFor(model => model.Estado),</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

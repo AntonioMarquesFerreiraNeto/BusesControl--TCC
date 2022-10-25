@@ -41,12 +41,16 @@ namespace BusesControl.Controllers {
         public IActionResult NovoContrato() {
             TempData["MensagemDeInfo"] = "Nº de parcelas não pode ultrapassar a quantidade de meses do contrato.";
             ViewData["Title"] = "Novo contrato";
-            ModelsContrato modelsContrato = new ModelsContrato();
-
-            modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
-            modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
-            modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
-            modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
+            ModelsContrato modelsContrato = new ModelsContrato {
+                OnibusList = _onibusRepositorio.ListarTodosHab(),
+                MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab(),
+                ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal(),
+                ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal()
+            };
+            Contrato contrato = new Contrato {
+                DataEmissao = DateTime.Now
+            };
+            modelsContrato.Contrato = contrato;
             return View(modelsContrato);
         }
 
@@ -84,6 +88,8 @@ namespace BusesControl.Controllers {
                     }
                     contrato.StatusContrato = ContratoStatus.Ativo;
                     contrato.Aprovacao = StatusAprovacao.EmAnalise;
+                    //Colocando a data atual novamente como medida de proteção em casos que o usuário desabilite a restrição do input pelo inspecionar. 
+                    contrato.DataEmissao = DateTime.Now;
                     _contratoRepositorio.Adicionar(contrato);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");

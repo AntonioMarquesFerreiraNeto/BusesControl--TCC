@@ -31,7 +31,6 @@ namespace BusesControl.Models {
         public int? QtParcelas { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
-        [ValidarDataEmissao(ErrorMessage = "Campo inválido!")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataEmissao { get; set; }
 

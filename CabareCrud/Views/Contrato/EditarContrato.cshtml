@@ -141,7 +141,7 @@
                             <i class="fa fa-calendar"></i>
                         </span>
                     </div>
-                    <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataEmissao">
+                    <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataEmissao" readonly>
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.DataEmissao)

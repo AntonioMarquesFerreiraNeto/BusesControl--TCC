@@ -46,7 +46,6 @@ namespace BusesControl.Repositorio {
                 contratoDB.OnibusId = contrato.OnibusId;
                 contratoDB.ValorMonetario = contrato.ValorMonetario;
                 contratoDB.QtParcelas = contrato.QtParcelas;
-                contratoDB.DataEmissao = contrato.DataEmissao;
                 contratoDB.DataVencimento = contrato.DataVencimento;
                 contratoDB.Detalhamento = contrato.Detalhamento.Trim();
                 _bancoContext.Update(contratoDB);
