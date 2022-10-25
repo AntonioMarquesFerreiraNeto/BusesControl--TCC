@@ -80,7 +80,7 @@ namespace BusesControl.Repositorio {
         public PessoaFisica Editar(PessoaFisica cliente) {
             try {
                 PessoaFisica clienteBD = ListarPorId(cliente.Id);
-                if (clienteBD == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+                if (clienteBD == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
                 clienteBD.Name = cliente.Name.Trim();
                 clienteBD.DataNascimento = cliente.DataNascimento;
                 clienteBD.Cpf = cliente.Cpf;
@@ -111,7 +111,7 @@ namespace BusesControl.Repositorio {
         public PessoaJuridica EditarJurico(PessoaJuridica cliente) {
             try {
                 PessoaJuridica clienteUpdate = ListarPorIdJuridico(cliente.Id);
-                if (clienteUpdate == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+                if (clienteUpdate == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
                 clienteUpdate.NomeFantasia = cliente.NomeFantasia.Trim();
                 clienteUpdate.RazaoSocial = cliente.RazaoSocial.Trim();
                 clienteUpdate.Cnpj = cliente.Cnpj;
@@ -139,7 +139,7 @@ namespace BusesControl.Repositorio {
         }
         public PessoaFisica Desabilitar(PessoaFisica cliente) {
             PessoaFisica clienteDesabilitado = ListarPorId(cliente.Id);
-            if (clienteDesabilitado == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");
+            if (clienteDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
@@ -147,7 +147,7 @@ namespace BusesControl.Repositorio {
         }
         public PessoaJuridica DesabilitarJuridico(PessoaJuridica cliente) {
             PessoaJuridica clienteDesabilitado = ListarPorIdJuridico(cliente.Id);
-            if (clienteDesabilitado == null) throw new Exception("Desculpe, houve um erro ao desabilitar");  
+            if (clienteDesabilitado == null) throw new Exception("Desculpe, ID não foi encontrado.");  
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
@@ -156,7 +156,7 @@ namespace BusesControl.Repositorio {
 
         public PessoaFisica Habilitar(PessoaFisica cliente) {
             PessoaFisica clienteHabilitado = ListarPorId(cliente.Id);
-            if (clienteHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");
+            if (clienteHabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             clienteHabilitado.Status = StatuCliente.Habilitado;
             _bancocontext.Update(clienteHabilitado);
             _bancocontext.SaveChanges();
@@ -164,7 +164,7 @@ namespace BusesControl.Repositorio {
         }
         public PessoaJuridica HabilitarJuridico(PessoaJuridica cliente) {
             PessoaJuridica clienteHabilitado = ListarPorIdJuridico(cliente.Id);
-            if (clienteHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");
+            if (clienteHabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             clienteHabilitado.Status = StatuCliente.Habilitado;
             _bancocontext.Update(clienteHabilitado);
             _bancocontext.SaveChanges();

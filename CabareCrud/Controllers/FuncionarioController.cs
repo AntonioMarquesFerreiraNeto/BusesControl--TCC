@@ -57,6 +57,10 @@ namespace BusesControl.Controllers {
         public IActionResult EditarFuncionario(long id) {
             ViewData["Title"] = "Editar";
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
+            if (funcionario == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(funcionario);
+            }
             return View(funcionario);
         }
         [HttpPost]
@@ -83,6 +87,10 @@ namespace BusesControl.Controllers {
         public IActionResult Desabilitar(long id) {
             ViewData["Title"] = "Desabilitar";
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
+            if (funcionario == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(funcionario);
+            }
             return View(funcionario);
         }
         [HttpPost]
@@ -104,6 +112,10 @@ namespace BusesControl.Controllers {
         public IActionResult Habilitar(long id) {
             ViewData["Title"] = "Habilitar";
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
+            if (funcionario == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(funcionario);
+            }
             return View(funcionario);
         }
         [HttpPost]
@@ -124,6 +136,10 @@ namespace BusesControl.Controllers {
         public IActionResult ControlarUsuario(long id) {
             ViewData["Title"] = "Controlar usuário";
             Funcionario funcionario = _funcionarioRepositorio.ListarPorId(id);
+            if (funcionario == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(funcionario);
+            }
             return View(funcionario);
         }
         [HttpPost]

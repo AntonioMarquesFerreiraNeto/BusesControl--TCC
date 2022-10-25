@@ -21,29 +21,40 @@
             </label>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="fil">
-                        @if (Model.Contrato.StatusContrato == ContratoStatus.Ativo) {
-                            <p><b>Status do contrato do cliente: </b>Ativo</p>
-                        }
-                        else {
-                            <p><b>Status do ônibus: </b>Inativo</p>
-                        }
-                        <p><b>Detalhes do cliente PF/PJ: </b>@Html.DisplayFor(model => model.DetalhesClienteView)</p>
-                        <p><b>Detalhes do motorista:</b> @Html.DisplayFor(model => model.DetalhesMotoristaView)</p>
-                        <p><b>Detalhes do ônibus:</b> @Html.DisplayFor(model => model.DetalheOnibusView)</p>
-                    </div>
-                    <div class="fil">
-                        <p><b>Valor monetário do contrato:</b> R$ @Html.DisplayFor(model => model.Contrato.ValorMonetario)</p>
-                        <p><b>Quantidade de parcelas de pagamento:</b> @Html.DisplayFor(model => model.Contrato.QtParcelas)</p>
-                        <p><b>Data de emissão do contrato:</b> @Html.DisplayFor(model => model.Contrato.DataEmissao)</p>
-                        <p><b>Data de vencimento do contrato:</b> @Html.DisplayFor(model => model.Contrato.DataVencimento)</p>
-                    </div>
+                    @if (Model.Contrato == null) {
+                        <div class="fil">
+                            <br> <br>
+                            <p>Não se preocupe, as informações registradas não serão alteradas! <br> Continue usando a aplicação normalmente.</p>
+                            <br> <br>
+                        </div>
+                    }
+                    else {
+                        <div class="fil">
+                            @if (Model.Contrato.StatusContrato == ContratoStatus.Ativo) {
+                                <p><b>Status do contrato do cliente: </b>Ativo</p>
+                            }
+                            else {
+                                <p><b>Status do ônibus: </b>Inativo</p>
+                            }
+                            <p><b>Detalhes do cliente PF/PJ: </b>@Html.DisplayFor(model => model.DetalhesClienteView)</p>
+                            <p><b>Detalhes do motorista:</b> @Html.DisplayFor(model => model.DetalhesMotoristaView)</p>
+                            <p><b>Detalhes do ônibus:</b> @Html.DisplayFor(model => model.DetalheOnibusView)</p>
+                        </div>
+                        <div class="fil">
+                            <p><b>Valor monetário do contrato:</b> R$ @Html.DisplayFor(model => model.Contrato.ValorMonetario)</p>
+                            <p><b>Quantidade de parcelas de pagamento:</b> @Html.DisplayFor(model => model.Contrato.QtParcelas)</p>
+                            <p><b>Data de emissão do contrato:</b> @Html.DisplayFor(model => model.Contrato.DataEmissao)</p>
+                            <p><b>Data de vencimento do contrato:</b> @Html.DisplayFor(model => model.Contrato.DataVencimento)</p>
+                        </div>
+                    }
                 </div>
             </div>
-            <div class="long-detalhe">
-                <br>
-                <b>Detalhamento da rota de alocação:</b> @Html.DisplayFor(model => model.Contrato.Detalhamento)
-            </div>
+            @if (Model.Contrato != null) {
+                <div class="long-detalhe">
+                    <br>
+                    <b>Detalhamento da rota de alocação:</b> @Html.DisplayFor(model => model.Contrato.Detalhamento)
+                </div>
+            }
         </div>
         <div id="janelaConfirm" class="modal">
             <div class="modal-dialog modal-sm">

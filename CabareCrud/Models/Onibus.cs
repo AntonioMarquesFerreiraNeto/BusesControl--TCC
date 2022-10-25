@@ -39,5 +39,39 @@ namespace BusesControl.Models {
 
         public OnibusStatus StatusOnibus { get; set; }
         public CorBus corBus { get; set; }
+
+        public string ReturnCorBus() {
+            if (corBus == CorBus.Branco) {
+                return "Branco";
+            }
+            else if (corBus == CorBus.Azul) {
+                return "Azul";
+            }
+            else if (corBus == CorBus.Cinza) {
+                return "Cinza";
+            }
+            else if (corBus == CorBus.Prata) {
+                return "Prata";
+            }
+            else if (corBus == CorBus.Amarelo) {
+                return "Amarelo";
+            }
+            else if (corBus == CorBus.Verde) {
+                return "Verde";
+            }
+            else if (corBus == CorBus.Preto) {
+                return "Preto";
+            }
+            else if (corBus == CorBus.Vermelho) {
+                return "Vermelho";
+            }
+            return "";
+        }
+        public string ReturnStatusOnibus() {
+            if (StatusOnibus == OnibusStatus.Habilitado) {
+                return "Habilitado";
+            }
+            return "Desabilitado";
+        }
     }
 }

@@ -61,7 +61,7 @@ namespace BusesControl.Repositorio {
                     throw new Exception("Funcionário já se encontra cadastrado!");
                 }
                 if (funcionarioDB == null) {
-                    throw new Exception("Desculpe, houve alguma falha na aplicação.");
+                    throw new Exception("Desculpe, ID não foi encontrado.");
                 }
                 if (funcionario.Cargos == CargoFuncionario.Motorista) {
                     funcionarioDB.StatusUsuario = UsuarioStatus.Desativado;
@@ -116,7 +116,7 @@ namespace BusesControl.Repositorio {
         }
         public Funcionario Desabilitar(Funcionario funcionario) {
             Funcionario funcionarioDesabilitado = ListarPorId(funcionario.Id);
-            if (funcionarioDesabilitado == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");
+            if (funcionarioDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             funcionarioDesabilitado.Status = StatuFuncionario.Desabilitado;
             funcionarioDesabilitado.StatusUsuario = UsuarioStatus.Desativado;
             _bancocontext.Update(funcionarioDesabilitado);
@@ -126,7 +126,7 @@ namespace BusesControl.Repositorio {
 
         public Funcionario Habilitar(Funcionario funcionario) {
             Funcionario funcionarioHabilitado = ListarPorId(funcionario.Id);
-            if (funcionarioHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar");
+            if (funcionarioHabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             funcionarioHabilitado.Status = StatuFuncionario.Habilitado;
             _bancocontext.Update(funcionarioHabilitado);
             _bancocontext.SaveChanges();
@@ -134,7 +134,7 @@ namespace BusesControl.Repositorio {
         }
         public Funcionario DesabilitarUsuario(Funcionario funcionario) {
             Funcionario usuarioDesabilitado = ListarPorId(funcionario.Id);
-            if (usuarioDesabilitado == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");
+            if (usuarioDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             usuarioDesabilitado.StatusUsuario = UsuarioStatus.Desativado;
             _bancocontext.Update(usuarioDesabilitado);
             _bancocontext.SaveChanges();
@@ -142,7 +142,7 @@ namespace BusesControl.Repositorio {
         }
         public Funcionario HabilitarUsuario(Funcionario funcionario) {
             Funcionario usuarioHabilitado = ListarPorId(funcionario.Id);
-            if (usuarioHabilitado == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");
+            if (usuarioHabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             usuarioHabilitado.StatusUsuario = UsuarioStatus.Ativado;
             _bancocontext.Update(usuarioHabilitado);
             _bancocontext.SaveChanges();
@@ -150,7 +150,7 @@ namespace BusesControl.Repositorio {
         }
         public Funcionario AlterarSenha(MudarSenha mudarSenha) {
             Funcionario usuarioDB = ListarPorId(mudarSenha.Id);
-            if (usuarioDB == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+            if (usuarioDB == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             if (!usuarioDB.ValidarSenha(mudarSenha.SenhaAtual)) throw new System.Exception("Senha atual inválida!");
             if (usuarioDB.ValidarDuplicataSenha(mudarSenha.NovaSenha)) throw new System.Exception("A nova senha não pode ser igual a atual!");
             usuarioDB.Senha = mudarSenha.NovaSenha;
@@ -162,7 +162,7 @@ namespace BusesControl.Repositorio {
             try {
                 Funcionario usuarioDB = ListarPorId(usuario.Id);
                 if (usuarioDB == null) {
-                    throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+                    throw new System.Exception("Desculpe, ID não foi encontrado.");
                 }
                 usuarioDB.Senha = usuario.Senha;
                 _bancocontext.Update(usuarioDB);
@@ -176,7 +176,7 @@ namespace BusesControl.Repositorio {
         public Funcionario RegistroApelido(Funcionario usuario) {
             Funcionario usuarioDB = ListarPorId(usuario.Id);
             if (usuarioDB == null) {
-                throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+                throw new System.Exception("Desculpe, ID não foi encontrado.");
             }
             usuarioDB.Apelido = usuario.Apelido;
             _bancocontext.Update(usuarioDB);
@@ -223,7 +223,7 @@ namespace BusesControl.Repositorio {
 
         public string ReturnDetalhesFunc(int id) {
             Funcionario funcionario = ListarPorId(id);
-            if(funcionario == null) throw new Exception("Desculpe, houve um erro na aplicação.");
+            if(funcionario == null) throw new Exception("Desculpe, ID não foi encontrado.");
             return $"{funcionario.Name} – CPF: {funcionario.Cpf}";
         }
     }

@@ -105,6 +105,10 @@ namespace BusesControl.Controllers {
                 OnibusList = _onibusRepositorio.ListarTodosHab(),
                 Contrato = _contratoRepositorio.ListarPorId(id)
             };
+            if (modelsContrato.Contrato == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(modelsContrato);
+            }
             return View(modelsContrato);
         }
         [HttpPost]
@@ -151,6 +155,11 @@ namespace BusesControl.Controllers {
             ViewData["Title"] = "Inativar contrato";
             //Objeto criado para receber os id´s necessários e passar para viewModel.
             Contrato contrato = _contratoRepositorio.ListarPorId(id);
+            ModelsContrato modelsContratoError = new ModelsContrato();
+            if (contrato == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(modelsContratoError);
+            }
             ModelsContrato modelsContrato = new ModelsContrato {
                 DetalhesMotoristaView = _funcionarioRepositorio.ReturnDetalhesFunc((int)contrato.MotoristaId),
                 DetalheOnibusView = _onibusRepositorio.ReturnDetalhesBus((int)contrato.OnibusId),
@@ -178,6 +187,11 @@ namespace BusesControl.Controllers {
             ViewData["Title"] = "Ativar contrato";
             //Objeto criado para receber os Ids necessários e passar para viewModel.
             Contrato contrato = _contratoRepositorio.ListarPorId(id);
+            ModelsContrato modelsContratoError = new ModelsContrato();
+            if (contrato == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(modelsContratoError);
+            }
             ModelsContrato modelsContrato = new ModelsContrato {
                 DetalhesClienteView = _clienteRepositorio.ReturnDetalhesCliente((int)contrato.ClienteId),
                 DetalhesMotoristaView = _funcionarioRepositorio.ReturnDetalhesFunc((int)contrato.MotoristaId),

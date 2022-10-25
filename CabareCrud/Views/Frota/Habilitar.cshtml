@@ -16,51 +16,31 @@
         <div class="row view">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="fil">
-                        <label for="" class="titleModal">
-                            <i class="fa fa-user"></i>
-                            Informações sobre o ônibus
-                            <hr style="margin-top: 5px;">
-                        </label>
-                        @if (Model.StatusOnibus == OnibusStatus.Habilitado) {
-                            <p><b>Status do ônibus: </b>Habilitado,</p>
-                        }
-                        else {
-                            <p><b>Status do ônibus: </b>Desabilitado,</p>
-                        }
-                        <p><b>Marca: </b>@Html.DisplayFor(model => model.Marca),</p>
-                        <p><b>Nome:</b> @Html.DisplayFor(model => model.NameBus),</p>
-                        <p><b>Ano de fabricação:</b> @Html.DisplayFor(model => model.DataFabricacao),</p>
-                        @if (Model.corBus == CorBus.Branco) {
-                            <p><b>Cor:</b> branca,</p>
-                        }
-                        else if (Model.corBus == CorBus.Amarelo) {
-                            <p><b>Cor:</b> branca,</p>
-                        }
-                        else if (Model.corBus == CorBus.Azul) {
-                            <p><b>Cor:</b> azul,</p>
-                        }
-                        else if (Model.corBus == CorBus.Verde) {
-                            <p><b>Cor:</b> verde,</p>
-                        }
-                        else if (Model.corBus == CorBus.Vermelho) {
-                            <p><b>Cor:</b> vermelho,</p>
-                        }
-                        else if (Model.corBus == CorBus.Cinza) {
-                            <p><b>Cor:</b> cinza,</p>
-                        }
-                        else if (Model.corBus == CorBus.Prata) {
-                            <p><b>Cor:</b> prata,</p>
-                        }
-                        else if (Model.corBus == CorBus.Preto) {
-                            <p><b>Cor:</b> preto,</p>
-                        }
-                        <p><b>Placa:</b> @Html.DisplayFor(model => model.Placa),</p>
-                        <p><b>Renavam:</b> @Html.DisplayFor(model => model.Renavam),</p>
-                        <p><b>Numero de chassi:</b> @Html.DisplayFor(model => model.Chassi),</p>
-                        <p><b>Quantidade de assentos:</b> @Html.DisplayFor(model => model.Assentos),</p>
-
-                    </div>
+                    @if (Model == null) {
+                        <div class="fil">
+                            <br> <br>
+                            <p>Não se preocupe, as informações registradas não serão alteradas! <br> Continue usando a aplicação normalmente.</p>
+                            <br> <br>
+                        </div>
+                    }
+                    else {
+                        <div class="fil">
+                            <label for="" class="titleModal">
+                                <i class="fa fa-user"></i>
+                                Informações sobre o ônibus
+                                <hr style="margin-top: 5px;">
+                            </label>
+                            <p><b>Status do ônibus: </b>@Model.ReturnStatusOnibus(),</p>
+                            <p><b>Cor:</b> @Model.ReturnCorBus(),</p>
+                            <p><b>Marca: </b>@Html.DisplayFor(model => model.Marca),</p>
+                            <p><b>Nome:</b> @Html.DisplayFor(model => model.NameBus),</p>
+                            <p><b>Ano de fabricação:</b> @Html.DisplayFor(model => model.DataFabricacao),</p>
+                            <p><b>Placa:</b> @Html.DisplayFor(model => model.Placa),</p>
+                            <p><b>Renavam:</b> @Html.DisplayFor(model => model.Renavam),</p>
+                            <p><b>Numero de chassi:</b> @Html.DisplayFor(model => model.Chassi),</p>
+                            <p><b>Quantidade de assentos:</b> @Html.DisplayFor(model => model.Assentos),</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

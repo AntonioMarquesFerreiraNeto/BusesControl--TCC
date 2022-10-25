@@ -119,6 +119,10 @@ namespace BusesControl.Controllers {
         public IActionResult EditarClienteJuridico(long id) {
             ViewData["Title"] = "Editar";
             PessoaJuridica cliente = _clienteRepositorio.ListarPorIdJuridico(id);
+            if (cliente == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(cliente);
+            }
             return View(cliente);
         }
         [HttpPost]
@@ -177,11 +181,19 @@ namespace BusesControl.Controllers {
         public IActionResult Desabilitar(long id) {
             ViewData["Title"] = "Desabilitar";
             PessoaFisica cliente = _clienteRepositorio.ListarPorId(id);
+            if (cliente == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(cliente);
+            }
             return View(cliente);
         }
         public IActionResult DesabilitarJuridico(long id) {
             ViewData["Title"] = "Desabilitar";
             PessoaJuridica cliente = _clienteRepositorio.ListarPorIdJuridico(id);
+            if (cliente == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(cliente);
+            }
             return View(cliente);
         }
         [HttpPost]
@@ -214,11 +226,19 @@ namespace BusesControl.Controllers {
         public IActionResult Habilitar(long id) {
             ViewData["Title"] = "Habilitar";
             PessoaFisica cliente = _clienteRepositorio.ListarPorId(id);
+            if (cliente == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(cliente);
+            }
             return View(cliente);
         }
         public IActionResult HabilitarJuridico(long id) {
             ViewData["Title"] = "Habilitar";
             PessoaJuridica cliente = _clienteRepositorio.ListarPorIdJuridico(id);
+            if (cliente == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(cliente);
+            }
             return View(cliente);
         }
         [HttpPost]

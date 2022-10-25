@@ -53,6 +53,10 @@ namespace BusesControl.Controllers {
         public IActionResult Editar(long id) {
             ViewData["Title"] = "Editar";
             Onibus onibus = _onibusRepositorio.ListarPorId(id);
+            if (onibus == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(onibus);
+            }
             return View(onibus);
         }
         [HttpPost]
@@ -79,10 +83,15 @@ namespace BusesControl.Controllers {
         public IActionResult Desabilitar(long id) {
             ViewData["Title"] = "Desabilitar";
             Onibus onibus = _onibusRepositorio.ListarPorId(id);
+            if (onibus == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(onibus);
+            }
             return View(onibus);
         }
         [HttpPost]
         public IActionResult Desabilitar(Onibus onibus) {
+            Onibus onibusError = _onibusRepositorio.ListarPorId(onibus.Id);
             ViewData["Title"] = "Desabilitar";
             try {
                 _onibusRepositorio.Desabilitar(onibus);
@@ -91,17 +100,22 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(onibus);
+                return View(onibusError);
             }
         }
         
         public IActionResult Habilitar(long id) {
             ViewData["Title"] = "Habilitar";
             Onibus onibus = _onibusRepositorio.ListarPorId(id);
+            if (onibus == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
+                return View(onibus);
+            }
             return View(onibus);
         }
         [HttpPost]
         public IActionResult Habilitar(Onibus onibus) {
+            Onibus onibusError = _onibusRepositorio.ListarPorId(onibus.Id);
             ViewData["Title"] = "Habilitar";
             try {
                 _onibusRepositorio.Habilitar(onibus);
@@ -110,7 +124,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(onibus);
+                return View(onibusError);
             }
         }
 

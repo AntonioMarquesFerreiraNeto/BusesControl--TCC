@@ -40,7 +40,7 @@ namespace BusesControl.Repositorio {
         public Contrato EditarContrato(Contrato contrato) {
             try {
                 Contrato contratoDB = ListarPorId(contrato.Id);
-                if (contratoDB == null) throw new Exception("Desculpe, houve alguma falha na aplicação.");
+                if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
                 contratoDB.ClienteId = contrato.ClienteId;
                 contratoDB.MotoristaId = contrato.MotoristaId;
                 contratoDB.OnibusId = contrato.OnibusId;
@@ -60,7 +60,7 @@ namespace BusesControl.Repositorio {
         public Contrato InativarContrato(Contrato contrato) {
             try {
                 Contrato contratoDB = ListarPorId(contrato.Id);
-                if (contratoDB == null) throw new Exception("Desculpe, houve alguma falha na aplicação.");
+                if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
                 contratoDB.StatusContrato = ContratoStatus.Inativo;
                 _bancoContext.Contrato.Update(contratoDB);
                 _bancoContext.SaveChanges();
@@ -73,7 +73,7 @@ namespace BusesControl.Repositorio {
         public Contrato AtivarContrato(Contrato contrato) {
             try {
                 Contrato contratoDB = ListarPorId(contrato.Id);
-                if (contratoDB == null) throw new Exception("Desculpe, houve alguma falha na aplicação.");
+                if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
                 contratoDB.StatusContrato = ContratoStatus.Ativo;
                 _bancoContext.Update(contratoDB);
                 _bancoContext.SaveChanges();

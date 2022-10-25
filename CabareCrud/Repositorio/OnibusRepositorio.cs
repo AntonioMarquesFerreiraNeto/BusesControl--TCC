@@ -45,7 +45,7 @@ namespace BusesControl.Repositorio {
                 if (DuplicataEditar(onibus, onibusDB)) {
                     throw new Exception("Ônibus já se encontra cadastrado!");
                 }
-                if (onibusDB == null) throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
+                if (onibusDB == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
                 onibusDB.NameBus = onibus.NameBus.Trim();
                 onibusDB.Marca = onibus.Marca.Trim();
                 onibusDB.DataFabricacao = onibus.DataFabricacao.Trim();
@@ -64,7 +64,7 @@ namespace BusesControl.Repositorio {
         }
         public Onibus Desabilitar(Onibus onibus) {
             Onibus onibusDesabilitar = ListarPorId(onibus.Id);
-            if (onibusDesabilitar == null) throw new System.Exception("Desculpe, houve um erro ao desabilitar.");
+            if (onibusDesabilitar == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             onibusDesabilitar.StatusOnibus = OnibusStatus.Desabilitado;
             _bancoContext.Update(onibusDesabilitar);
             _bancoContext.SaveChanges();
@@ -72,7 +72,7 @@ namespace BusesControl.Repositorio {
         }
         public Onibus Habilitar(Onibus onibus) {
             Onibus onibusHabilitar = ListarPorId(onibus.Id);
-            if (onibusHabilitar == null) throw new System.Exception("Desculpe, houve um erro ao habilitar.");
+            if (onibusHabilitar == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             onibusHabilitar.StatusOnibus = OnibusStatus.Habilitado;
             _bancoContext.Update(onibusHabilitar);
             _bancoContext.SaveChanges();
@@ -107,7 +107,7 @@ namespace BusesControl.Repositorio {
 
         public string ReturnDetalhesBus(int id) {
             Onibus onibus = ListarPorId(id);
-            if (onibus == null) throw new Exception("Desculpe, houve um erro na aplicação.");
+            if (onibus == null) throw new Exception("Desculpe, ID não foi encontrado.");
             return $"{onibus.NameBus} – Placa: {onibus.Placa}";
         }
     }
