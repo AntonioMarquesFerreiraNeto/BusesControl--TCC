@@ -7,6 +7,8 @@ namespace BusesControl.Data.Map {
         public void Configure(EntityTypeBuilder<Contrato> builder) {
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Cliente);
+            builder.HasOne(x => x.Motorista);
+            builder.HasOne(x => x.Onibus);
         }
     }
 }

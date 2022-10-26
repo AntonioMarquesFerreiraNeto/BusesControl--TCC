@@ -1,6 +1,7 @@
 ﻿using BusesControl.Data;
 using BusesControl.Models;
 using BusesControl.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,7 @@ namespace BusesControl.Repositorio {
         }
 
         public Onibus ListarPorId(long id) {
-            Onibus onibus = _bancoContext.Onibus.FirstOrDefault(x => x.Id == id);
-            return onibus;
+            return _bancoContext.Onibus.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
         }
         public Onibus EditarOnibus(Onibus onibus) {
             try {
@@ -65,6 +65,9 @@ namespace BusesControl.Repositorio {
         public Onibus Desabilitar(Onibus onibus) {
             Onibus onibusDesabilitar = ListarPorId(onibus.Id);
             if (onibusDesabilitar == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
+            if (onibusDesabilitar.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+                throw new Exception("Ônibus vinculado em contrato em andamento!");
+            }
             onibusDesabilitar.StatusOnibus = OnibusStatus.Desabilitado;
             _bancoContext.Update(onibusDesabilitar);
             _bancoContext.SaveChanges();

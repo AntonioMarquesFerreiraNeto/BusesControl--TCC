@@ -46,7 +46,7 @@
                     @foreach (var item in Model) {
                         <tr>
                             <td>@item.Id</td>
-                            <td>@Html.DisplayFor(x => @item.ClienteId)</td>
+                            <td>@item.Cliente.Telefone</td>
                             <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
                             <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
                             <td>

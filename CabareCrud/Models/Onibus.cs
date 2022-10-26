@@ -2,6 +2,7 @@
 using BusesControl.Models.ValidacoesDados.ModelValidarAnoFab;
 using BusesControl.Models.ValidacoesDados.ModelValidarAssentos;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
@@ -39,6 +40,8 @@ namespace BusesControl.Models {
 
         public OnibusStatus StatusOnibus { get; set; }
         public CorBus corBus { get; set; }
+
+        public virtual List<Contrato> Contratos { get; set; }
 
         public string ReturnCorBus() {
             if (corBus == CorBus.Branco) {

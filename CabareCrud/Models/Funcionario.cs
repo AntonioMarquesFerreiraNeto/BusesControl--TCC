@@ -4,6 +4,7 @@ using BusesControl.Models.ModelValidarCPF;
 using BusesControl.Models.ValidacoesCliente.ModelValidarDate;
 using BusesControl.Models.ValidacoesDados.ModelValidarEmail;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -73,6 +74,8 @@ namespace BusesControl.Models {
         public StatuFuncionario Status { get; set; }
         public CargoFuncionario Cargos { get; set; }
         public UsuarioStatus StatusUsuario { get; set; }
+
+        public virtual List<Contrato> Contratos { get; set; }
 
         public bool ValidarSenha(string senha) {
             if (senha.GerarHash() == Senha) {

@@ -47,6 +47,10 @@ namespace BusesControl.Models {
         public StatusAprovacao Aprovacao { get; set; }
 
         public Cliente Cliente { get; set; }
+        
+        public Funcionario Motorista { get; set; }
+
+        public Onibus Onibus { get; set; }
 
         public bool ValidarValorMonetario() {
             if (ValorMonetario < 150) {

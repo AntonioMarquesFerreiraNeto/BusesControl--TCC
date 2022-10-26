@@ -132,6 +132,10 @@ namespace BusesControl.Migrations
 
                     b.HasIndex("ClienteId");
 
+                    b.HasIndex("MotoristaId");
+
+                    b.HasIndex("OnibusId");
+
                     b.ToTable("Contrato");
                 });
 
@@ -347,6 +351,18 @@ namespace BusesControl.Migrations
                     b.HasOne("BusesControl.Models.Cliente", "Cliente")
                         .WithMany("Contratos")
                         .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusesControl.Models.Funcionario", "Motorista")
+                        .WithMany("Contratos")
+                        .HasForeignKey("MotoristaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusesControl.Models.Onibus", "Onibus")
+                        .WithMany("Contratos")
+                        .HasForeignKey("OnibusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

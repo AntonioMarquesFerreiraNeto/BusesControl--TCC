@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BusesControl.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusesControl.Repositorio {
     public class ContratoRepositorio : IContratoRepositorio {
@@ -15,15 +16,21 @@ namespace BusesControl.Repositorio {
             _bancoContext = bancoContext;
         }
         public Contrato ListarPorId(int id) {
-            return _bancoContext.Contrato.FirstOrDefault(x => x.Id == id);  
+            return _bancoContext.Contrato.AsNoTracking().Include(x => x.Motorista).FirstOrDefault(x => x.Id == id);  
         }
         public List<Contrato> ListContratoAtivo() {
-            var list = _bancoContext.Contrato.ToList();
-            return list.Where(x => x.StatusContrato == ContratoStatus.Ativo).ToList();
+            return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Ativo)
+                .AsNoTracking().Include("Onibus")
+                .AsNoTracking().Include("Motorista")
+                .AsNoTracking().Include("Cliente")
+                .ToList();
         }
         public List<Contrato> ListContratoInativo() {
-            var list = _bancoContext.Contrato.ToList();
-            return list.Where(x => x.StatusContrato == ContratoStatus.Inativo).ToList();
+            return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Inativo)
+               .AsNoTracking().Include("Onibus")
+               .AsNoTracking().Include("Motorista")
+               .AsNoTracking().Include("Cliente")
+               .ToList();
         }
         public Contrato Adicionar(Contrato contrato) {
             try {
@@ -48,7 +55,7 @@ namespace BusesControl.Repositorio {
                 contratoDB.QtParcelas = contrato.QtParcelas;
                 contratoDB.DataVencimento = contrato.DataVencimento;
                 contratoDB.Detalhamento = contrato.Detalhamento.Trim();
-                _bancoContext.Update(contratoDB);
+                _bancoContext.Contrato.Update(contratoDB);
                 _bancoContext.SaveChanges();
                 return contratoDB;
             }

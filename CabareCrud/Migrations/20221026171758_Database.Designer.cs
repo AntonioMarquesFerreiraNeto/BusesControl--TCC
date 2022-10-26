@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20221018185542_BusesControl")]
-    partial class BusesControl
+    [Migration("20221026171758_Database")]
+    partial class Database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,6 +133,10 @@ namespace BusesControl.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("MotoristaId");
+
+                    b.HasIndex("OnibusId");
 
                     b.ToTable("Contrato");
                 });
@@ -349,6 +353,18 @@ namespace BusesControl.Migrations
                     b.HasOne("BusesControl.Models.Cliente", "Cliente")
                         .WithMany("Contratos")
                         .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusesControl.Models.Funcionario", "Motorista")
+                        .WithMany("Contratos")
+                        .HasForeignKey("MotoristaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusesControl.Models.Onibus", "Onibus")
+                        .WithMany("Contratos")
+                        .HasForeignKey("OnibusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

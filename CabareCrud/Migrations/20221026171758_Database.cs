@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BusesControl.Migrations
 {
-    public partial class BusesControl : Migration
+    public partial class Database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -121,6 +121,18 @@ namespace BusesControl.Migrations
                         principalTable: "Cliente",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contrato_Funcionario_MotoristaId",
+                        column: x => x.MotoristaId,
+                        principalTable: "Funcionario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contrato_Onibus_OnibusId",
+                        column: x => x.OnibusId,
+                        principalTable: "Onibus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -181,6 +193,16 @@ namespace BusesControl.Migrations
                 name: "IX_Contrato_ClienteId",
                 table: "Contrato",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contrato_MotoristaId",
+                table: "Contrato",
+                column: "MotoristaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contrato_OnibusId",
+                table: "Contrato",
+                column: "OnibusId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -189,13 +211,13 @@ namespace BusesControl.Migrations
                 name: "Contrato");
 
             migrationBuilder.DropTable(
+                name: "Cliente");
+
+            migrationBuilder.DropTable(
                 name: "Funcionario");
 
             migrationBuilder.DropTable(
                 name: "Onibus");
-
-            migrationBuilder.DropTable(
-                name: "Cliente");
         }
     }
 }

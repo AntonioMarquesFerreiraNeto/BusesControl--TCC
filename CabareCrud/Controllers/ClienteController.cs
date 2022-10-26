@@ -203,6 +203,7 @@ namespace BusesControl.Controllers {
         [HttpPost]
         public IActionResult Desabilitar(PessoaFisica cliente) {
             ViewData["Title"] = "Desabilitar";
+            PessoaFisica clienteError = _clienteRepositorio.ListarPorId(cliente.Id);
             try {
                 _clienteRepositorio.Desabilitar(cliente);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -210,12 +211,13 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(cliente);
+                return View(clienteError);
             }
         }
         [HttpPost]
         public IActionResult DesabilitarJuridico(PessoaJuridica cliente) {
             ViewData["Title"] = "Desabilitar";
+            PessoaJuridica clienteError = _clienteRepositorio.ListarPorIdJuridico(cliente.Id);
             try {
                 _clienteRepositorio.DesabilitarJuridico(cliente);
                 TempData["MensagemDeSucesso"] = "Desabilitado com sucesso!";
@@ -223,7 +225,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(cliente);
+                return View(clienteError);
             }
         }
 

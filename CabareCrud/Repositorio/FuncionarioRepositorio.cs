@@ -2,6 +2,7 @@
 using BusesControl.Helper;
 using BusesControl.Models;
 using BusesControl.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,10 @@ namespace BusesControl.Repositorio {
         public Funcionario EditarFuncionario(Funcionario funcionario) {
             try {
                 Funcionario funcionarioDB = ListarPorId(funcionario.Id);
+                if (funcionarioDB.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado 
+                    && funcionario.Cargos != CargoFuncionario.Motorista)) {
+                    throw new Exception("Não é possível alterar o cargo de um motorista que possui contratos em andamento.");
+                }
                 if (DuplicataEditar(funcionario, funcionarioDB)) {
                     throw new Exception("Funcionário já se encontra cadastrado!");
                 }
@@ -105,7 +110,7 @@ namespace BusesControl.Repositorio {
         }
 
         public Funcionario ListarPorId(long id) {
-            Funcionario funcionario = _bancocontext.Funcionario.FirstOrDefault(x => x.Id == id);
+            Funcionario funcionario = _bancocontext.Funcionario.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
             return funcionario;
         }
         public Funcionario ListarPorlogin(string cpf) {
@@ -117,6 +122,9 @@ namespace BusesControl.Repositorio {
         public Funcionario Desabilitar(Funcionario funcionario) {
             Funcionario funcionarioDesabilitado = ListarPorId(funcionario.Id);
             if (funcionarioDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
+            if (funcionarioDesabilitado.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+                throw new Exception("Motorista vinculado em contrato em andamento!");
+            }
             funcionarioDesabilitado.Status = StatuFuncionario.Desabilitado;
             funcionarioDesabilitado.StatusUsuario = UsuarioStatus.Desativado;
             _bancocontext.Update(funcionarioDesabilitado);

@@ -2,6 +2,7 @@
 using BusesControl.Data;
 using BusesControl.Models;
 using BusesControl.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,10 +73,10 @@ namespace BusesControl.Repositorio {
         }
 
         public PessoaFisica ListarPorId(long id) {
-            return _bancocontext.PessoaFisica.FirstOrDefault(x => x.Id == id);
+            return _bancocontext.PessoaFisica.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
         }
         public PessoaJuridica ListarPorIdJuridico(long id) {
-            return _bancocontext.PessoaJuridica.FirstOrDefault(x => x.Id == id);
+            return _bancocontext.PessoaJuridica.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
         }
         public PessoaFisica Editar(PessoaFisica cliente) {
             try {
@@ -140,6 +141,9 @@ namespace BusesControl.Repositorio {
         public PessoaFisica Desabilitar(PessoaFisica cliente) {
             PessoaFisica clienteDesabilitado = ListarPorId(cliente.Id);
             if (clienteDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
+            if (clienteDesabilitado.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+                throw new Exception("Cliente possui contratos em andamento!");
+            }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
@@ -147,7 +151,10 @@ namespace BusesControl.Repositorio {
         }
         public PessoaJuridica DesabilitarJuridico(PessoaJuridica cliente) {
             PessoaJuridica clienteDesabilitado = ListarPorIdJuridico(cliente.Id);
-            if (clienteDesabilitado == null) throw new Exception("Desculpe, ID não foi encontrado.");  
+            if (clienteDesabilitado == null) throw new Exception("Desculpe, ID não foi encontrado.");
+            if (clienteDesabilitado.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+                throw new Exception("Cliente possui contratos em andamento!");
+            }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
