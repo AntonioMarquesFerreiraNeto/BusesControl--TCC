@@ -27,6 +27,9 @@ namespace BusesControl.Models {
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorMonetario { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValorParcelaContrato { get; set; }
+
         [Required(ErrorMessage = "Campo obrigatório!")]
         [ValidationMinParcela(ErrorMessage = "Campo inválido!")]
         public int? QtParcelas { get; set; }
@@ -75,6 +78,11 @@ namespace BusesControl.Models {
                 return $"{PessoaFisica.Name.ToUpper()} – CPF: {PessoaFisica.Cpf}";
             }
             return $"{PessoaJuridica.NomeFantasia.ToUpper()} – CNPJ: {PessoaJuridica.Cnpj}";
+        }
+
+        public decimal? ReturnValorParcela() {
+            ValorParcelaContrato = ValorMonetario / QtParcelas;
+            return ValorParcelaContrato;
         }
     }
 }

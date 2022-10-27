@@ -174,61 +174,50 @@ namespace BusesControl.Controllers {
 
         public IActionResult Inativar(int id) {
             ViewData["Title"] = "Inativar contrato";
-            //Objeto criado para receber os id´s necessários e passar para viewModel.
             Contrato contrato = _contratoRepositorio.ListarJoinPorId(id);
-            ModelsContrato modelsContratoError = new ModelsContrato();
             if (contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
-                return View(modelsContratoError);
+                return View(contrato);
             }
-            ModelsContrato modelsContrato = new ModelsContrato {
-                Contrato = contrato
-            };
-            return View(modelsContrato);
+            return View(contrato);
         }
         [HttpPost]
-        public IActionResult Inativar(ModelsContrato modelsContrato) {
+        public IActionResult Inativar(Contrato contrato) {
             ViewData["Title"] = "Inativar contrato";
             try {
-                Contrato contrato = modelsContrato.Contrato;
                 _contratoRepositorio.InativarContrato(contrato);
                 TempData["MensagemDeSucesso"] = "Inativado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(modelsContrato);
+                return View();
             }
         }
 
         public IActionResult Ativar(int id) {
             ViewData["Title"] = "Ativar contrato";
-            //Objeto criado para receber os Ids necessários e passar para viewModel.
             Contrato contrato = _contratoRepositorio.ListarJoinPorId(id);
-            ModelsContrato modelsContratoError = new ModelsContrato();
             if (contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
-                return View(modelsContratoError);
+                return View(contrato);
             }
-            ModelsContrato modelsContrato = new ModelsContrato {
-                Contrato = contrato
-            };
-            return View(modelsContrato);
+            return View(contrato);
         }
         [HttpPost]
-        public IActionResult Ativar(ModelsContrato modelsContrato) {
+        public IActionResult Ativar(Contrato contrato) {
             ViewData["Title"] = "Ativar contrato";
             try {
-                Contrato contrato = modelsContrato.Contrato;
                 _contratoRepositorio.AtivarContrato(contrato);
                 TempData["MensagemDeSucesso"] = "Ativado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(modelsContrato);
+                return View(contrato);
             }
         }
+
         public bool ValidarCampo(Contrato contrato) {
 
             if (contrato.MotoristaId == null || contrato.OnibusId == null

@@ -130,6 +130,9 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<decimal?>("ValorParcelaContrato")
+                        .HasColumnType("decimal(65,30)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MotoristaId");

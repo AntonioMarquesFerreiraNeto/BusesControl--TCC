@@ -91,20 +91,21 @@ input#form-control {
 .form-item {
     position: relative;
 }
-    .legend-data{
-        position: absolute;
-        font-size: 13pt;
-        top: -2px;
-        left: 155px;
-    }
 
-    .form-item small {
-        position: absolute;
-        top: 60px;
-        left: 1px;
-        color: #ff0000;
-        font-size: 9pt;
-    }
+.legend-data {
+    position: absolute;
+    font-size: 13pt;
+    top: -2px;
+    left: 155px;
+}
+
+.form-item small {
+    position: absolute;
+    top: 60px;
+    left: 1px;
+    color: #ff0000;
+    font-size: 9pt;
+}
 /*Icones de erro e sucesso da sessão modal cliente*/
 .form-it .i small {
     position: absolute;
@@ -113,6 +114,7 @@ input#form-control {
     font-size: 9pt;
     color: red;
 }
+
 .form-it .i-detalhe small {
     position: absolute;
     top: 76px;
@@ -120,6 +122,7 @@ input#form-control {
     font-size: 9pt;
     color: red;
 }
+
 .cliente {
     width: 96%;
 }
@@ -257,6 +260,7 @@ input#form-control {
     height: 33px;
     width: 40px;
 }
+
 .rota span {
     background-color: #2b65c2;
     color: #ffffff;
@@ -265,6 +269,7 @@ input#form-control {
     width: 100px;
     height: 100px;
 }
+
 input:focus {
     outline: 0 0 0 0 !important;
     box-shadow: 0 0 0 0 !important;
@@ -276,8 +281,30 @@ input:focus {
 
 .link {
     margin: 10px;
+    font-size: 10.5pt;
     color: rgb(0, 7, 182);
 }
+
+.link-sucess {
+    margin: 10px;
+    font-size: 10.5pt;
+    color: rgb(7, 176, 0);
+}
+
+    .link-sucess :hover {
+        color: limegreen;
+        color: forestgreen;
+    }
+
+.link-red {
+    margin: 10px;
+    font-size: 10.5pt;
+    color: red;
+}
+
+    .link-red :hover {
+        color: darkred;
+    }
 
 .btn-ende {
     text-align: center;
@@ -346,6 +373,7 @@ td {
     .font-place {
         font-size: 9pt;
     }
+
     .flex-filtro {
         justify-content: center;
     }
@@ -366,29 +394,31 @@ td {
     .filtro {
         width: 85%;
     }
-    }
+}
 
-    #formAdd {
-        width: 100%;
-    }
+#formAdd {
+    width: 100%;
+}
 
-    .filtra_btn, .filtrar_btn2 {
-        width: 100px;
-        height: 33px;
-        font-size: 8pt;
-    }
+.filtra_btn, .filtrar_btn2 {
+    width: 100px;
+    height: 33px;
+    font-size: 8pt;
+}
 
-    .filtrar_btn {
-        font-size: 8pt;
-        margin: 1px;
-        width: 110px;
-    }
+.filtrar_btn {
+    font-size: 8pt;
+    margin: 1px;
+    width: 110px;
+}
+
 }
 
 @media(min-width: 510px) {
     .font-place {
         font-size: 9pt;
     }
+
     .btn-group .btn-group-toggle {
         flex-direction: row;
     }
@@ -402,6 +432,7 @@ td {
     .font-place {
         font-size: 9pt;
     }
+
     .clientes {
         flex-direction: column;
     }
@@ -423,9 +454,10 @@ td {
 }
 
 @media(min-width: 941px) {
-    .font-place{
+    .font-place {
         font-size: 11pt;
     }
+
     .filtro {
         width: 80%;
     }
@@ -444,7 +476,7 @@ td {
     }
 }
 
-@media(min-width: 1100px){
+@media(min-width: 1100px) {
     .legend-data {
         left: 164px;
     }

@@ -72,6 +72,8 @@
   <ItemGroup>
     <Compile Include="Migrations\20221027040236_Finish join.cs" />
     <Compile Include="Migrations\20221027040236_Finish join.Designer.cs" />
+    <Compile Include="Migrations\20221027201210_new Atribute contrato.cs" />
+    <Compile Include="Migrations\20221027201210_new Atribute contrato.Designer.cs" />
     <Compile Include="Migrations\BancoContextModelSnapshot.cs" />
   </ItemGroup>
 
