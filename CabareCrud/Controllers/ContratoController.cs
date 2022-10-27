@@ -160,15 +160,13 @@ namespace BusesControl.Controllers {
         public IActionResult Inativar(int id) {
             ViewData["Title"] = "Inativar contrato";
             //Objeto criado para receber os id´s necessários e passar para viewModel.
-            Contrato contrato = _contratoRepositorio.ListarPorId(id);
+            Contrato contrato = _contratoRepositorio.ListarJoinPorId(id);
             ModelsContrato modelsContratoError = new ModelsContrato();
             if (contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
                 return View(modelsContratoError);
             }
             ModelsContrato modelsContrato = new ModelsContrato {
-                DetalhesMotoristaView = _funcionarioRepositorio.ReturnDetalhesFunc((int)contrato.MotoristaId),
-                DetalheOnibusView = _onibusRepositorio.ReturnDetalhesBus((int)contrato.OnibusId),
                 DetalhesClienteView = _clienteRepositorio.ReturnDetalhesCliente((int)contrato.ClienteId),
                 Contrato = contrato
             };
@@ -192,7 +190,7 @@ namespace BusesControl.Controllers {
         public IActionResult Ativar(int id) {
             ViewData["Title"] = "Ativar contrato";
             //Objeto criado para receber os Ids necessários e passar para viewModel.
-            Contrato contrato = _contratoRepositorio.ListarPorId(id);
+            Contrato contrato = _contratoRepositorio.ListarJoinPorId(id);
             ModelsContrato modelsContratoError = new ModelsContrato();
             if (contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
@@ -200,8 +198,6 @@ namespace BusesControl.Controllers {
             }
             ModelsContrato modelsContrato = new ModelsContrato {
                 DetalhesClienteView = _clienteRepositorio.ReturnDetalhesCliente((int)contrato.ClienteId),
-                DetalhesMotoristaView = _funcionarioRepositorio.ReturnDetalhesFunc((int)contrato.MotoristaId),
-                DetalheOnibusView = _onibusRepositorio.ReturnDetalhesBus((int)contrato.OnibusId),
                 Contrato = contrato
             };
             return View(modelsContrato);

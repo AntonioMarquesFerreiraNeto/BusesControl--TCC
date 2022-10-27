@@ -58,5 +58,17 @@ namespace BusesControl.Models {
             }
             return true;
         }
+
+        public string ReturnDetalhesOnibus() {
+            return $"{Onibus.NameBus.ToUpper()} – PLACA:{Onibus.Placa}";
+        }
+        
+        public string ReturnDetalhesMotorista() {
+            return $"{Motorista.Name.ToUpper()} – CPF: {Motorista.Cpf}";
+        }
+
+        public string ReturnDetalhesCliente() {
+            return $"Usar este método para retornar os dados do cliente";
+        }
     }
 }

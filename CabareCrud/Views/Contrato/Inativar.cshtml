@@ -37,8 +37,8 @@
                                 <p><b>Status do ônibus: </b>Inativo</p>
                             }
                             <p><b>Detalhes do cliente PF/PJ: </b>@Html.DisplayFor(model => model.DetalhesClienteView)</p>
-                            <p><b>Detalhes do motorista:</b> @Html.DisplayFor(model => model.DetalhesMotoristaView)</p>
-                            <p><b>Detalhes do ônibus:</b> @Html.DisplayFor(model => model.DetalheOnibusView)</p>
+                            <p><b>Detalhes do motorista:</b> @Model.Contrato.ReturnDetalhesMotorista()</p>
+                            <p><b>Detalhes do ônibus:</b> @Model.Contrato.ReturnDetalhesOnibus()</p>
                         </div>
                         <div class="fil">
                             <p><b>Valor monetário do contrato:</b> R$ @Html.DisplayFor(model => model.Contrato.ValorMonetario)</p>

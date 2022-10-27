@@ -36,10 +36,10 @@
                                 || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
                                      <option value="">Selecionar cliente</option>
                                 @foreach (var clientesFisicos in Model.ClienteFisicoList) {
-                                    <option value="@clientesFisicos.Id">@clientesFisicos.Name – CPF: @clientesFisicos.Cpf</option>
+                                    <option value="@clientesFisicos.Id">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
                                 }
                                 @foreach (var clientesJuri in Model.ClienteJuridicoList) {
-                                    <option value="@clientesJuri.Id">@clientesJuri.RazaoSocial – CNPJ: @clientesJuri.Cnpj</option>
+                                    <option value="@clientesJuri.Id">@clientesJuri.RazaoSocial.ToUpper() – CNPJ: @clientesJuri.Cnpj</option>
                                 }
                             }
                             else {
@@ -65,7 +65,7 @@
                                  <option value="">Selecionar ônibus</option>
                                 @foreach (var onibus in Model.OnibusList) {
                                     <option value="@onibus.Id">
-                                        @onibus.NameBus – <b>Placa: </b>@onibus.Placa 
+                                        @onibus.NameBus.ToUpper() – <b>Placa: </b>@onibus.Placa.ToUpper() 
                                     </option>
                                 }
                             }
@@ -91,7 +91,7 @@
                             @if(Model.MotoristaList != null && Model.MotoristaList.Any()){
                                 <option value="">Selecionar motorista</option>
                                 @foreach (var motorista in Model.MotoristaList) {
-                                    <option value="@motorista.Id">@motorista.Name – CPF: @motorista.Cpf</option>
+                                    <option value="@motorista.Id">@motorista.Name.ToUpper() – CPF: @motorista.Cpf</option>
                                 }
                             }
                             else {

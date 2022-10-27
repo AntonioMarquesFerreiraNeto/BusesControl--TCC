@@ -71,7 +71,9 @@ namespace BusesControl.Repositorio {
                 return null;
             }
         }
-
+        public PessoaFisica ListarPorIdNoJoin(long id) {
+            return _bancocontext.PessoaFisica.FirstOrDefault(x => x.Id == id);
+        }
         public PessoaFisica ListarPorId(long id) {
             return _bancocontext.PessoaFisica.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
         }
@@ -80,7 +82,7 @@ namespace BusesControl.Repositorio {
         }
         public PessoaFisica Editar(PessoaFisica cliente) {
             try {
-                PessoaFisica clienteBD = ListarPorId(cliente.Id);
+                PessoaFisica clienteBD = ListarPorIdNoJoin(cliente.Id);
                 if (clienteBD == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
                 clienteBD.Name = cliente.Name.Trim();
                 clienteBD.DataNascimento = cliente.DataNascimento;
@@ -252,9 +254,9 @@ namespace BusesControl.Repositorio {
             if(pessoaFisica == null) {
                 PessoaJuridica pessoaJuridica = ListarPorIdJuridico(id);
                 if (pessoaJuridica == null && pessoaFisica == null) throw new Exception("Desculpe, houve uma falha na aplicação.");
-                return $"{pessoaJuridica.NomeFantasia} – CNPJ: {pessoaJuridica.Cnpj}";
+                return $"{pessoaJuridica.NomeFantasia.ToUpper()} – CNPJ: {pessoaJuridica.Cnpj}";
             }
-            return $"{pessoaFisica.Name} – CPF: {pessoaFisica.Cpf}";
+            return $"{pessoaFisica.Name.ToUpper()} – CPF: {pessoaFisica.Cpf}";
         }
     }
 }

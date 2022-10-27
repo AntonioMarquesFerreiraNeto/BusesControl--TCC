@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BusesControl.Controllers {
     [PagUserAutenticado]
@@ -142,6 +143,10 @@ namespace BusesControl.Controllers {
                 }
                 if (ValidationVinculoMenorIdade(cliente.DataNascimento.ToString(), cliente.IdVinculacaoContratual.ToString())) {
                     TempData["MensagemDeErro"] = "Cliente menor de idade sem vínculo ao mesmo!";
+                    return View(modelsCliente);
+                }
+                if (ValidationClienteContratoIdade(cliente)) {
+                    TempData["MensagemDeErro"] = "Clientes que possuem contratos em andamento não podem ser menores de idade!";
                     return View(modelsCliente);
                 }
                 if (ModelState.IsValid) {
@@ -318,6 +323,21 @@ namespace BusesControl.Controllers {
                 return true;
             }
             return false;
+        }
+        public bool ValidationClienteContratoIdade(PessoaFisica value) {
+            DateTime dataNascimento = DateTime.Parse(value.DataNascimento.ToString());
+            DateTime dataAtual = DateTime.Now;
+
+            long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
+            long idade = dias / 365;
+            PessoaFisica clienteValidation = _clienteRepositorio.ListarPorId(value.Id);
+            if ((idade > 0 && idade < 18) && (!string.IsNullOrEmpty(value.IdVinculacaoContratual.ToString()))
+                &&  clienteValidation.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 }

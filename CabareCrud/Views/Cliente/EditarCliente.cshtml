@@ -121,11 +121,11 @@
                                 <option value="">Vincular menor de idade</option>
                                 @foreach (var cliente in Model.ClienteFisicoList) {
                                     @if (cliente.Id != Model.ClienteFisico.Id) {
-                                        <option value="@cliente.Id">@cliente.Name – CPF: @cliente.Cpf</option>
+                                        <option value="@cliente.Id">@cliente.Name.ToUpper() – CPF: @cliente.Cpf</option>
                                     }
                                 }
                                 @foreach (var clienteJuridico in Model.ClienteJuridicoList) {
-                                    <option value="@clienteJuridico.Id">@clienteJuridico.RazaoSocial – CNPJ: @clienteJuridico.Cnpj</option>
+                                    <option value="@clienteJuridico.Id">@clienteJuridico.RazaoSocial.ToUpper() – CNPJ: @clienteJuridico.Cnpj</option>
                                 }
                             }
                             else {

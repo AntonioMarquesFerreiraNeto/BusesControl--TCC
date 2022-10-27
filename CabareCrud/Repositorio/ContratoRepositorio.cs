@@ -16,7 +16,14 @@ namespace BusesControl.Repositorio {
             _bancoContext = bancoContext;
         }
         public Contrato ListarPorId(int id) {
-            return _bancoContext.Contrato.AsNoTracking().Include(x => x.Motorista).FirstOrDefault(x => x.Id == id);  
+            return _bancoContext.Contrato.FirstOrDefault(x => x.Id == id);  
+        }
+        public Contrato ListarJoinPorId(int id) {
+            return _bancoContext.Contrato
+                .AsNoTracking().Include("Motorista")
+                .AsNoTracking().Include("Onibus")
+                .AsNoTracking().Include("Cliente")
+                .FirstOrDefault(x => x.Id == id);
         }
         public List<Contrato> ListContratoAtivo() {
             return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Ativo)
@@ -65,7 +72,7 @@ namespace BusesControl.Repositorio {
         }
         public Contrato InativarContrato(Contrato contrato) {
             try {
-                Contrato contratoDB = ListarPorId(contrato.Id);
+                Contrato contratoDB = ListarJoinPorId(contrato.Id);
                 if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
                 contratoDB.StatusContrato = ContratoStatus.Inativo;
                 _bancoContext.Contrato.Update(contratoDB);
@@ -78,7 +85,7 @@ namespace BusesControl.Repositorio {
         }
         public Contrato AtivarContrato(Contrato contrato) {
             try {
-                Contrato contratoDB = ListarPorId(contrato.Id);
+                Contrato contratoDB = ListarJoinPorId(contrato.Id);
                 if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
                 contratoDB.StatusContrato = ContratoStatus.Ativo;
                 _bancoContext.Update(contratoDB);
@@ -93,6 +100,15 @@ namespace BusesControl.Repositorio {
         public Contrato ContratoTrim(Contrato contrato) {
             contrato.Detalhamento = contrato.Detalhamento.Trim();
             return contrato;
+        }
+
+        public decimal? ValorTotalContrato() {
+            List<Contrato> ListContrato = ListContratoAtivo();
+            decimal? valorTotalContrato = 0;
+            foreach (Contrato contrato in ListContrato) {
+                valorTotalContrato += contrato.ValorMonetario;
+            }
+            return valorTotalContrato;
         }
     }
 }
