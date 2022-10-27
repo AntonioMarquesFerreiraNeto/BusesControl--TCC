@@ -249,14 +249,14 @@ namespace BusesControl.Repositorio {
             throw new System.Exception("Desculpe, houve alguma falha na aplicação.");
         }
 
-        public string ReturnDetalhesCliente(int id) {
+        public bool PessoaFisicaOrJuridica(int id) {
             PessoaFisica pessoaFisica = ListarPorId(id);
-            if(pessoaFisica == null) {
-                PessoaJuridica pessoaJuridica = ListarPorIdJuridico(id);
-                if (pessoaJuridica == null && pessoaFisica == null) throw new Exception("Desculpe, houve uma falha na aplicação.");
-                return $"{pessoaJuridica.NomeFantasia.ToUpper()} – CNPJ: {pessoaJuridica.Cnpj}";
+            if (pessoaFisica != null) {
+                return true;
             }
-            return $"{pessoaFisica.Name.ToUpper()} – CPF: {pessoaFisica.Cpf}";
+            else {
+                return false;
+            }
         }
     }
 }

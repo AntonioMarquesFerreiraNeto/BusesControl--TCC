@@ -22,21 +22,24 @@ namespace BusesControl.Repositorio {
             return _bancoContext.Contrato
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
-                .AsNoTracking().Include("Cliente")
+                .AsNoTracking().Include("PessoaFisica")
+                .AsNoTracking().Include("PessoaJuridica")
                 .FirstOrDefault(x => x.Id == id);
         }
         public List<Contrato> ListContratoAtivo() {
             return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Ativo)
-                .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include("Motorista")
-                .AsNoTracking().Include("Cliente")
+                .AsNoTracking().Include("Onibus")
+                .AsNoTracking().Include("PessoaFisica")
+                .AsNoTracking().Include("PessoaJuridica")
                 .ToList();
         }
         public List<Contrato> ListContratoInativo() {
             return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Inativo)
-               .AsNoTracking().Include("Onibus")
                .AsNoTracking().Include("Motorista")
-               .AsNoTracking().Include("Cliente")
+                .AsNoTracking().Include("Onibus")
+                .AsNoTracking().Include("PessoaFisica")
+                .AsNoTracking().Include("PessoaJuridica")
                .ToList();
         }
         public Contrato Adicionar(Contrato contrato) {
@@ -55,7 +58,14 @@ namespace BusesControl.Repositorio {
             try {
                 Contrato contratoDB = ListarPorId(contrato.Id);
                 if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
-                contratoDB.ClienteId = contrato.ClienteId;
+                if (!string.IsNullOrEmpty(contrato.PessoaFisicaId.ToString())) {
+                    contratoDB.PessoaFisicaId = contrato.PessoaFisicaId;
+                    contratoDB.PessoaJuridicaId = null;
+                }
+                else {
+                    contratoDB.PessoaJuridicaId = contrato.PessoaJuridicaId;
+                    contratoDB.PessoaFisicaId = null;
+                }
                 contratoDB.MotoristaId = contrato.MotoristaId;
                 contratoDB.OnibusId = contrato.OnibusId;
                 contratoDB.ValorMonetario = contrato.ValorMonetario;

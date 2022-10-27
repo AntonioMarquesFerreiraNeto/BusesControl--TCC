@@ -90,6 +90,12 @@ namespace BusesControl.Controllers {
                     contrato.Aprovacao = StatusAprovacao.EmAnalise;
                     //Colocando a data atual novamente como medida de proteção em casos que o usuário desabilite a restrição do input pelo inspecionar. 
                     contrato.DataEmissao = DateTime.Now;
+                    if (_clienteRepositorio.PessoaFisicaOrJuridica(modelsContrato.ClienteId.Value)) {
+                        contrato.PessoaFisicaId = modelsContrato.ClienteId;
+                    }
+                    else {
+                        contrato.PessoaJuridicaId = modelsContrato.ClienteId;
+                    }
                     _contratoRepositorio.Adicionar(contrato);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
@@ -115,6 +121,7 @@ namespace BusesControl.Controllers {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
                 return View(modelsContrato);
             }
+            modelsContrato.ClienteId = IdPessoaFisicaOrJuridica(modelsContrato.Contrato);
             return View(modelsContrato);
         }
         [HttpPost]
@@ -145,6 +152,14 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
                         return View(modelsContrato);
                     }
+                    if (_clienteRepositorio.PessoaFisicaOrJuridica(modelsContrato.ClienteId.Value)) {
+                        contrato.PessoaFisicaId = modelsContrato.ClienteId;
+                        contrato.PessoaJuridicaId = null;
+                    }
+                    else {
+                        contrato.PessoaJuridicaId = modelsContrato.ClienteId;
+                        contrato.PessoaFisicaId = null;
+                    }
                     _contratoRepositorio.EditarContrato(contrato);
                     TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
@@ -167,7 +182,6 @@ namespace BusesControl.Controllers {
                 return View(modelsContratoError);
             }
             ModelsContrato modelsContrato = new ModelsContrato {
-                DetalhesClienteView = _clienteRepositorio.ReturnDetalhesCliente((int)contrato.ClienteId),
                 Contrato = contrato
             };
             return View(modelsContrato);
@@ -197,7 +211,6 @@ namespace BusesControl.Controllers {
                 return View(modelsContratoError);
             }
             ModelsContrato modelsContrato = new ModelsContrato {
-                DetalhesClienteView = _clienteRepositorio.ReturnDetalhesCliente((int)contrato.ClienteId),
                 Contrato = contrato
             };
             return View(modelsContrato);
@@ -218,7 +231,7 @@ namespace BusesControl.Controllers {
         }
         public bool ValidarCampo(Contrato contrato) {
 
-            if (contrato.ClienteId == null || contrato.MotoristaId == null || contrato.OnibusId == null
+            if (contrato.MotoristaId == null || contrato.OnibusId == null
                 || contrato.DataEmissao == null || contrato.DataVencimento == null || contrato.Detalhamento == null
                 || contrato.ValorMonetario == null || contrato.QtParcelas == null) {
                 return false;
@@ -252,6 +265,13 @@ namespace BusesControl.Controllers {
             float ano = dias / 365;
             bool resultado = (contrato.QtParcelas > ano * 12) ? true : false;
             return resultado;
+        }
+
+        public int? IdPessoaFisicaOrJuridica(Contrato contrato) {
+            if (!string.IsNullOrEmpty(contrato.PessoaFisicaId.ToString())) {
+                return contrato.PessoaFisicaId;
+            }
+            return contrato.PessoaJuridicaId;
         }
     }
 }

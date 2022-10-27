@@ -36,7 +36,7 @@
                             else {
                                 <p><b>Status do contrato do cliente: </b>Inativo</p>
                             }
-                            <p><b>Nome do cliente físico/jurídico: </b>@Html.DisplayFor(model => model.DetalhesClienteView)</p>
+                            <p><b>Nome do cliente físico/jurídico: </b>@Model.Contrato.ReturnDetalhesCliente()</p>
                             <p><b>Nome do motorista do contrato:</b> @Model.Contrato.ReturnDetalhesMotorista()</p>
                             <p><b>Detalhes do ônibus do contrato:</b> @Model.Contrato.ReturnDetalhesOnibus()</p>
                         </div>

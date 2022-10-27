@@ -3,14 +3,16 @@ using System;
 using BusesControl.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221027035429_Finish join 2")]
+    partial class Finishjoin2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,9 +116,11 @@ namespace BusesControl.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("PessoaFisicaId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("PessoaJuridicaId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("QtParcelas")
@@ -366,11 +370,15 @@ namespace BusesControl.Migrations
 
                     b.HasOne("BusesControl.Models.PessoaFisica", "PessoaFisica")
                         .WithMany("Contratos")
-                        .HasForeignKey("PessoaFisicaId");
+                        .HasForeignKey("PessoaFisicaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BusesControl.Models.PessoaJuridica", "PessoaJuridica")
                         .WithMany("Contratos")
-                        .HasForeignKey("PessoaJuridicaId");
+                        .HasForeignKey("PessoaJuridicaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

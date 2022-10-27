@@ -15,8 +15,9 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         public int? MotoristaId { get; set; }
 
-        [Required(ErrorMessage = "Campo obrigatório!")]
-        public int? ClienteId { get; set; }
+        public int? PessoaFisicaId { get; set; }
+
+        public int? PessoaJuridicaId { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         public int? OnibusId { get; set; }
@@ -46,8 +47,10 @@ namespace BusesControl.Models {
 
         public StatusAprovacao Aprovacao { get; set; }
 
-        public Cliente Cliente { get; set; }
-        
+        public PessoaFisica PessoaFisica { get; set; }
+
+        public PessoaJuridica PessoaJuridica { get; set; }
+
         public Funcionario Motorista { get; set; }
 
         public Onibus Onibus { get; set; }
@@ -62,13 +65,16 @@ namespace BusesControl.Models {
         public string ReturnDetalhesOnibus() {
             return $"{Onibus.NameBus.ToUpper()} – PLACA:{Onibus.Placa}";
         }
-        
+
         public string ReturnDetalhesMotorista() {
             return $"{Motorista.Name.ToUpper()} – CPF: {Motorista.Cpf}";
         }
 
         public string ReturnDetalhesCliente() {
-            return $"Usar este método para retornar os dados do cliente";
+            if (PessoaFisica != null) {
+                return $"{PessoaFisica.Name.ToUpper()} – CPF: {PessoaFisica.Cpf}";
+            }
+            return $"{PessoaJuridica.NomeFantasia.ToUpper()} – CNPJ: {PessoaJuridica.Cnpj}";
         }
     }
 }
