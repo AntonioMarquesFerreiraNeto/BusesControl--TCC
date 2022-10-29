@@ -51,7 +51,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(contrato);
+                return View();
             }
         }
 
@@ -73,7 +73,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(contrato);
+                return View();
             }
         }
     }

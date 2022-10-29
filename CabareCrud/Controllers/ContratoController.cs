@@ -119,7 +119,7 @@ namespace BusesControl.Controllers {
             };
             if (modelsContrato.Contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
-                return View(modelsContrato);
+                return RedirectToAction("Index");
             }
             modelsContrato.ClienteId = IdPessoaFisicaOrJuridica(modelsContrato.Contrato);
             return View(modelsContrato);
@@ -214,7 +214,7 @@ namespace BusesControl.Controllers {
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
-                return View(contrato);
+                return View();
             }
         }
 

@@ -6,6 +6,7 @@ namespace BusesControl.Repositorio {
     public interface IFuncionarioRepositorio {
         public Funcionario Adicionar(Funcionario funcionario);
         public Funcionario ListarPorId(long id);
+        public Funcionario ListarPorIdNoJoin(long id);
         public Funcionario ListarPorlogin(string cpf);
         public Funcionario ListarPorloginAndEmail(string email, string login);
         public Funcionario EditarFuncionario(Funcionario funcionario);

@@ -223,22 +223,6 @@ input#form-control {
     padding-bottom: 6px;
 }
 
-.paiAlert {
-    margin-top: 2px;
-    display: flex;
-    justify-content: center;
-    height: 4px;
-    opacity: 0;
-}
-
-.alert-danger {
-    display: flex;
-    position: relative;
-    text-align: center;
-    font-size: 11pt;
-    transition: 1s;
-}
-
 .modal-title {
     font-weight: normal;
 }

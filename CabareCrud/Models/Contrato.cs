@@ -77,7 +77,7 @@ namespace BusesControl.Models {
             if (PessoaFisica != null) {
                 return $"{PessoaFisica.Name.ToUpper()} – CPF: {PessoaFisica.Cpf}";
             }
-            return $"{PessoaJuridica.NomeFantasia.ToUpper()} – CNPJ: {PessoaJuridica.Cnpj}";
+            return $"{PessoaJuridica.RazaoSocial.ToUpper()} – CNPJ: {PessoaJuridica.Cnpj}";
         }
 
         public decimal? ReturnValorParcela() {

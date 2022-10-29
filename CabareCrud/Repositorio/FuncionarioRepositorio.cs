@@ -113,6 +113,9 @@ namespace BusesControl.Repositorio {
             Funcionario funcionario = _bancocontext.Funcionario.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
             return funcionario;
         }
+        public Funcionario ListarPorIdNoJoin(long id) {
+            return _bancocontext.Funcionario.FirstOrDefault(x => x.Id == id);
+        }
         public Funcionario ListarPorlogin(string cpf) {
             return _bancocontext.Funcionario.FirstOrDefault(x => x.Cpf == cpf && x.StatusUsuario == UsuarioStatus.Ativado);
         }
@@ -168,7 +171,7 @@ namespace BusesControl.Repositorio {
         }
         public Funcionario NovaSenha(Funcionario usuario) {
             try {
-                Funcionario usuarioDB = ListarPorId(usuario.Id);
+                Funcionario usuarioDB = ListarPorIdNoJoin(usuario.Id);
                 if (usuarioDB == null) {
                     throw new System.Exception("Desculpe, ID não foi encontrado.");
                 }
