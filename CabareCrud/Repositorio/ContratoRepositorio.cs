@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusesControl.Repositorio {
     public class ContratoRepositorio : IContratoRepositorio {
-        
+
         private readonly BancoContext _bancoContext;
 
         public ContratoRepositorio(BancoContext bancoContext) {
@@ -17,7 +17,7 @@ namespace BusesControl.Repositorio {
         }
 
         public Contrato ListarPorId(int id) {
-            return _bancoContext.Contrato.FirstOrDefault(x => x.Id == id);  
+            return _bancoContext.Contrato.FirstOrDefault(x => x.Id == id);
         }
         public Contrato ListarJoinPorId(int id) {
             return _bancoContext.Contrato
@@ -38,14 +38,14 @@ namespace BusesControl.Repositorio {
         }
         public List<Contrato> ListContratoInativo() {
             return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Inativo)
-               .AsNoTracking().Include("Motorista")
+                .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include("PessoaFisica")
                 .AsNoTracking().Include("PessoaJuridica")
                .ToList();
         }
         public List<Contrato> ListContratoEmAnalise() {
-            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.EmAnalise)
+            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.EmAnalise && x.StatusContrato == ContratoStatus.Ativo)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include("PessoaFisica")
@@ -173,13 +173,32 @@ namespace BusesControl.Repositorio {
             contrato.Detalhamento = contrato.Detalhamento.Trim();
             return contrato;
         }
-        public decimal? ValorTotalContrato() {
+
+        public decimal? ValorTotAprovados() {
             List<Contrato> ListContrato = ListContratoAprovados();
             decimal? valorTotalContrato = 0;
             foreach (Contrato contrato in ListContrato) {
                 valorTotalContrato += contrato.ValorMonetario;
             }
             return valorTotalContrato;
+        }
+
+        public decimal? ValorTotEmAnalise() {
+            List<Contrato> ListContrato = ListContratoEmAnalise();
+            decimal? valorTotalContrato = 0;
+            foreach (Contrato contrato in ListContrato) {
+                valorTotalContrato += contrato.ValorMonetario;
+            }
+            return valorTotalContrato;
+        }
+
+        public decimal? ValorTotContratos() {
+            List<Contrato> ListContrato = ListContratoAtivo();
+            decimal? valorTot = 0;
+            foreach (Contrato contrato in ListContrato) {
+                valorTot += contrato.ValorMonetario;
+            }
+            return valorTot;
         }
     }
 }

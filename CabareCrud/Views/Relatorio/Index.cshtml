@@ -1,11 +1,16 @@
 ﻿@model Relatorio
+<link rel="stylesheet" href="~/css/relatorio.css">
 <section class="principais">
     <br> <br> <br> <br>
     <p>Em fase de desenvolvimento pela TechSolutions LTDA.</p>
     <br><br>
 </section>
-<section class="principais">
+<section class="relatorio-section">
     <br> <br> <br> <br>
-    <p><b>Valor monetário total de todos contratos aprovados: </b>R$ @Html.DisplayFor(x => x.ValorMonetarioTotal)</p>
+    <p class="p-default">
+        <b>Valor monetário total de todos contratos em análise: </b>R$ @Html.DisplayFor(x => x.ValTotEmAnalise) <br>
+        <b>Valor monetário total de todos contratos aprovados: </b>R$ @Html.DisplayFor(x => x.ValTotAprovados) <br>
+        <b>Valor monetário total de todos de todos contratos válidos: </b>R$ @Html.DisplayFor(x => x.ValTotContratos) <br>
+    </p>
     <br><br>
 </section>

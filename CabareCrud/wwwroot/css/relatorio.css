@@ -1,0 +1,14 @@
+﻿.relatorio-section {
+    width: 90%;
+    padding: 15px;
+    padding-top: 0px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+.p-default{
+    text-align: justify;
+}

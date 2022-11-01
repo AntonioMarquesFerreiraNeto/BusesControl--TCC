@@ -13,7 +13,9 @@ namespace BusesControl.Controllers {
         public IActionResult Index() {
             ViewData["Title"] = "Relatórios";
             Relatorio relatorio = new Relatorio();
-            relatorio.ValorMonetarioTotal = _contratoRepositorio.ValorTotalContrato();
+            relatorio.ValTotAprovados = _contratoRepositorio.ValorTotAprovados();
+            relatorio.ValTotEmAnalise = _contratoRepositorio.ValorTotEmAnalise();
+            relatorio.ValTotContratos = _contratoRepositorio.ValorTotContratos();
             return View(relatorio);
         }
     }

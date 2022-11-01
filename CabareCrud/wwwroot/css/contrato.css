@@ -396,8 +396,6 @@ td {
     width: 110px;
 }
 
-}
-
 @media(min-width: 510px) {
     .font-place {
         font-size: 9pt;
