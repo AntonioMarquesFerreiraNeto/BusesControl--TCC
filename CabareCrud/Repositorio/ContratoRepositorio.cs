@@ -61,7 +61,7 @@ namespace BusesControl.Repositorio {
                 .ToList();
         }
         public List<Contrato> ListContratoAprovados() {
-            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado)
+            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.StatusContrato == ContratoStatus.Ativo)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include("PessoaFisica")
@@ -144,6 +144,9 @@ namespace BusesControl.Repositorio {
                 if (contratoDB == null) {
                     throw new Exception("Desculpe, ID não foi encontrado.");
                 }
+                if (contratoDB.StatusContrato == ContratoStatus.Inativo) {
+                    throw new Exception("Não é possível aprovar contratos inativos!");
+                }
                 contratoDB.Aprovacao = StatusAprovacao.Aprovado;
                 _bancoContext.Update(contratoDB);
                 _bancoContext.SaveChanges();
@@ -193,7 +196,8 @@ namespace BusesControl.Repositorio {
         }
 
         public decimal? ValorTotContratos() {
-            List<Contrato> ListContrato = ListContratoAtivo();
+            List<Contrato> ListContrato = ListContratoAprovados();
+            ListContrato.AddRange(ListContratoEmAnalise());
             decimal? valorTot = 0;
             foreach (Contrato contrato in ListContrato) {
                 valorTot += contrato.ValorMonetario;
