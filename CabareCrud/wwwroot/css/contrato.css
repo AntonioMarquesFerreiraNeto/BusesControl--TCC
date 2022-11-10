@@ -68,6 +68,27 @@ label {
     margin-top: 10px;
 }
 
+.consult-flow {
+    cursor: pointer;
+    margin-left: 1px;
+    background-color: greenyellow;
+    width: 30px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #81818192;
+    transition: 1s;
+}
+
+    .consult-flow :after {
+        background-color: blue;
+    }
+
+.icon-detalhes {
+    color: white;
+}
+
 .form-control {
     height: 33px;
     font-size: 11pt;

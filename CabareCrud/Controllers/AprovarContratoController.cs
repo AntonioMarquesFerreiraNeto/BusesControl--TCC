@@ -76,5 +76,10 @@ namespace BusesControl.Controllers {
                 return View();
             }
         }
+
+        public IActionResult GerarPdfContrato(int id) {
+            ViewData["Title"] = "Gerar PDF";
+            return View();
+        }
     }
 }

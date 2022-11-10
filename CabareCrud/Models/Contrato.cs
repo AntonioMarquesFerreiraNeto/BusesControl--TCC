@@ -66,7 +66,7 @@ namespace BusesControl.Models {
         }
 
         public string ReturnDetalhesOnibus() {
-            return $"{Onibus.NameBus.ToUpper()} – PLACA:{Onibus.Placa}";
+            return $"{Onibus.NameBus.ToUpper()} – PLACA: {Onibus.Placa}";
         }
 
         public string ReturnDetalhesMotorista() {

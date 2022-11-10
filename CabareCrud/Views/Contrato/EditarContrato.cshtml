@@ -34,6 +34,7 @@
                     @if (Model.Contrato.Aprovacao == StatusAprovacao.Aprovado) {
                         <input type="hidden" asp-for="@Model.ClienteId"> <!-- Apenas para passar o Id do cliente.-->
                         <input id="cliente" class="form-control campUser" value="@Model.Contrato.ReturnDetalhesCliente()" readonly>
+                        <a class="consult-flow" data-target="#detalhesClient" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
                     }
                     else {
                         <select id="cliente" class="form-control campUser" asp-for="ClienteId">
@@ -53,6 +54,7 @@
                                 }
                             </optgroup>
                         </select>
+                        <a class="consult-flow" data-target="#detalhesClient" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
                     }
                     <div class="i">
                         <small class="errorMsg">
@@ -81,6 +83,7 @@
                             }
                         </optgroup>
                     </select>
+                    <a class="consult-flow" data-target="#detalhesFrota" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.OnibusId)
@@ -106,6 +109,7 @@
                             }
                         </optgroup>
                     </select>
+                     <a class="consult-flow" data-target="#detalhesMotorista" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.MotoristaId)
@@ -246,6 +250,83 @@
                             data-dismiss="modal">
                         Não
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="detalhesClient" class="modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-largura">
+                <div class="modal-header">
+                    <h4 class="modal-title font">Cliente vinculado</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisicaId.ToString())) {
+                        <p class="font-min">
+                            <b>Cliente:</b> @Model.Contrato.ReturnDetalhesCliente() <br>
+                            <b>Rg: </b> @Model.Contrato.PessoaFisica.Rg <br>
+                            <b>Telefone: </b> @Model.Contrato.PessoaFisica.Telefone <br>
+                            <b>Email: </b> @Model.Contrato.PessoaFisica.Email <br>
+                            <b>Data de nascimento: </b>@Html.DisplayFor(x => x.Contrato.PessoaFisica.DataNascimento) <br>
+                            <b>Nome da mãe: </b>@Model.Contrato.PessoaFisica.NameMae <br>
+                        </p>
+                    }
+                    else {
+                        <p class="font-min">
+                            <b>Cliente:</b> @Model.Contrato.ReturnDetalhesCliente() <br>
+                            <b>Nome fantasia: </b> @Model.Contrato.PessoaJuridica.NomeFantasia <br>
+                            <b>Inscrição estadual: </b> @Model.Contrato.PessoaJuridica.InscricaoEstadual <br>
+                            <b>Inscrição Municipal: </b> @Model.Contrato.PessoaJuridica.InscricaoMunicipal <br>
+                            <b>Telefone: </b> @Model.Contrato.PessoaJuridica.Telefone <br>
+                            <b>Email: </b> @Model.Contrato.PessoaJuridica.Email <br>
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="detalhesFrota" class="modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-largura">
+                <div class="modal-header">
+                    <h4 class="modal-title font">Veículo vinculado</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="font-min">
+                        <b>Ônibus:</b> @Model.Contrato.ReturnDetalhesOnibus() <br>
+                        <b>Marca: </b> @Model.Contrato.Onibus.Marca <br>
+                        <b>Ano de fabricação: </b> @Model.Contrato.Onibus.DataFabricacao <br>
+                        <b>Nº de assentos: </b> @Model.Contrato.Onibus.Assentos <br>
+                        <b>Cor: </b> @Model.Contrato.Onibus.ReturnCorBus() <br>
+                        <b>Chassi: </b> @Model.Contrato.Onibus.Chassi <br>
+                        <b>Renavam: </b> @Model.Contrato.Onibus.Renavam <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div id="detalhesMotorista" class="modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-largura">
+                <div class="modal-header">
+                    <h4 class="modal-title font">Motorista vinculado</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="font-min">
+                        <b>Motorista: </b>@Model.Contrato.ReturnDetalhesMotorista() <br>
+                        <b>Telefone: </b> @Model.Contrato.Motorista.Telefone <br>
+                        <b>Email: </b> @Model.Contrato.Motorista.Email <br>
+                        <b>Data de nascimento: </b>@Html.DisplayFor(x => x.Contrato.Motorista.DataNascimento) <br>
+                    </p>
                 </div>
             </div>
         </div>
