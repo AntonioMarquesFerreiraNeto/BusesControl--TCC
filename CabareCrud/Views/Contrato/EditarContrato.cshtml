@@ -41,12 +41,21 @@
                             <optgroup label="Selecione o cliente">
                                 @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
                                || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
-                                    <option value="">Selecionar cliente</option>
+                                    @if (Model.Contrato.PessoaFisica != null) {
+                                        <option value="@Model.Contrato.PessoaFisicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
+                                    }
+                                    else {
+                                        <option value="@Model.Contrato.PessoaJuridicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
+                                    }
                                     @foreach (var clientesFisicos in Model.ClienteFisicoList) {
-                                        <option value="@clientesFisicos.Id">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
+                                        @if (clientesFisicos.Id != Model.Contrato.PessoaFisicaId) {
+                                            <option value="@clientesFisicos.Id">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
+                                        }
                                     }
                                     @foreach (var clientesJuri in Model.ClienteJuridicoList) {
-                                        <option value="@clientesJuri.Id">@clientesJuri.RazaoSocial.ToUpper() – CNPJ: @clientesJuri.Cnpj</option>
+                                        @if (clientesJuri.Id != Model.Contrato.PessoaJuridicaId) {
+                                            <option value="@clientesJuri.Id">@clientesJuri.RazaoSocial.ToUpper() – CNPJ: @clientesJuri.Cnpj</option>
+                                        }
                                     }
                                 }
                                 else {
@@ -71,11 +80,13 @@
                     <select id="onibus" class="form-control campUser" asp-for="Contrato.OnibusId">
                         <optgroup label="Selecione o ônibus">
                             @if (Model.OnibusList != null || Model.OnibusList.Any()) {
-                                <option value="">Selecionar ônibus</option>
+                                <option value="@Model.Contrato.OnibusId"> @Model.Contrato.ReturnDetalhesOnibus()</option>
                                 @foreach (var onibus in Model.OnibusList) {
-                                    <option value="@onibus.Id">
-                                        @onibus.NameBus.ToUpper() – <b>Placa: </b>@onibus.Placa.ToUpper()
-                                    </option>
+                                    @if (onibus.Id != Model.Contrato.OnibusId) {
+                                        <option value="@onibus.Id">
+                                            @onibus.NameBus.ToUpper() – <b>Placa: </b>@onibus.Placa.ToUpper()
+                                        </option>
+                                    }
                                 }
                             }
                             else {
@@ -99,9 +110,11 @@
                     <select id="motorista" class="form-control campUser" asp-for="Contrato.MotoristaId">
                         <optgroup label="Selecione o motorista">
                             @if (Model.MotoristaList != null && Model.MotoristaList.Any()) {
-                                <option value="">Selecionar motorista</option>
+                                <option value="@Model.Contrato.MotoristaId">@Model.Contrato.ReturnDetalhesMotorista()</option>
                                 @foreach (var motorista in Model.MotoristaList) {
-                                    <option value="@motorista.Id">@motorista.Name.ToUpper() – CPF: @motorista.Cpf</option>
+                                    @if (motorista.Id != Model.Contrato.MotoristaId) {
+                                        <option value="@motorista.Id">@motorista.Name.ToUpper() – CPF: @motorista.Cpf</option>
+                                    }
                                 }
                             }
                             else {
@@ -109,7 +122,7 @@
                             }
                         </optgroup>
                     </select>
-                     <a class="consult-flow" data-target="#detalhesMotorista" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
+                    <a class="consult-flow" data-target="#detalhesMotorista" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.MotoristaId)
@@ -258,7 +271,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content modal-largura">
                 <div class="modal-header">
-                    <h4 class="modal-title font">Cliente vinculado</h4>
+                    <h4 class="modal-title font">Cliente contratante</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -269,7 +282,9 @@
                             <b>Cliente:</b> @Model.Contrato.ReturnDetalhesCliente() <br>
                             <b>Rg: </b> @Model.Contrato.PessoaFisica.Rg <br>
                             <b>Telefone: </b> @Model.Contrato.PessoaFisica.Telefone <br>
-                            <b>Email: </b> @Model.Contrato.PessoaFisica.Email <br>
+                            @if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisica.Email)) {
+                                <b>Email: </b> @Model.Contrato.PessoaFisica.Email <br>
+                            }
                             <b>Data de nascimento: </b>@Html.DisplayFor(x => x.Contrato.PessoaFisica.DataNascimento) <br>
                             <b>Nome da mãe: </b>@Model.Contrato.PessoaFisica.NameMae <br>
                         </p>
@@ -281,7 +296,9 @@
                             <b>Inscrição estadual: </b> @Model.Contrato.PessoaJuridica.InscricaoEstadual <br>
                             <b>Inscrição Municipal: </b> @Model.Contrato.PessoaJuridica.InscricaoMunicipal <br>
                             <b>Telefone: </b> @Model.Contrato.PessoaJuridica.Telefone <br>
-                            <b>Email: </b> @Model.Contrato.PessoaJuridica.Email <br>
+                            @if (!string.IsNullOrEmpty(Model.Contrato.PessoaJuridica.Email)) {
+                                <b>Email: </b> @Model.Contrato.PessoaJuridica.Email <br>
+                            }
                         </p>
                     }
                 </div>
@@ -311,7 +328,7 @@
             </div>
         </div>
     </div>
-     <div id="detalhesMotorista" class="modal">
+    <div id="detalhesMotorista" class="modal">
         <div class="modal-dialog modal-sm">
             <div class="modal-content modal-largura">
                 <div class="modal-header">

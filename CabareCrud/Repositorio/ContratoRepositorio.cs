@@ -147,6 +147,23 @@ namespace BusesControl.Repositorio {
                 if (contratoDB.StatusContrato == ContratoStatus.Inativo) {
                     throw new Exception("Não é possível aprovar contratos inativos!");
                 }
+                //condição para não ter problemas com referência de objetos, já que um contrato pode ter clientes físicos ou jurídicos.
+                if (contratoDB.PessoaFisica != null) {
+                    if (contratoDB.PessoaFisica.Status == StatuCliente.Desabilitado) {
+                        throw new Exception("Não é possível aprovar contrato de cliente desabilitado!");
+                    }
+                }
+                else {
+                    if (contratoDB.PessoaJuridica.Status == StatuCliente.Desabilitado) {
+                        throw new Exception("Não é possível aprovar contrato de cliente desabilitado!");
+                    }
+                }
+                if (contratoDB.Motorista.Status == StatuFuncionario.Desabilitado) {
+                    throw new Exception("Não é possível aprovar contrato com motorista vinculado desabilitado!");
+                }
+                if (contratoDB.Onibus.StatusOnibus == OnibusStatus.Desabilitado) {
+                    throw new Exception("Não é possível aprovar contrato com ônibus vinculado desabilitado!");
+                }
                 contratoDB.Aprovacao = StatusAprovacao.Aprovado;
                 _bancoContext.Update(contratoDB);
                 _bancoContext.SaveChanges();

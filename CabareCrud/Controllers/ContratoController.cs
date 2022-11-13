@@ -134,22 +134,25 @@ namespace BusesControl.Controllers {
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
 
                 Contrato contrato = modelsContrato.Contrato;
-                modelsContrato.Contrato = contrato;
                 if (ModelState.IsValid) {
                     if (!contrato.ValidarValorMonetario()) {
                         TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
+                        modelsContrato.Contrato = ModelsError(contrato);
                         return View(modelsContrato);
                     }
                     if (ValidationDateEmissaoAndVencimento(contrato)) {
                         TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
+                        modelsContrato.Contrato = ModelsError(contrato);
                         return View(modelsContrato);
                     }
                     if (ValidationDateVencimento(contrato.DataVencimento.ToString())) {
                         TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
+                        modelsContrato.Contrato = ModelsError(contrato);
                         return View(modelsContrato);
                     }
                     if (ValidationQtParcelas(contrato)) {
                         TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
+                        modelsContrato.Contrato = ModelsError(contrato);
                         return View(modelsContrato);
                     }
                     if (_clienteRepositorio.PessoaFisicaOrJuridica(modelsContrato.ClienteId.Value)) {
@@ -164,10 +167,12 @@ namespace BusesControl.Controllers {
                     TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
                 }
+                modelsContrato.Contrato = ModelsError(contrato);
                 return View(modelsContrato);
             }
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = erro.Message;
+                modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                 return View(modelsContrato);
             }
         }
@@ -261,6 +266,12 @@ namespace BusesControl.Controllers {
                 return contrato.PessoaFisicaId;
             }
             return contrato.PessoaJuridicaId;
+        }
+
+        public Contrato ModelsError(Contrato contrato) {
+            //Para não ter problema de referências de na view em momentos de erros.
+            contrato = _contratoRepositorio.ListarJoinPorId(contrato.Id);
+            return contrato;
         }
     }
 }

@@ -10,16 +10,16 @@ using System.Web.Mvc;
 
 namespace BusesControl.Repositorio {
     public class ClienteRepositorio : IClienteRepositorio {
-        
+
         private readonly BancoContext _bancocontext;
-       
+
         public ClienteRepositorio(BancoContext bancoContext) {
             _bancocontext = bancoContext;
         }
         //Adicionar as regras de negócio para clientes físicos que podem realizar contratos neste método.
         public List<PessoaFisica> ListClienteFisicoLegal() {
             var list = _bancocontext.PessoaFisica.ToList();
-            return list.Where(x => x.Status == StatuCliente.Habilitado 
+            return list.Where(x => x.Status == StatuCliente.Habilitado
                 && string.IsNullOrEmpty(x.IdVinculacaoContratual.ToString())).ToList();
         }
 
@@ -46,7 +46,6 @@ namespace BusesControl.Repositorio {
             var buscar = _bancocontext.PessoaJuridica.ToList();
             return buscar.Where(x => x.Status == StatuCliente.Desabilitado).ToList();
         }
-
         public PessoaFisica Adicionar(PessoaFisica cliente) {
             try {
                 cliente = TrimPessoaFisica(cliente);
@@ -138,7 +137,7 @@ namespace BusesControl.Repositorio {
                 TratarErroJ(cliente, erro);
                 return null;
             }
-            
+
         }
         public PessoaFisica Desabilitar(PessoaFisica cliente) {
             PessoaFisica clienteDesabilitado = ListarPorId(cliente.Id);
@@ -147,6 +146,8 @@ namespace BusesControl.Repositorio {
                 throw new Exception("Cliente possui contratos em andamento!");
             }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
+            //Método para desabilitar clientes menores de idade vinculado a este cliente.
+            DesabilitarClientesVinculados(clienteDesabilitado, null);
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
             return cliente;
@@ -158,6 +159,7 @@ namespace BusesControl.Repositorio {
                 throw new Exception("Cliente possui contratos em andamento!");
             }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
+            DesabilitarClientesVinculados(null, clienteDesabilitado);
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
             return clienteDesabilitado;
@@ -256,6 +258,25 @@ namespace BusesControl.Repositorio {
             }
             else {
                 return false;
+            }
+        }
+
+        public void DesabilitarClientesVinculados(PessoaFisica pessoaFisica, PessoaJuridica pessoaJuridica) {
+            if (pessoaFisica != null) {
+                List<PessoaFisica> clientes = _bancocontext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaFisica.Id).ToList();
+                foreach (var model in clientes) {
+                    model.Status = StatuCliente.Desabilitado;
+                    _bancocontext.Update(model);
+                    _bancocontext.SaveChanges();
+                }
+            }
+            else if (pessoaJuridica != null) {
+                List<PessoaFisica> clientes = _bancocontext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaJuridica.Id).ToList();
+                foreach (var model in clientes) {
+                    model.Status = StatuCliente.Desabilitado;
+                    _bancocontext.Update(model);
+                    _bancocontext.SaveChanges();
+                }
             }
         }
     }
