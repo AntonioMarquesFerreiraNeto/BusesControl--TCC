@@ -83,8 +83,9 @@ body {
     background-color: #0000003b;
 }
 .modal-title {
+    font-size: 14pt;
     color: #010434;
-    font-size: 15pt;
+    font-weight: normal;
 }
 #titlePrincipal {
     width: 100%;
