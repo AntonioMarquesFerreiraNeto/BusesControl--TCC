@@ -16,10 +16,24 @@
 }
 <section class="clientes">
     <!--Cadastro, edição e desativação de clientes-->
-    <h3 id="bac">
-        <i class="fa fa-file-contract"></i> @ViewData["Title"]
-        <hr style="margin-top: 3px;">
-    </h3>
+    @if (Model.Any(x => x.Aprovacao == StatusAprovacao.EmAnalise)) {
+        <h3 id="bac">
+            <i class="fa fa-file-contract" style="color: darkblue;"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else if (Model.Any(x => x.Aprovacao == StatusAprovacao.Aprovado)) {
+        <h3 id="bac" style="color: limegreen;">
+            <i class="fa fa-file-contract"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac" style="color: red">
+            <i class="fa fa-file-contract"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
     <div class="cliente">
         <div class="flex-item">
             <div>

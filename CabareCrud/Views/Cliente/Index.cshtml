@@ -16,10 +16,18 @@
 }
 <section class="clientes">
     <!--Cadastro, edição e desativação de clientes-->
-    <h3 id="bac">
-        <i class="fa fa-users"></i> @ViewData["Title"]
-        <hr style="margin-top: 3px;">
-    </h3>
+    @if (Model.Any(x => x.Status == StatuCliente.Habilitado)) {
+        <h3 id="bac">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac" style="color: red;">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
     <div class="cliente">
         <div class="flex-item">
             <div class="test1">

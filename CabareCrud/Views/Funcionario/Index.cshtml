@@ -16,10 +16,18 @@
 }
 <section class="clientes">
     <!--Cadastro, edição e desativação de clientes-->
-    <h3 id="bac">
-        <i class="fa fa-users"></i> @ViewData["Title"]
-        <hr style="margin-top: 3px;">
-    </h3>
+    @if (Model.Any(x => x.Status == StatuFuncionario.Habilitado)) {
+        <h3 id="bac">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac" style="color: red;">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
     <div class="cliente">
         <div class="flex-item">
             <div>
@@ -63,15 +71,15 @@
                                     <a class="link" asp-action="EditarFuncionario" asp-route-id="@funcionario.Id"><i class="fa fa-edit"></i></a>
                                     <a class="link" asp-action="Desabilitar" asp-route-id="@funcionario.Id"><i class="fa fa-user-slash"></i></a>
                                     @if (funcionario.Cargos == CargoFuncionario.Assistente || funcionario.Cargos == CargoFuncionario.Administrador) {
-                                        @if(funcionario.StatusUsuario == UsuarioStatus.Ativado){
-                                            <a class="link" asp-route-id="@funcionario.Id"  asp-action="ControlarUsuario"><i class="fa fa-user-times"></i></a>
+                                        @if (funcionario.StatusUsuario == UsuarioStatus.Ativado) {
+                                            <a class="link" asp-route-id="@funcionario.Id" asp-action="ControlarUsuario"><i class="fa fa-user-times"></i></a>
                                         }
                                         else {
-                                             <a class="link" asp-route-id="@funcionario.Id"  asp-action="ControlarUsuario"><i class="fa fa-user-check"></i></a>
+                                            <a class="link" asp-route-id="@funcionario.Id" asp-action="ControlarUsuario"><i class="fa fa-user-check"></i></a>
                                         }
                                     }
                                     else {
-                                      <a class="link"><i class="fa fa-user-check" style="color: gray;"></i></a>
+                                        <a class="link"><i class="fa fa-user-check" style="color: gray;"></i></a>
                                     }
                                 }
                                 else {

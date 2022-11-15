@@ -18,10 +18,10 @@ input {
 #bac {
     margin: 0px;
     margin-top: 5px;
-    font-size: 11pt;
+    font-size: 12pt;
+    font-weight: bold;
     border-radius: 5px;
     padding: 2px;
-    font-weight: normal;
     color: #2b2b2bba;
 }
 
