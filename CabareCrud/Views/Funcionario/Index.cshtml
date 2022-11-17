@@ -69,13 +69,13 @@
                             <td>
                                 @if (funcionario.Status == StatuFuncionario.Habilitado) {
                                     <a class="link" asp-action="EditarFuncionario" asp-route-id="@funcionario.Id"><i class="fa fa-edit"></i></a>
-                                    <a class="link" asp-action="Desabilitar" asp-route-id="@funcionario.Id"><i class="fa fa-user-slash"></i></a>
+                                    <a class="link-trash" asp-action="Desabilitar" asp-route-id="@funcionario.Id"><i class="fa fa-user-slash"></i></a>
                                     @if (funcionario.Cargos == CargoFuncionario.Assistente || funcionario.Cargos == CargoFuncionario.Administrador) {
                                         @if (funcionario.StatusUsuario == UsuarioStatus.Ativado) {
-                                            <a class="link" asp-route-id="@funcionario.Id" asp-action="ControlarUsuario"><i class="fa fa-user-times"></i></a>
+                                            <a class="link-orange" asp-route-id="@funcionario.Id" asp-action="ControlarUsuario"><i class="fa fa-user-times"></i></a>
                                         }
                                         else {
-                                            <a class="link" asp-route-id="@funcionario.Id" asp-action="ControlarUsuario"><i class="fa fa-user-check"></i></a>
+                                            <a class="link-green" asp-route-id="@funcionario.Id" asp-action="ControlarUsuario"><i class="fa fa-user-check"></i></a>
                                         }
                                     }
                                     else {

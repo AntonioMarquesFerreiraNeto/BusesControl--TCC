@@ -94,14 +94,45 @@ input#form-control {
     border: 1px solid #81818192;
     transition: 1s;
 }
-
-    .consult-flow :after {
-        background-color: blue;
+.consult-flow-info {
+    font-size: 13pt;
+    z-index: 2;
+    color: white;
+    font-weight: bold;
+    top: 114px;
+    right: 77px;
+    position: absolute;
+    cursor: pointer;
+    background-color: rgb(98, 199, 226);
+    width: 60px;
+    height: 27px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(0, 138, 255);
+    border-radius: 3px;
+    transition: 1s;
+    -moz-animation: consult-flow-info .75s linear infinite;
+    -o-animation: consult-flow-info .75s linear infinite;
+    animation: consult-flow-info .75s linear infinite;
+}
+@keyframes consult-flow-info {
+    0% {
+        opacity: 1;
     }
 
+    50% {
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 1;
+    }
+}
 .icon-detalhes {
     color: white;
 }
+
 /*Icones de erro e sucesso da sessão modal cliente*/
 .form-it .i small {
     position: absolute;
@@ -243,6 +274,17 @@ input:focus {
     margin: 10px;
     color: rgb(0, 7, 182);
 }
+
+.link-trash {
+    margin: 10px;
+    font-size: 10.5pt;
+    color: rgb(247, 0, 53);
+}
+
+    .link-trash :hover {
+        color: darkred;
+    }
+
 .btn-ende {
     text-align: center;
     padding: 7px;

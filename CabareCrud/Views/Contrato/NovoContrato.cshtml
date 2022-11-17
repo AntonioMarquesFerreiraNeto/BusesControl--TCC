@@ -10,6 +10,7 @@
     </div>
 }
 @if (TempData["MensagemDeInfo"] != null) {
+    <a class="consult-flow-info" onclick="ViewInfo()"><i class="fa fa-info icon-detalhes"></i></a>
     <div class="alert alert-info" role="alert">
         @TempData["MensagemDeInfo"]
         <button type="button" class="btn btn-danger btn-sm close-alert info" aria-label="Close"> X </button>
@@ -32,9 +33,9 @@
                     </div>
                     <select id="cliente" class="form-control campUser" asp-for="ClienteId">
                         <optgroup label="Selecione o cliente">
-                            @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any()) 
-                                || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
-                                     <option value="">Selecionar cliente</option>
+                            @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
+                            || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
+                                <option value="">Selecionar cliente</option>
                                 @foreach (var clientesFisicos in Model.ClienteFisicoList) {
                                     <option value="@clientesFisicos.Id">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
                                 }
@@ -43,10 +44,11 @@
                                 }
                             }
                             else {
-                                 <option value="">Não existe cadastros.</option>
+                                <option value="">Não existe cadastros.</option>
                             }
                         </optgroup>
                     </select>
+                    <a class="consult-flow" href="#"><i class="fa fa-plus icon-detalhes"></i></a>
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.ClienteId)
@@ -62,15 +64,15 @@
                     <select id="onibus" class="form-control campUser" asp-for="Contrato.OnibusId">
                         <optgroup label="Selecione o ônibus">
                             @if (Model.OnibusList != null || Model.OnibusList.Any()) {
-                                 <option value="">Selecionar ônibus</option>
+                                <option value="">Selecionar ônibus</option>
                                 @foreach (var onibus in Model.OnibusList) {
                                     <option value="@onibus.Id">
-                                        @onibus.NameBus.ToUpper() – <b>Placa: </b>@onibus.Placa.ToUpper() 
+                                        @onibus.NameBus.ToUpper() – <b>Placa: </b>@onibus.Placa.ToUpper()
                                     </option>
                                 }
                             }
                             else {
-                                 <option value="">Não existe cadastros.</option>
+                                <option value="">Não existe cadastros.</option>
                             }
                         </optgroup>
                     </select>
@@ -88,7 +90,7 @@
                     </div>
                     <select id="motorista" class="form-control campUser" asp-for="Contrato.MotoristaId">
                         <optgroup label="Selecione o motorista">
-                            @if(Model.MotoristaList != null && Model.MotoristaList.Any()){
+                            @if (Model.MotoristaList != null && Model.MotoristaList.Any()) {
                                 <option value="">Selecionar motorista</option>
                                 @foreach (var motorista in Model.MotoristaList) {
                                     <option value="@motorista.Id">@motorista.Name.ToUpper() – CPF: @motorista.Cpf</option>
@@ -112,7 +114,7 @@
                         </span>
                     </div>
                     <input type="text" class="form-control" id="inputValor"
-                           placeholder="Informe o valor monetário total da alocação." maxlength="10" asp-for ="Contrato.ValorMonetario" onkeyup="mascaraMoeda(this, event)">
+                           placeholder="Informe o valor monetário total da alocação." maxlength="10" asp-for="Contrato.ValorMonetario" onkeyup="mascaraMoeda(this, event)">
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.ValorMonetario)
@@ -159,7 +161,7 @@
                     <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataVencimento">
                     <div class="i">
                         <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.Contrato.DataVencimento)  
+                            @Html.ValidationMessageFor(x => x.Contrato.DataVencimento)
                         </small>
                     </div>
                     <div class="legend-data">
@@ -180,7 +182,10 @@
                         </small>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-alt">
+                    <button type="button" class="btn filtra_btn api" data-target="#list" data-toggle="modal">
+                        <i class="fa fa-users"></i> Selecionados
+                    </button>
                     <div>
                         <button type="button" class="btn btn-secondary filtrar_btn2"
                                 data-target="#ConfirmSair" data-toggle="modal">
@@ -243,6 +248,40 @@
             </div>
         </div>
     </div>
+    <div id="list" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-largura">
+                <div class="modal-header">
+                    <h4 class="modal-title font">Clientes selecionados</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body body-modal-alt">
+                    <div class="col-md-12 input-group form-group form-it">
+                        <table class="listClientes">
+                            <tbody class="body-clientes">
+                                @foreach (var item in Model.ClienteFisicoList) {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@item.Cpf</td>
+                                        <td><a class="link-trash" href="#"><i class="fa fa-trash-alt"></i></a></td>
+                                    </tr>
+                                }
+                                @foreach (var item in Model.ClienteJuridicoList) {
+                                    <tr>
+                                        <td>@item.RazaoSocial</td>
+                                        <td>@item.Cnpj</td>
+                                        <td><a class="link-trash" href="#"><i class="fa fa-trash-alt"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <script>
     marca = document.getElementById('inputMarca');
@@ -258,3 +297,4 @@
 </script>
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/mascaraMoney.js"></script>
+<script src="~/Js copy/DisplayMsgInfo.js"></script>

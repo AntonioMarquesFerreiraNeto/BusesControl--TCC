@@ -263,6 +263,15 @@ input:focus {
     margin: 10px;
     color: rgb(0, 7, 182);
 }
+.link-trash {
+    margin: 10px;
+    font-size: 10.5pt;
+    color: rgb(247, 0, 53);
+}
+
+    .link-trash :hover {
+        color: darkred;
+    }
 
 .btn-ende {
     text-align: center;

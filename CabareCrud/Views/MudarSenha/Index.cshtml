@@ -39,6 +39,9 @@
         <div class="card">
             <div class="card-header">
                 <h5>Alterar senha</h5>
+                @if (TempData["MensagemDeInfo"] != null) {
+                    <a class="consult-flow-info" onclick="ViewInfo()"><i class="fa fa-info icon-detalhes"></i></a>
+                }
             </div>
             <div class="card-body">
                 <form asp-controller="MudarSenha" asp-action="Index" method="post">
@@ -83,3 +86,4 @@
     </section>
 </main>
 <script src="~/js/OcultarMostrarSenha.js"></script>
+<script src="~/Js copy/DisplayMsgInfo.js"></script>

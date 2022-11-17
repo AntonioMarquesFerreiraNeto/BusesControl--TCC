@@ -14,7 +14,20 @@ input {
     padding-top: 0;
     padding-bottom: 0;
 }
-
+.body-modal-alt {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    background-color: ghostwhite;
+}
+.body-modal-alt-2 {
+    max-height: calc(35vh - 70px);
+    overflow-y: auto;
+    background-color: ghostwhite;
+}
+.list-largura{
+    margin: auto;
+    width: 75%;
+}
 #bac {
     margin: 0px;
     margin-top: 5px;
@@ -85,6 +98,44 @@ label {
     .consult-flow :after {
         background-color: blue;
     }
+
+.consult-flow-info {
+    font-size: 13pt;
+    z-index: 2;
+    color: white;
+    font-weight: bold;
+    top: 114px;
+    right: 77px;
+    position: absolute;
+    cursor: pointer;
+    background-color: rgb(98, 199, 226);
+    width: 60px;
+    height: 27px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(0, 138, 255);
+    border-radius: 3px;
+    transition: 1s;
+    -moz-animation: consult-flow-info .75s linear infinite;
+    -o-animation: consult-flow-info .75s linear infinite;
+    animation: consult-flow-info .75s linear infinite;
+}
+
+@keyframes consult-flow-info {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
 
 .icon-detalhes {
     color: white;
@@ -312,6 +363,16 @@ input:focus {
         color: darkred;
     }
 
+.link-trash {
+    margin: 10px;
+    font-size: 10.5pt;
+    color: rgb(247, 0, 53);
+}
+
+    .link-trash :hover {
+        color: darkred;
+    }
+
 .btn-ende {
     text-align: center;
     padding: 7px;
@@ -337,6 +398,10 @@ input:focus {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+}
+
+.modal-footer-alt {
+    justify-content: space-between;
 }
 
 .confirm-modal {
@@ -374,6 +439,28 @@ td {
     text-align: center;
     align-items: center;
 }
+
+.listClientes {
+    padding: 30px;
+    width: 100%;
+    margin: auto;
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 2px 2px 1px rgb(74, 74, 74, 0,96);
+}
+
+    .listClientes tr {
+        border: none;
+        border: 3px solid #F8F8FF;
+        margin: 2px;
+        padding: 10px;
+    }
+
+    .listClientes td {
+        border: none;
+        margin: 2px;
+        padding: 10px;
+    }
 
 @media(min-width: 0px) {
     .font-place {

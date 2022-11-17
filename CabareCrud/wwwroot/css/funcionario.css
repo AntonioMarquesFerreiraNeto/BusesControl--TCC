@@ -85,6 +85,7 @@ input#form-control {
 .form-item {
     position: relative;
 }
+
     .form-item small {
         position: absolute;
         top: 60px;
@@ -92,6 +93,7 @@ input#form-control {
         color: #ff0000;
         font-size: 9pt;
     }
+
 .form-it .i small {
     position: absolute;
     top: 23px;
@@ -153,10 +155,11 @@ input#form-control {
         background-color: rgb(0, 04, 112);
     }
 
-.btn-group .btn-group-toggle{
+.btn-group .btn-group-toggle {
     display: flex;
     flex-wrap: wrap;
 }
+
 .enum {
     background-color: #02de00;
 }
@@ -251,6 +254,31 @@ input:focus {
     color: rgb(0, 7, 182);
 }
 
+.link-trash {
+    margin: 10px;
+    color: rgb(247, 0, 53);
+}
+
+    .link-trash :hover {
+        color: darkred;
+    }
+
+.link-orange {
+    margin: 10px;
+    color: orangered;
+}
+
+    .link-orange :hover {
+        color: darkred;
+    }
+
+.link-green {
+    margin: 10px;
+    color: #02de00;
+}
+.link-green :hover{
+    color: darkgreen;
+}
 .btn-ende {
     text-align: center;
     padding: 7px;
@@ -314,9 +342,11 @@ td {
     .flex-filtro {
         justify-content: center;
     }
+
     .flex-item {
         justify-content: space-between;
     }
+
     .clientes {
         flex-direction: auto;
     }
@@ -333,11 +363,13 @@ td {
     #formAdd {
         width: 100%;
     }
+
     .filtra_btn, .filtrar_btn2 {
         width: 100px;
         height: 33px;
         font-size: 8pt;
     }
+
     .filtrar_btn {
         font-size: 8pt;
         margin: 1px;
@@ -346,9 +378,10 @@ td {
 }
 
 @media(min-width: 510px) {
-    .btn-group .btn-group-toggle{
+    .btn-group .btn-group-toggle {
         flex-direction: row;
     }
+
     .filtra_btn, .filtrar_btn2 {
         width: 110px;
     }
@@ -368,6 +401,7 @@ td {
         width: 114px;
         font-size: 9pt;
     }
+
     .filtrar_btn {
         font-size: 9pt;
         width: 130px;
@@ -378,6 +412,7 @@ td {
     .filtro {
         width: 80%;
     }
+
     .flex-filtro {
         justify-content: flex-end;
     }

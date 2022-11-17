@@ -9,6 +9,7 @@
     </div>
 }
 @if (TempData["MensagemDeInfo"] != null) {
+    <a class="consult-flow-info" onclick="ViewInfo()"><i class="fa fa-info icon-detalhes"></i></a>
     <div class="alert alert-info" role="alert">
         @TempData["MensagemDeInfo"]
         <button type="button" class="btn btn-danger btn-sm close-alert info" aria-label="Close"> X </button>
@@ -314,3 +315,4 @@
 </script>
 <script src="~/Js copy/ModalCliente.js"></script>
 <script src="~/js/jquery.min.js"></script>
+<script src="~/Js copy/DisplayMsgInfo.js"></script>

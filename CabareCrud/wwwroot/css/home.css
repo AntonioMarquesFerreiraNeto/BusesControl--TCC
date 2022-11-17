@@ -154,12 +154,14 @@ body {
 
 .alert {
     padding: 10px;
-    top: 92px;
+    top: 94px;
     position: absolute;
     z-index: 1;
 }
 .alert-info {
+    opacity: 0;
     border: 1px solid rgb(154, 197, 209, 0,51);
+    transition: 1s;
 }
 .alert-danger {
     box-shadow: 1px 1px 2px #7c7c7c36;
