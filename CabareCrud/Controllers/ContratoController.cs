@@ -41,19 +41,17 @@ namespace BusesControl.Controllers {
         public IActionResult NovoContrato() {
             TempData["MensagemDeInfo"] = "Nº de parcelas não pode ultrapassar a quantidade de meses do contrato.";
             ViewData["Title"] = "Novo contrato";
-            ModelsContrato modelsContrato = new ModelsContrato {
-                OnibusList = _onibusRepositorio.ListarTodosHab(),
-                MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab(),
-                ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal(),
-                ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal()
-            };
+            ModelsContrato modelsContrato = new ModelsContrato();
+            modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
+            modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
+            modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
+            modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
             Contrato contrato = new Contrato {
                 DataEmissao = DateTime.Now
             };
             modelsContrato.Contrato = contrato;
             return View(modelsContrato);
         }
-
         [HttpPost]
         public IActionResult NovoContrato(ModelsContrato modelsContrato) {
             ViewData["Title"] = "Novo contrato";
@@ -64,7 +62,6 @@ namespace BusesControl.Controllers {
                 modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
 
                 Contrato contrato = modelsContrato.Contrato;
-                modelsContrato.Contrato = contrato;
                 if (ValidarCampo(contrato) != true) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
                     return View(modelsContrato);
@@ -90,12 +87,10 @@ namespace BusesControl.Controllers {
                     contrato.Aprovacao = StatusAprovacao.EmAnalise;
                     //Colocando a data atual novamente como medida de proteção em casos que o usuário desabilite a restrição do input pelo inspecionar. 
                     contrato.DataEmissao = DateTime.Now;
-                    if (_clienteRepositorio.PessoaFisicaOrJuridica(modelsContrato.ClienteId.Value)) {
-                        contrato.PessoaFisicaId = modelsContrato.ClienteId;
-                    }
-                    else {
-                        contrato.PessoaJuridicaId = modelsContrato.ClienteId;
-                    }
+                    /*if (modelsContrato.SelectsClientsF == null && modelsContrato.SelectsClientsJ == null) {
+                        TempData["MensagemDeErro"] = "Não foi informado nenhum cliente!";
+                        return View(modelsContrato);
+                    }*/
                     _contratoRepositorio.Adicionar(contrato);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
@@ -121,7 +116,7 @@ namespace BusesControl.Controllers {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
                 return RedirectToAction("Index");
             }
-            modelsContrato.ClienteId = IdPessoaFisicaOrJuridica(modelsContrato.Contrato);
+            //modelsContrato.ClienteId = IdPessoaFisicaOrJuridica(modelsContrato.Contrato);
             return View(modelsContrato);
         }
         [HttpPost]
@@ -155,14 +150,14 @@ namespace BusesControl.Controllers {
                         modelsContrato.Contrato = ModelsError(contrato);
                         return View(modelsContrato);
                     }
-                    if (_clienteRepositorio.PessoaFisicaOrJuridica(modelsContrato.ClienteId.Value)) {
+                    /*if (_clienteRepositorio.PessoaFisicaOrJuridica(modelsContrato.ClienteId.Value)) {
                         contrato.PessoaFisicaId = modelsContrato.ClienteId;
                         contrato.PessoaJuridicaId = null;
                     }
                     else {
                         contrato.PessoaJuridicaId = modelsContrato.ClienteId;
                         contrato.PessoaFisicaId = null;
-                    }
+                    }*/
                     _contratoRepositorio.EditarContrato(contrato);
                     TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
@@ -261,12 +256,12 @@ namespace BusesControl.Controllers {
             return resultado;
         }
 
-        public int? IdPessoaFisicaOrJuridica(Contrato contrato) {
-            if (!string.IsNullOrEmpty(contrato.PessoaFisicaId.ToString())) {
-                return contrato.PessoaFisicaId;
-            }
-            return contrato.PessoaJuridicaId;
-        }
+        /* public int? IdPessoaFisicaOrJuridica(Contrato contrato) {
+             if (!string.IsNullOrEmpty(contrato.PessoaFisicaId.ToString())) {
+                 return contrato.PessoaFisicaId;
+             }
+             return contrato.PessoaJuridicaId;
+         }*/
 
         public Contrato ModelsError(Contrato contrato) {
             //Para não ter problema de referências de na view em momentos de erros.

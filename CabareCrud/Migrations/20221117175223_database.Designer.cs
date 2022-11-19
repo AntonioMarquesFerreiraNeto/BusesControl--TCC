@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20221026225909_partial join 2")]
-    partial class partialjoin2
+    [Migration("20221117175223_database")]
+    partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,32 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Cliente");
                 });
 
+            modelBuilder.Entity("BusesControl.Models.ClientesContrato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContratoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PessoaFisicaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PessoaJuridicaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContratoId");
+
+                    b.HasIndex("PessoaFisicaId");
+
+                    b.HasIndex("PessoaJuridicaId");
+
+                    b.ToTable("ClientesContrato");
+                });
+
             modelBuilder.Entity("BusesControl.Models.Contrato", b =>
                 {
                     b.Property<int>("Id")
@@ -93,10 +119,6 @@ namespace BusesControl.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Aprovacao")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ClienteId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DataEmissao")
@@ -130,9 +152,10 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("decimal(65,30)");
 
-                    b.HasKey("Id");
+                    b.Property<decimal?>("ValorParcelaContrato")
+                        .HasColumnType("decimal(65,30)");
 
-                    b.HasIndex("ClienteId");
+                    b.HasKey("Id");
 
                     b.HasIndex("MotoristaId");
 
@@ -348,14 +371,25 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator().HasValue("PessoaJuridica");
                 });
 
-            modelBuilder.Entity("BusesControl.Models.Contrato", b =>
+            modelBuilder.Entity("BusesControl.Models.ClientesContrato", b =>
                 {
-                    b.HasOne("BusesControl.Models.Cliente", "Cliente")
-                        .WithMany("Contratos")
-                        .HasForeignKey("ClienteId")
+                    b.HasOne("BusesControl.Models.Contrato", "Contrato")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("ContratoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BusesControl.Models.PessoaFisica", "PessoaFisica")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("PessoaFisicaId");
+
+                    b.HasOne("BusesControl.Models.PessoaJuridica", "PessoaJuridica")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("PessoaJuridicaId");
+                });
+
+            modelBuilder.Entity("BusesControl.Models.Contrato", b =>
+                {
                     b.HasOne("BusesControl.Models.Funcionario", "Motorista")
                         .WithMany("Contratos")
                         .HasForeignKey("MotoristaId")

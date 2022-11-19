@@ -74,10 +74,10 @@ namespace BusesControl.Repositorio {
             return _bancocontext.PessoaFisica.FirstOrDefault(x => x.Id == id);
         }
         public PessoaFisica ListarPorId(long id) {
-            return _bancocontext.PessoaFisica.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
+            return _bancocontext.PessoaFisica.AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
         }
         public PessoaJuridica ListarPorIdJuridico(long id) {
-            return _bancocontext.PessoaJuridica.AsNoTracking().Include("Contratos").FirstOrDefault(x => x.Id == id);
+            return _bancocontext.PessoaJuridica.AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
         }
         public PessoaFisica Editar(PessoaFisica cliente) {
             try {
@@ -142,7 +142,7 @@ namespace BusesControl.Repositorio {
         public PessoaFisica Desabilitar(PessoaFisica cliente) {
             PessoaFisica clienteDesabilitado = ListarPorId(cliente.Id);
             if (clienteDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
-            if (clienteDesabilitado.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+            if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
             }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
@@ -150,12 +150,12 @@ namespace BusesControl.Repositorio {
             DesabilitarClientesVinculados(clienteDesabilitado, null);
             _bancocontext.Update(clienteDesabilitado);
             _bancocontext.SaveChanges();
-            return cliente;
+            return clienteDesabilitado;
         }
         public PessoaJuridica DesabilitarJuridico(PessoaJuridica cliente) {
             PessoaJuridica clienteDesabilitado = ListarPorIdJuridico(cliente.Id);
             if (clienteDesabilitado == null) throw new Exception("Desculpe, ID não foi encontrado.");
-            if (clienteDesabilitado.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+            if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
             }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;

@@ -8,6 +8,8 @@ namespace BusesControl.Repositorio {
         public List<Contrato> ListContratoEmAnalise();
         public List<Contrato> ListContratoNegados();
         public List<Contrato> ListContratoAprovados();
+        public List<PessoaFisica> SelectsClientesF(List<PessoaFisica> list);
+        public List<PessoaJuridica> SelectsClientesJ(List<PessoaJuridica> list);
         public Contrato ListarPorId(int id);
         public Contrato ListarJoinPorId(int id);
         public Contrato Adicionar(Contrato contrato);

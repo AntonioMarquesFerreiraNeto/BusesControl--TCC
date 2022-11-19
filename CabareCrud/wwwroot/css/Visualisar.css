@@ -1,5 +1,79 @@
 ﻿@charset "UTF-8";
+.body-modal-alt {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    background-color: ghostwhite;
+}
 
+.body-modal-alt-2 {
+    max-height: calc(35vh - 70px);
+    overflow-y: auto;
+    background-color: ghostwhite;
+}
+.listClientes {
+    padding: 30px;
+    width: 100%;
+    margin: auto;
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 2px 2px 1px rgb(74, 74, 74, 0,96);
+}
+
+    .listClientes tr {
+        border: none;
+        border: 3px solid #F8F8FF;
+        margin: 2px;
+        padding: 10px;
+    }
+
+    .listClientes td {
+        border: none;
+        margin: 2px;
+        padding: 10px;
+    }
+
+.consult-clientes {
+    margin-left: 10px;
+    font-size: 13pt;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: rgb(10, 132, 156);
+    width: 52px;
+    height: 26px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(0, 138, 255);
+    border-radius: 5px;
+    transition: 1s;
+    -moz-animation: consult-clientes .95s linear infinite;
+    -o-animation: consult-clientes .95s linear infinite;
+    animation: consult-clientes .95s linear infinite;
+}
+
+@keyframes consult-clientes {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.consult-clientes:hover {
+    background-color: blue;
+}
+
+.icon-detalhes {
+    color: white;
+}
 .clientes {
     margin-top: 2px;
     margin: auto;

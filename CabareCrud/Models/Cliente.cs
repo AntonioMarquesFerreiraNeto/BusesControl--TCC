@@ -54,6 +54,6 @@ namespace BusesControl.Models {
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string Ddd { get; set; }
 
-        public virtual List<Contrato> Contratos { get; set; }
+        public virtual List<ClientesContrato> ClientesContratos { get; set; }
     }
 }

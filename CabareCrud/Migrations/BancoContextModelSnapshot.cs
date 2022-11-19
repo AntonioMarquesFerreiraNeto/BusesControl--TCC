@@ -84,6 +84,32 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Cliente");
                 });
 
+            modelBuilder.Entity("BusesControl.Models.ClientesContrato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ContratoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PessoaFisicaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PessoaJuridicaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContratoId");
+
+                    b.HasIndex("PessoaFisicaId");
+
+                    b.HasIndex("PessoaJuridicaId");
+
+                    b.ToTable("ClientesContrato");
+                });
+
             modelBuilder.Entity("BusesControl.Models.Contrato", b =>
                 {
                     b.Property<int>("Id")
@@ -113,12 +139,6 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("PessoaFisicaId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PessoaJuridicaId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("QtParcelas")
                         .IsRequired()
                         .HasColumnType("int");
@@ -138,10 +158,6 @@ namespace BusesControl.Migrations
                     b.HasIndex("MotoristaId");
 
                     b.HasIndex("OnibusId");
-
-                    b.HasIndex("PessoaFisicaId");
-
-                    b.HasIndex("PessoaJuridicaId");
 
                     b.ToTable("Contrato");
                 });
@@ -353,6 +369,21 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator().HasValue("PessoaJuridica");
                 });
 
+            modelBuilder.Entity("BusesControl.Models.ClientesContrato", b =>
+                {
+                    b.HasOne("BusesControl.Models.Contrato", "Contrato")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("ContratoId");
+
+                    b.HasOne("BusesControl.Models.PessoaFisica", "PessoaFisica")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("PessoaFisicaId");
+
+                    b.HasOne("BusesControl.Models.PessoaJuridica", "PessoaJuridica")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("PessoaJuridicaId");
+                });
+
             modelBuilder.Entity("BusesControl.Models.Contrato", b =>
                 {
                     b.HasOne("BusesControl.Models.Funcionario", "Motorista")
@@ -366,14 +397,6 @@ namespace BusesControl.Migrations
                         .HasForeignKey("OnibusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("BusesControl.Models.PessoaFisica", "PessoaFisica")
-                        .WithMany("Contratos")
-                        .HasForeignKey("PessoaFisicaId");
-
-                    b.HasOne("BusesControl.Models.PessoaJuridica", "PessoaJuridica")
-                        .WithMany("Contratos")
-                        .HasForeignKey("PessoaJuridicaId");
                 });
 #pragma warning restore 612, 618
         }

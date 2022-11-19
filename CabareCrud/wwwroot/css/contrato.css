@@ -14,20 +14,24 @@ input {
     padding-top: 0;
     padding-bottom: 0;
 }
+
 .body-modal-alt {
     max-height: calc(100vh - 200px);
     overflow-y: auto;
     background-color: ghostwhite;
 }
+
 .body-modal-alt-2 {
     max-height: calc(35vh - 70px);
     overflow-y: auto;
     background-color: ghostwhite;
 }
-.list-largura{
+
+.list-largura {
     margin: auto;
     width: 75%;
 }
+
 #bac {
     margin: 0px;
     margin-top: 5px;
@@ -137,10 +141,44 @@ label {
     }
 }
 
+.consult-clientes {
+    margin: auto;
+    font-size: 13pt;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: rgb(10, 132, 156);
+    width: 32px;
+    height: 26px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(0, 138, 255);
+    border-radius: 5px;
+    -moz-animation: consult-clientes .75s linear infinite;
+    -o-animation: consult-clientes .75s linear infinite;
+    animation: consult-clientes .75s linear infinite;
+}
+@keyframes consult-clientes {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+.consult-clientes:hover{
+    background-color: blue;
+}
 .icon-detalhes {
     color: white;
 }
-
 .form-control {
     height: 33px;
     font-size: 11pt;

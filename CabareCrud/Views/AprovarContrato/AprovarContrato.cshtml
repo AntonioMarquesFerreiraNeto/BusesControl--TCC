@@ -37,7 +37,7 @@
                             else {
                                 <p><b>Status do contrato do cliente: </b>Inativo</p>
                             }
-                            <p><b>Nome do cliente físico/jurídico: </b>@Model.ReturnDetalhesCliente()</p>
+                            <p style="display: flex;"><b>Detalhes de clientes PF/PJ: </b><a class="consult-clientes" data-target="#listClientes" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a></p>
                             <p><b>Nome do motorista do contrato:</b> @Model.ReturnDetalhesMotorista()</p>
                             <p><b>Detalhes do ônibus do contrato:</b> @Model.ReturnDetalhesOnibus()</p>
                         </div>
@@ -46,6 +46,40 @@
                             <p><b>Quantidade de parcelas de pagamento:</b> @Html.DisplayFor(model => model.QtParcelas)</p>
                             <p><b>Valor das parcelas do contrato</b>: R$ @Html.DisplayFor(model => model.ValorParcelaContrato)</p>
                             <p>(<b>Emissão:</b> @Html.DisplayFor(model => model.DataEmissao))(<b>Vencimento</b>: @Html.DisplayFor(model => model.DataVencimento))</p>
+                        </div>
+                        <div id="listClientes" class="modal">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content modal-largura">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title font">Clientes requerentes</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body body-modal-alt">
+                                        <div class="col-md-12 input-group form-group form-it">
+                                            <table class="listClientes">
+                                                <tbody class="body-clientes">
+                                                    @foreach (var item in Model.ClientesContratos) {
+                                                        @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                                                            <tr>
+                                                                <td>@Html.DisplayFor(x => item.PessoaFisica.Name)</td>
+                                                                <td>@Html.DisplayFor(x => item.PessoaFisica.Cpf)</td>
+                                                            </tr>
+                                                        }
+                                                        else if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
+                                                            <tr>
+                                                                <td>@Html.DisplayFor(x => item.PessoaJuridica.RazaoSocial)</td>
+                                                                <td>@Html.DisplayFor(x => item.PessoaJuridica.Cnpj)</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     }
                 </div>

@@ -22,8 +22,14 @@
             <hr style="margin-top: 3px;">
         </h3>
     }
-    else {
+    else if (Model.Any(x => x.Status == StatuCliente.Desabilitado)){
         <h3 id="bac" style="color: red;">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac">
             <i class="fa fa-users"></i> @ViewData["Title"]
             <hr style="margin-top: 3px;">
         </h3>

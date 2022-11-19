@@ -23,24 +23,16 @@
         <hr style="margin-top: 2px;">
     </h3>
     <section class="cliente">
-        <form id="formAdd" asp-controller="Contrato" asp-action="NovoContrato" method="post">
+        <form id="formAdd">
             <div class="row">
-                <div class="col-md-6 input-group form-group form-it">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fas fa-user"></i>
-                        </span>
-                    </div>
-                    <select id="cliente" class="form-control campUser" asp-for="ClienteId">
+                <div class="col-md-12 input-group form-group form-it">
+                    <select id="cliente" class="form-control campUser" asp-for="PessoaFisica">
                         <optgroup label="Selecione o cliente">
                             @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
                             || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
                                 <option value="">Selecionar cliente</option>
                                 @foreach (var clientesFisicos in Model.ClienteFisicoList) {
-                                    <option value="@clientesFisicos.Id">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
-                                }
-                                @foreach (var clientesJuri in Model.ClienteJuridicoList) {
-                                    <option value="@clientesJuri.Id">@clientesJuri.RazaoSocial.ToUpper() – CNPJ: @clientesJuri.Cnpj</option>
+                                    <option value="@clientesFisicos">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
                                 }
                             }
                             else {
@@ -48,13 +40,12 @@
                             }
                         </optgroup>
                     </select>
-                    <a class="consult-flow" href="#"><i class="fa fa-plus icon-detalhes"></i></a>
-                    <div class="i">
-                        <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.ClienteId)
-                        </small>
-                    </div>
+                    <button class="consult-flow" href="#"><i class="fa fa-plus icon-detalhes"></i></button>
                 </div>
+            </div>
+        </form>
+        <form id="formAdd" asp-controller="Contrato" asp-action="NovoContrato" method="post">
+            <div class="row">
                 <div class="col-md-6 input-group form-group form-it">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -82,7 +73,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="col-md-12 input-group form-group form-it">
+                <div class="col-md-6 input-group form-group form-it">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
                             <i class="fas fa-user-tie"></i>
@@ -261,18 +252,18 @@
                     <div class="col-md-12 input-group form-group form-it">
                         <table class="listClientes">
                             <tbody class="body-clientes">
-                                @foreach (var item in Model.ClienteFisicoList) {
-                                    <tr>
-                                        <td>@item.Name</td>
-                                        <td>@item.Cpf</td>
-                                        <td><a class="link-trash" href="#"><i class="fa fa-trash-alt"></i></a></td>
-                                    </tr>
+                                @if (Model.ClienteFisicoList.Count > 0 || Model.ClienteFisicoList != null) {
+                                    @foreach (var item in Model.ClienteFisicoList) {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>@item.Cpf</td>
+                                            <td><a class="link-trash" href="#"><i class="fa fa-trash-alt"></i></a></td>
+                                        </tr>
+                                    }
                                 }
-                                @foreach (var item in Model.ClienteJuridicoList) {
+                                else {
                                     <tr>
-                                        <td>@item.RazaoSocial</td>
-                                        <td>@item.Cnpj</td>
-                                        <td><a class="link-trash" href="#"><i class="fa fa-trash-alt"></i></a></td>
+                                        <td>Nenhum cliente selecionado.</td>
                                     </tr>
                                 }
                             </tbody>

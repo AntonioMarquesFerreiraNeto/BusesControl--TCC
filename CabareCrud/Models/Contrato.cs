@@ -5,6 +5,7 @@ using BusesControl.Models.ValidacoesDados.ModelValidarParcela;
 using BusesControl.Models.ValidacoesDados.ModelValidarValorMonetario;
 using BusesControl.Repositorio;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
@@ -14,10 +15,6 @@ namespace BusesControl.Models {
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         public int? MotoristaId { get; set; }
-
-        public int? PessoaFisicaId { get; set; }
-
-        public int? PessoaJuridicaId { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         public int? OnibusId { get; set; }
@@ -50,13 +47,11 @@ namespace BusesControl.Models {
 
         public StatusAprovacao Aprovacao { get; set; }
 
-        public PessoaFisica PessoaFisica { get; set; }
-
-        public PessoaJuridica PessoaJuridica { get; set; }
-
         public Funcionario Motorista { get; set; }
 
         public Onibus Onibus { get; set; }
+
+        public virtual List<ClientesContrato> ClientesContratos { get; set; }
 
         public bool ValidarValorMonetario() {
             if (ValorMonetario < 150) {
@@ -74,10 +69,7 @@ namespace BusesControl.Models {
         }
 
         public string ReturnDetalhesCliente() {
-            if (PessoaFisica != null) {
-                return $"{PessoaFisica.Name.ToUpper()} – CPF: {PessoaFisica.Cpf}";
-            }
-            return $"{PessoaJuridica.RazaoSocial.ToUpper()} – CNPJ: {PessoaJuridica.Cnpj}";
+            return "Antonio Marques Ferreira";
         }
 
         public decimal? ReturnValorParcela() {

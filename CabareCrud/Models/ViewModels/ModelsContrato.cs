@@ -9,11 +9,11 @@ namespace BusesControl.Models.ViewModels {
         public List<PessoaFisica> ClienteFisicoList { get; set; }
         public List<PessoaJuridica> ClienteJuridicoList { get; set; }
         public Contrato Contrato { get; set; }
-
-        [Required(ErrorMessage = "Campo obrigatório!")]
-        public int? ClienteId { get; set; }
-
+        public float? ClienteId { get; set; }
+        public PessoaFisica PessoaFisica { get; set; }
         //Construtor vazio para poder istânciar um objeto na controller. 
-        public ModelsContrato() { }
+        public ModelsContrato() { 
+            
+        }
     }
 }

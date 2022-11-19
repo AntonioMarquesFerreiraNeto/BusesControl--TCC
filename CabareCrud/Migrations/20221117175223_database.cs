@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BusesControl.Migrations
 {
-    public partial class Database : Migration
+    public partial class database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -102,9 +102,9 @@ namespace BusesControl.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     MotoristaId = table.Column<int>(nullable: false),
-                    ClienteId = table.Column<int>(nullable: false),
                     OnibusId = table.Column<int>(nullable: false),
                     ValorMonetario = table.Column<decimal>(nullable: false),
+                    ValorParcelaContrato = table.Column<decimal>(nullable: true),
                     QtParcelas = table.Column<int>(nullable: false),
                     DataEmissao = table.Column<DateTime>(nullable: false),
                     DataVencimento = table.Column<DateTime>(nullable: false),
@@ -115,12 +115,6 @@ namespace BusesControl.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contrato", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Contrato_Cliente_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Cliente",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Contrato_Funcionario_MotoristaId",
                         column: x => x.MotoristaId,
@@ -133,6 +127,39 @@ namespace BusesControl.Migrations
                         principalTable: "Onibus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientesContrato",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ContratoId = table.Column<int>(nullable: false),
+                    PessoaJuridicaId = table.Column<int>(nullable: true),
+                    PessoaFisicaId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientesContrato", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientesContrato_Contrato_ContratoId",
+                        column: x => x.ContratoId,
+                        principalTable: "Contrato",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClientesContrato_Cliente_PessoaFisicaId",
+                        column: x => x.PessoaFisicaId,
+                        principalTable: "Cliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ClientesContrato_Cliente_PessoaJuridicaId",
+                        column: x => x.PessoaJuridicaId,
+                        principalTable: "Cliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -190,9 +217,19 @@ namespace BusesControl.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contrato_ClienteId",
-                table: "Contrato",
-                column: "ClienteId");
+                name: "IX_ClientesContrato_ContratoId",
+                table: "ClientesContrato",
+                column: "ContratoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientesContrato_PessoaFisicaId",
+                table: "ClientesContrato",
+                column: "PessoaFisicaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientesContrato_PessoaJuridicaId",
+                table: "ClientesContrato",
+                column: "PessoaJuridicaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contrato_MotoristaId",
@@ -207,6 +244,9 @@ namespace BusesControl.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ClientesContrato");
+
             migrationBuilder.DropTable(
                 name: "Contrato");
 

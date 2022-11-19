@@ -332,7 +332,7 @@ namespace BusesControl.Controllers {
             long idade = dias / 365;
             PessoaFisica clienteValidation = _clienteRepositorio.ListarPorId(value.Id);
             if ((idade > 0 && idade < 18) && (!string.IsNullOrEmpty(value.IdVinculacaoContratual.ToString()))
-                &&  clienteValidation.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo && x.Aprovacao != StatusAprovacao.Negado)) {
+                &&  clienteValidation.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 return true;
             }
             else {

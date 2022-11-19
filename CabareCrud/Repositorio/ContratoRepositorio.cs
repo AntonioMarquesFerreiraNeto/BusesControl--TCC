@@ -23,8 +23,8 @@ namespace BusesControl.Repositorio {
             return _bancoContext.Contrato
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
-                .AsNoTracking().Include("PessoaFisica")
-                .AsNoTracking().Include("PessoaJuridica")
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .FirstOrDefault(x => x.Id == id);
         }
 
@@ -32,40 +32,40 @@ namespace BusesControl.Repositorio {
             return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Ativo)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
-                .AsNoTracking().Include("PessoaFisica")
-                .AsNoTracking().Include("PessoaJuridica")
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .ToList();
         }
         public List<Contrato> ListContratoInativo() {
             return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Inativo)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
-                .AsNoTracking().Include("PessoaFisica")
-                .AsNoTracking().Include("PessoaJuridica")
-               .ToList();
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .ToList();
         }
         public List<Contrato> ListContratoEmAnalise() {
             return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.EmAnalise && x.StatusContrato == ContratoStatus.Ativo)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
-                .AsNoTracking().Include("PessoaFisica")
-                .AsNoTracking().Include("PessoaJuridica")
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .ToList();
         }
         public List<Contrato> ListContratoNegados() {
             return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Negado)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
-                .AsNoTracking().Include("PessoaFisica")
-                .AsNoTracking().Include("PessoaJuridica")
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .ToList();
         }
         public List<Contrato> ListContratoAprovados() {
             return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.StatusContrato == ContratoStatus.Ativo)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
-                .AsNoTracking().Include("PessoaFisica")
-                .AsNoTracking().Include("PessoaJuridica")
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .ToList();
         }
 
@@ -75,6 +75,10 @@ namespace BusesControl.Repositorio {
                 contrato = ContratoTrim(contrato);
                 contrato.ValorParcelaContrato = contrato.ReturnValorParcela();
                 _bancoContext.Contrato.Add(contrato);
+                List<PessoaFisica> listClientesF = _bancoContext.PessoaFisica.Where(x => x.Status == StatuCliente.Habilitado).ToList();
+                List<PessoaJuridica> listClientesP = _bancoContext.PessoaJuridica.Where(x => x.Status == StatuCliente.Habilitado).ToList();
+                AddClienteFisico(contrato, listClientesF);
+                AddClienteJuridico(contrato, listClientesP);
                 _bancoContext.SaveChanges();
                 return contrato;
             }
@@ -82,18 +86,30 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
+        public void AddClienteFisico(Contrato contrato, List<PessoaFisica> list) {
+            if (list.Count() > 0) {
+                foreach (var item in list) {
+                    _bancoContext.AddRange(
+                            new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato }
+                        );
+                }
+            }
+            _bancoContext.AddRange(contrato);
+        }
+        public void AddClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
+            if (list.Count() > 0) {
+                foreach (var item in list) {
+                    _bancoContext.AddRange(
+                            new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato }
+                        );
+                }
+            }
+        }
+
         public Contrato EditarContrato(Contrato contrato) {
             try {
                 Contrato contratoDB = ListarPorId(contrato.Id);
                 if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
-                if (!string.IsNullOrEmpty(contrato.PessoaFisicaId.ToString())) {
-                    contratoDB.PessoaFisicaId = contrato.PessoaFisicaId;
-                    contratoDB.PessoaJuridicaId = null;
-                }
-                else {
-                    contratoDB.PessoaJuridicaId = contrato.PessoaJuridicaId;
-                    contratoDB.PessoaFisicaId = null;
-                }
                 contratoDB.MotoristaId = contrato.MotoristaId;
                 contratoDB.OnibusId = contrato.OnibusId;
                 contratoDB.ValorMonetario = contrato.ValorMonetario;
@@ -147,16 +163,10 @@ namespace BusesControl.Repositorio {
                 if (contratoDB.StatusContrato == ContratoStatus.Inativo) {
                     throw new Exception("Não é possível aprovar contratos inativos!");
                 }
-                //condição para não ter problemas com referência de objetos, já que um contrato pode ter clientes físicos ou jurídicos.
-                if (contratoDB.PessoaFisica != null) {
-                    if (contratoDB.PessoaFisica.Status == StatuCliente.Desabilitado) {
-                        throw new Exception("Não é possível aprovar contrato de cliente desabilitado!");
-                    }
-                }
-                else {
-                    if (contratoDB.PessoaJuridica.Status == StatuCliente.Desabilitado) {
-                        throw new Exception("Não é possível aprovar contrato de cliente desabilitado!");
-                    }
+
+                //para não ter problemas com referência de objetos, já que um contrato pode ter clientes físicos ou jurídicos.
+                if (ValidarClientDesabilitado(contrato) != false) {
+                    throw new Exception("Não é possível aprovar contrato de clientes desabilitados!");
                 }
                 if (contratoDB.Motorista.Status == StatuFuncionario.Desabilitado) {
                     throw new Exception("Não é possível aprovar contrato com motorista vinculado desabilitado!");
@@ -220,6 +230,33 @@ namespace BusesControl.Repositorio {
                 valorTot += contrato.ValorMonetario;
             }
             return valorTot;
+        }
+
+        public bool ValidarClientDesabilitado(Contrato value) {
+            List<PessoaFisica> pessoaFisicas = _bancoContext.PessoaFisica.Where(x => x.Status == StatuCliente.Desabilitado)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).ToList();
+
+            List<PessoaJuridica> pessoaJuridicas = _bancoContext.PessoaJuridica.Where(x => x.Status == StatuCliente.Desabilitado)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).ToList();
+            foreach (var item in pessoaFisicas) {
+                if (item.ClientesContratos.Any(x => x.ContratoId == value.Id)) {
+                    return true;
+                }
+            }
+            foreach (var item in pessoaJuridicas) {
+                if (item.ClientesContratos.Any(x => x.ContratoId == value.Id)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<PessoaFisica> SelectsClientesF(List<PessoaFisica> list) {
+            return list;
+        }
+
+        public List<PessoaJuridica> SelectsClientesJ(List<PessoaJuridica> list) {
+            return list;
         }
     }
 }

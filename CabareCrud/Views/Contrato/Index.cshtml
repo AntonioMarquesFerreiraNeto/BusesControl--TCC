@@ -22,8 +22,14 @@
             <hr style="margin-top: 3px;">
         </h3>
     }
-    else {
+    else if (Model.Any(x => x.StatusContrato == ContratoStatus.Inativo)) {
         <h3 id="bac" style="color: red;">
+            <i class="fa fa-file-contract"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac">
             <i class="fa fa-file-contract"></i> @ViewData["Title"]
             <hr style="margin-top: 3px;">
         </h3>
@@ -44,7 +50,7 @@
             <thead>
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">Nome do cliente</th>
+                    <th scope="col">Clientes</th>
                     <th scope="col">Vencimento</th>
                     <th scope="col">Valor total</th>
                     <th scope="col">Opção</th>
@@ -55,12 +61,43 @@
                     @foreach (var item in Model) {
                         <tr>
                             <td>@item.Id</td>
-                            @if (item.PessoaFisica != null) {
-                                <td>@item.PessoaFisica.Name</td>
-                            }
-                            else {
-                                <td>@item.PessoaJuridica.RazaoSocial</td>
-                            }
+                            <td class="align-content-center justify-content-center">
+                                <a class="consult-clientes" data-target="#listClientes" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
+                                <div id="listClientes" class="modal">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content modal-largura">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title font">Clientes requerentes</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body body-modal-alt">
+                                                <div class="col-md-12 input-group form-group form-it">
+                                                    <table class="listClientes">
+                                                        <tbody class="body-clientes">
+                                                            @foreach (var clientes in item.ClientesContratos) {
+                                                                @if (!string.IsNullOrEmpty(clientes.PessoaFisicaId.ToString())) {
+                                                                    <tr>
+                                                                        <td>@Html.DisplayFor(x => clientes.PessoaFisica.Name)</td>
+                                                                        <td>@Html.DisplayFor(x => clientes.PessoaFisica.Cpf)</td>
+                                                                    </tr>
+                                                                }
+                                                                else if(!string.IsNullOrEmpty(clientes.PessoaJuridicaId.ToString())) {
+                                                                    <tr>
+                                                                        <td>@Html.DisplayFor(x => clientes.PessoaJuridica.RazaoSocial)</td>
+                                                                        <td>@Html.DisplayFor(x => clientes.PessoaJuridica.Cnpj)</td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
                             <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
                             <td>
@@ -77,6 +114,7 @@
                 }
             </tbody>
         </table>
+
     </div>
 </section>
 <script src="~/js/site.js"></script>

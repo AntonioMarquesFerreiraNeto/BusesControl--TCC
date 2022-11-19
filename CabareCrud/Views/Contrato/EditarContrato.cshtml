@@ -39,28 +39,30 @@
                     else {
                         <select id="cliente" class="form-control campUser" asp-for="ClienteId">
                             <optgroup label="Selecione o cliente">
-                                @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
+                               <!--
+                                    if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
                                || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
-                                    @if (Model.Contrato.PessoaFisica != null) {
-                                        <option value="@Model.Contrato.PessoaFisicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
+                                    if (Model.Contrato.PessoaFisica != null) {
+                                        <option value="Model.Contrato.PessoaFisicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
                                     }
                                     else {
-                                        <option value="@Model.Contrato.PessoaJuridicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
+                                        <option value="Model.Contrato.PessoaJuridicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
                                     }
-                                    @foreach (var clientesFisicos in Model.ClienteFisicoList) {
-                                        @if (clientesFisicos.Id != Model.Contrato.PessoaFisicaId) {
-                                            <option value="@clientesFisicos.Id">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
+                                    foreach (var clientesFisicos in Model.ClienteFisicoList) {
+                                        if (clientesFisicos.Id != Model.Contrato.PessoaFisicaId) {
+                                            <option value="clientesFisicos.Id">clientesFisicos.Name.ToUpper() – CPF: clientesFisicos.Cpf</option>
                                         }
                                     }
-                                    @foreach (var clientesJuri in Model.ClienteJuridicoList) {
-                                        @if (clientesJuri.Id != Model.Contrato.PessoaJuridicaId) {
-                                            <option value="@clientesJuri.Id">@clientesJuri.RazaoSocial.ToUpper() – CNPJ: @clientesJuri.Cnpj</option>
+                                    foreach (var clientesJuri in Model.ClienteJuridicoList) {
+                                        if (clientesJuri.Id != Model.Contrato.PessoaJuridicaId) {
+                                            <option value="clientesJuri.Id">clientesJuri.RazaoSocial.ToUpper() – CNPJ: clientesJuri.Cnpj</option>
                                         }
                                     }
                                 }
                                 else {
                                     <option value="">Não existe cadastros.</option>
                                 }
+                               -->
                             </optgroup>
                         </select>
                         <a class="consult-flow" data-target="#detalhesClient" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
@@ -276,32 +278,34 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    @if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisicaId.ToString())) {
+                <!--
+                     /*<div class="modal-body">
+                    if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisicaId.ToString())) {
                         <p class="font-min">
-                            <b>Cliente:</b> @Model.Contrato.ReturnDetalhesCliente() <br>
-                            <b>Rg: </b> @Model.Contrato.PessoaFisica.Rg <br>
-                            <b>Telefone: </b> @Model.Contrato.PessoaFisica.Telefone <br>
-                            @if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisica.Email)) {
-                                <b>Email: </b> @Model.Contrato.PessoaFisica.Email <br>
+                            <b>Cliente:</b> Model.Contrato.ReturnDetalhesCliente() <br>
+                            <b>Rg: </b> Model.Contrato.PessoaFisica.Rg <br>
+                            <b>Telefone: </b> Model.Contrato.PessoaFisica.Telefone <br>
+                            if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisica.Email)) {
+                                <b>Email: </b> Model.Contrato.PessoaFisica.Email <br>
                             }
-                            <b>Data de nascimento: </b>@Html.DisplayFor(x => x.Contrato.PessoaFisica.DataNascimento) <br>
-                            <b>Nome da mãe: </b>@Model.Contrato.PessoaFisica.NameMae <br>
+                            <b>Data de nascimento: </b>Html.DisplayFor(x => x.Contrato.PessoaFisica.DataNascimento) <br>
+                            <b>Nome da mãe: </b>Model.Contrato.PessoaFisica.NameMae <br>
                         </p>
                     }
                     else {
                         <p class="font-min">
-                            <b>Cliente:</b> @Model.Contrato.ReturnDetalhesCliente() <br>
-                            <b>Nome fantasia: </b> @Model.Contrato.PessoaJuridica.NomeFantasia <br>
-                            <b>Inscrição estadual: </b> @Model.Contrato.PessoaJuridica.InscricaoEstadual <br>
-                            <b>Inscrição Municipal: </b> @Model.Contrato.PessoaJuridica.InscricaoMunicipal <br>
-                            <b>Telefone: </b> @Model.Contrato.PessoaJuridica.Telefone <br>
-                            @if (!string.IsNullOrEmpty(Model.Contrato.PessoaJuridica.Email)) {
-                                <b>Email: </b> @Model.Contrato.PessoaJuridica.Email <br>
+                            <b>Cliente:</b> Model.Contrato.ReturnDetalhesCliente() <br>
+                            <b>Nome fantasia: </b> Model.Contrato.PessoaJuridica.NomeFantasia <br>
+                            <b>Inscrição estadual: </b> Model.Contrato.PessoaJuridica.InscricaoEstadual <br>
+                            <b>Inscrição Municipal: </b> Model.Contrato.PessoaJuridica.InscricaoMunicipal <br>
+                            <b>Telefone: </b> Model.Contrato.PessoaJuridica.Telefone <br>
+                            if (!string.IsNullOrEmpty(Model.Contrato.PessoaJuridica.Email)) {
+                                <b>Email: </b> Model.Contrato.PessoaJuridica.Email <br>
                             }
                         </p>
                     }
                 </div>
+                -->
             </div>
         </div>
     </div>

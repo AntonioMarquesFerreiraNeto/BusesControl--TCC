@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20221026225704_partial join")]
-    partial class partialjoin
+    [Migration("20221117190658_database 2")]
+    partial class database2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,32 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Cliente");
                 });
 
+            modelBuilder.Entity("BusesControl.Models.ClientesContrato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ContratoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PessoaFisicaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PessoaJuridicaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContratoId");
+
+                    b.HasIndex("PessoaFisicaId");
+
+                    b.HasIndex("PessoaJuridicaId");
+
+                    b.ToTable("ClientesContrato");
+                });
+
             modelBuilder.Entity("BusesControl.Models.Contrato", b =>
                 {
                     b.Property<int>("Id")
@@ -93,10 +119,6 @@ namespace BusesControl.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Aprovacao")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ClienteId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DataEmissao")
@@ -119,12 +141,6 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("PessoaFisicaId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PessoaJuridicaId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("QtParcelas")
                         .IsRequired()
                         .HasColumnType("int");
@@ -136,17 +152,14 @@ namespace BusesControl.Migrations
                         .IsRequired()
                         .HasColumnType("decimal(65,30)");
 
-                    b.HasKey("Id");
+                    b.Property<decimal?>("ValorParcelaContrato")
+                        .HasColumnType("decimal(65,30)");
 
-                    b.HasIndex("ClienteId");
+                    b.HasKey("Id");
 
                     b.HasIndex("MotoristaId");
 
                     b.HasIndex("OnibusId");
-
-                    b.HasIndex("PessoaFisicaId");
-
-                    b.HasIndex("PessoaJuridicaId");
 
                     b.ToTable("Contrato");
                 });
@@ -358,14 +371,23 @@ namespace BusesControl.Migrations
                     b.HasDiscriminator().HasValue("PessoaJuridica");
                 });
 
+            modelBuilder.Entity("BusesControl.Models.ClientesContrato", b =>
+                {
+                    b.HasOne("BusesControl.Models.Contrato", "Contrato")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("ContratoId");
+
+                    b.HasOne("BusesControl.Models.PessoaFisica", "PessoaFisica")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("PessoaFisicaId");
+
+                    b.HasOne("BusesControl.Models.PessoaJuridica", "PessoaJuridica")
+                        .WithMany("ClientesContratos")
+                        .HasForeignKey("PessoaJuridicaId");
+                });
+
             modelBuilder.Entity("BusesControl.Models.Contrato", b =>
                 {
-                    b.HasOne("BusesControl.Models.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BusesControl.Models.Funcionario", "Motorista")
                         .WithMany("Contratos")
                         .HasForeignKey("MotoristaId")
@@ -377,14 +399,6 @@ namespace BusesControl.Migrations
                         .HasForeignKey("OnibusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("BusesControl.Models.PessoaFisica", null)
-                        .WithMany("Contratos")
-                        .HasForeignKey("PessoaFisicaId");
-
-                    b.HasOne("BusesControl.Models.PessoaJuridica", null)
-                        .WithMany("Contratos")
-                        .HasForeignKey("PessoaJuridicaId");
                 });
 #pragma warning restore 612, 618
         }

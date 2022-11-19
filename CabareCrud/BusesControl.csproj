@@ -10,7 +10,6 @@
     <Compile Remove="Controllers\NovaPasta2\**" />
     <Compile Remove="Controllers\NovaPasta3\**" />
     <Compile Remove="Controllers\NovaPasta\**" />
-    <Compile Remove="Migrations\**" />
     <Compile Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <Compile Remove="Services\**" />
     <Compile Remove="Views\css\**" />
@@ -22,7 +21,6 @@
     <Content Remove="Controllers\NovaPasta2\**" />
     <Content Remove="Controllers\NovaPasta3\**" />
     <Content Remove="Controllers\NovaPasta\**" />
-    <Content Remove="Migrations\**" />
     <Content Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <Content Remove="Services\**" />
     <Content Remove="Views\css\**" />
@@ -34,7 +32,6 @@
     <EmbeddedResource Remove="Controllers\NovaPasta2\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta3\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta\**" />
-    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="Views\css\**" />
@@ -46,7 +43,6 @@
     <None Remove="Controllers\NovaPasta2\**" />
     <None Remove="Controllers\NovaPasta3\**" />
     <None Remove="Controllers\NovaPasta\**" />
-    <None Remove="Migrations\**" />
     <None Remove="Models\ValidacoesDados\ModelValidaCEP\**" />
     <None Remove="Services\**" />
     <None Remove="Views\css\**" />
@@ -71,14 +67,6 @@
 
   <ItemGroup>
     <None Remove="Models\Contrato.cs~RF1b537075.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20221027040236_Finish join.cs" />
-    <Compile Include="Migrations\20221027040236_Finish join.Designer.cs" />
-    <Compile Include="Migrations\20221027201210_new Atribute contrato.cs" />
-    <Compile Include="Migrations\20221027201210_new Atribute contrato.Designer.cs" />
-    <Compile Include="Migrations\BancoContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>
