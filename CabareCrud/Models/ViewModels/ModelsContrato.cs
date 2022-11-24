@@ -11,9 +11,13 @@ namespace BusesControl.Models.ViewModels {
         public Contrato Contrato { get; set; }
         public float? ClienteId { get; set; }
         public PessoaFisica PessoaFisica { get; set; }
+
+        public List<int> ListPessoaFisicaSelect { get; set; }
+        public List<int> ListPessoaJuridicaSelect { get; set; }
+
         //Construtor vazio para poder istânciar um objeto na controller. 
-        public ModelsContrato() { 
-            
+        public ModelsContrato() {
+           
         }
     }
 }

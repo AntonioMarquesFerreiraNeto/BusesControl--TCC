@@ -49,7 +49,7 @@
         <table id="table-contrato" class="table shadow p-3 mb-5 bg-white rounded">
             <thead>
                 <tr>
-                    <th scope="col">id</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Clientes</th>
                     <th scope="col">Vencimento</th>
                     <th scope="col">Valor total</th>
@@ -62,41 +62,7 @@
                         <tr>
                             <td>@item.Id</td>
                             <td class="align-content-center justify-content-center">
-                                <a class="consult-clientes" data-target="#listClientes" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
-                                <div id="listClientes" class="modal">
-                                    <div class="modal-dialog modal-md">
-                                        <div class="modal-content modal-largura">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title font">Clientes requerentes</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body body-modal-alt">
-                                                <div class="col-md-12 input-group form-group form-it">
-                                                    <table class="listClientes">
-                                                        <tbody class="body-clientes">
-                                                            @foreach (var clientes in item.ClientesContratos) {
-                                                                @if (!string.IsNullOrEmpty(clientes.PessoaFisicaId.ToString())) {
-                                                                    <tr>
-                                                                        <td>@Html.DisplayFor(x => clientes.PessoaFisica.Name)</td>
-                                                                        <td>@Html.DisplayFor(x => clientes.PessoaFisica.Cpf)</td>
-                                                                    </tr>
-                                                                }
-                                                                else if(!string.IsNullOrEmpty(clientes.PessoaJuridicaId.ToString())) {
-                                                                    <tr>
-                                                                        <td>@Html.DisplayFor(x => clientes.PessoaJuridica.RazaoSocial)</td>
-                                                                        <td>@Html.DisplayFor(x => clientes.PessoaJuridica.Cnpj)</td>
-                                                                    </tr>
-                                                                }
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <a class="consult-clientes btn-view-client" contrato-id ="@item.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
                             </td>
                             <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
                             <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
@@ -117,6 +83,23 @@
 
     </div>
 </section>
+<div id="listClientesIndex" class="modal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content modal-largura">
+            <div class="modal-header">
+                <h4 class="modal-title font">Clientes requerentes</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body body-modal-alt">
+                <div id="list-clients" class="col-md-12 input-group form-group form-it">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/js/site.js"></script>
 <script src="~/js/jquery.min.js"></script>
 @section Scripts{

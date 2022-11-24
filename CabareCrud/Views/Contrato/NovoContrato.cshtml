@@ -23,27 +23,36 @@
         <hr style="margin-top: 2px;">
     </h3>
     <section class="cliente">
-        <form id="formAdd">
-            <div class="row">
-                <div class="col-md-12 input-group form-group form-it">
-                    <select id="cliente" class="form-control campUser" asp-for="PessoaFisica">
-                        <optgroup label="Selecione o cliente">
-                            @if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
-                            || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
-                                <option value="">Selecionar cliente</option>
-                                @foreach (var clientesFisicos in Model.ClienteFisicoList) {
-                                    <option value="@clientesFisicos">@clientesFisicos.Name.ToUpper() – CPF: @clientesFisicos.Cpf</option>
-                                }
-                            }
-                            else {
-                                <option value="">Não existe cadastros.</option>
-                            }
-                        </optgroup>
-                    </select>
-                    <button class="consult-flow" href="#"><i class="fa fa-plus icon-detalhes"></i></button>
+        <div class="row">
+            <div class="col-md-12 input-group form-group form-it">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-user"></i>
+                    </span>
                 </div>
+                <select class="form-control campUser" id="ClienteFisicoList">
+                    <optgroup label="Selecionar cliente">
+                        @if (Model.ClienteFisicoList != null || Model.ClienteFisicoList.Any()) {
+                            <option value="">Selecionar cliente</option>
+                            @foreach (var item in Model.ClienteFisicoList) {
+                                <option value="@item.Id" Text="@item.Name.ToUpper()">
+                                    @item.Name.ToUpper() – CPF: @item.Cpf 
+                                </option>
+                            }
+                        }
+                        @if (Model.ClienteJuridicoList != null || Model.ClienteJuridicoList.Any()) {
+                            <option value="">----Selecionar cliente PJ----</option>
+                            @foreach (var item in Model.ClienteJuridicoList) {
+                                <option value="@item.Id" Text="@item.RazaoSocial.ToUpper()">
+                                    @item.RazaoSocial.ToUpper() – CNPJ: @item.Cnpj 
+                                </option>
+                            }
+                        }
+                    </optgroup>
+                </select>
+                <button class="consult-flow input-id-cliente"><i class="fa fa-plus icon-detalhes"></i></button>
             </div>
-        </form>
+        </div>
         <form id="formAdd" asp-controller="Contrato" asp-action="NovoContrato" method="post">
             <div class="row">
                 <div class="col-md-6 input-group form-group form-it">
@@ -174,7 +183,7 @@
                     </div>
                 </div>
                 <div class="modal-footer modal-footer-alt">
-                    <button type="button" class="btn filtra_btn api" data-target="#list" data-toggle="modal">
+                    <button type="button" id="display" class="btn filtra_btn api" data-target="#list" data-toggle="modal" style="opacity: 0;">
                         <i class="fa fa-users"></i> Selecionados
                     </button>
                     <div>
@@ -213,6 +222,26 @@
                     </div>
                 </div>
             </div>
+            <div id="list" class="modal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content modal-largura">
+                        <div class="modal-header">
+                            <h4 class="modal-title font">Clientes selecionados</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body body-modal-alt">
+                            <div class="col-md-12 input-group form-group form-it">
+                                <table class="listClientes">
+                                    <tbody class="body-clientes" id="clientes-selects">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </section>
     <div id="ConfirmSair" class="modal">
@@ -239,53 +268,7 @@
             </div>
         </div>
     </div>
-    <div id="list" class="modal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content modal-largura">
-                <div class="modal-header">
-                    <h4 class="modal-title font">Clientes selecionados</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body body-modal-alt">
-                    <div class="col-md-12 input-group form-group form-it">
-                        <table class="listClientes">
-                            <tbody class="body-clientes">
-                                @if (Model.ClienteFisicoList.Count > 0 || Model.ClienteFisicoList != null) {
-                                    @foreach (var item in Model.ClienteFisicoList) {
-                                        <tr>
-                                            <td>@item.Name</td>
-                                            <td>@item.Cpf</td>
-                                            <td><a class="link-trash" href="#"><i class="fa fa-trash-alt"></i></a></td>
-                                        </tr>
-                                    }
-                                }
-                                else {
-                                    <tr>
-                                        <td>Nenhum cliente selecionado.</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
-<script>
-    marca = document.getElementById('inputMarca');
-    noNumero(marca);
-    function noNumero(no) {
-        no.addEventListener("keypress", function(e) {
-            const keycode = (e.keyCode ? e.keyCode : e.which);
-            if (keycode > 47 && keycode < 58) {
-                e.preventDefault();
-            }
-        });
-    }
-</script>
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/mascaraMoney.js"></script>
 <script src="~/Js copy/DisplayMsgInfo.js"></script>

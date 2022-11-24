@@ -1,0 +1,23 @@
+﻿@using BusesControl.Models.Enums
+@model Contrato
+<link rel="stylesheet" href="~/css/contrato.css">
+<div class="col-md-12 input-group form-group form-it">
+    <table class="listClientes">
+        <tbody class="body-clientes">
+            @foreach (var item in Model.ClientesContratos) {
+                @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.PessoaFisica.Name)</td>
+                        <td>@Html.DisplayFor(x => item.PessoaFisica.Cpf)</td>
+                    </tr>
+                }
+                else if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.PessoaJuridica.RazaoSocial)</td>
+                        <td>@Html.DisplayFor(x => item.PessoaJuridica.Cnpj)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

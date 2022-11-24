@@ -8,7 +8,9 @@
 input {
     border: solid 1px #2b65c2;
 }
-
+.chkClient{
+    display: none;
+}
 #iconDisabled {
     margin-top: -1.1%;
     padding-top: 0;

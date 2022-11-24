@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BusesControl.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using BusesControl.Models.ViewModels;
 
 namespace BusesControl.Repositorio {
     public class ContratoRepositorio : IContratoRepositorio {
@@ -69,38 +70,36 @@ namespace BusesControl.Repositorio {
                 .ToList();
         }
 
-        public Contrato Adicionar(Contrato contrato) {
+        public ModelsContrato Adicionar(ModelsContrato modelsContrato) {
             try {
                 //adicionar apenas dois números após a vírgula neste local, para ficar dentro da normalidade.
+                Contrato contrato = modelsContrato.Contrato;
                 contrato = ContratoTrim(contrato);
                 contrato.ValorParcelaContrato = contrato.ReturnValorParcela();
                 _bancoContext.Contrato.Add(contrato);
-                List<PessoaFisica> listClientesF = _bancoContext.PessoaFisica.Where(x => x.Status == StatuCliente.Habilitado).ToList();
-                List<PessoaJuridica> listClientesP = _bancoContext.PessoaJuridica.Where(x => x.Status == StatuCliente.Habilitado).ToList();
-                AddClienteFisico(contrato, listClientesF);
-                AddClienteJuridico(contrato, listClientesP);
+                AddClienteFisico(contrato, modelsContrato.ListPessoaFisicaSelect);
+                AddClienteJuridico(contrato, modelsContrato.ListPessoaJuridicaSelect);
                 _bancoContext.SaveChanges();
-                return contrato;
+                return modelsContrato;
             }
             catch (Exception erro) {
                 throw new Exception(erro.Message);
             }
         }
-        public void AddClienteFisico(Contrato contrato, List<PessoaFisica> list) {
-            if (list.Count() > 0) {
-                foreach (var item in list) {
+        public void AddClienteFisico(Contrato contrato, List<int> listId) {
+            if (listId.Count > 0) {
+                foreach (var item in listId) {
                     _bancoContext.AddRange(
-                            new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato }
+                            new ClientesContrato { PessoaFisicaId = item, Contrato = contrato }
                         );
                 }
             }
-            _bancoContext.AddRange(contrato);
         }
-        public void AddClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
-            if (list.Count() > 0) {
-                foreach (var item in list) {
+        public void AddClienteJuridico(Contrato contrato, List<int> listId) {
+            if (listId.Count > 0) {
+                foreach (var item in listId) {
                     _bancoContext.AddRange(
-                            new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato }
+                            new ClientesContrato { PessoaJuridicaId = item, Contrato = contrato }
                         );
                 }
             }
@@ -251,12 +250,5 @@ namespace BusesControl.Repositorio {
             return false;
         }
 
-        public List<PessoaFisica> SelectsClientesF(List<PessoaFisica> list) {
-            return list;
-        }
-
-        public List<PessoaJuridica> SelectsClientesJ(List<PessoaJuridica> list) {
-            return list;
-        }
     }
 }

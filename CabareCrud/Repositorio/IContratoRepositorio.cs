@@ -1,4 +1,5 @@
 ﻿using BusesControl.Models;
+using BusesControl.Models.ViewModels;
 using System.Collections.Generic;
 
 namespace BusesControl.Repositorio {
@@ -8,11 +9,9 @@ namespace BusesControl.Repositorio {
         public List<Contrato> ListContratoEmAnalise();
         public List<Contrato> ListContratoNegados();
         public List<Contrato> ListContratoAprovados();
-        public List<PessoaFisica> SelectsClientesF(List<PessoaFisica> list);
-        public List<PessoaJuridica> SelectsClientesJ(List<PessoaJuridica> list);
         public Contrato ListarPorId(int id);
         public Contrato ListarJoinPorId(int id);
-        public Contrato Adicionar(Contrato contrato);
+        public ModelsContrato Adicionar(ModelsContrato modelsContrato);
         public Contrato EditarContrato(Contrato contrato);
         public Contrato InativarContrato(Contrato contrato);
         public Contrato AtivarContrato(Contrato contrato);

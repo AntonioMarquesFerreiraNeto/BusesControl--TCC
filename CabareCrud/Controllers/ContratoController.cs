@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BusesControl.Controllers {
@@ -32,6 +33,14 @@ namespace BusesControl.Controllers {
             List<Contrato> ListContrato = _contratoRepositorio.ListContratoAtivo();
             return View(ListContrato);
         }
+        public IActionResult ListClientesContrato(int id) {
+            Contrato contrato = _contratoRepositorio.ListarJoinPorId(id);
+            if (contrato == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
+                return RedirectToAction("Index");
+            }
+            return PartialView("_ListClientesContrato", contrato);
+        }
         public IActionResult Inativos() {
             ViewData["Title"] = "Contrato inativos";
             List<Contrato> ListContrato = _contratoRepositorio.ListContratoInativo();
@@ -46,6 +55,8 @@ namespace BusesControl.Controllers {
             modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
             modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
             modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
+            modelsContrato.ListPessoaFisicaSelect = new List<int>();
+            modelsContrato.ListPessoaJuridicaSelect = new List<int>();
             Contrato contrato = new Contrato {
                 DataEmissao = DateTime.Now
             };
@@ -56,42 +67,49 @@ namespace BusesControl.Controllers {
         public IActionResult NovoContrato(ModelsContrato modelsContrato) {
             ViewData["Title"] = "Novo contrato";
             try {
+                modelsContrato.ListPessoaFisicaSelect = new List<int>();
+                modelsContrato.ListPessoaJuridicaSelect = new List<int>();
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
-
                 Contrato contrato = modelsContrato.Contrato;
-                if (ValidarCampo(contrato) != true) {
-                    TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
+                string listSelect = Request.Form["chkClient"];
+                if (ValidarCampo(modelsContrato.Contrato) != true) {
+                    TempData["MensagemDeErro"] = $"Informe os campos obrigatórios!{listSelect}";
                     return View(modelsContrato);
                 }
                 if (ModelState.IsValid) {
-                    if (!contrato.ValidarValorMonetario()) {
+                    if (string.IsNullOrEmpty(listSelect)) {
+                        TempData["MensagemDeErro"] = "Não foi selecionado nenhum cliente!";
+                        return View(modelsContrato);
+                    }
+                    else {
+                        List<int> listId = listSelect.Split(',').Select(Int32.Parse).ToList();
+                        modelsContrato.ListPessoaFisicaSelect = ValidationPersonaFisica(listId);
+                        modelsContrato.ListPessoaJuridicaSelect = ValidationPersonaJuridica(listId);
+                    }
+                    if (!modelsContrato.Contrato.ValidarValorMonetario()) {
                         TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
                         return View(modelsContrato);
                     }
-                    if (ValidationDateEmissaoAndVencimento(contrato)) {
+                    if (ValidationDateEmissaoAndVencimento(modelsContrato.Contrato)) {
                         TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
                         return View(modelsContrato);
                     }
-                    if (ValidationDateVencimento(contrato.DataVencimento.ToString())) {
+                    if (ValidationDateVencimento(modelsContrato.Contrato.DataVencimento.ToString())) {
                         TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
                         return View(modelsContrato);
                     }
-                    if (ValidationQtParcelas(contrato)) {
+                    if (ValidationQtParcelas(modelsContrato.Contrato)) {
                         TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
                         return View(modelsContrato);
                     }
-                    contrato.StatusContrato = ContratoStatus.Ativo;
-                    contrato.Aprovacao = StatusAprovacao.EmAnalise;
+                    modelsContrato.Contrato.StatusContrato = ContratoStatus.Ativo;
+                    modelsContrato.Contrato.Aprovacao = StatusAprovacao.EmAnalise;
                     //Colocando a data atual novamente como medida de proteção em casos que o usuário desabilite a restrição do input pelo inspecionar. 
-                    contrato.DataEmissao = DateTime.Now;
-                    /*if (modelsContrato.SelectsClientsF == null && modelsContrato.SelectsClientsJ == null) {
-                        TempData["MensagemDeErro"] = "Não foi informado nenhum cliente!";
-                        return View(modelsContrato);
-                    }*/
-                    _contratoRepositorio.Adicionar(contrato);
+                    modelsContrato.Contrato.DataEmissao = DateTime.Now;
+                    _contratoRepositorio.Adicionar(modelsContrato);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
                 }
@@ -150,14 +168,6 @@ namespace BusesControl.Controllers {
                         modelsContrato.Contrato = ModelsError(contrato);
                         return View(modelsContrato);
                     }
-                    /*if (_clienteRepositorio.PessoaFisicaOrJuridica(modelsContrato.ClienteId.Value)) {
-                        contrato.PessoaFisicaId = modelsContrato.ClienteId;
-                        contrato.PessoaJuridicaId = null;
-                    }
-                    else {
-                        contrato.PessoaJuridicaId = modelsContrato.ClienteId;
-                        contrato.PessoaFisicaId = null;
-                    }*/
                     _contratoRepositorio.EditarContrato(contrato);
                     TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
@@ -256,17 +266,31 @@ namespace BusesControl.Controllers {
             return resultado;
         }
 
-        /* public int? IdPessoaFisicaOrJuridica(Contrato contrato) {
-             if (!string.IsNullOrEmpty(contrato.PessoaFisicaId.ToString())) {
-                 return contrato.PessoaFisicaId;
-             }
-             return contrato.PessoaJuridicaId;
-         }*/
-
         public Contrato ModelsError(Contrato contrato) {
             //Para não ter problema de referências de na view em momentos de erros.
             contrato = _contratoRepositorio.ListarJoinPorId(contrato.Id);
             return contrato;
+        }
+
+        public List<int> ValidationPersonaFisica(List<int> valueList) {
+            List<int> clientes = new List<int>();
+            foreach (int id in valueList) {
+                PessoaFisica clienteTest = _clienteRepositorio.ListarPorId(id);
+                if (clienteTest != null) {
+                    clientes.Add(id);
+                }
+            }
+            return clientes;
+        }
+        public List<int> ValidationPersonaJuridica(List<int> valueList) {
+            List<int> clientes = new List<int>();
+            foreach (int id in valueList) {
+                PessoaJuridica clienteTest = _clienteRepositorio.ListarPorIdJuridico(id);
+                if (clienteTest != null) {
+                    clientes.Add(id);
+                }
+            }
+            return clientes;
         }
     }
 }
