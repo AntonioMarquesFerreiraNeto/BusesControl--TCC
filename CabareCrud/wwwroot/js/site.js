@@ -3,6 +3,13 @@
 });
 
 $(document).ready(function () {
+    $.ajax({
+        type: 'GET',
+        url: "/Contrato/ReturnList",
+        success: function (result) {
+            $("#clientes-selects").html(result);
+        }
+    });
     $('.btn-view-client').click(function () {
         var contratoId = $(this).attr('contrato-id');
         $.ajax({
@@ -17,12 +24,21 @@ $(document).ready(function () {
         var id = document.getElementById('ClienteFisicoList');
         let id_value = id.value;
         if (id_value == '') {
-            console.log(111);
             //Não executa nada.
         } else {
-            $('#clientes-selects').append("<tr><td>" + $("#ClienteFisicoList option:selected").text() + "<input type='checkbox' name='chkClient' id='chkClient' class='chkClient' checked='checked' value='" + $("#ClienteFisicoList option:selected").val() + "'><td></td></td><td><a class='link-trash' href='#'><i class='fa fa-trash-alt'></i></a></td><td></td></tr>");
-            var display_btn = document.getElementById("display");
-            display_btn.style.opacity = 1;
+            $.ajax({
+                type: 'POST',
+                url: "/Contrato/AddSelect/" + id_value,
+                success: function (result) {
+                    $("#clientes-selects").html(result);
+                }
+            });
         }
     });
+    $('.clear-list').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Contrato/ClearList"
+        });
+    })
 })

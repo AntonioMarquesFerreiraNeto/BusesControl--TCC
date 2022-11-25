@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace BusesControl.Models.ViewModels {
     public class ModelsContrato {
@@ -11,9 +12,25 @@ namespace BusesControl.Models.ViewModels {
         public Contrato Contrato { get; set; }
         public float? ClienteId { get; set; }
         public PessoaFisica PessoaFisica { get; set; }
+        public List<PessoaFisica> ListPessoaFisicaSelect { get; set; }
+        public List<PessoaJuridica> ListPessoaJuridicaSelect { get; set; }  
+        public void AddListFisico(PessoaFisica pessoaFisica) {
+            if (!ListPessoaFisicaSelect.Any(x => x.Id == pessoaFisica.Id)){
+                ListPessoaFisicaSelect.Add(pessoaFisica);
+            }
+        }
+        public void RemoveListFisico(PessoaFisica pessoaFisica) {
+            ListPessoaFisicaSelect.RemoveAll(x => x.Id == pessoaFisica.Id);
+        }
 
-        public List<int> ListPessoaFisicaSelect { get; set; }
-        public List<int> ListPessoaJuridicaSelect { get; set; }
+        public void AddListJuridico(PessoaJuridica pessoaJuridica) {
+            if (!ListPessoaJuridicaSelect.Any(x => x.Id == pessoaJuridica.Id)) {
+                ListPessoaJuridicaSelect.Add(pessoaJuridica);
+            }
+        }
+        public void RemoveListJuridico(PessoaJuridica pessoaJuridica) {
+            ListPessoaJuridicaSelect.RemoveAll(x => x.Id == pessoaJuridica.Id);
+        }
 
         //Construtor vazio para poder istânciar um objeto na controller. 
         public ModelsContrato() {

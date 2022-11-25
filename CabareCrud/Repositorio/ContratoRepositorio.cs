@@ -86,20 +86,20 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
-        public void AddClienteFisico(Contrato contrato, List<int> listId) {
-            if (listId.Count > 0) {
-                foreach (var item in listId) {
+        public void AddClienteFisico(Contrato contrato, List<PessoaFisica> list) {
+            if (list.Count > 0) {
+                foreach (var item in list) {
                     _bancoContext.AddRange(
-                            new ClientesContrato { PessoaFisicaId = item, Contrato = contrato }
+                            new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato }
                         );
                 }
             }
         }
-        public void AddClienteJuridico(Contrato contrato, List<int> listId) {
-            if (listId.Count > 0) {
-                foreach (var item in listId) {
+        public void AddClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
+            if (list.Count > 0) {
+                foreach (var item in list) {
                     _bancoContext.AddRange(
-                            new ClientesContrato { PessoaJuridicaId = item, Contrato = contrato }
+                            new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato }
                         );
                 }
             }

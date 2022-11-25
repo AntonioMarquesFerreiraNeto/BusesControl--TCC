@@ -1,0 +1,28 @@
+﻿@using BusesControl.Models.ViewModels
+@model ModelsContrato
+@if (Model.ListPessoaFisicaSelect.Count == 0 && Model.ListPessoaJuridicaSelect.Count == 0) {
+    <tr>
+        <td>Nenhum cliente selecionado!</td>
+    </tr>
+}
+else {
+    if (Model.ListPessoaFisicaSelect.Count > 0) {
+        @foreach (var item in Model.ListPessoaFisicaSelect) {
+            <tr>
+                <td>@item.Name.ToUpper()</td>
+                <td><b>CPF:</b> @item.Cpf</td>
+                <td><button type="button" class="btn link-trash remove-ajax" cliente-id ="@item.Id"><i class="fa fa-trash-alt"></i></button></td>
+            </tr>
+        }
+    }
+    if (Model.ListPessoaJuridicaSelect.Count > 0) {
+        @foreach (var item in Model.ListPessoaJuridicaSelect) {
+            <tr>
+                <td>@item.RazaoSocial.ToUpper()</td>
+                <td><b>CNPJ:</b> @item.Cnpj</td>
+                <td><button type="button" class="btn link-trash remove-ajax" cliente-id ="@item.Id"><i class="fa fa-trash-alt"></i></button></td>
+            </tr>
+        }
+    }
+}
+<script src="~/js/DeleteClientSelect.js"></script>

@@ -28,6 +28,42 @@ namespace BusesControl.Controllers {
             _contratoRepositorio = contratoRepositorio;
         }
 
+        public static ModelsContrato modelsTest = new ModelsContrato {
+            ListPessoaFisicaSelect = new List<PessoaFisica>(),
+            ListPessoaJuridicaSelect = new List<PessoaJuridica>()
+        };
+        public IActionResult AddSelect(int id) {
+            PessoaFisica pessoaFisica = _clienteRepositorio.ListarPorId(id);
+            if (pessoaFisica != null) {
+                modelsTest.AddListFisico(pessoaFisica);
+                return PartialView("_ListClientsSelect", modelsTest);
+            }
+            else {
+                PessoaJuridica pessoaJuridica = _clienteRepositorio.ListarPorIdJuridico(id);
+                modelsTest.AddListJuridico(pessoaJuridica);
+                return PartialView("_ListClientsSelect", modelsTest);
+            }
+        }
+        public IActionResult RemoveSelect(int id) {
+            PessoaFisica pessoaFisica = _clienteRepositorio.ListarPorId(id);
+            if (pessoaFisica != null) {
+                modelsTest.RemoveListFisico(pessoaFisica);
+                return PartialView("_ListClientsSelect", modelsTest);
+            }
+            else {
+                PessoaJuridica pessoaJuridica = _clienteRepositorio.ListarPorIdJuridico(id);
+                modelsTest.RemoveListJuridico(pessoaJuridica);
+                return PartialView("_ListClientsSelect", modelsTest);
+            }
+        }
+        public IActionResult ReturnList() {
+            return PartialView("_ListClientsSelect", modelsTest);
+        }
+        public IActionResult ClearList() {
+            modelsTest.ListPessoaFisicaSelect.Clear();
+            modelsTest.ListPessoaJuridicaSelect.Clear();
+            return null;
+        }
         public IActionResult Index() {
             ViewData["Title"] = "Contratos ativos";
             List<Contrato> ListContrato = _contratoRepositorio.ListContratoAtivo();
@@ -55,8 +91,6 @@ namespace BusesControl.Controllers {
             modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
             modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
             modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
-            modelsContrato.ListPessoaFisicaSelect = new List<int>();
-            modelsContrato.ListPessoaJuridicaSelect = new List<int>();
             Contrato contrato = new Contrato {
                 DataEmissao = DateTime.Now
             };
@@ -67,27 +101,21 @@ namespace BusesControl.Controllers {
         public IActionResult NovoContrato(ModelsContrato modelsContrato) {
             ViewData["Title"] = "Novo contrato";
             try {
-                modelsContrato.ListPessoaFisicaSelect = new List<int>();
-                modelsContrato.ListPessoaJuridicaSelect = new List<int>();
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
                 Contrato contrato = modelsContrato.Contrato;
-                string listSelect = Request.Form["chkClient"];
                 if (ValidarCampo(modelsContrato.Contrato) != true) {
-                    TempData["MensagemDeErro"] = $"Informe os campos obrigatórios!{listSelect}";
+                    TempData["MensagemDeErro"] = $"Informe os campos obrigatórios!";
                     return View(modelsContrato);
                 }
                 if (ModelState.IsValid) {
-                    if (string.IsNullOrEmpty(listSelect)) {
+                    if (modelsTest.ListPessoaFisicaSelect.Count == 0 && modelsTest.ListPessoaJuridicaSelect.Count == 0) {
                         TempData["MensagemDeErro"] = "Não foi selecionado nenhum cliente!";
                         return View(modelsContrato);
                     }
                     else {
-                        List<int> listId = listSelect.Split(',').Select(Int32.Parse).ToList();
-                        modelsContrato.ListPessoaFisicaSelect = ValidationPersonaFisica(listId);
-                        modelsContrato.ListPessoaJuridicaSelect = ValidationPersonaJuridica(listId);
                     }
                     if (!modelsContrato.Contrato.ValidarValorMonetario()) {
                         TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
@@ -109,7 +137,11 @@ namespace BusesControl.Controllers {
                     modelsContrato.Contrato.Aprovacao = StatusAprovacao.EmAnalise;
                     //Colocando a data atual novamente como medida de proteção em casos que o usuário desabilite a restrição do input pelo inspecionar. 
                     modelsContrato.Contrato.DataEmissao = DateTime.Now;
+                    modelsContrato.ListPessoaFisicaSelect = modelsTest.ListPessoaFisicaSelect;
+                    modelsContrato.ListPessoaJuridicaSelect = modelsTest.ListPessoaJuridicaSelect;
                     _contratoRepositorio.Adicionar(modelsContrato);
+                    modelsTest.ListPessoaFisicaSelect.Clear();
+                    modelsTest.ListPessoaJuridicaSelect.Clear();
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
                 }
@@ -270,27 +302,6 @@ namespace BusesControl.Controllers {
             //Para não ter problema de referências de na view em momentos de erros.
             contrato = _contratoRepositorio.ListarJoinPorId(contrato.Id);
             return contrato;
-        }
-
-        public List<int> ValidationPersonaFisica(List<int> valueList) {
-            List<int> clientes = new List<int>();
-            foreach (int id in valueList) {
-                PessoaFisica clienteTest = _clienteRepositorio.ListarPorId(id);
-                if (clienteTest != null) {
-                    clientes.Add(id);
-                }
-            }
-            return clientes;
-        }
-        public List<int> ValidationPersonaJuridica(List<int> valueList) {
-            List<int> clientes = new List<int>();
-            foreach (int id in valueList) {
-                PessoaJuridica clienteTest = _clienteRepositorio.ListarPorIdJuridico(id);
-                if (clienteTest != null) {
-                    clientes.Add(id);
-                }
-            }
-            return clientes;
         }
     }
 }
