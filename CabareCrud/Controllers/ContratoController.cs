@@ -105,7 +105,6 @@ namespace BusesControl.Controllers {
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
-                Contrato contrato = modelsContrato.Contrato;
                 if (ValidarCampo(modelsContrato.Contrato) != true) {
                     TempData["MensagemDeErro"] = $"Informe os campos obrigatórios!";
                     return View(modelsContrato);
@@ -160,13 +159,13 @@ namespace BusesControl.Controllers {
                 ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal(),
                 MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab(),
                 OnibusList = _onibusRepositorio.ListarTodosHab(),
-                Contrato = _contratoRepositorio.ListarPorId(id)
+                Contrato = _contratoRepositorio.ListarJoinPorId(id)
             };
             if (modelsContrato.Contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
                 return RedirectToAction("Index");
             }
-            //modelsContrato.ClienteId = IdPessoaFisicaOrJuridica(modelsContrato.Contrato);
+            if (modelsContrato.Contrato.Aprovacao != StatusAprovacao.Aprovado) GetClientesContrato(modelsContrato.Contrato);
             return View(modelsContrato);
         }
         [HttpPost]
@@ -177,34 +176,42 @@ namespace BusesControl.Controllers {
                 modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
-
-                Contrato contrato = modelsContrato.Contrato;
+                Contrato contratoValidation = _contratoRepositorio.ListarPorId(modelsContrato.Contrato.Id);
                 if (ModelState.IsValid) {
-                    if (!contrato.ValidarValorMonetario()) {
+                    if (!modelsContrato.Contrato.ValidarValorMonetario()) {
                         TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
-                        modelsContrato.Contrato = ModelsError(contrato);
+                        modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
-                    if (ValidationDateEmissaoAndVencimento(contrato)) {
+                    if (ValidationDateEmissaoAndVencimento(modelsContrato.Contrato)) {
                         TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
-                        modelsContrato.Contrato = ModelsError(contrato);
+                        modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
-                    if (ValidationDateVencimento(contrato.DataVencimento.ToString())) {
+                    if (ValidationDateVencimento(modelsContrato.Contrato.DataVencimento.ToString())) {
                         TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
-                        modelsContrato.Contrato = ModelsError(contrato);
+                        modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
-                    if (ValidationQtParcelas(contrato)) {
+                    if (ValidationQtParcelas(modelsContrato.Contrato)) {
                         TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
-                        modelsContrato.Contrato = ModelsError(contrato);
+                        modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
-                    _contratoRepositorio.EditarContrato(contrato);
-                    TempData["MensagemDeSucesso"] = "Editado com sucesso!";
+                    if (contratoValidation.Aprovacao != StatusAprovacao.Aprovado) {
+                        if (modelsTest.ListPessoaFisicaSelect.Count == 0 && modelsTest.ListPessoaJuridicaSelect.Count == 0) {
+                            TempData["MensagemDeErro"] = $"Não foi selecionado nenhum cliente!";
+                            modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
+                            return View(modelsContrato);
+                        }
+                        modelsContrato.ListPessoaFisicaSelect = modelsTest.ListPessoaFisicaSelect;
+                        modelsContrato.ListPessoaJuridicaSelect = modelsTest.ListPessoaJuridicaSelect;
+                    }
+                    _contratoRepositorio.EditarContrato(modelsContrato);
+                    TempData["MensagemDeSucesso"] = $"Editado com sucesso!";
                     return RedirectToAction("Index");
                 }
-                modelsContrato.Contrato = ModelsError(contrato);
+                modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                 return View(modelsContrato);
             }
             catch (Exception erro) {
@@ -302,6 +309,17 @@ namespace BusesControl.Controllers {
             //Para não ter problema de referências de na view em momentos de erros.
             contrato = _contratoRepositorio.ListarJoinPorId(contrato.Id);
             return contrato;
+        }
+
+        public void GetClientesContrato(Contrato value) {
+            foreach (var item in value.ClientesContratos) {
+                if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                    modelsTest.AddListFisico(item.PessoaFisica);
+                }
+                if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
+                    modelsTest.AddListJuridico(item.PessoaJuridica);
+                }
+            }
         }
     }
 }

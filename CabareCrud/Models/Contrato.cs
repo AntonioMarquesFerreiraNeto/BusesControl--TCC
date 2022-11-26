@@ -69,7 +69,7 @@ namespace BusesControl.Models {
         }
 
         public string ReturnDetalhesCliente() {
-            return "Antonio Marques Ferreira";
+            return $"Status: Aprovado  –  Quantidade de clientes no contrato: {(ClientesContratos.Count).ToString()}";
         }
 
         public decimal? ReturnValorParcela() {

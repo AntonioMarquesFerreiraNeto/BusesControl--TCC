@@ -89,26 +89,23 @@ namespace BusesControl.Repositorio {
         public void AddClienteFisico(Contrato contrato, List<PessoaFisica> list) {
             if (list.Count > 0) {
                 foreach (var item in list) {
-                    _bancoContext.AddRange(
-                            new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato }
-                        );
+                    _bancoContext.AddRange( new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato } );
                 }
             }
         }
         public void AddClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
             if (list.Count > 0) {
                 foreach (var item in list) {
-                    _bancoContext.AddRange(
-                            new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato }
-                        );
+                    _bancoContext.AddRange( new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato } );
                 }
             }
         }
 
-        public Contrato EditarContrato(Contrato contrato) {
+        public ModelsContrato EditarContrato(ModelsContrato modelsContrato) {
             try {
+                Contrato contrato = modelsContrato.Contrato;
                 Contrato contratoDB = ListarPorId(contrato.Id);
-                if (contratoDB == null) throw new Exception("Desculpe, ID não foi encontrado.");
+                if (contratoDB == null) throw new Exception($"Desculpe, ID não foi encontrado.");
                 contratoDB.MotoristaId = contrato.MotoristaId;
                 contratoDB.OnibusId = contrato.OnibusId;
                 contratoDB.ValorMonetario = contrato.ValorMonetario;
@@ -117,13 +114,40 @@ namespace BusesControl.Repositorio {
                 contratoDB.DataVencimento = contrato.DataVencimento;
                 contratoDB.Detalhamento = contrato.Detalhamento.Trim();
                 _bancoContext.Contrato.Update(contratoDB);
+                if (contratoDB.Aprovacao != StatusAprovacao.Aprovado) {
+                    UpdateClienteFisico(contratoDB, modelsContrato.ListPessoaFisicaSelect);
+                    UpdateClienteJuridico(contratoDB, modelsContrato.ListPessoaJuridicaSelect);
+                }
                 _bancoContext.SaveChanges();
-                return contratoDB;
+                return modelsContrato;
             }
             catch (Exception erro) {
                 throw new Exception(erro.Message);
             }
         }
+        public void UpdateClienteFisico(Contrato contrato, List<PessoaFisica> list) {
+            var contratoCliente = ListarJoinPorId(contrato.Id);
+            foreach (var item in contratoCliente.ClientesContratos) {
+                if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                    _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaFisicaId = item.PessoaFisicaId, Id = item.Id, ContratoId = item.ContratoId });
+                }
+            }
+            foreach (var item in list) {
+                _bancoContext.ClientesContrato.Add( new ClientesContrato {PessoaFisicaId = item.Id, ContratoId = contrato.Id});
+            }
+        }
+        public void UpdateClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
+            var contratoCliente = ListarJoinPorId(contrato.Id);
+            foreach (var item in contratoCliente.ClientesContratos) {
+                if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
+                    _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaJuridicaId = item.PessoaJuridicaId, Id = item.Id, ContratoId = item.ContratoId });
+                }
+            }
+            foreach (var item in list) {
+                _bancoContext.ClientesContrato.Add(new ClientesContrato { PessoaJuridicaId = item.Id, ContratoId = contrato.Id });
+            }
+        }
+
         public Contrato InativarContrato(Contrato contrato) {
             try {
                 Contrato contratoDB = ListarJoinPorId(contrato.Id);

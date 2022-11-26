@@ -12,7 +12,7 @@ namespace BusesControl.Repositorio {
         public Contrato ListarPorId(int id);
         public Contrato ListarJoinPorId(int id);
         public ModelsContrato Adicionar(ModelsContrato modelsContrato);
-        public Contrato EditarContrato(Contrato contrato);
+        public ModelsContrato EditarContrato(ModelsContrato modelsContrato);
         public Contrato InativarContrato(Contrato contrato);
         public Contrato AtivarContrato(Contrato contrato);
         public Contrato AprovarContrato(Contrato contrato);

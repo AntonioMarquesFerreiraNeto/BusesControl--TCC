@@ -25,53 +25,39 @@
         <form id="formAdd" asp-controller="Contrato" asp-action="EditarContrato" method="post">
             <input type="hidden" asp-for="@Model.Contrato.Id">
             <div class="row">
-                <div class="col-md-6 input-group form-group form-it">
+                <div class="col-md-12 input-group form-group form-it">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
                             <i class="fas fa-user"></i>
                         </span>
                     </div>
                     @if (Model.Contrato.Aprovacao == StatusAprovacao.Aprovado) {
-                        <input type="hidden" asp-for="@Model.ClienteId"> <!-- Apenas para passar o Id do cliente.-->
                         <input id="cliente" class="form-control campUser" value="@Model.Contrato.ReturnDetalhesCliente()" readonly>
-                        <a class="consult-flow" data-target="#detalhesClient" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
+                        <a class="consult-flow-3 btn-view-client" contrato-id="@Model.Contrato.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
                     }
                     else {
-                        <select id="cliente" class="form-control campUser" asp-for="ClienteId">
-                            <optgroup label="Selecione o cliente">
-                               <!--
-                                    if ((Model.ClienteFisicoList != null && Model.ClienteFisicoList.Any())
-                               || (Model.ClienteJuridicoList != null && Model.ClienteJuridicoList.Any())) {
-                                    if (Model.Contrato.PessoaFisica != null) {
-                                        <option value="Model.Contrato.PessoaFisicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
-                                    }
-                                    else {
-                                        <option value="Model.Contrato.PessoaJuridicaId">@Model.Contrato.ReturnDetalhesCliente()</option>
-                                    }
-                                    foreach (var clientesFisicos in Model.ClienteFisicoList) {
-                                        if (clientesFisicos.Id != Model.Contrato.PessoaFisicaId) {
-                                            <option value="clientesFisicos.Id">clientesFisicos.Name.ToUpper() – CPF: clientesFisicos.Cpf</option>
-                                        }
-                                    }
-                                    foreach (var clientesJuri in Model.ClienteJuridicoList) {
-                                        if (clientesJuri.Id != Model.Contrato.PessoaJuridicaId) {
-                                            <option value="clientesJuri.Id">clientesJuri.RazaoSocial.ToUpper() – CNPJ: clientesJuri.Cnpj</option>
-                                        }
+                        <select class="form-control campUser" id="ClienteFisicoList">
+                            <optgroup label="Selecionar cliente">
+                                @if (Model.ClienteFisicoList != null || Model.ClienteFisicoList.Any()) {
+                                    <option value="">Selecionar cliente</option>
+                                    @foreach (var item in Model.ClienteFisicoList) {
+                                        <option value="@item.Id" Text="@item.Name.ToUpper()">
+                                            @item.Name.ToUpper() – CPF: @item.Cpf
+                                        </option>
                                     }
                                 }
-                                else {
-                                    <option value="">Não existe cadastros.</option>
+                                @if (Model.ClienteJuridicoList != null || Model.ClienteJuridicoList.Any()) {
+                                    <option value="">----Selecionar cliente PJ----</option>
+                                    @foreach (var item in Model.ClienteJuridicoList) {
+                                        <option value="@item.Id" Text="@item.RazaoSocial.ToUpper()">
+                                            @item.RazaoSocial.ToUpper() – CNPJ: @item.Cnpj
+                                        </option>
+                                    }
                                 }
-                               -->
                             </optgroup>
                         </select>
-                        <a class="consult-flow" data-target="#detalhesClient" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
+                        <button type="button" class="consult-flow input-id-cliente"><i class="fa fa-plus icon-detalhes"></i></button>
                     }
-                    <div class="i">
-                        <small class="errorMsg">
-                            @Html.ValidationMessageFor(x => x.ClienteId)
-                        </small>
-                    </div>
                 </div>
                 <div class="col-md-6 input-group form-group form-it">
                     <div class="input-group-prepend">
@@ -103,7 +89,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="col-md-12 input-group form-group form-it">
+                <div class="col-md-6 input-group form-group form-it">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
                             <i class="fas fa-user-tie"></i>
@@ -206,7 +192,15 @@
                         </small>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-alt">
+                    @if (Model.Contrato.Aprovacao != StatusAprovacao.Aprovado) {
+                        <button type="button" id="display" class="btn filtra_btn api" data-target="#list" data-toggle="modal">
+                            <i class="fa fa-users"></i> Selecionados
+                        </button>
+                    }
+                    else {
+                        <div></div>
+                    }
                     <div>
                         <button type="button" class="btn btn-secondary filtrar_btn2"
                                 data-target="#ConfirmSair" data-toggle="modal">
@@ -243,6 +237,26 @@
                     </div>
                 </div>
             </div>
+            <div id="list" class="modal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content modal-largura">
+                        <div class="modal-header">
+                            <h4 class="modal-title font">Clientes selecionados</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body body-modal-alt">
+                            <div class="col-md-12 input-group form-group form-it">
+                                <table class="listClientes">
+                                    <tbody class="body-clientes" id="clientes-selects">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </section>
     <div id="ConfirmSair" class="modal">
@@ -260,52 +274,12 @@
                     </p>
                 </div>
                 <div class="modal-footer confirm-modal">
-                    <a id="enviar" type="submit" class="btn filtra_btn" asp-controller="Contrato" asp-action="Index">Sim</a>
+                    <a id="enviar" type="submit" class="btn filtra_btn clear-list" asp-controller="Contrato" asp-action="Index">Sim</a>
                     <button type="button" class="btn btn-secondary filtrar_btn2"
                             data-dismiss="modal">
                         Não
                     </button>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="detalhesClient" class="modal">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content modal-largura">
-                <div class="modal-header">
-                    <h4 class="modal-title font">Cliente contratante</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!--
-                     /*<div class="modal-body">
-                    if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisicaId.ToString())) {
-                        <p class="font-min">
-                            <b>Cliente:</b> Model.Contrato.ReturnDetalhesCliente() <br>
-                            <b>Rg: </b> Model.Contrato.PessoaFisica.Rg <br>
-                            <b>Telefone: </b> Model.Contrato.PessoaFisica.Telefone <br>
-                            if (!string.IsNullOrEmpty(Model.Contrato.PessoaFisica.Email)) {
-                                <b>Email: </b> Model.Contrato.PessoaFisica.Email <br>
-                            }
-                            <b>Data de nascimento: </b>Html.DisplayFor(x => x.Contrato.PessoaFisica.DataNascimento) <br>
-                            <b>Nome da mãe: </b>Model.Contrato.PessoaFisica.NameMae <br>
-                        </p>
-                    }
-                    else {
-                        <p class="font-min">
-                            <b>Cliente:</b> Model.Contrato.ReturnDetalhesCliente() <br>
-                            <b>Nome fantasia: </b> Model.Contrato.PessoaJuridica.NomeFantasia <br>
-                            <b>Inscrição estadual: </b> Model.Contrato.PessoaJuridica.InscricaoEstadual <br>
-                            <b>Inscrição Municipal: </b> Model.Contrato.PessoaJuridica.InscricaoMunicipal <br>
-                            <b>Telefone: </b> Model.Contrato.PessoaJuridica.Telefone <br>
-                            if (!string.IsNullOrEmpty(Model.Contrato.PessoaJuridica.Email)) {
-                                <b>Email: </b> Model.Contrato.PessoaJuridica.Email <br>
-                            }
-                        </p>
-                    }
-                </div>
-                -->
             </div>
         </div>
     </div>
@@ -353,6 +327,23 @@
         </div>
     </div>
 </section>
+<div id="listClientesIndex" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-largura">
+            <div class="modal-header">
+                <h4 class="modal-title font">Clientes requerentes</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body body-modal-alt">
+                <div id="list-clients" class="col-md-12 input-group form-group form-it">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     marca = document.getElementById('inputMarca');
     noNumero(marca);

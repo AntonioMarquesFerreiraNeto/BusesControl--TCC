@@ -105,6 +105,21 @@ label {
         background-color: blue;
     }
 
+.consult-flow-3 {
+    cursor: pointer;
+    margin-left: 1px;
+    background-color: #0091ff;
+    width: 30px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #81818192;
+    transition: 1s;
+    -moz-animation: consult-clientes .75s linear infinite;
+    -o-animation: consult-clientes .75s linear infinite;
+    animation: consult-clientes .75s linear infinite;
+}
 .consult-flow-info {
     font-size: 13pt;
     z-index: 2;

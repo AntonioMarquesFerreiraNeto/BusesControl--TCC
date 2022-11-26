@@ -68,7 +68,7 @@
                             <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
                             <td>
                                 @if (@item.StatusContrato == ContratoStatus.Ativo) {
-                                    <a class="link" asp-route-id="@item.Id" asp-action="EditarContrato"><i class="fa fa-edit"></i></a>
+                                    <a class="link clear-list" asp-route-id="@item.Id" asp-action="EditarContrato"><i class="fa fa-edit"></i></a>
                                     <a class="link-trash" asp-route-id="@item.Id" asp-action="Inativar"><i class="fa fa-trash-alt"></i></a>
                                 }
                                 else {
