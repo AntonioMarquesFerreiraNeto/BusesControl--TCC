@@ -37,6 +37,7 @@
                             else {
                                 <p><b>Status do ônibus: </b>Inativo</p>
                             }
+                            <p><b>Aprovação do contrato: </b>@Model.ReturnAprovacaoContrato()</p>
                             <p style="display: flex;"><b>Detalhes de clientes PF/PJ: </b><a class="consult-clientes" data-target="#listClientes" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a></p>
                             <p><b>Detalhes do motorista:</b> @Model.ReturnDetalhesMotorista()</p>
                             <p><b>Detalhes do ônibus:</b> @Model.ReturnDetalhesOnibus()</p>
@@ -44,7 +45,8 @@
                         <div class="fil">
                             <p><b>Valor monetário do contrato:</b> R$ @Html.DisplayFor(model => model.ValorMonetario)</p>
                             <p><b>Quantidade de parcelas de pagamento:</b> @Html.DisplayFor(model => model.QtParcelas)</p>
-                            <p><b>Valor das parcelas do contrato</b>: R$ @Html.DisplayFor(model => model.ValorParcelaContrato)</p>
+                            <p><b>Valor das parcelas do contrato: </b> R$ @Html.DisplayFor(model => model.ValorParcelaContrato)</p>
+                            <p><b>Valor das parcelas de cada cliente</b>: R$ @Html.DisplayFor(model => model.ValorParcelaContratoPorCliente)</p>
                             <p>(<b>Emissão:</b> @Html.DisplayFor(model => model.DataEmissao))(<b>Vencimento</b>: @Html.DisplayFor(model => model.DataVencimento))</p>
                         </div>
                         <div id="listClientes" class="modal">

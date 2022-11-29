@@ -101,8 +101,8 @@ label {
     transition: 1s;
 }
 
-    .consult-flow :after {
-        background-color: blue;
+    .consult-flow:hover {
+        background-color: rgb(58, 229, 0);
     }
 
 .consult-flow-3 {
@@ -114,11 +114,15 @@ label {
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid #81818192;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0,45);
     transition: 1s;
     -moz-animation: consult-clientes .75s linear infinite;
     -o-animation: consult-clientes .75s linear infinite;
     animation: consult-clientes .75s linear infinite;
+}
+.consult-flow-3:hover {
+    background-color: blue;
 }
 .consult-flow-info {
     font-size: 13pt;
@@ -143,7 +147,12 @@ label {
     -o-animation: consult-flow-info .75s linear infinite;
     animation: consult-flow-info .75s linear infinite;
 }
-
+    .consult-flow-info:hover {
+        background-color: rgb(0, 34, 142);
+        -moz-animation: consult-flow-info .0s linear infinite;
+        -o-animation: consult-flow-info .0s linear infinite;
+        animation: consult-flow-info .0s linear infinite;
+    }
 @keyframes consult-flow-info {
     0% {
         opacity: 1;
@@ -496,11 +505,11 @@ td {
 }
 
 .listClientes {
-    padding: 30px;
+    padding: 10px;
     width: 100%;
     margin: auto;
+    border-radius: 17px;
     background-color: white;
-    border-radius: 2px;
     box-shadow: 2px 2px 1px rgb(74, 74, 74, 0,96);
 }
 
@@ -560,7 +569,7 @@ td {
     width: 110px;
 }
 
-@media(min-width: 510px) {
+@media(min-width: 410px) {
     .font-place {
         font-size: 9pt;
     }
@@ -570,7 +579,11 @@ td {
     }
 
     .filtra_btn, .filtrar_btn2 {
-        width: 110px;
+        width: 100px;
+    }
+    .api {
+        font-size: 7pt;
+        width: 120px;
     }
 }
 
@@ -597,6 +610,10 @@ td {
         font-size: 9pt;
         width: 130px;
     }
+    .api {
+        font-size: 8pt;
+        width: 135px;
+    }
 }
 
 @media(min-width: 941px) {
@@ -620,10 +637,17 @@ td {
         width: 22vh;
         font-size: 11pt;
     }
+    .api {
+        width: 145px;
+    }
 }
 
 @media(min-width: 1100px) {
     .legend-data {
         left: 164px;
+    }
+    .api{
+        font-size: 9pt;
+        width: 150px;
     }
 }

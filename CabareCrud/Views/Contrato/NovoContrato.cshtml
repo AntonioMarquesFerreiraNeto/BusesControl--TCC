@@ -33,7 +33,7 @@
                 <select class="form-control campUser" id="ClienteFisicoList">
                     <optgroup label="Selecionar cliente">
                         @if (Model.ClienteFisicoList != null || Model.ClienteFisicoList.Any()) {
-                            <option value="">Selecionar cliente</option>
+                            <option value="">Selecionar clientes para o contrato</option>
                             @foreach (var item in Model.ClienteFisicoList) {
                                 <option value="@item.Id" Text="@item.Name.ToUpper()">
                                     @item.Name.ToUpper() – CPF: @item.Cpf 
@@ -184,7 +184,7 @@
                 </div>
                 <div class="modal-footer modal-footer-alt">
                     <button type="button" id="display" class="btn filtra_btn api" data-target="#list" data-toggle="modal">
-                        <i class="fa fa-users"></i> Selecionados
+                        <i class="fa fa-users"></i> Clientes selecionados
                     </button>
                     <div>
                         <button type="button" class="btn btn-secondary filtrar_btn2"

@@ -45,7 +45,12 @@ body {
     -o-animation: consult-flow-info .75s linear infinite;
     animation: consult-flow-info .75s linear infinite;
 }
-
+    .consult-flow-info:hover {
+        background-color: rgb(0, 34, 142);
+        -moz-animation: consult-flow-info .0s linear infinite;
+        -o-animation: consult-flow-info .0s linear infinite;
+        animation: consult-flow-info .0s linear infinite;
+    }
 @keyframes consult-flow-info {
     0% {
         opacity: 1;

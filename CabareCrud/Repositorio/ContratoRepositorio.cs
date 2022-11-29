@@ -72,13 +72,14 @@ namespace BusesControl.Repositorio {
 
         public ModelsContrato Adicionar(ModelsContrato modelsContrato) {
             try {
-                //adicionar apenas dois números após a vírgula neste local, para ficar dentro da normalidade.
                 Contrato contrato = modelsContrato.Contrato;
                 contrato = ContratoTrim(contrato);
-                contrato.ValorParcelaContrato = contrato.ReturnValorParcela();
-                _bancoContext.Contrato.Add(contrato);
+                //Adiciona o valor das parcelas do contrato em uma variável e envia para o método que realiza o cálculo.  
                 AddClienteFisico(contrato, modelsContrato.ListPessoaFisicaSelect);
                 AddClienteJuridico(contrato, modelsContrato.ListPessoaJuridicaSelect);
+                contrato.ReturnValorParcela();
+                contrato.ReturnValorParcelaPorCliente();
+                _bancoContext.Contrato.Add(contrato);
                 _bancoContext.SaveChanges();
                 return modelsContrato;
             }
@@ -89,14 +90,14 @@ namespace BusesControl.Repositorio {
         public void AddClienteFisico(Contrato contrato, List<PessoaFisica> list) {
             if (list.Count > 0) {
                 foreach (var item in list) {
-                    _bancoContext.AddRange( new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato } );
+                    _bancoContext.AddRange(new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato });
                 }
             }
         }
         public void AddClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
             if (list.Count > 0) {
                 foreach (var item in list) {
-                    _bancoContext.AddRange( new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato } );
+                    _bancoContext.AddRange(new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato });
                 }
             }
         }
@@ -106,18 +107,22 @@ namespace BusesControl.Repositorio {
                 Contrato contrato = modelsContrato.Contrato;
                 Contrato contratoDB = ListarPorId(contrato.Id);
                 if (contratoDB == null) throw new Exception($"Desculpe, ID não foi encontrado.");
-                contratoDB.MotoristaId = contrato.MotoristaId;
-                contratoDB.OnibusId = contrato.OnibusId;
                 contratoDB.ValorMonetario = contrato.ValorMonetario;
                 contratoDB.QtParcelas = contrato.QtParcelas;
-                contratoDB.ValorParcelaContrato = contratoDB.ReturnValorParcela();
+                contratoDB.ReturnValorParcela();
+                contratoDB.MotoristaId = contrato.MotoristaId;
+                contratoDB.OnibusId = contrato.OnibusId;
                 contratoDB.DataVencimento = contrato.DataVencimento;
                 contratoDB.Detalhamento = contrato.Detalhamento.Trim();
-                _bancoContext.Contrato.Update(contratoDB);
                 if (contratoDB.Aprovacao != StatusAprovacao.Aprovado) {
                     UpdateClienteFisico(contratoDB, modelsContrato.ListPessoaFisicaSelect);
                     UpdateClienteJuridico(contratoDB, modelsContrato.ListPessoaJuridicaSelect);
+                    contratoDB.ValorParcelaContratoPorCliente = ReturnValorPorCliente(modelsContrato, contratoDB);
                 }
+                else {
+                    contratoDB.ValorParcelaContratoPorCliente = ReturnValPorClienteAprovado(contratoDB);
+                }
+                _bancoContext.Contrato.Update(contratoDB);
                 _bancoContext.SaveChanges();
                 return modelsContrato;
             }
@@ -132,8 +137,10 @@ namespace BusesControl.Repositorio {
                     _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaFisicaId = item.PessoaFisicaId, Id = item.Id, ContratoId = item.ContratoId });
                 }
             }
-            foreach (var item in list) {
-                _bancoContext.ClientesContrato.Add( new ClientesContrato {PessoaFisicaId = item.Id, ContratoId = contrato.Id});
+            if (list.Count > 0) {
+                foreach (var item in list) {
+                    _bancoContext.ClientesContrato.Add(new ClientesContrato { PessoaFisicaId = item.Id, ContratoId = contrato.Id });
+                }
             }
         }
         public void UpdateClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
@@ -143,8 +150,10 @@ namespace BusesControl.Repositorio {
                     _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaJuridicaId = item.PessoaJuridicaId, Id = item.Id, ContratoId = item.ContratoId });
                 }
             }
-            foreach (var item in list) {
-                _bancoContext.ClientesContrato.Add(new ClientesContrato { PessoaJuridicaId = item.Id, ContratoId = contrato.Id });
+            if (list.Count > 0) {
+                foreach (var item in list) {
+                    _bancoContext.ClientesContrato.Add(new ClientesContrato { PessoaJuridicaId = item.Id, ContratoId = contrato.Id });
+                }
             }
         }
 
@@ -226,7 +235,15 @@ namespace BusesControl.Repositorio {
             contrato.Detalhamento = contrato.Detalhamento.Trim();
             return contrato;
         }
-
+        public decimal? ReturnValorPorCliente(ModelsContrato models, Contrato value) {
+            int qtClient = models.ListPessoaFisicaSelect.Count + models.ListPessoaJuridicaSelect.Count;
+            return value.ValorParcelaContrato / qtClient;
+        }
+        public decimal? ReturnValPorClienteAprovado(Contrato value) {
+            Contrato valueDB = ListarJoinPorId(value.Id);
+            valueDB.ValorParcelaContrato = value.ValorParcelaContrato;
+            return valueDB.ReturnValorParcelaPorCliente();
+        }
         public decimal? ValorTotAprovados() {
             List<Contrato> ListContrato = ListContratoAprovados();
             decimal? valorTotalContrato = 0;

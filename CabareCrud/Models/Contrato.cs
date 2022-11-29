@@ -7,6 +7,7 @@ using BusesControl.Repositorio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace BusesControl.Models {
     public class Contrato {
@@ -26,6 +27,9 @@ namespace BusesControl.Models {
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorParcelaContrato { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValorParcelaContratoPorCliente { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [ValidationMinParcela(ErrorMessage = "Campo inválido!")]
@@ -75,6 +79,22 @@ namespace BusesControl.Models {
         public decimal? ReturnValorParcela() {
             ValorParcelaContrato = ValorMonetario / QtParcelas;
             return ValorParcelaContrato;
+        }
+
+        public decimal? ReturnValorParcelaPorCliente() {
+            ValorParcelaContratoPorCliente = ValorParcelaContrato / ClientesContratos.Count;
+            return ValorParcelaContratoPorCliente;
+        }
+        public string ReturnAprovacaoContrato() {
+            if (Aprovacao == StatusAprovacao.EmAnalise) {
+                return "Em análise";
+            }
+            else if (Aprovacao == StatusAprovacao.Aprovado) {
+                return "Aprovado";
+            }
+            else {
+                return "Negado";
+            }
         }
     }
 }

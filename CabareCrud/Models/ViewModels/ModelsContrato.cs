@@ -10,7 +10,6 @@ namespace BusesControl.Models.ViewModels {
         public List<PessoaFisica> ClienteFisicoList { get; set; }
         public List<PessoaJuridica> ClienteJuridicoList { get; set; }
         public Contrato Contrato { get; set; }
-        public float? ClienteId { get; set; }
         public PessoaFisica PessoaFisica { get; set; }
         public List<PessoaFisica> ListPessoaFisicaSelect { get; set; }
         public List<PessoaJuridica> ListPessoaJuridicaSelect { get; set; }  

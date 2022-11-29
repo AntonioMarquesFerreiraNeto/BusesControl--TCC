@@ -209,6 +209,8 @@ namespace BusesControl.Controllers {
                     }
                     _contratoRepositorio.EditarContrato(modelsContrato);
                     TempData["MensagemDeSucesso"] = $"Editado com sucesso!";
+                    modelsTest.ListPessoaFisicaSelect.Clear();
+                    modelsTest.ListPessoaJuridicaSelect.Clear();
                     return RedirectToAction("Index");
                 }
                 modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
