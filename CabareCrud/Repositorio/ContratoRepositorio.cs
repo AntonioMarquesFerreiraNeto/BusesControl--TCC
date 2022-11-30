@@ -73,12 +73,12 @@ namespace BusesControl.Repositorio {
         public ModelsContrato Adicionar(ModelsContrato modelsContrato) {
             try {
                 Contrato contrato = modelsContrato.Contrato;
-                contrato = ContratoTrim(contrato);
-                //Adiciona o valor das parcelas do contrato em uma variável e envia para o método que realiza o cálculo.  
+                contrato = ContratoTrim(contrato); 
                 AddClienteFisico(contrato, modelsContrato.ListPessoaFisicaSelect);
                 AddClienteJuridico(contrato, modelsContrato.ListPessoaJuridicaSelect);
                 contrato.ReturnValorParcela();
-                contrato.ReturnValorParcelaPorCliente();
+                int qtClient = modelsContrato.ListPessoaFisicaSelect.Count + modelsContrato.ListPessoaJuridicaSelect.Count;
+                contrato.ReturnValorParcelaPorCliente(qtClient);
                 _bancoContext.Contrato.Add(contrato);
                 _bancoContext.SaveChanges();
                 return modelsContrato;
@@ -117,10 +117,11 @@ namespace BusesControl.Repositorio {
                 if (contratoDB.Aprovacao != StatusAprovacao.Aprovado) {
                     UpdateClienteFisico(contratoDB, modelsContrato.ListPessoaFisicaSelect);
                     UpdateClienteJuridico(contratoDB, modelsContrato.ListPessoaJuridicaSelect);
-                    contratoDB.ValorParcelaContratoPorCliente = ReturnValorPorCliente(modelsContrato, contratoDB);
+                    int qtClient = modelsContrato.ListPessoaFisicaSelect.Count + modelsContrato.ListPessoaJuridicaSelect.Count;
+                    contratoDB.ReturnValorParcelaPorCliente(qtClient);
                 }
                 else {
-                    contratoDB.ValorParcelaContratoPorCliente = ReturnValPorClienteAprovado(contratoDB);
+                    contratoDB.ReturnValorParcelaPorCliente(modelsContrato.TotClientes);
                 }
                 _bancoContext.Contrato.Update(contratoDB);
                 _bancoContext.SaveChanges();
@@ -235,15 +236,7 @@ namespace BusesControl.Repositorio {
             contrato.Detalhamento = contrato.Detalhamento.Trim();
             return contrato;
         }
-        public decimal? ReturnValorPorCliente(ModelsContrato models, Contrato value) {
-            int qtClient = models.ListPessoaFisicaSelect.Count + models.ListPessoaJuridicaSelect.Count;
-            return value.ValorParcelaContrato / qtClient;
-        }
-        public decimal? ReturnValPorClienteAprovado(Contrato value) {
-            Contrato valueDB = ListarJoinPorId(value.Id);
-            valueDB.ValorParcelaContrato = value.ValorParcelaContrato;
-            return valueDB.ReturnValorParcelaPorCliente();
-        }
+
         public decimal? ValorTotAprovados() {
             List<Contrato> ListContrato = ListContratoAprovados();
             decimal? valorTotalContrato = 0;

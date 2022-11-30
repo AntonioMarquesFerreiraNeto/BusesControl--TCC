@@ -12,8 +12,9 @@ namespace BusesControl.Models.ViewModels {
         public Contrato Contrato { get; set; }
         public PessoaFisica PessoaFisica { get; set; }
         public List<PessoaFisica> ListPessoaFisicaSelect { get; set; }
-        public List<PessoaJuridica> ListPessoaJuridicaSelect { get; set; }  
-        
+        public List<PessoaJuridica> ListPessoaJuridicaSelect { get; set; }
+        public int? TotClientes { get; set; }
+
         public void AddListFisico(PessoaFisica pessoaFisica) {
             if (!ListPessoaFisicaSelect.Any(x => x.Id == pessoaFisica.Id)){
                 ListPessoaFisicaSelect.Add(pessoaFisica);

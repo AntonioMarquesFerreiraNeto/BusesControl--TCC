@@ -6,13 +6,13 @@
             @foreach (var item in Model.ClientesContratos) {
                 @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                     <tr>
-                        <td>@item.PessoaFisica.Name.ToUpper()</td>
+                        <td>@item.PessoaFisica.Name</td>
                         <td>CPF: @Html.DisplayFor(x => item.PessoaFisica.Cpf)</td>
                     </tr>
                 }
                 else if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                     <tr>
-                        <td>@item.PessoaJuridica.RazaoSocial.ToUpper()</td>
+                        <td>@item.PessoaJuridica.RazaoSocial</td>
                         <td>CNPJ: @Html.DisplayFor(x => item.PessoaJuridica.Cnpj)</td>
                     </tr>
                 }

@@ -176,7 +176,6 @@ namespace BusesControl.Controllers {
                 modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
-                Contrato contratoValidation = _contratoRepositorio.ListarPorId(modelsContrato.Contrato.Id);
                 if (ModelState.IsValid) {
                     if (!modelsContrato.Contrato.ValidarValorMonetario()) {
                         TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
@@ -198,9 +197,9 @@ namespace BusesControl.Controllers {
                         modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
-                    if (contratoValidation.Aprovacao != StatusAprovacao.Aprovado) {
+                    if (modelsContrato.Contrato.Aprovacao != StatusAprovacao.Aprovado) {
                         if (modelsTest.ListPessoaFisicaSelect.Count == 0 && modelsTest.ListPessoaJuridicaSelect.Count == 0) {
-                            TempData["MensagemDeErro"] = $"Não foi selecionado nenhum cliente!";
+                            TempData["MensagemDeErro"] = "Não foi selecionado nenhum cliente!";
                             modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                             return View(modelsContrato);
                         }

@@ -81,9 +81,8 @@ namespace BusesControl.Models {
             return ValorParcelaContrato;
         }
 
-        public decimal? ReturnValorParcelaPorCliente() {
-            ValorParcelaContratoPorCliente = ValorParcelaContrato / ClientesContratos.Count;
-            return ValorParcelaContratoPorCliente;
+        public decimal? ReturnValorParcelaPorCliente(int? qtClient) {
+            return ValorParcelaContratoPorCliente = ValorParcelaContrato / qtClient;
         }
         public string ReturnAprovacaoContrato() {
             if (Aprovacao == StatusAprovacao.EmAnalise) {
