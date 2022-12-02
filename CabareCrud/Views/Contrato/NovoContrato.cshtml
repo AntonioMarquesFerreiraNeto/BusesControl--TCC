@@ -23,38 +23,16 @@
         <hr style="margin-top: 2px;">
     </h3>
     <section class="cliente">
-        <div class="row">
-            <div class="col-md-12 input-group form-group form-it">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-user"></i>
-                    </span>
-                </div>
-                <select class="form-control campUser" id="ClienteFisicoList">
-                    <optgroup label="Selecionar cliente">
-                        @if (Model.ClienteFisicoList != null || Model.ClienteFisicoList.Any()) {
-                            <option value="">Selecionar clientes para o contrato</option>
-                            @foreach (var item in Model.ClienteFisicoList) {
-                                <option value="@item.Id" Text="@item.Name.ToUpper()">
-                                    @item.Name.ToUpper() – CPF: @item.Cpf 
-                                </option>
-                            }
-                        }
-                        @if (Model.ClienteJuridicoList != null || Model.ClienteJuridicoList.Any()) {
-                            <option value="">----Selecionar cliente PJ----</option>
-                            @foreach (var item in Model.ClienteJuridicoList) {
-                                <option value="@item.Id" Text="@item.RazaoSocial.ToUpper()">
-                                    @item.RazaoSocial.ToUpper() – CNPJ: @item.Cnpj 
-                                </option>
-                            }
-                        }
-                    </optgroup>
-                </select>
-                <button class="consult-flow input-id-cliente"><i class="fa fa-plus icon-detalhes"></i></button>
-            </div>
-        </div>
         <form id="formAdd" asp-controller="Contrato" asp-action="NovoContrato" method="post">
             <div class="row">
+                <div class="col-md-12 btn-group align-edit">
+                    <div class="btn-group btn-group-sm">
+                        <input type="radio" name="format_pagament" id="a-vista" checked="checked">
+                        <label for="a-vista" class="a-vista hover-btn click" onclick="onReandolyInput()">À vista</label>
+                        <input type="radio" name="format_pagament" id="parcelado">
+                        <label for="parcelado" class="parcelado click2" onclick="offReandolyInput()">Parcelado</label>
+                    </div>
+                </div>
                 <div class="col-md-6 input-group form-group form-it">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -174,7 +152,7 @@
                             <i class="fa fa-road"></i>
                         </span>
                     </div>
-                    <textarea type="text" class="form-control" id="inputRota" rows="3" style="resize: none"
+                    <textarea type="text" class="form-control" id="inputRota" rows="2" style="resize: none"
                               placeholder="Informe detalhadamente a rota da alocação." maxlength="355" asp-for="Contrato.Detalhamento"></textarea>
                     <div class="i-detalhe">
                         <small class="errorMsg">
@@ -182,10 +160,42 @@
                         </small>
                     </div>
                 </div>
+                <div class="col-md-12 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                    <select class="form-control campUser" id="ClienteFisicoList">
+                        <optgroup label="Selecionar cliente">
+                            @if (Model.ClienteFisicoList != null || Model.ClienteFisicoList.Any()) {
+                                <option value="">Selecionar clientes para o contrato</option>
+                                @foreach (var item in Model.ClienteFisicoList) {
+                                    <option value="@item.Id" Text="@item.Name.ToUpper()">
+                                        @item.Name.ToUpper() – CPF: @item.Cpf
+                                    </option>
+                                }
+                            }
+                            @if (Model.ClienteJuridicoList != null || Model.ClienteJuridicoList.Any()) {
+                                <option value="">----Selecionar cliente PJ----</option>
+                                @foreach (var item in Model.ClienteJuridicoList) {
+                                    <option value="@item.Id" Text="@item.RazaoSocial.ToUpper()">
+                                        @item.RazaoSocial.ToUpper() – CNPJ: @item.Cnpj
+                                    </option>
+                                }
+                            }
+                        </optgroup>
+                    </select>
+                    <button type="button" class="consult-flow input-id-cliente"><i class="fa fa-plus icon-detalhes"></i></button>
+
+                </div>
+                <div id="container-select" class="col-md-12 input-group form-group form-it scroll-container-client-select">
+                    <table id="table-select" class="listClientes-Select">
+                        <tbody class="body-clientes" id="clientes-selects">
+                        </tbody>
+                    </table>
+                </div>
                 <div class="modal-footer modal-footer-alt">
-                    <button type="button" id="display" class="btn filtra_btn api" data-target="#list" data-toggle="modal">
-                        <i class="fa fa-users"></i> Clientes selecionados
-                    </button>
                     <div>
                         <button type="button" class="btn btn-secondary filtrar_btn2"
                                 data-target="#ConfirmSair" data-toggle="modal">
@@ -222,26 +232,6 @@
                     </div>
                 </div>
             </div>
-            <div id="list" class="modal">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content modal-largura">
-                        <div class="modal-header">
-                            <h4 class="modal-title font">Clientes selecionados</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body body-modal-alt">
-                            <div class="col-md-12 input-group form-group form-it">
-                                <table class="listClientes">
-                                    <tbody class="body-clientes" id="clientes-selects">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </form>
     </section>
     <div id="ConfirmSair" class="modal">
@@ -269,6 +259,8 @@
         </div>
     </div>
 </section>
+<script>
+</script>
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/mascaraMoney.js"></script>
 <script src="~/Js copy/DisplayMsgInfo.js"></script>

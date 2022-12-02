@@ -1,7 +1,11 @@
 ﻿String.prototype.reverse = function () {
     return this.split('').reverse().join('');
 };
+let checkPagamentAvist = document.getElementById('a-vista');
 
+if (checkPagamentAvist.checked) {
+    document.getElementById('inputQuantiParcela').readOnly = true;
+}
 function mascaraMoeda(campo, evento) {
     var tecla = (!evento) ? window.event.keyCode : evento.which;
     var valor = campo.value.replace(/[^\d]+/gi, '').reverse();
@@ -18,4 +22,10 @@ function mascaraMoeda(campo, evento) {
         }
     }
     campo.value = resultado.reverse();
+}
+function onReandolyInput() {
+    document.getElementById('inputQuantiParcela').readOnly = true;
+}
+function offReandolyInput() {
+    document.getElementById('inputQuantiParcela').readOnly = false;
 }

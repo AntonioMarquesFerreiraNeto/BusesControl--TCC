@@ -47,6 +47,8 @@ namespace BusesControl.Models {
         [MinLength(30, ErrorMessage = "Campo inválido!")]
         public string Detalhamento { get; set; }
 
+        public ModelPagament Pagament { get; set; }
+
         public ContratoStatus StatusContrato { get; set; }
 
         public StatusAprovacao Aprovacao { get; set; }
