@@ -44,7 +44,12 @@
                         </div>
                         <div class="fil">
                             <p><b>Valor monetário do contrato:</b> R$ @Html.DisplayFor(model => model.ValorMonetario)</p>
-                            <p><b>Quantidade de parcelas de pagamento:</b> @Html.DisplayFor(model => model.QtParcelas)</p>
+                            @if (Model.Pagament != ModelPagament.Avista) {
+                                <p><b>Quantidade de parcelas de pagamento:</b> @Html.DisplayFor(model => model.QtParcelas)</p>
+                            }
+                            else {
+                                <p><b>Contrato à vista:</b> PARCELA ÚNICA</p>
+                            }
                             <p><b>Valor das parcelas do contrato: </b> R$ @Html.DisplayFor(model => model.ValorParcelaContrato)</p>
                             <p><b>Valor das parcelas de cada cliente</b>: R$ @Html.DisplayFor(model => model.ValorParcelaContratoPorCliente)</p>
                             <p>(<b>Emissão:</b> @Html.DisplayFor(model => model.DataEmissao))(<b>Vencimento</b>: @Html.DisplayFor(model => model.DataVencimento))</p>

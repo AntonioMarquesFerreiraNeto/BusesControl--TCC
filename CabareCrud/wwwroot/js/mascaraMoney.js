@@ -1,8 +1,8 @@
 ﻿String.prototype.reverse = function () {
     return this.split('').reverse().join('');
 };
-let checkPagamentAvist = document.getElementById('a-vista');
 
+let checkPagamentAvist = document.getElementById('a-vista');
 if (checkPagamentAvist.checked) {
     document.getElementById('inputQuantiParcela').readOnly = true;
 }
@@ -23,9 +23,13 @@ function mascaraMoeda(campo, evento) {
     }
     campo.value = resultado.reverse();
 }
-function onReandolyInput() {
+function onReandoly() {
+    document.getElementById('inputQuantiParcela').readOnly = true;
+    document.querySelector('input#inputQuantiParcela').value = '';
+}
+function onReandolyEdit() {
     document.getElementById('inputQuantiParcela').readOnly = true;
 }
-function offReandolyInput() {
+function offReandoly() {
     document.getElementById('inputQuantiParcela').readOnly = false;
 }

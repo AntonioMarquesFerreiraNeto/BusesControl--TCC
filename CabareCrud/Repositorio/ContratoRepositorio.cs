@@ -115,6 +115,7 @@ namespace BusesControl.Repositorio {
                 contratoDB.DataVencimento = contrato.DataVencimento;
                 contratoDB.Detalhamento = contrato.Detalhamento.Trim();
                 if (contratoDB.Aprovacao != StatusAprovacao.Aprovado) {
+                    contratoDB.Pagament = contrato.Pagament;
                     UpdateClienteFisico(contratoDB, modelsContrato.ListPessoaFisicaSelect);
                     UpdateClienteJuridico(contratoDB, modelsContrato.ListPessoaJuridicaSelect);
                     int qtClient = modelsContrato.ListPessoaFisicaSelect.Count + modelsContrato.ListPessoaJuridicaSelect.Count;

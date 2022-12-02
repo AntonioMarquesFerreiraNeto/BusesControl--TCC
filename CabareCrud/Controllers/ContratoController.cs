@@ -92,6 +92,7 @@ namespace BusesControl.Controllers {
             modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
             modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
             Contrato contrato = new Contrato {
+                Pagament = ModelPagament.Avista,
                 DataEmissao = DateTime.Now
             };
             modelsContrato.Contrato = contrato;
@@ -105,6 +106,14 @@ namespace BusesControl.Controllers {
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
+
+                //Recebendo a opção de pagamento do contrato e se o mesmo for à vista setando uma parcela para o mesmo. 
+                int op = int.Parse(Request.Form["format_pagament"]);
+                modelsContrato.Contrato.Pagament = (op == 0) ? ModelPagament.Avista : ModelPagament.Parcelado;
+                if (op == 0) {
+                    modelsContrato.Contrato.QtParcelas = 1;
+                }
+
                 if (ValidarCampo(modelsContrato.Contrato) != true) {
                     TempData["MensagemDeErro"] = $"Informe os campos obrigatórios!";
                     return View(modelsContrato);
@@ -114,8 +123,6 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "Não foi selecionado nenhum cliente!";
                         return View(modelsContrato);
                     }
-                    else {
-                    }
                     if (!modelsContrato.Contrato.ValidarValorMonetario()) {
                         TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
                         return View(modelsContrato);
@@ -124,12 +131,12 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
                         return View(modelsContrato);
                     }
-                    if (ValidationDateVencimento(modelsContrato.Contrato.DataVencimento.ToString())) {
-                        TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
-                        return View(modelsContrato);
-                    }
                     if (ValidationQtParcelas(modelsContrato.Contrato)) {
                         TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
+                        return View(modelsContrato);
+                    }
+                    if (ValidationDateVencimento(modelsContrato.Contrato.DataVencimento.ToString())) {
+                        TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
                         return View(modelsContrato);
                     }
                     modelsContrato.Contrato.StatusContrato = ContratoStatus.Ativo;
@@ -176,6 +183,15 @@ namespace BusesControl.Controllers {
                 modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
+
+                //Recebendo a opção de pagamento do contrato e se o mesmo for à vista setando uma parcela para o mesmo. 
+                if (modelsContrato.Contrato.Aprovacao != StatusAprovacao.Aprovado) {
+                    int op = int.Parse(Request.Form["format_pagament"]);
+                    modelsContrato.Contrato.Pagament = (op == 0) ? ModelPagament.Avista : ModelPagament.Parcelado;
+                    if (op == 0) {
+                        modelsContrato.Contrato.QtParcelas = 1;
+                    }
+                }
                 if (ModelState.IsValid) {
                     if (!modelsContrato.Contrato.ValidarValorMonetario()) {
                         TempData["MensagemDeErro"] = "Valor monetário menor que R$ 150.00!";
@@ -187,13 +203,13 @@ namespace BusesControl.Controllers {
                         modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
-                    if (ValidationDateVencimento(modelsContrato.Contrato.DataVencimento.ToString())) {
-                        TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
+                    if (ValidationQtParcelas(modelsContrato.Contrato)) {
+                        TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
                         modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
-                    if (ValidationQtParcelas(modelsContrato.Contrato)) {
-                        TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
+                    if (ValidationDateVencimento(modelsContrato.Contrato.DataVencimento.ToString())) {
+                        TempData["MensagemDeErro"] = "O contrato não pode ser superior a dois anos!";
                         modelsContrato.Contrato = ModelsError(modelsContrato.Contrato);
                         return View(modelsContrato);
                     }
@@ -272,7 +288,7 @@ namespace BusesControl.Controllers {
 
             if (contrato.MotoristaId == null || contrato.OnibusId == null
                 || contrato.DataEmissao == null || contrato.DataVencimento == null || contrato.Detalhamento == null
-                || contrato.ValorMonetario == null || contrato.QtParcelas == null) {
+                || contrato.ValorMonetario == null) {
                 return false;
             }
             return true;
@@ -302,13 +318,20 @@ namespace BusesControl.Controllers {
 
             float dias = (float)dateVencimento.Subtract(dataEmissao).TotalDays;
             float ano = dias / 365;
-            bool resultado = (contrato.QtParcelas > ano * 12) ? true : false;
-            return resultado;
+            if (contrato.Pagament == ModelPagament.Parcelado) {
+                bool resultado = (contrato.QtParcelas > ano * 12 || contrato.QtParcelas < 1 || string.IsNullOrEmpty(contrato.QtParcelas.ToString())) ? true : false;
+                return resultado;
+            }
+            else {
+                bool resultado = (contrato.QtParcelas < 1 || string.IsNullOrEmpty(contrato.QtParcelas.ToString())) ? true : false;
+                return resultado;
+            }
         }
 
-        public Contrato ModelsError(Contrato contrato) {
+        public Contrato ModelsError(Contrato value) {
             //Para não ter problema de referências de na view em momentos de erros.
-            contrato = _contratoRepositorio.ListarJoinPorId(contrato.Id);
+            Contrato contrato = _contratoRepositorio.ListarJoinPorId(value.Id);
+            contrato.Pagament = value.Pagament;
             return contrato;
         }
 

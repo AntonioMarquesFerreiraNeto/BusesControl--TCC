@@ -31,9 +31,6 @@ namespace BusesControl.Models {
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorParcelaContratoPorCliente { get; set; }
 
-        [Required(ErrorMessage = "Campo obrigatório!")]
-        [ValidationMinParcela(ErrorMessage = "Campo inválido!")]
-        public int? QtParcelas { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
@@ -46,6 +43,8 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(30, ErrorMessage = "Campo inválido!")]
         public string Detalhamento { get; set; }
+
+        public int? QtParcelas { get; set; }
 
         public ModelPagament Pagament { get; set; }
 

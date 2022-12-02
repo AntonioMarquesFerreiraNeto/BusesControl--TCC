@@ -37,16 +37,16 @@
                     <div class="col-md-12 btn-group align-edit">
                         <div class="btn-group btn-group-sm">
                             @if (Model.Contrato.Pagament == ModelPagament.Avista) {
-                                <input type="radio" name="format_pagament" id="a-vista" checked="checked">
-                                <label for="a-vista" class="a-vista hover-btn click" onclick="onReandolyInput()">À vista</label>
-                                <input type="radio" name="format_pagament" id="parcelado">
-                                <label for="parcelado" class="parcelado click2" onclick="offReandolyInput()">Parcelado</label>
+                                <input type="radio" name="format_pagament" id="a-vista" checked="checked" asp-for="@Model.Contrato.Pagament" value="0">
+                                <label for="a-vista" class="a-vista hover-btn click" onclick="onReandoly()">À vista</label>
+                                <input type="radio" name="format_pagament" id="parcelado" asp-for="@Model.Contrato.Pagament" value="1">
+                                <label for="parcelado" class="parcelado click2" onclick="offReandoly()">Parcelado</label>
                             }
                             else {
-                                <input type="radio" name="format_pagament" id="a-vista">
-                                <label for="a-vista" class="a-vista hover-btn click" onclick="onReandolyInput()">À vista</label>
-                                <input type="radio" name="format_pagament" id="parcelado" checked="checked">
-                                <label for="parcelado" class="parcelado click2" onclick="offReandolyInput()">Parcelado</label>
+                                <input type="radio" name="format_pagament" id="a-vista" asp-for="@Model.Contrato.Pagament" value="0">
+                                <label for="a-vista" class="a-vista hover-btn click" onclick="onReandoly()">À vista</label>
+                                <input type="radio" name="format_pagament" id="parcelado" asp-for="@Model.Contrato.Pagament" value="1" checked="checked">
+                                <label for="parcelado" class="parcelado click2" onclick="offReandoly()">Parcelado</label>
                             }
                         </div>
                     </div>
