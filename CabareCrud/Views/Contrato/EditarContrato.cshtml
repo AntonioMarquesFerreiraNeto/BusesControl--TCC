@@ -27,6 +27,7 @@
             <input type="hidden" asp-for="@Model.Contrato.Aprovacao" value="@Model.Contrato.Aprovacao">
             <div class="row">
                 @if (Model.Contrato.Aprovacao == StatusAprovacao.Aprovado) {
+                    <input type="hidden" asp-for="@Model.Contrato.Pagament" value="@Model.Contrato.Pagament">
                     <div class="col-md-12 input-group form-group form-it">
                         <input id="cliente" class="form-control campUser" value="@Model.Contrato.ReturnDetalhesCliente()" readonly>
                         <a class="consult-flow-3 btn-view-client" contrato-id="@Model.Contrato.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>

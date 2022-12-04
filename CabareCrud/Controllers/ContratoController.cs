@@ -331,7 +331,7 @@ namespace BusesControl.Controllers {
         public Contrato ModelsError(Contrato value) {
             //Para não ter problema de referências de na view em momentos de erros.
             Contrato contrato = _contratoRepositorio.ListarJoinPorId(value.Id);
-            contrato.Pagament = value.Pagament;
+            contrato.Pagament = (value.Pagament == ModelPagament.Avista) ? ModelPagament.Avista : ModelPagament.Parcelado;
             return contrato;
         }
 
