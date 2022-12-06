@@ -15,10 +15,24 @@
     </div>
 }
 <section class="clientes">
-    <h3 id="bac">
-        <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
-        <hr style="margin-top: 3px;">
-    </h3>
+    @if (Model.Any(x => x.Situacao == Adimplente.Adimplente)) {
+        <h3 id="bac">
+            <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else if (Model.Any(x => x.Situacao == Adimplente.Inadimplente)) {
+        <h3 id="bac" style="color: red;">
+            <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac">
+            <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
     <div class="cliente">
         <div class="flex-item">
             <div>
