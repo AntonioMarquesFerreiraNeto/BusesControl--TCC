@@ -52,6 +52,8 @@ namespace BusesControl.Models {
 
         public StatusAprovacao Aprovacao { get; set; }
 
+        public Adimplente Situacao { get; set; }
+
         public Funcionario Motorista { get; set; }
 
         public Onibus Onibus { get; set; }
@@ -95,6 +97,15 @@ namespace BusesControl.Models {
             else {
                 return "Negado";
             }
+        }
+        public string ReturnTypePagament() {
+            string msgPagament = (Pagament == ModelPagament.Avista) ? "À vista" : "Parcelado";
+            return msgPagament;
+        }
+
+        public string ReturnValorTotCliente() {
+            decimal valorTotClient = (decimal)(ValorParcelaContratoPorCliente * QtParcelas);
+            return valorTotClient.ToString("C2");
         }
     }
 }

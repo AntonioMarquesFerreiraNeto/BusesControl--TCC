@@ -1,5 +1,5 @@
 ﻿@using BusesControl.Models.Enums
-@model List<Contrato>
+@model Contrato
 <link rel="stylesheet" href="~/css/financeiro.css">
 <link rel="stylesheet" href="~/css/home.css">
 @if (TempData["MensagemDeSucesso"] != null) {
@@ -20,41 +20,53 @@
         <hr style="margin-top: 3px;">
     </h3>
     <div class="cliente">
-        <div class="flex-item">
-            <div>
-                <a asp-controller="Financeiro" asp-action="Index" class="btn filtrar_btn enum">Adimplentes</a>
-            </div>
-            <div>
-                <a asp-controller="Financeiro" asp-action="ListInadimplentes" class="btn filtrar_btn noCheck" type="submit">Inadimplentes</a>
-            </div>
+        <div class="flex-item" style="margin-bottom: 0px;">
+            <div></div>
+            <div><a class="btn-voltar" asp-action="Index"><i class="fa fa-arrow-alt-circle-left"></i> Voltar</a></div>
         </div>
         <table id="table-contrato" class="table shadow p-3 mb-5 bg-white rounded">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Clientes</th>
-                    <th scope="col">Vencimento</th>
-                    <th scope="col">Pagamento</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Situação</th>
+                    <th scope="col">Total por cliente</th>
+                    <th scope="col">Parcela por cliente</th>
                     <th scope="col">Controlar</th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null || Model.Any()) {
-                    @foreach (var item in Model) {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td class="align-content-center justify-content-center">
-                                <a class="consult-clientes btn-view-client" contrato-id="@item.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
-                            </td>
-                            <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
-                            <td>@item.ReturnTypePagament()</td>
-                            <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="FinanceiroContrato"><i class="fa fa-arrow-alt-circle-right"></i> Financeiro</a></td>
-                        </tr>
+                @if (Model != null) {
+                    @if (Model.ClientesContratos.Any() && Model.ClientesContratos != null) {
+                        @foreach (var item in Model.ClientesContratos) {
+                            <tr>
+                                @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                                    <td>@item.PessoaFisicaId</td>
+                                    <td>@item.PessoaFisica.Name</td>
+                                    <td>Cliente adimplente</td>
+                                    <td>@item.Contrato.ReturnValorTotCliente()</td>
+                                    <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
+                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="InspecionarContrato"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
+                                }
+                                @if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
+                                    <td>@item.PessoaJuridicaId</td>
+                                    <td>@item.PessoaJuridica.RazaoSocial</td>
+                                    <td>Cliente adimplente</td>
+                                    <td>@item.Contrato.ReturnValorTotCliente()</td>
+                                    <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
+                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="InspecionarContrato"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
+                                }
+                            </tr>
+                        }
                     }
                 }
             </tbody>
+            <tfoot class="footer-table">
+                <tr>
+                    <td colspan="6" id="table_valor"><b>Valor monetário total do contrato:</b> R$ @Html.DisplayFor(x => x.ValorMonetario)</td>
+                </tr>
+            </tfoot>
         </table>
-
     </div>
 </section>
 <div id="listClientesIndex" class="modal">
@@ -74,14 +86,13 @@
     </div>
 </div>
 <script src="~/js/site.js"></script>
-<script src="~/js/jquery.min.js"></script>
 @section Scripts{
     <script>
         $(document).ready(function() {
             $('#table-contrato').DataTable({
                 "ordering": true,
                 "paging": true,
-                "searching": true,
+                "searching": false,
                 "oLanguage": {
                     "sEmptyTable": "Não existe registros no sistema.",
                     "sInfo": "",
@@ -109,3 +120,4 @@
         });
     </script>
 }
+    <script src="~/js/jquery.min.js"></script>

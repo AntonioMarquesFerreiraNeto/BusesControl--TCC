@@ -9,6 +9,8 @@ namespace BusesControl.Repositorio {
         public List<Contrato> ListContratoEmAnalise();
         public List<Contrato> ListContratoNegados();
         public List<Contrato> ListContratoAprovados();
+        public List<Contrato> ListContratoAdimplentes();
+        public List<Contrato> ListContratoInadimplentes();
         public Contrato ListarPorId(int id);
         public Contrato ListarJoinPorId(int id);
         public ModelsContrato Adicionar(ModelsContrato modelsContrato);
