@@ -12,7 +12,7 @@ namespace BusesControl.Controllers {
     [PagUserAutenticado]
     public class HomeController : Controller {
         public IActionResult Index() {
-            ViewData["Title"] = "Principal";
+            ViewData["Title"] = "Página principal";
             return View();
         }
     }

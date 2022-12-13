@@ -19,7 +19,7 @@ namespace BusesControl.Controllers {
 
         public IActionResult Index() {
             ViewData["Title"] = "Alterar senha";
-            TempData["MensagemDeInfo"] = "Descrição: As senhas deverão ser maiores que oito dígitos e menores que 14 dígitos.";
+            TempData["MensagemDeInfo"] = "Descrição: As senhas deverão ser maiores que oito dígitos, conter números, letras e caracteres especiais.";
             return View();
         }
 

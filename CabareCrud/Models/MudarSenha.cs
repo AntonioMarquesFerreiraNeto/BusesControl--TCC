@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BusesControl.Models.ValidacoesDados.ModelValidarForcaSenha;
+using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
     public class MudarSenha {
@@ -10,6 +11,7 @@ namespace BusesControl.Models {
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(8, ErrorMessage = "Nova senha inválida!")]
+        [ComplexidadeSenha(CaracterEspecialRequerido = true, SenhaForteRequerida = true, SenhaTamanhoMinimo = 5, ErrorMessage = "A senha deve ser forte!")]
         public string NovaSenha { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]

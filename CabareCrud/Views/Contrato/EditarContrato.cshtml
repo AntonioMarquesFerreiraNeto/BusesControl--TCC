@@ -116,8 +116,14 @@
                             <i class="fa fa-dollar-sign" style="margin-left: 3px;"></i>
                         </span>
                     </div>
-                    <input type="text" class="form-control" id="inputValor"
+                    @if (Model.Contrato.Aprovacao != StatusAprovacao.Aprovado) {
+                        <input type="text" class="form-control" id="inputValor"
                            placeholder="Informe o valor monetário total da alocação." maxlength="10" asp-for="Contrato.ValorMonetario" onkeyup="mascaraMoeda(this, event)">
+                    }
+                    else {
+                        <input type="text" class="form-control" id="inputValor"
+                           placeholder="Informe o valor monetário total da alocação." maxlength="10" asp-for="Contrato.ValorMonetario" onkeyup="mascaraMoeda(this, event)" readonly>
+                    }
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.ValorMonetario)
@@ -136,9 +142,16 @@
                            onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Contrato.QtParcelas" readonly>
                     }
                     else {
-                        <input type="text" class="form-control" id="inputQuantiParcela"
+                        if (Model.Contrato.Aprovacao != StatusAprovacao.Aprovado) {
+                            <input type="text" class="form-control" id="inputQuantiParcela"
                            placeholder="Informe a quantidade parcelas." maxlength="2"
                            onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Contrato.QtParcelas">
+                        }
+                        else {
+                            <input type="text" class="form-control" id="inputQuantiParcela"
+                           placeholder="Informe a quantidade parcelas." maxlength="2"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Contrato.QtParcelas" readonly>
+                        }
                     }
 
                     <div class="i">
@@ -169,7 +182,12 @@
                             <i class="fa fa-calendar"></i>
                         </span>
                     </div>
-                    <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataVencimento">
+                    @if (Model.Contrato.Aprovacao != StatusAprovacao.Aprovado) {
+                        <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataVencimento">
+                    }
+                    else {
+                        <input type="date" class="form-control" id="inputDate" asp-for="Contrato.DataVencimento" readonly>
+                    }
                     <div class="i">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Contrato.DataVencimento)

@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+@import url('https://fonts.googleapis.com/css?family=Numans');
 body {
     margin: 0;
     padding: 0;
@@ -41,9 +41,9 @@ body {
 }
 
 .card-title {
+    font-family: 'Numans', sans-serif;
     font-size: 11pt;
-    font-style: italic;
-    font-weight: normal;
+    font-weight: bold;
     color: #2b2b2bba;
 }
 
@@ -67,7 +67,7 @@ body {
 
 .card-text {
     text-align: justify;
-    font-size: 10pt;
+    font-size: 11pt;
 }
 
 .btn-outline-primary {
