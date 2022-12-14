@@ -102,6 +102,7 @@
     </PackageReference>
     <PackageReference Include="PdfSharp" Version="1.50.5147" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="xunit.extensibility.core" Version="2.4.2" />
   </ItemGroup>
 
