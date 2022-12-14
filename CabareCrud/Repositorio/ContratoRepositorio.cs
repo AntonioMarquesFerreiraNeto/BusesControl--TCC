@@ -28,7 +28,14 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .FirstOrDefault(x => x.Id == id);
         }
-
+        public Contrato ListarJoinPorIdAprovado(int? id) {
+            return _bancoContext.Contrato
+                .AsNoTracking().Include("Motorista")
+                .AsNoTracking().Include("Onibus")
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .FirstOrDefault(x => x.Id == id && x.Aprovacao == StatusAprovacao.Aprovado);
+        }
         public List<Contrato> ListContratoAtivo() {
             return _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Ativo)
                 .AsNoTracking().Include("Motorista")

@@ -347,7 +347,7 @@
                 <div class="modal-body">
                     <p class="font-min">
                         <b>Motorista: </b>@Model.Contrato.ReturnDetalhesMotorista() <br>
-                        <b>Telefone: </b> @Model.Contrato.Motorista.Telefone <br>
+                        <b>Telefone: </b> @Model.Contrato.Motorista.ReturnTelefoneFuncionario() <br>
                         <b>Email: </b> @Model.Contrato.Motorista.Email <br>
                         <b>Data de nascimento: </b>@Html.DisplayFor(x => x.Contrato.Motorista.DataNascimento) <br>
                     </p>

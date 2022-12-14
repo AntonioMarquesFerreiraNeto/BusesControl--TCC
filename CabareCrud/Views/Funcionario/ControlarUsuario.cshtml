@@ -56,9 +56,9 @@
                             }
                             <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
                             <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
-                            <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
+                            <p><b>CPF:</b> @Model.ReturnCpfFuncionario(),</p>
                             <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
-                            <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
+                            <p><b>Telefone:</b> @Model.ReturnTelefoneFuncionario(),</p>
                         </div>
                     }
                 </div>

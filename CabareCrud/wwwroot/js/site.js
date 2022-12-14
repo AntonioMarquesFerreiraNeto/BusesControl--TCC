@@ -20,6 +20,16 @@ $(document).ready(function () {
             }
         });
     });
+    $('.btn-view-client-pdf').click(function () {
+        var contratoIdPdf = $(this).attr('contrato-id-pdf');
+        $.ajax({
+            type: 'GET',
+            url: "/AprovarContrato/ClientesContratoPdf/" + contratoIdPdf,
+            success: function (result) {
+                $("#list-clients-pdf").html(result);
+            }
+        });
+    });
     $('.input-id-cliente').click(function () {
         var id = document.getElementById('ClienteFisicoList');
         let id_value = id.value;

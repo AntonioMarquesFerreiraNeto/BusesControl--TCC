@@ -13,6 +13,7 @@ namespace BusesControl.Repositorio {
         public List<Contrato> ListContratoInadimplentes();
         public Contrato ListarPorId(int id);
         public Contrato ListarJoinPorId(int id);
+        public Contrato ListarJoinPorIdAprovado(int? id);
         public ModelsContrato Adicionar(ModelsContrato modelsContrato);
         public ModelsContrato EditarContrato(ModelsContrato modelsContrato);
         public Contrato InativarContrato(Contrato contrato);

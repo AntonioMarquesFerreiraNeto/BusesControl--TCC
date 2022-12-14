@@ -69,13 +69,13 @@
                                                         @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                                                             <tr>
                                                                 <td>@Html.DisplayFor(x => item.PessoaFisica.Name)</td>
-                                                                <td>@Html.DisplayFor(x => item.PessoaFisica.Cpf)</td>
+                                                                <td>@item.PessoaFisica.ReturnCpfCliente()</td>
                                                             </tr>
                                                         }
                                                         else if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                                                             <tr>
                                                                 <td>@Html.DisplayFor(x => item.PessoaJuridica.RazaoSocial)</td>
-                                                                <td>@Html.DisplayFor(x => item.PessoaJuridica.Cnpj)</td>
+                                                                <td>@item.PessoaJuridica.ReturnCnpjCliente()</td>
                                                             </tr>
                                                         }
                                                     }

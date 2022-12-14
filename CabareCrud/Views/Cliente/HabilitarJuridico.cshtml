@@ -39,7 +39,7 @@
                             }
                             <p><b>Nome fantasia: </b>@Html.DisplayFor(model => model.NomeFantasia),</p>
                             <p><b>Razão social:</b> @Html.DisplayFor(model => model.RazaoSocial),</p>
-                            <p><b>CNPJ:</b> @Html.DisplayFor(model => model.Cnpj),</p>
+                            <p><b>CNPJ:</b> @Model.ReturnCnpjCliente(),</p>
                             <p><b>Inscrição estadual:</b> @Html.DisplayFor(model => model.InscricaoEstadual),</p>
                             <p><b>Inscrição municipal:</b> @Html.DisplayFor(model => model.InscricaoMunicipal),</p>
                             @if (Model.Email == null) {
@@ -49,7 +49,7 @@
                             else {
                                 <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
                             }
-                            <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
+                            <p><b>Telefone:</b> @Model.ReturnTelefoneCliente(),</p>
                         </div>
                         <div class="fil">
                             <label for="" class="titleModal">

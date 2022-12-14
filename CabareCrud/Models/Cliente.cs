@@ -15,7 +15,7 @@ namespace BusesControl.Models {
 
         [Phone(ErrorMessage = "Campo inválido!")]
         [Required(ErrorMessage = "Campo obrigatório!")]
-        [MinLength(8, ErrorMessage = "Campo inválido!")]
+        [MinLength(9, ErrorMessage = "Campo inválido!")]
         [MaxLength(9, ErrorMessage = "Campo inválido!")]
         public string Telefone { get; set; }
 
@@ -55,5 +55,10 @@ namespace BusesControl.Models {
         public string Ddd { get; set; }
 
         public virtual List<ClientesContrato> ClientesContratos { get; set; }
+
+        public string ReturnTelefoneCliente() {
+            string tel = Telefone;
+            return $"{long.Parse(tel).ToString(@"00000-0000")}";
+        }
     }
 }

@@ -47,5 +47,8 @@ namespace BusesControl.Models {
                 return false;
             }
         }
+        public string ReturnCpfCliente() {
+            return $"{Convert.ToUInt64(Cpf):000\\.000\\.000\\-00}";
+        }
     }
 }

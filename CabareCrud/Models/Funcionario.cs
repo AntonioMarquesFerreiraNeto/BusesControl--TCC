@@ -112,5 +112,12 @@ namespace BusesControl.Models {
             Senha = Senha.GerarHash();
         }
 
+        public string ReturnTelefoneFuncionario() {
+            return $"{long.Parse(Telefone).ToString(@"00000-0000")}";
+        }
+        public string ReturnCpfFuncionario() {
+            return $"{Convert.ToUInt64(Cpf):000\\.000\\.000\\-00}";
+        }
+
     }
 }

@@ -498,7 +498,10 @@ input:focus {
 .row-hover:hover {
     background-color: #dedede;
 }
-
+.btn-view-client-pdf {
+    cursor: pointer;
+    color: rgb(0, 7, 182);
+}
 .link {
     margin: 10px;
     font-size: 10.5pt;

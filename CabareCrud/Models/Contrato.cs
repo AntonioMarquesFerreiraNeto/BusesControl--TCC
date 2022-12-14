@@ -72,7 +72,7 @@ namespace BusesControl.Models {
         }
 
         public string ReturnDetalhesMotorista() {
-            return $"{Motorista.Name.ToUpper()} – CPF: {Motorista.Cpf}";
+            return $"{Motorista.Name.ToUpper()} – CPF: {Motorista.ReturnCpfFuncionario()}";
         }
 
         public string ReturnDetalhesCliente() {
@@ -106,6 +106,18 @@ namespace BusesControl.Models {
         public string ReturnValorTotCliente() {
             decimal valorTotClient = (decimal)(ValorParcelaContratoPorCliente * QtParcelas);
             return valorTotClient.ToString("C2");
+        }
+
+        public string ReturnDiaPagamento() {
+            DateTime dia = DataEmissao.Value;
+            return $"{dia.Day}";
+        }
+
+        public string ReturnDateContrato() {
+            DateTime dateEmissao = DataEmissao.Value;
+            DateTime dateVencimento = DataVencimento.Value;
+
+            return $"{dateEmissao.ToString("dd/MM/yyyy")} até {dateVencimento.ToString("dd/MM/yyyy")}";
         }
     }
 }

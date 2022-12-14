@@ -81,7 +81,7 @@
                                     <a class="link-sucess" asp-route-id="@item.Id" asp-action="AprovarContrato"><i class="fa fa-check"></i></a>
                                 }
                                 else {
-                                    <a class="link" href="#"><i class="fa fa-print"></i></a>
+                                    <a class="link btn-view-client-pdf" contrato-id-pdf="@item.Id" data-target="#listClientesContrato" data-toggle="modal" href="#"><i class="fa fa-print"></i></a>
                                     <a class="link-red" asp-route-id="@item.Id" asp-action="RevogarContrato"><i class="fa fa-minus-circle"></i></a>
                                 }
                             </td>
@@ -93,7 +93,7 @@
     </div>
 </section>
 <div id="listClientesIndex" class="modal">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content modal-largura">
             <div class="modal-header">
                 <h4 class="modal-title font">Clientes requerentes</h4>
@@ -103,6 +103,22 @@
             </div>
             <div class="modal-body body-modal-alt">
                 <div id="list-clients" class="col-md-12 input-group form-group form-it">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="listClientesContrato" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-largura">
+            <div class="modal-header">
+                <h4 class="modal-title font">Clientes requerentes - baixar PDF</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body body-modal-alt">
+                <div id="list-clients-pdf" class="col-md-12 input-group form-group form-it">
                 </div>
             </div>
         </div>

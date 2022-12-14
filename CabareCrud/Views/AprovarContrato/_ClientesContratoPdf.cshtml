@@ -8,12 +8,14 @@
                     <tr>
                         <td>@item.PessoaFisica.Name.ToUpper()</td>
                         <td>CPF: @item.PessoaFisica.ReturnCpfCliente()</td>
+                        <td><a class="link" asp-route-id="@item.ContratoId" asp-route-clienteFisicoId="@item.PessoaFisicaId" asp-action="PdfContrato"><i class="fa fa-download"></i></a></td>
                     </tr>
                 }
                 else if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                     <tr>
                         <td>@item.PessoaJuridica.RazaoSocial.ToUpper()</td>
                         <td>CNPJ: @item.PessoaJuridica.ReturnCnpjCliente()</td>
+                        <td><a class="link" asp-route-id="@item.ContratoId" asp-route-clienteJuridicoId="@item.PessoaJuridicaId" asp-action="PdfContrato"><i class="fa fa-download"></i></a></td>
                     </tr>
                 }
             }

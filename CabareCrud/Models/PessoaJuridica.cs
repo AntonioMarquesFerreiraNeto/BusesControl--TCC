@@ -1,5 +1,6 @@
 ﻿using BusesControl.Models.Enums;
 using BusesControl.Models.ValidacoesCliente.ModelValidarCnpj;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
@@ -28,5 +29,9 @@ namespace BusesControl.Models {
         public string InscricaoMunicipal { get; set; }
 
         public StatuCliente Status { get; set; }
+
+        public string ReturnCnpjCliente() {
+            return $"{Convert.ToUInt64(Cnpj): 00\\.000\\.000\\/0000-00}";
+        }
     }
 }

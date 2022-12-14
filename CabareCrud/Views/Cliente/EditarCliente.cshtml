@@ -331,9 +331,9 @@
                     @foreach (var cliente in Model.ClienteFisicoList) {
                         @if (cliente.Id == Model.ClienteFisico.IdVinculacaoContratual) {
                             <p class="font-min">
-                                <b>Cliente: </b> @cliente.Name – CPF: @cliente.Cpf <br>
+                                <b>Cliente: </b> @cliente.Name – CPF: @cliente.ReturnCpfCliente() <br>
                                 <b>Rg: </b> @cliente.Rg <br>
-                                <b>Telefone: </b> @cliente.Telefone <br>
+                                <b>Telefone: </b> (@cliente.Ddd)@cliente.ReturnTelefoneCliente() <br>
                                 @if (!string.IsNullOrEmpty(cliente.Email)) {
                                     <b>Email: </b> @cliente.Email <br>
                                 }
@@ -345,11 +345,11 @@
                     @foreach (var clienteJuridico in Model.ClienteJuridicoList) {
                         @if (clienteJuridico.Id == Model.ClienteFisico.IdVinculacaoContratual) {
                             <p class="font-min">
-                                <b>Cliente:</b> @clienteJuridico.RazaoSocial.ToUpper() – CNPJ: @clienteJuridico.Cnpj <br>
+                                <b>Cliente:</b> @clienteJuridico.RazaoSocial.ToUpper() – CNPJ: @clienteJuridico.ReturnCnpjCliente() <br>
                                 <b>Nome fantasia: </b> @clienteJuridico.NomeFantasia <br>
                                 <b>Inscrição estadual: </b> @clienteJuridico.InscricaoEstadual <br>
                                 <b>Inscrição Municipal: </b> @clienteJuridico.InscricaoMunicipal <br>
-                                <b>Telefone: </b> @clienteJuridico.Telefone <br>
+                                <b>Telefone: </b> (@clienteJuridico.Ddd)@clienteJuridico.ReturnTelefoneCliente() <br>
                                 @if (!string.IsNullOrEmpty(clienteJuridico.Email)) {
                                     <b>Email: </b> @clienteJuridico.Email <br>
                                 }

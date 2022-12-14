@@ -39,7 +39,7 @@
                             }
                             <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
                             <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
-                            <p><b>CPF:</b> @Html.DisplayFor(model => model.Cpf),</p>
+                            <p><b>CPF:</b> @Model.ReturnCpfCliente(),</p>
                             <p><b>RG:</b> @Html.DisplayFor(model => model.Rg),</p>
 
                             @if (Model.Email == null) {
@@ -49,7 +49,7 @@
                             else {
                                 <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
                             }
-                            <p><b>Telefone:</b> @Html.DisplayFor(model => model.Telefone),</p>
+                            <p><b>Telefone:</b> @Model.ReturnTelefoneCliente(),</p>
                             <p><b>Nome da mãe:</b> @Html.DisplayFor(model => model.NameMae),</p>
                         </div>
                         <div class="fil">

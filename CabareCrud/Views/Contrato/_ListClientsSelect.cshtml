@@ -10,7 +10,7 @@ else {
         @foreach (var item in Model.ListPessoaFisicaSelect) {
             <tr>
                 <td>@item.Name.ToUpper()</td>
-                <td><b>CPF:</b> @item.Cpf</td>
+                <td><b>CPF:</b> @item.ReturnCpfCliente()</td>
                 <td><a style="padding: 0px;" class="link-trash remove-ajax" cliente-id ="@item.Id"><i class="fa fa-trash-alt link-trash"></i></a></td>
             </tr>
         }
@@ -19,7 +19,7 @@ else {
         @foreach (var item in Model.ListPessoaJuridicaSelect) {
             <tr>
                 <td>@item.RazaoSocial.ToUpper()</td>
-                <td><b>CNPJ:</b> @item.Cnpj</td>
+                <td><b>CNPJ:</b> @item.ReturnCnpjCliente()</td>
                 <td><a style="padding: 0px;" class="link-trash link-trash remove-ajax" cliente-id ="@item.Id"><i class="fa fa-trash-alt link-trash"></i></a></td>
             </tr>
         }
