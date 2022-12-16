@@ -96,7 +96,7 @@ namespace BusesControl.Repositorio {
         public ModelsContrato Adicionar(ModelsContrato modelsContrato) {
             try {
                 Contrato contrato = modelsContrato.Contrato;
-                contrato = ContratoTrim(contrato); 
+                contrato = ContratoTrim(contrato);
                 AddClienteFisico(contrato, modelsContrato.ListPessoaFisicaSelect);
                 AddClienteJuridico(contrato, modelsContrato.ListPessoaJuridicaSelect);
                 contrato.ReturnValorParcela();
@@ -111,17 +111,53 @@ namespace BusesControl.Repositorio {
             }
         }
         public void AddClienteFisico(Contrato contrato, List<PessoaFisica> list) {
-            if (list.Count > 0) {
-                foreach (var item in list) {
-                    _bancoContext.AddRange(new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato });
+            try {
+                if (list.Count > 0) {
+                    foreach (var item in list) {
+                        ClientesContrato clientesContrato = new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato };
+                        _bancoContext.AddRange(clientesContrato);
+
+                        //Incluindo financeiro no clientesContrato.
+                        for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
+                            Financeiro financeiro = new Financeiro {
+                                ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                                DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
+                            };
+                            if (parcelas == 1) {
+                                financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
+                            }
+                            _bancoContext.Financeiro.Add(financeiro);
+                        }
+                    }
                 }
+            }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
             }
         }
         public void AddClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
-            if (list.Count > 0) {
-                foreach (var item in list) {
-                    _bancoContext.AddRange(new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato });
+            try {
+                if (list.Count > 0) {
+                    foreach (var item in list) {
+                        ClientesContrato clientesContrato = new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato };
+                        _bancoContext.AddRange(clientesContrato);
+
+                        //Incluindo financeiro no clientesContrato.
+                        for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
+                            Financeiro financeiro = new Financeiro {
+                                ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                                DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
+                            };
+                            if (parcelas == 1) {
+                                financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
+                            }
+                            _bancoContext.Financeiro.Add(financeiro);
+                        }
+                    }
                 }
+            }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
             }
         }
 
@@ -156,29 +192,81 @@ namespace BusesControl.Repositorio {
             }
         }
         public void UpdateClienteFisico(Contrato contrato, List<PessoaFisica> list) {
-            var contratoCliente = ListarJoinPorId(contrato.Id);
-            foreach (var item in contratoCliente.ClientesContratos) {
-                if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
-                    _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaFisicaId = item.PessoaFisicaId, Id = item.Id, ContratoId = item.ContratoId });
+            try {
+                var contratoCliente = ListarJoinPorId(contrato.Id);
+                foreach (var item in contratoCliente.ClientesContratos) {
+                    if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                        bool clienteValidation = list.Any(x => x.Id == item.PessoaFisicaId) ? true : false;
+                        if (clienteValidation != true) {
+                            RemoveFinanceiro(item);
+                            _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaFisicaId = item.PessoaFisicaId, Id = item.Id, ContratoId = item.ContratoId });
+                        }
+                        else {
+                            UpdateFinanceiro(contrato, item, contratoCliente);
+                        }
+                    }
+                }
+                if (list.Count > 0) {
+                    foreach (var item in list) {
+                        bool clienteValidation = (contratoCliente.ClientesContratos.Any(x => x.PessoaFisicaId == item.Id)) ? true : false;
+                        if (clienteValidation != true) {
+                            ClientesContrato clientesContrato = new ClientesContrato { PessoaFisicaId = item.Id, ContratoId = contrato.Id };
+                            _bancoContext.ClientesContrato.Add(clientesContrato);
+                            for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
+                                Financeiro financeiro = new Financeiro {
+                                    ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                                    DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
+                                };
+                                if (parcelas == 1) {
+                                    financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
+                                }
+                                _bancoContext.Financeiro.Add(financeiro);
+                            }
+                        }
+                    }
                 }
             }
-            if (list.Count > 0) {
-                foreach (var item in list) {
-                    _bancoContext.ClientesContrato.Add(new ClientesContrato { PessoaFisicaId = item.Id, ContratoId = contrato.Id });
-                }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
             }
         }
         public void UpdateClienteJuridico(Contrato contrato, List<PessoaJuridica> list) {
-            var contratoCliente = ListarJoinPorId(contrato.Id);
-            foreach (var item in contratoCliente.ClientesContratos) {
-                if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
-                    _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaJuridicaId = item.PessoaJuridicaId, Id = item.Id, ContratoId = item.ContratoId });
+            try {
+                var contratoCliente = ListarJoinPorId(contrato.Id);
+                foreach (var item in contratoCliente.ClientesContratos) {
+                    if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
+                        bool clienteValidation = list.Any(x => x.Id == item.PessoaJuridicaId) ? true : false;
+                        if (clienteValidation != true) {
+                            RemoveFinanceiro(item);
+                            _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaJuridicaId = item.PessoaJuridicaId, Id = item.Id, ContratoId = item.ContratoId });
+                        }
+                        else {
+                            UpdateFinanceiro(contrato, item, contratoCliente);
+                        }
+                    }
+                }
+                if (list.Count > 0) {
+                    foreach (var item in list) {
+                        bool clienteValidation = (contratoCliente.ClientesContratos.Any(x => x.PessoaJuridicaId == item.Id)) ? true : false;
+                        if (clienteValidation != true) {
+                            ClientesContrato clientesContrato = new ClientesContrato { PessoaJuridicaId = item.Id, ContratoId = contrato.Id };
+                            _bancoContext.ClientesContrato.Add(clientesContrato);
+                            for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
+                                Financeiro financeiro = new Financeiro {
+                                    ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                                    DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
+                                };
+                                if (parcelas == 1) {
+                                    financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
+                                }
+                                _bancoContext.Financeiro.Add(financeiro);
+                            }
+                        }
+                    }
                 }
             }
-            if (list.Count > 0) {
-                foreach (var item in list) {
-                    _bancoContext.ClientesContrato.Add(new ClientesContrato { PessoaJuridicaId = item.Id, ContratoId = contrato.Id });
-                }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
             }
         }
 
@@ -307,6 +395,30 @@ namespace BusesControl.Repositorio {
             }
             return false;
         }
-
+        //Método chamado no momento do update de financeiro, no qual ele exclui todo financeiro de clientes que serão removidos do contrato. 
+        public void RemoveFinanceiro(ClientesContrato clientesContrato) {
+            List<Financeiro> financeiros = _bancoContext.Financeiro.Where(x => x.ClientesContrato == clientesContrato).ToList();
+            foreach (var item in financeiros) {
+                _bancoContext.Remove(item);
+            }
+        }
+        //Atualiza a quantidade de parcelas de clientes que não foram excluídos, mas tiveram a quantidade de parcelas editadas.
+        public void UpdateFinanceiro(Contrato contrato, ClientesContrato clientesContrato, Contrato contratoDB) {
+            if (contrato.QtParcelas > contratoDB.QtParcelas) {
+                for (int parcelas = contratoDB.QtParcelas.Value + 1; parcelas <= contrato.QtParcelas.Value; parcelas++) {
+                    Financeiro financeiro = new Financeiro {
+                        ClientesContratoId = clientesContrato.Id, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                        DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
+                    };
+                    _bancoContext.Financeiro.Add(financeiro);
+                }
+            }
+            else if (contrato.QtParcelas != contratoDB.QtParcelas) {
+                for (int? parcelas = contrato.QtParcelas + 1; parcelas <= contratoDB.QtParcelas; parcelas++) {
+                    Financeiro financeiro = _bancoContext.Financeiro.FirstOrDefault(x => x.ClientesContratoId == clientesContrato.Id && x.NomeParcela == parcelas.ToString());
+                    _bancoContext.Remove(financeiro);
+                }
+            }
+        }
     }
 }

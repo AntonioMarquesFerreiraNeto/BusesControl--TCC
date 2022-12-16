@@ -15,6 +15,7 @@ namespace BusesControl.Data {
         public DbSet<Onibus> Onibus { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
         public DbSet<ClientesContrato> ClientesContrato { get; set; }
+        public DbSet<Financeiro> Financeiro { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             //Evitar duplicatas dos atributos de cliente físico e jurídico. 
@@ -47,7 +48,12 @@ namespace BusesControl.Data {
                .HasIndex(p => p.NomeFantasia)
                .IsUnique(true);
 
+
+            //Configurações de movimentações(relacionamento entre tabelas) do sistema.
             modelBuilder.ApplyConfiguration(new MapContrato());
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new MapFinanceiroContrato());
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ClientesContrato>()

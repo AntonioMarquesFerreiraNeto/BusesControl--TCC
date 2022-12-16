@@ -34,5 +34,10 @@ namespace BusesControl.Controllers {
             }
             return View(contrato);
         }
+
+        public ActionResult Contabilizar(int id) {
+            ViewData["Title"] = $"Contabilizar pagamento";
+            return View();
+        }
     }
 }

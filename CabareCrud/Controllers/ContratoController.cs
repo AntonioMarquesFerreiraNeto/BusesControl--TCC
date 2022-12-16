@@ -319,7 +319,7 @@ namespace BusesControl.Controllers {
             float dias = (float)dateVencimento.Subtract(dataEmissao).TotalDays;
             float ano = dias / 365;
             if (contrato.Pagament == ModelPagament.Parcelado) {
-                bool resultado = (contrato.QtParcelas > ano * 12 || contrato.QtParcelas < 1 || string.IsNullOrEmpty(contrato.QtParcelas.ToString())) ? true : false;
+                bool resultado = (contrato.QtParcelas > ano * 12 || contrato.QtParcelas < 2 || string.IsNullOrEmpty(contrato.QtParcelas.ToString())) ? true : false;
                 return resultado;
             }
             else {
