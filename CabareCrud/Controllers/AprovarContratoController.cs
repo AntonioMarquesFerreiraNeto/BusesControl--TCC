@@ -184,15 +184,15 @@ namespace BusesControl.Controllers {
                 $"poderá ser utilizado outro veículo, desde que conste habilitado no Sistema de Habilitação de Transportes de Passageiros – SisHAB, da ANTT. \n\n";
 
             string titulo_terceira_clausula = $"\n3 — CLÁUSULA TERCEIRA";
-            string TerceiraClausula = $"{titulo_terceira_clausula} \nO contratante deve estar ciente que deverá cumprir com as datas de pagamento determinadas do contrato. Desta forma, estando ciente de valores de juros adicionais em caso de inadimplência. Nos quais são dois porcentos ao mês por parcela atrasada.\n\n\n";
+            string TerceiraClausula = $"{titulo_terceira_clausula} \nO contratante deve estar ciente que deverá cumprir com as datas de pagamento determinadas do contrato. Desta forma, estando ciente de valores de juros adicionais em caso de inadimplência. Nos quais são três porcentos ao mês por parcela atrasada.\n\n\n";
 
             string titulo_quarta_clausula = $"4 — CLÁUSULA QUARTA";
             string QuartaClausula;
             if (contrato.Pagament == Models.Enums.ModelPagament.Avista) {
-                QuartaClausula = $"{titulo_quarta_clausula} \nPelos serviços prestados a Contratante pagará a Contratada o valor de {contrato.ReturnValorTotCliente()}, na data atual. Em parcela única, pois, o contrato foi deferido como à vista.\n\n";
+                QuartaClausula = $"{titulo_quarta_clausula} \nPelos serviços prestados a Contratante pagará a Contratada o valor de {contrato.ReturnValorTotCliente()}, na data atual com três dias úteis. Em parcela única, pois, o contrato foi deferido como à vista.\n\n";
             }
             else {
-                QuartaClausula = $"{titulo_quarta_clausula} \nPelos serviços prestados a Contratante pagará a Contratada o valor de {contrato.ReturnValorTotCliente()}, e os respectivos pagamentos serão realizados dia {contrato.ReturnDiaPagamento()} de cada mês. Dividos em {contrato.QtParcelas} parcelas no valor {contrato.ValorParcelaContratoPorCliente.Value.ToString("C2")}.\n\n";
+                QuartaClausula = $"{titulo_quarta_clausula} \nPelos serviços prestados a Contratante pagará a Contratada o valor de {contrato.ReturnValorTotCliente()}, e os respectivos pagamentos serão realizados dia {contrato.ReturnDiaPagamento()}(três dias úteis para o pagamento da primeira parcela) de cada mês. Dividos em {contrato.QtParcelas} parcelas no valor {contrato.ValorParcelaContratoPorCliente.Value.ToString("C2")}.\n\n";
             }
             string titulo_quinta_clausula = $"\n5 — CLÁUSULA QUINTA";
             string QuintaClausula = $"{titulo_quinta_clausula}\nEm caso de rescisão de contrato anterior a data acordada sem o devido pagamento da(s) parcela(s), o cliente deve estar ciente que haverá multa de 3% do valor do contrato pela rescisão do contrato.\n\n\n";

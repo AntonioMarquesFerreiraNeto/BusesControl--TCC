@@ -26,6 +26,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .FirstOrDefault(x => x.Id == id);
         }
         public Contrato ListarJoinPorIdAprovado(int? id) {
@@ -34,6 +35,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .FirstOrDefault(x => x.Id == id && x.Aprovacao == StatusAprovacao.Aprovado);
         }
         public List<Contrato> ListContratoAtivo() {
@@ -42,6 +44,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .ToList();
         }
         public List<Contrato> ListContratoInativo() {
@@ -50,6 +53,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .ToList();
         }
         public List<Contrato> ListContratoEmAnalise() {
@@ -58,6 +62,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .ToList();
         }
         public List<Contrato> ListContratoNegados() {
@@ -66,6 +71,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .ToList();
         }
         public List<Contrato> ListContratoAprovados() {
@@ -74,12 +80,14 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .ToList();
         }
         public List<Contrato> ListContratoAdimplentes() {
             return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Adimplente.Adimplente)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
                 .ToList();
@@ -88,6 +96,7 @@ namespace BusesControl.Repositorio {
             return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Adimplente.Inadimplente)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .AsNoTracking().Include("Motorista")
                 .AsNoTracking().Include("Onibus")
                 .ToList();

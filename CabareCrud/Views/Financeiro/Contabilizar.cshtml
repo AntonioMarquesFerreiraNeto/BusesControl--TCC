@@ -1,1 +1,113 @@
-﻿
+﻿@using BusesControl.Models.Enums
+@model ClientesContrato
+<link rel="stylesheet" href="~/css/financeiro.css">
+<link rel="stylesheet" href="~/css/home.css">
+@if (TempData["MensagemDeSucesso"] != null) {
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemDeSucesso"]
+        <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <h3 id="bac">
+        <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+        <hr style="margin-top: 3px;">
+    </h3>
+    <div class="cliente">
+        <div class="flex-item" style="margin-bottom: 0px;">
+            <div></div>
+            <div><a class="btn-voltar" asp-route-id="@Model.ContratoId" asp-action="FinanceiroContrato">Voltar</a></div>
+        </div>
+        <table id="table-contrato" class="table shadow p-3 mb-5 bg-white rounded">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nome da parcela</th>
+                    <th scope="col">Valor da parcela</th>
+                    <th scope="col">Date de vencimento da parcela</th>
+                    <th scope="col">Status da parcela</th>
+                    <th scope="col">Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (@Model.ParcelasContrato != null && @Model.ParcelasContrato.Any()) {
+                    @foreach (var item in Model.ParcelasContrato) {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.ReturnNomeParcela()</td>
+                            <td>R$ @Html.DisplayFor(x => x.Contrato.ValorParcelaContratoPorCliente)</td>
+                            <td>@Html.DisplayFor(x => @item.DataVencimentoParcela)</td>
+                            <td>@item.ReturnStatusPagamento()</td>
+                            @if (item.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
+                                <form style="margin: 0; padding: 0;" asp-action="Contabilizar" method="post">
+                                <td><button type="submit" class="financeiro-contabilizar" asp-route-id="@item.Id" asp-route-clientescontratoId="@Model.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizar</button></td>
+                                </form>
+                            }
+                            else {
+                               <td><a class="financeiro-contabilizado" style="color: white;"><i class="fa fa-check" style="font-size: 8pt;"></i> Contabilizado</a></td> 
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+<div id="listClientesIndex" class="modal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content modal-largura">
+            <div class="modal-header">
+                <h4 class="modal-title font">Clientes requerentes</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body body-modal-alt">
+                <div id="list-clients" class="col-md-12 input-group form-group form-it">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/site.js"></script>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#table-contrato').DataTable({
+                "ordering": true,
+                "paging": true,
+                "searching": false,
+                "oLanguage": {
+                    "sEmptyTable": "Não existe registros no sistema.",
+                    "sInfo": "",
+                    "sInfoEmpty": "",
+                    "sInfoFiltered": "",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Sua pesquisa não encontrou nenhum registro correspondente.",
+                    "sSearch": "Pesquisar:  ",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+        });
+    </script>
+}
+    <script src="~/js/jquery.min.js"></script>

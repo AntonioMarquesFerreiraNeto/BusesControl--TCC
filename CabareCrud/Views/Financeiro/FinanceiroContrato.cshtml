@@ -22,7 +22,7 @@
     <div class="cliente">
         <div class="flex-item" style="margin-bottom: 0px;">
             <div></div>
-            <div><a class="btn-voltar" asp-action="Index"><i class="fa fa-arrow-alt-circle-left"></i> Voltar</a></div>
+            <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
         </div>
         <table id="table-contrato" class="table shadow p-3 mb-5 bg-white rounded">
             <thead>
@@ -46,7 +46,7 @@
                                     <td>Cliente adimplente</td>
                                     <td>@item.Contrato.ReturnValorTotCliente()</td>
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
-                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="InspecionarContrato"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
+                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
                                 }
                                 @if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                                     <td>@item.PessoaJuridicaId</td>
@@ -54,7 +54,7 @@
                                     <td>Cliente adimplente</td>
                                     <td>@item.Contrato.ReturnValorTotCliente()</td>
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
-                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="InspecionarContrato"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
+                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
                                 }
                             </tr>
                         }
