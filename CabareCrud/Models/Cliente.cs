@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BusesControl.Models.Enums;
 using BusesControl.Models.ModelValidarCPF;
 using BusesControl.Models.ValidacoesCliente.ModelValidarDate;
 using BusesControl.Models.ValidacoesDados.ModelValidarEmail;
@@ -54,11 +55,18 @@ namespace BusesControl.Models {
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string Ddd { get; set; }
 
+        public Adimplente Adimplente { get; set; }
+
         public virtual List<ClientesContrato> ClientesContratos { get; set; }
 
         public string ReturnTelefoneCliente() {
             string tel = Telefone;
             return $"{long.Parse(tel).ToString(@"00000-0000")}";
+        }
+
+        public string ReturnAdimplenciaCliente() {
+            string situacao = (Adimplente == Adimplente.Adimplente) ? "Cliente adimplente" : "Cliente inadimplente";
+            return situacao;
         }
     }
 }

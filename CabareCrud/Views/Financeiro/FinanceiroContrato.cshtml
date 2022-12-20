@@ -43,7 +43,12 @@
                                 @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                                     <td>@item.PessoaFisicaId</td>
                                     <td>@item.PessoaFisica.Name</td>
-                                    <td>Cliente adimplente</td>
+                                     @if (@item.PessoaFisica.Adimplente == Adimplente.Adimplente) {
+                                        <td>@item.PessoaFisica.ReturnAdimplenciaCliente()</td>
+                                    }
+                                    else {
+                                        <td style="color: red">@item.PessoaFisica.ReturnAdimplenciaCliente()</td>
+                                    }
                                     <td>@item.Contrato.ReturnValorTotCliente()</td>
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
                                     <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
@@ -51,7 +56,12 @@
                                 @if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                                     <td>@item.PessoaJuridicaId</td>
                                     <td>@item.PessoaJuridica.RazaoSocial</td>
-                                    <td>Cliente adimplente</td>
+                                    @if (@item.PessoaJuridica.Adimplente == Adimplente.Adimplente) {
+                                        <td>@item.PessoaJuridica.ReturnAdimplenciaCliente()</td>
+                                    }
+                                    else {
+                                        <td style="color: red">@item.PessoaJuridica.ReturnAdimplenciaCliente()</td>
+                                    }
                                     <td>@item.Contrato.ReturnValorTotCliente()</td>
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
                                     <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>

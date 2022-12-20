@@ -83,24 +83,6 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
                 .ToList();
         }
-        public List<Contrato> ListContratoAdimplentes() {
-            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Adimplente.Adimplente)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
-                .AsNoTracking().Include("Motorista")
-                .AsNoTracking().Include("Onibus")
-                .ToList();
-        }
-        public List<Contrato> ListContratoInadimplentes() {
-            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Adimplente.Inadimplente)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
-                .AsNoTracking().Include("Motorista")
-                .AsNoTracking().Include("Onibus")
-                .ToList();
-        }
 
         public ModelsContrato Adicionar(ModelsContrato modelsContrato) {
             try {

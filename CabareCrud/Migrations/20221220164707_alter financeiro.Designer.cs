@@ -3,14 +3,16 @@ using System;
 using BusesControl.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20221220164707_alter financeiro")]
+    partial class alterfinanceiro
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,7 +193,7 @@ namespace BusesControl.Migrations
                     b.Property<int>("StatusPagamento")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("ValorJuros")
+                    b.Property<decimal?>("ValorParcela")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");

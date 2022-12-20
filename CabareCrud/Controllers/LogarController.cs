@@ -9,13 +9,16 @@ namespace BusesControl.Controllers {
         private readonly IFuncionarioRepositorio _funcionarioRepositorio;
         private readonly ISection _section;
         private readonly IEmail _email;
-        public LogarController(IFuncionarioRepositorio funcionarioRepositorio, ISection section, IEmail email) {
+        private readonly IFinanceiroRepositorio _financeiroRepositorio;
+        public LogarController(IFuncionarioRepositorio funcionarioRepositorio, ISection section, IEmail email, IFinanceiroRepositorio financeiroRepositorio) {
             _funcionarioRepositorio = funcionarioRepositorio;
             _section = section;
             _email = email;
+            _financeiroRepositorio = financeiroRepositorio;
         }
         public ActionResult Index() {
             ViewData["Title"] = "Autenticar";
+            _financeiroRepositorio.TaskMonitorParcelasContrato();
             if (_section.buscarSectionUser() != null) {
                 return RedirectToAction("Index", "Home");
             }

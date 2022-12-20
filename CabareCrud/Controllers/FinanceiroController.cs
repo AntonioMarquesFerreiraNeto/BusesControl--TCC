@@ -20,18 +20,19 @@ namespace BusesControl.Controllers {
 
         public IActionResult Index() {
             ViewData["Title"] = "Financeiro - adimplentes";
-            List<Contrato> ListContratos = _contratoRepositorio.ListContratoAdimplentes();
+            _financeiroRepositorio.TaskMonitorParcelasContrato();
+            List<Contrato> ListContratos = _financeiroRepositorio.ListContratoAdimplentes();
             return View(ListContratos);
         }
         public IActionResult ListInadimplentes() {
             ViewData["Title"] = "Financeiro - inadimplentes";
-            List<Contrato> ListContratos = _contratoRepositorio.ListContratoInadimplentes();
+            List<Contrato> ListContratos = _financeiroRepositorio.ListContratoInadimplentes();
             return View("Index", ListContratos);
         }
 
         public IActionResult FinanceiroContrato(int id) {
             ViewData["Title"] = $"Financeiro - contrato Nº {id}";
-            Contrato contrato = _contratoRepositorio.ListarJoinPorId(id);
+            Contrato contrato = _financeiroRepositorio.ListarJoinPorId(id);
             if (contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
                 return RedirectToAction("Index");
