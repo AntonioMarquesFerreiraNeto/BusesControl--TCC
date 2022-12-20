@@ -43,7 +43,7 @@
                                 @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                                     <td>@item.PessoaFisicaId</td>
                                     <td>@item.PessoaFisica.Name</td>
-                                     @if (@item.PessoaFisica.Adimplente == Adimplente.Adimplente) {
+                                    @if (@item.PessoaFisica.Adimplente == Adimplente.Adimplente) {
                                         <td>@item.PessoaFisica.ReturnAdimplenciaCliente()</td>
                                     }
                                     else {
@@ -73,7 +73,13 @@
             </tbody>
             <tfoot class="footer-table">
                 <tr>
-                    <td colspan="6" id="table_valor"><b>Valor monetário total do contrato:</b> R$ @Html.DisplayFor(x => x.ValorMonetario)</td>
+                    <td colspan="3" id="table_valor"><b>Valor monetário total do contrato:</b> R$ @Html.DisplayFor(x => x.ValorMonetario)</td>
+                    @if (!string.IsNullOrEmpty(@Model.ValorTotalPagoContrato.ToString())) {
+                        <td colspan="3" id="table_valor"><b>Valor monetário total do contrato:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoContrato)</td>
+                    }
+                    else {
+                        <td colspan="3" id="table_valor"><b>Valor total pago do contrato:</b> Ainda não realizado.</td>
+                    }
                 </tr>
             </tfoot>
         </table>

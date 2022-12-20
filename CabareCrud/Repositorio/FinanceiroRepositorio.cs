@@ -54,7 +54,7 @@ namespace BusesControl.Repositorio {
         }
 
         public Financeiro ListarFinanceiroPorId(int id) {
-            return _bancoContext.Financeiro.FirstOrDefault(x => x.Id == id);
+            return _bancoContext.Financeiro.Include(x => x.ClientesContrato).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
         }
 
         public Financeiro ContabilizarFinanceiro(int id) {
@@ -64,12 +64,30 @@ namespace BusesControl.Repositorio {
                 financeiroDB.StatusPagamento = SituacaoPagamento.PagamentoContabilizado;
                 _bancoContext.Financeiro.Update(financeiroDB);
                 ValidarInadimplenciaCliente(financeiroDB);
+                SetValoresPagosContratoAndCliente(financeiroDB);
                 _bancoContext.SaveChanges();
                 return financeiroDB;
             }
             catch (Exception erro) {
                 throw new Exception(erro.Message);
             }
+        }
+        public void SetValoresPagosContratoAndCliente(Financeiro financeiroDB) {
+            ClientesContrato clientesContrato = financeiroDB.ClientesContrato;
+            if (!string.IsNullOrEmpty(clientesContrato.ValorTotalPagoCliente.ToString())) {
+                clientesContrato.ValorTotalPagoCliente += clientesContrato.Contrato.ValorParcelaContratoPorCliente;
+            }
+            else {
+                clientesContrato.ValorTotalPagoCliente = clientesContrato.Contrato.ValorParcelaContratoPorCliente;
+            }
+            if (!string.IsNullOrEmpty(clientesContrato.Contrato.ValorTotalPagoContrato.ToString())) {
+                clientesContrato.Contrato.ValorTotalPagoContrato += clientesContrato.Contrato.ValorParcelaContratoPorCliente;
+            }
+            else {
+                clientesContrato.Contrato.ValorTotalPagoContrato = clientesContrato.Contrato.ValorParcelaContratoPorCliente;
+            }
+            _bancoContext.ClientesContrato.Update(clientesContrato);
+            _bancoContext.Contrato.Update(clientesContrato.Contrato);
         }
         public void ValidarInadimplenciaCliente(Financeiro value) {
             var pessoaJuridica = _bancoContext.PessoaJuridica.Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato).FirstOrDefault(pessoa =>

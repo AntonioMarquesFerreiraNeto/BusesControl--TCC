@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
     public class ClientesContrato {
@@ -9,6 +10,8 @@ namespace BusesControl.Models {
         public virtual PessoaFisica PessoaFisica { get; set; }
         public virtual PessoaJuridica PessoaJuridica { get; set; }
         public virtual List<Financeiro> ParcelasContrato { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValorTotalPagoCliente { get; set; }
         public virtual Contrato Contrato { get; set; }
 
         public ClientesContrato() { }

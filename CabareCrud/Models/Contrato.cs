@@ -29,6 +29,9 @@ namespace BusesControl.Models {
         public decimal? ValorParcelaContrato { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValorTotalPagoContrato { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorParcelaContratoPorCliente { get; set; }
 
 

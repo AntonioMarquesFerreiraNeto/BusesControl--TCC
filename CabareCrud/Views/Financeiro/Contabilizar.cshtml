@@ -30,6 +30,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Nome da parcela</th>
                     <th scope="col">Valor da parcela</th>
+                    <th scope="col">Valor da taxa de juros</th>
                     <th scope="col">Date de vencimento da parcela</th>
                     <th scope="col">Status da parcela</th>
                     <th scope="col">Opções</th>
@@ -42,6 +43,12 @@
                             <td>@item.Id</td>
                             <td>@item.ReturnNomeParcela()</td>
                             <td>R$ @Html.DisplayFor(x => x.Contrato.ValorParcelaContratoPorCliente)</td>
+                            @if (!string.IsNullOrEmpty(@item.ValorJuros.ToString())) {
+                                <td>R$ @Html.DisplayFor(x => @item.ValorJuros)</td>
+                            }
+                            else {
+                                <td>Não possui taxa de juros</td>
+                            }
                             <td>@Html.DisplayFor(x => @item.DataVencimentoParcela)</td>
                             <td>@item.ReturnStatusPagamento()</td>
                             @if (item.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
@@ -56,6 +63,17 @@
                     }
                 }
             </tbody>
+            <tfoot class="footer-table">
+                <tr>
+                    <td colspan="4" id="table_valor"><b>Valor monetário total do cliente:</b> @Model.Contrato.ReturnValorTotCliente()</td>
+                    @if (!string.IsNullOrEmpty(@Model.ValorTotalPagoCliente.ToString())) {
+                        <td colspan="3" id="table_valor"><b>Valor total pago pelo cliente:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
+                    }
+                    else {
+                        <td colspan="3" id="table_valor"><b>Valor total pago pelo cliente:</b> Ainda não realizado.</td>
+                    }
+                </tr>
+            </tfoot>
         </table>
     </div>
 </section>
@@ -76,6 +94,7 @@
     </div>
 </div>
 <script src="~/js/site.js"></script>
+<script src="~/js/jquery.min.js"></script>
 @section Scripts{
     <script>
         $(document).ready(function() {
@@ -110,4 +129,3 @@
         });
     </script>
 }
-    <script src="~/js/jquery.min.js"></script>
