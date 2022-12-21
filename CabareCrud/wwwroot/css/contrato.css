@@ -227,14 +227,14 @@ label {
     right: 77px;
     position: absolute;
     cursor: pointer;
-    background-color: rgb(98, 199, 226);
+    background-color: #0091ff;
     width: 60px;
     height: 27px;
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(0, 138, 255);
+    border: 1px solid #0082ff;
     border-radius: 3px;
     transition: 1s;
     -moz-animation: consult-flow-info .75s linear infinite;
@@ -243,7 +243,8 @@ label {
 }
 
     .consult-flow-info:hover {
-        background-color: rgb(0, 34, 142);
+        border: 1px solid darkblue;
+        background-color: darkblue;
         -moz-animation: consult-flow-info .0s linear infinite;
         -o-animation: consult-flow-info .0s linear infinite;
         animation: consult-flow-info .0s linear infinite;
@@ -255,7 +256,7 @@ label {
     }
 
     50% {
-        opacity: 0.5;
+        opacity: 0.7;
     }
 
     100% {
@@ -269,8 +270,8 @@ label {
     color: white;
     font-weight: bold;
     cursor: pointer;
-    background-color: rgb(10, 132, 156);
-    width: 32px;
+    background-color: #0091ff;
+    width: 31px;
     height: 26px;
     display: flex;
     align-content: center;

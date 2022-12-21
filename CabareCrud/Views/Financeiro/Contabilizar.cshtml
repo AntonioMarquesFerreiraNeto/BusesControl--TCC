@@ -20,20 +20,20 @@
         <hr style="margin-top: 3px;">
     </h3>
     <div class="cliente">
-        <div class="flex-item" style="margin-bottom: 0px;">
+        <div class="flex-item" style="margin-bottom: -2px;">
             <div></div>
             <div><a class="btn-voltar" asp-route-id="@Model.ContratoId" asp-action="FinanceiroContrato">Voltar</a></div>
         </div>
-        <table id="table-contrato" class="table shadow p-3 mb-5 bg-white rounded">
+        <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Nome da parcela</th>
-                    <th scope="col">Valor da parcela</th>
+                    <th scope="col">Nome das parcelas</th>
+                    <th scope="col">Valor das parcelas</th>
                     <th scope="col">Valor da taxa de juros</th>
-                    <th scope="col">Date de vencimento da parcela</th>
+                    <th scope="col">Date de vencimento</th>
                     <th scope="col">Status da parcela</th>
-                    <th scope="col">Opções</th>
+                    <th scope="col">Opções  </th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                                 <td>R$ @Html.DisplayFor(x => @item.ValorJuros)</td>
                             }
                             else {
-                                <td>Não possui taxa de juros</td>
+                                <td>Insento taxa de juros</td>
                             }
                             <td>@Html.DisplayFor(x => @item.DataVencimentoParcela)</td>
                             <td>@item.ReturnStatusPagamento()</td>
@@ -65,12 +65,18 @@
             </tbody>
             <tfoot class="footer-table">
                 <tr>
-                    <td colspan="4" id="table_valor"><b>Valor monetário total do cliente:</b> @Model.Contrato.ReturnValorTotCliente()</td>
+                    <td colspan="3" id="table_valor"><b>Valor monetário total(por cliente):</b> @Model.Contrato.ReturnValorTotCliente()</td>
                     @if (!string.IsNullOrEmpty(@Model.ValorTotalPagoCliente.ToString())) {
-                        <td colspan="3" id="table_valor"><b>Valor total pago pelo cliente:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
+                        <td colspan="2" id="table_valor"><b>Valor total pago pelo cliente:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
                     }
                     else {
-                        <td colspan="3" id="table_valor"><b>Valor total pago pelo cliente:</b> Ainda não realizado.</td>
+                        <td colspan="2" id="table_valor"><b>Valor total pago pelo cliente:</b> Ainda não realizado.</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Model.ValorTotTaxaJuros.ToString())) {
+                        <td colspan="2" id="table_valor"><b>Valor total de taxa de juros paga:</b> R$ @Html.DisplayFor(x => x.ValorTotTaxaJuros)</td>
+                    }
+                    else {
+                        <td colspan="2" id="table_valor"><b>Valor total de taxa de juros paga:</b> não tem.</td>
                     }
                 </tr>
             </tfoot>
@@ -100,6 +106,7 @@
         $(document).ready(function() {
             $('#table-contrato').DataTable({
                 "ordering": false,
+                "pageLength": 6,
                 "paging": true,
                 "searching": false,
                 "oLanguage": {

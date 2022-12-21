@@ -2,6 +2,10 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
+th {
+    text-align: center;
+}
+
 .sectionCliente {
     margin: 1px 1px 1px 1px;
 }
@@ -345,8 +349,8 @@ label {
     color: white;
     font-weight: bold;
     cursor: pointer;
-    background-color: rgb(10, 132, 156);
-    width: 32px;
+    background-color: #0091ff;
+    width: 31px;
     height: 26px;
     display: flex;
     align-content: center;
@@ -738,8 +742,8 @@ td {
 }
 
 #table_valor {
-    font-size: 11pt;
-    margin: 10px;
+    font-size: 10pt;
+    margin: 5px;
     text-align: center;
     background-color: #5672a532;
 }

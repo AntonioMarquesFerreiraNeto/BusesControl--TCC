@@ -20,11 +20,11 @@
         <hr style="margin-top: 3px;">
     </h3>
     <div class="cliente">
-        <div class="flex-item" style="margin-bottom: 0px;">
+        <div class="flex-item" style="margin-bottom: -2px;">
             <div></div>
             <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
         </div>
-        <table id="table-contrato" class="table shadow p-3 mb-5 bg-white rounded">
+        <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -108,6 +108,7 @@
             $('#table-contrato').DataTable({
                 "ordering": true,
                 "paging": true,
+                "pageLength": 7,
                 "searching": false,
                 "oLanguage": {
                     "sEmptyTable": "Não existe registros no sistema.",

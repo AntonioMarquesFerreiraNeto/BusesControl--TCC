@@ -46,7 +46,7 @@
                 </a>
             </div>
         </div>
-        <table id="table-funci" class="table shadow p-3 mb-5 bg-white rounded">
+        <table id="table-funci" class="table shadow-sm p-3 mb-5 bg-white rounded">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -62,7 +62,7 @@
                         <tr class="row-hover">
                             <th scope="row">@funcionario.Id</th>
                             <td>@funcionario.Name</td>
-                            <td>@funcionario.Telefone</td>
+                            <td>@funcionario.ReturnTelefoneFuncionario()</td>
                             @if (funcionario.Cargos == CargoFuncionario.Assistente) {
                                 <td>Assistente</td>
                             }

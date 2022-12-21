@@ -31,14 +31,14 @@ body {
     right: 20px;
     position: absolute;
     cursor: pointer;
-    background-color: rgb(98, 199, 226);
-    width: 60px;
-    height: 27px;
+    background-color: #0091ff;
+    width: 73px;
+    height: 30px;
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(0, 138, 255);
+    border: 1px solid #0082ff;
     border-radius: 3px;
     transition: 1s;
     -moz-animation: consult-flow-info .75s linear infinite;
@@ -46,7 +46,8 @@ body {
     animation: consult-flow-info .75s linear infinite;
 }
     .consult-flow-info:hover {
-        background-color: rgb(0, 34, 142);
+        border: 1px solid darkblue;
+        background-color: darkblue;
         -moz-animation: consult-flow-info .0s linear infinite;
         -o-animation: consult-flow-info .0s linear infinite;
         animation: consult-flow-info .0s linear infinite;
@@ -57,7 +58,7 @@ body {
     }
 
     50% {
-        opacity: 0.5;
+        opacity: 0.7;
     }
 
     100% {

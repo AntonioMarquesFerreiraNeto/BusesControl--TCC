@@ -12,7 +12,7 @@
     <h3 id="titlePrincipal">
         <hr class="text-hide">
     </h3>
-    <form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="AprovarContrato" asp-action="AprovarContrato" method="post">
+    <form class="clientes" asp-controller="AprovarContrato" asp-action="AprovarContrato" method="post">
         <input type="hidden" asp-for="Id">
         <div class="row view">
             <label for="" class="titleModal">
@@ -55,7 +55,7 @@
                             <p>(<b>Emissão:</b> @Html.DisplayFor(model => model.DataEmissao))(<b>Vencimento</b>: @Html.DisplayFor(model => model.DataVencimento))</p>
                         </div>
                         <div id="listClientes" class="modal">
-                            <div class="modal-dialog modal-md">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content modal-largura">
                                     <div class="modal-header">
                                         <h4 class="modal-title font">Clientes requerentes</h4>
@@ -71,13 +71,13 @@
                                                         @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                                                             <tr>
                                                                 <td>@Html.DisplayFor(x => item.PessoaFisica.Name)</td>
-                                                                <td>@item.PessoaFisica.ReturnCpfCliente()</td>
+                                                                <td>CPF: @item.PessoaFisica.ReturnCpfCliente()</td>
                                                             </tr>
                                                         }
                                                         else if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                                                             <tr>
                                                                 <td>@Html.DisplayFor(x => item.PessoaJuridica.RazaoSocial)</td>
-                                                                <td>@item.PessoaJuridica.ReturnCnpjCliente()</td>
+                                                                <td>CNPJ: @item.PessoaJuridica.ReturnCnpjCliente()</td>
                                                             </tr>
                                                         }
                                                     }
@@ -124,7 +124,7 @@
         </div>
     </form>
     <section class="container-button">
-        <a class="btn filtrar_btn" style="color: white" asp-action="Index">Voltar</a>
+        <a class="btn filtrar_btn voltar" style="color: white" asp-action="Index">Voltar</a>
         <a class="btn filtrar_btn hab" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Aprovar contrato</a>
     </section>
 </section>

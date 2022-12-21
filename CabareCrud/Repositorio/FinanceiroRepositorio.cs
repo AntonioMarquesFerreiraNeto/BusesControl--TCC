@@ -86,6 +86,14 @@ namespace BusesControl.Repositorio {
             else {
                 clientesContrato.Contrato.ValorTotalPagoContrato = clientesContrato.Contrato.ValorParcelaContratoPorCliente;
             }
+            if (!string.IsNullOrEmpty(financeiroDB.ValorJuros.ToString())) {
+                if (!string.IsNullOrEmpty(clientesContrato.ValorTotTaxaJuros.ToString())) {
+                    clientesContrato.ValorTotTaxaJuros += financeiroDB.ValorJuros;
+                }
+                else {
+                    clientesContrato.ValorTotTaxaJuros = financeiroDB.ValorJuros;
+                }
+            }
             _bancoContext.ClientesContrato.Update(clientesContrato);
             _bancoContext.Contrato.Update(clientesContrato.Contrato);
         }

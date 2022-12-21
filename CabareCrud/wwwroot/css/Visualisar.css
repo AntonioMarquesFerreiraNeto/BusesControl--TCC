@@ -5,11 +5,19 @@
     background-color: ghostwhite;
 }
 
+.clientes {
+    box-shadow: none;
+}
+.body-clientes {
+    text-align: center;
+}
+
 .body-modal-alt-2 {
     max-height: calc(35vh - 70px);
     overflow-y: auto;
     background-color: ghostwhite;
 }
+
 .listClientes {
     padding: 30px;
     width: 100%;
@@ -33,25 +41,29 @@
     }
 
 .consult-clientes {
-    margin-left: 10px;
-    font-size: 13pt;
-    color: white;
-    font-weight: bold;
+    font-size: 12pt;
     cursor: pointer;
-    background-color: rgb(10, 132, 156);
-    width: 52px;
-    height: 26px;
+    margin-left: 10px;
+    background-color: #0091ff;
+    width: 65px;
+    padding: 5px;
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(0, 138, 255);
-    border-radius: 5px;
+    border-radius: 2px;
+    border: 1px solid #0088ef;
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0,54);
     transition: 1s;
-    -moz-animation: consult-clientes .95s linear infinite;
-    -o-animation: consult-clientes .95s linear infinite;
-    animation: consult-clientes .95s linear infinite;
+    -moz-animation: consult-clientes .75s linear infinite;
+    -o-animation: consult-clientes .75s linear infinite;
+    animation: consult-clientes .75s linear infinite;
 }
+
+    .consult-clientes:hover {
+        border: 1px solid darkblue;
+        background-color: blue;
+    }
 
 @keyframes consult-clientes {
     0% {
@@ -59,7 +71,7 @@
     }
 
     50% {
-        opacity: 0.6;
+        opacity: 0.9;
     }
 
     100% {
@@ -74,6 +86,7 @@
 .icon-detalhes {
     color: white;
 }
+
 .clientes {
     margin-top: 2px;
     margin: auto;
@@ -107,6 +120,7 @@ p {
 
 .container-button {
     margin: auto;
+    margin-top: 15px;
     width: 90%;
     display: flex;
     justify-content: center;
@@ -120,6 +134,7 @@ p {
     display: flex;
     justify-content: space-between;
 }
+
 .filtrar_btn {
     font-size: 9pt;
     padding: 9px;
@@ -164,37 +179,51 @@ p {
         background-color: #ff0000fe;
     }
 
-.desa{
+.voltar {
+    border: 1px solid rgb(0, 04, 112);
+}
+
+.desa {
+    border: 1px solid darkred;
     background-color: red;
 }
-.desa:hover{
-    background-color: darkred;
-}
-.hab{
+
+    .desa:hover {
+        background-color: darkred;
+    }
+
+.hab {
+    border: 1px solid forestgreen;
     background-color: #02de00;
 }
-.hab:hover{
-    background-color:forestgreen;
-}
+
+    .hab:hover {
+        background-color: forestgreen;
+    }
+
 .container-button {
     display: flex;
     justify-content: center;
 }
-.long-detalhe{
+
+.long-detalhe {
     max-width: 400px;
     margin-bottom: 20px;
     text-align: justify;
 }
+
 @media(min-width: 0px) {
     .filtra_btn, .filtrar_btn2 {
         width: 100px;
         height: 33px;
         font-size: 8pt;
     }
+
     .container-button {
         flex-direction: column;
     }
-    .filtrar_btn{
+
+    .filtrar_btn {
         width: 100%;
     }
 }
@@ -204,9 +233,11 @@ p {
     .filtra_btn, .filtrar_btn2 {
         width: 110px;
     }
+
     .container-button {
         flex-direction: row;
     }
+
     .filtrar_btn {
         width: 155px;
     }

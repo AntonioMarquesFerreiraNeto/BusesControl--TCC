@@ -12,7 +12,7 @@
     <h3 id="titlePrincipal">
         <hr class="text-hide">
     </h3>
-    <form class="clientes  shadow p-1 mb-3 bg-white rounded" asp-controller="Cliente" asp-action="Habilitar" method="post">
+    <form class="clientes" asp-controller="Cliente" asp-action="Habilitar" method="post">
         <input type="hidden" asp-for="Id">
         <div class="row view">
             <div class="col-md-12">
@@ -97,7 +97,7 @@
         </div>
     </form>
     <div class="container-button">
-        <a class="btn filtrar_btn" style="color: white" asp-action="Desabilitados">Voltar</a>
+        <a class="btn filtrar_btn voltar" style="color: white" asp-action="Desabilitados">Voltar</a>
         <a class="btn filtrar_btn hab" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Habilitar</a>
     </div>
 </section>

@@ -12,6 +12,8 @@ namespace BusesControl.Models {
         public virtual List<Financeiro> ParcelasContrato { get; set; }
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorTotalPagoCliente { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValorTotTaxaJuros { get; set; }
         public virtual Contrato Contrato { get; set; }
 
         public ClientesContrato() { }
