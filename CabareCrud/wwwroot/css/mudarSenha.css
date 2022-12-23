@@ -39,7 +39,8 @@ body {
     justify-content: center;
     align-items: center;
     border: 1px solid #0082ff;
-    border-radius: 3px;
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0,88);
+    border-radius: 5px;
     transition: 1s;
     -moz-animation: consult-flow-info .75s linear infinite;
     -o-animation: consult-flow-info .75s linear infinite;

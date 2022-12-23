@@ -94,9 +94,11 @@ input#form-control {
     border: 1px solid #81818192;
     transition: 1s;
 }
+
     .consult-flow:hover {
         background-color: rgb(58, 229, 0);
     }
+
 .consult-flow-info {
     font-size: 13pt;
     z-index: 2;
@@ -106,14 +108,14 @@ input#form-control {
     right: 77px;
     position: absolute;
     cursor: pointer;
-    background-color: rgb(98, 199, 226);
+    background-color: #0091ff;
     width: 60px;
     height: 27px;
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(0, 138, 255);
+    border: 1px solid #0082ff;
     border-radius: 3px;
     transition: 1s;
     -moz-animation: consult-flow-info .75s linear infinite;
@@ -127,18 +129,21 @@ input#form-control {
         -o-animation: consult-flow-info .0s linear infinite;
         animation: consult-flow-info .0s linear infinite;
     }
+
 @keyframes consult-flow-info {
     0% {
         opacity: 1;
     }
 
     50% {
-        opacity: 0.5;
+        opacity: 0.7;
     }
-    100%{
+
+    100% {
         opacity: 1;
     }
 }
+
 .icon-detalhes {
     color: white;
 }
@@ -175,10 +180,11 @@ input#form-control {
     flex-direction: row;
     padding: 0;
 }
+
 .filtra_btn {
     font-size: 9pt;
     padding: 8px;
-    border: none;
+    border: 1px solid rgb(0, 04, 102);
     margin-bottom: 55px;
     color: white;
     background-color: rgb(0, 34, 142);
@@ -192,7 +198,7 @@ input#form-control {
 
 .filtrar_btn {
     margin-bottom: 2px;
-    border: none;
+    border: 1px solid rgb(0, 04, 82);
     height: 30px;
     color: white;
     background-color: rgb(0, 34, 142);
@@ -204,12 +210,14 @@ input#form-control {
         background-color: rgb(0, 04, 112);
     }
 
-.btn-group .btn-group-toggle{
+.btn-group .btn-group-toggle {
     display: flex;
     flex-wrap: wrap;
 }
+
 .enum {
-   background-color: #02de00;
+    border: 1px solid forestgreen;
+    background-color: #02de00;
 }
 
     .enum:hover {
@@ -218,6 +226,7 @@ input#form-control {
     }
 
 .noCheck {
+    border: 1px solid darkred;
     background-color: red;
 }
 
@@ -227,7 +236,7 @@ input#form-control {
 
 .filtrar_btn2 {
     padding: 8px;
-    border: none;
+    border: 1px solid darkred;
     margin-bottom: 55px;
     background-color: #ff0000fe;
     transition: 0.4s;
@@ -238,6 +247,7 @@ input#form-control {
     }
 
 .api {
+    border: 1px solid #2b65c2;
     background-color: #0099f2db;
 }
 
@@ -298,7 +308,7 @@ input:focus {
 .btn-ende {
     text-align: center;
     padding: 7px;
-    border: none;
+    border: 1px solid #2b65c2;
     transition: 0.4s;
     background-color: #2b65c2;
 }
@@ -358,9 +368,11 @@ td {
     .flex-filtro {
         justify-content: center;
     }
+
     .flex-item {
         justify-content: space-between;
     }
+
     .clientes {
         flex-direction: auto;
     }
@@ -377,16 +389,19 @@ td {
     #formAdd {
         width: 100%;
     }
+
     .filtra_btn, .filtrar_btn2 {
         width: 100px;
         height: 33px;
         font-size: 8pt;
     }
+
     .filtrar_btn {
         font-size: 8pt;
         margin: 1px;
         width: 130px;
     }
+
     .test1 {
         display: flex;
         justify-content: flex-end;
@@ -395,20 +410,23 @@ td {
 }
 
 @media(min-width: 510px) {
-    .btn-group .btn-group-toggle{
+    .btn-group .btn-group-toggle {
         flex-direction: row;
     }
+
     .filtra_btn, .filtrar_btn2 {
         width: 110px;
     }
 }
-@media (min-width: 650px){
+
+@media (min-width: 650px) {
     .test1 {
         display: flex;
         justify-content: flex-start;
         flex-direction: row;
     }
 }
+
 @media(min-width: 768px) {
     .clientes {
         flex-direction: column;
@@ -423,6 +441,7 @@ td {
         width: 114px;
         font-size: 9pt;
     }
+
     .filtrar_btn {
         font-size: 9pt;
         width: 130px;
@@ -433,6 +452,7 @@ td {
     .filtro {
         width: 80%;
     }
+
     .flex-filtro {
         justify-content: flex-end;
     }

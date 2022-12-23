@@ -51,9 +51,9 @@
     align-content: center;
     justify-content: center;
     align-items: center;
-    border-radius: 2px;
+    border-radius: 5px;
     border: 1px solid #0088ef;
-    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0,54);
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0,88);
     transition: 1s;
     -moz-animation: consult-clientes .75s linear infinite;
     -o-animation: consult-clientes .75s linear infinite;

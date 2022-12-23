@@ -277,7 +277,7 @@ label {
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(0, 138, 255);
+    border: 1px solid rgb(7, 106, 182);
     border-radius: 5px;
     -moz-animation: consult-clientes .75s linear infinite;
     -o-animation: consult-clientes .75s linear infinite;
@@ -290,7 +290,7 @@ label {
     }
 
     50% {
-        opacity: 0.8;
+        opacity: 0.7;
     }
 
     100% {
@@ -388,7 +388,7 @@ input#form-control {
 .filtra_btn {
     font-size: 9pt;
     padding: 8px;
-    border: none;
+    border: 1px solid rgb(0, 04, 112);
     margin-bottom: 55px;
     color: white;
     background-color: rgb(0, 34, 142);
@@ -402,7 +402,7 @@ input#form-control {
 
 .filtrar_btn {
     margin-bottom: 2px;
-    border: none;
+    border: 1px solid rgb(0, 04, 112);
     height: 30px;
     color: white;
     background-color: rgb(0, 34, 142);
@@ -421,6 +421,7 @@ input#form-control {
 }
 
 .enum {
+    border: 1px solid forestgreen;
     background-color: #02de00;
 }
 
@@ -430,6 +431,7 @@ input#form-control {
     }
 
 .noCheck {
+    border: 1px solid darkred;
     background-color: red;
 }
 
@@ -439,7 +441,7 @@ input#form-control {
 
 .filtrar_btn2 {
     padding: 8px;
-    border: none;
+    border: 1px solid darkred;
     margin-bottom: 55px;
     background-color: #ff0000fe;
     transition: 0.4s;
@@ -500,6 +502,7 @@ input:focus {
     background-color: #dedede;
 }
 .btn-view-client-pdf {
+    border: none;
     cursor: pointer;
     color: rgb(0, 7, 182);
 }
