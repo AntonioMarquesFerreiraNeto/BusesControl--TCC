@@ -37,6 +37,7 @@
                             else {
                                 <p><b>Status do cliente: </b>Desabilitado,</p>
                             }
+                            <p><b>Situação do cliente: </b>@Model.ReturnAdimplenciaCliente()</p>
                             <p><b>Nome fantasia: </b>@Html.DisplayFor(model => model.NomeFantasia),</p>
                             <p><b>Razão social:</b> @Html.DisplayFor(model => model.RazaoSocial),</p>
                             <p><b>CNPJ:</b> @Model.ReturnCnpjCliente(),</p>

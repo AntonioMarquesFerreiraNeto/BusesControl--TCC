@@ -4,7 +4,9 @@
     overflow-y: auto;
     background-color: ghostwhite;
 }
-
+.align-center{
+    text-align: center;
+}
 .clientes {
     box-shadow: none;
 }
@@ -127,7 +129,7 @@ p {
 }
 
 .modal-footer {
-    width: 100%;
+    width: 99%;
     padding-top: 57px;
     margin: 2px;
     height: 50px;
@@ -141,20 +143,20 @@ p {
     margin-left: 3px;
     margin-bottom: 3px;
     background-color: transparent;
-    border: none;
+    border: 1px solid rgb(0, 04, 112);
     background-color: rgb(0, 34, 142);
     transition: 01s;
 }
 
     .filtrar_btn:hover {
-        background-color: rgb(0, 04, 112);
+        background-color: rgb(0, 3, 83);
     }
 
 
 .filtra_btn {
     font-size: 9pt;
     padding: 8px;
-    border: none;
+    border: 1px solid rgb(0, 04, 112);
     margin: 3px;
     margin-bottom: 55px;
     color: white;
@@ -164,19 +166,20 @@ p {
 
     .filtra_btn:hover {
         color: white;
-        background-color: rgb(0, 04, 112);
+        background-color: rgb(0, 3, 83);
     }
 
 .filtrar_btn2 {
     padding: 8px;
-    border: none;
+    border: 1px solid darkred;
     margin-bottom: 55px;
-    background-color: #ff0000d2;
+    background-color: red;
     transition: 0.4s;
 }
 
     .filtrar_btn2:hover {
-        background-color: #ff0000fe;
+        border: 1px solid darkred;
+        background-color: darkred;
     }
 
 .voltar {

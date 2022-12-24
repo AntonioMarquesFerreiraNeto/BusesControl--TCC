@@ -48,6 +48,7 @@ input[type="radio"] {
     }
 
 input[type="radio"]:checked + label {
+    border: 1px solid green;
     background-color: darkgreen;
     color: white;
     -moz-animation: consult-clientes .75s linear infinite;
@@ -75,10 +76,12 @@ input[type="radio"]:checked + label {
 .a-vista {
     margin: 0;
     cursor: pointer;
+    border-start-start-radius: 5px;
+    border-bottom-left-radius: 5px;
     display: flex;
     justify-content: center;
     height: 24px;
-    width: 100px;
+    width: 110px;
     background-color: #f82121ad;
     align-items: center;
     color: white;
@@ -86,6 +89,8 @@ input[type="radio"]:checked + label {
 .parcelado {
     margin: 0;
     cursor: pointer;
+    border-start-end-radius: 5px;
+    border-bottom-right-radius: 5px;
     display: flex;
     justify-content: center;
     height: 24px;
@@ -234,8 +239,8 @@ label {
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid #0082ff;
-    border-radius: 3px;
+    border: 1px solid #306ed4;
+    border-radius: 5px;
     transition: 1s;
     -moz-animation: consult-flow-info .75s linear infinite;
     -o-animation: consult-flow-info .75s linear infinite;
@@ -243,7 +248,7 @@ label {
 }
 
     .consult-flow-info:hover {
-        border: 1px solid darkblue;
+        border: 1px solid rgb(0, 03, 23);
         background-color: darkblue;
         -moz-animation: consult-flow-info .0s linear infinite;
         -o-animation: consult-flow-info .0s linear infinite;
@@ -256,7 +261,7 @@ label {
     }
 
     50% {
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     100% {
@@ -290,7 +295,7 @@ label {
     }
 
     50% {
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     100% {
@@ -397,7 +402,7 @@ input#form-control {
 
     .filtra_btn:hover {
         color: white;
-        background-color: rgb(0, 04, 112);
+        background-color: rgb(0, 3, 83);
     }
 
 .filtrar_btn {
@@ -411,7 +416,8 @@ input#form-control {
 
     .filtrar_btn:hover {
         color: white;
-        background-color: rgb(0, 04, 112);
+        border: 1px solid rgb(0, 3, 53);
+        background-color: rgb(0, 3, 83);
     }
 
 
@@ -443,12 +449,13 @@ input#form-control {
     padding: 8px;
     border: 1px solid darkred;
     margin-bottom: 55px;
-    background-color: #ff0000fe;
+    background-color: red;
     transition: 0.4s;
 }
 
     .filtrar_btn2:hover {
-        background-color: #b60000;
+        border: 1px solid darkred;
+        background-color: darkred;
     }
 
 .api {

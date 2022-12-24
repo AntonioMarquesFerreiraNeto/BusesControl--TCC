@@ -38,7 +38,7 @@ body {
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 1px solid #0082ff;
+    border: 1px groove #1056c7;
     box-shadow: 1px 1px 2px rgb(0, 0, 0, 0,88);
     border-radius: 5px;
     transition: 1s;
@@ -47,7 +47,7 @@ body {
     animation: consult-flow-info .75s linear infinite;
 }
     .consult-flow-info:hover {
-        border: 1px solid darkblue;
+        border: 1px groove rgb(0, 03, 23);
         background-color: darkblue;
         -moz-animation: consult-flow-info .0s linear infinite;
         -o-animation: consult-flow-info .0s linear infinite;
@@ -59,7 +59,7 @@ body {
     }
 
     50% {
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     100% {

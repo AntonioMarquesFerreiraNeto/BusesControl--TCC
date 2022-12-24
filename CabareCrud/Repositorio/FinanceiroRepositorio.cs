@@ -143,6 +143,7 @@ namespace BusesControl.Repositorio {
             //Verifica se a parcela está atrasada e realiza as devidas medidas. 
             DateTime dateAtual = DateTime.Now.Date;
             foreach (var contrato in contratos) {
+                int cont = 0; // Variável contadora para validação do contrato.
                 foreach (var clientesContrato in contrato.ClientesContratos) {
                     foreach (var financeiro in clientesContrato.ParcelasContrato) {
                         if (dateAtual > financeiro.DataVencimentoParcela && financeiro.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
@@ -160,11 +161,23 @@ namespace BusesControl.Repositorio {
                                 pessoaJuridicaDB.Adimplente = Adimplente.Inadimplente;
                                 _bancoContext.PessoaJuridica.Update(pessoaJuridicaDB);
                             }
-                            _bancoContext.SaveChanges();
+                        }
+                        else {
+                            cont++;
                         }
                     }
                 }
+                Contrato contratoDB = _bancoContext.Contrato.FirstOrDefault(x => x.Id == contrato.Id);
+                if (cont == 0) { //Se todas as parcelas de todos os clientes estiverem atrasadas, o contrato é colocado em inadimplência.
+                    contratoDB.Situacao = Adimplente.Inadimplente;
+                    _bancoContext.Update(contratoDB);
+                }
+                else {
+                    contratoDB.Situacao = Adimplente.Adimplente;
+                    _bancoContext.Update(contratoDB);
+                }
             }
+            _bancoContext.SaveChanges();
         }
         public decimal? setJurosParcela(Financeiro financeiro, Contrato contrato) {
             DateTime dataAtual = DateTime.Now.Date;

@@ -19,19 +19,20 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult Index() {
-            ViewData["Title"] = "Financeiro - adimplentes";
+            ViewData["Title"] = "Financeiro – Contratos adimplentes";
             _financeiroRepositorio.TaskMonitorParcelasContrato();
             List<Contrato> ListContratos = _financeiroRepositorio.ListContratoAdimplentes();
             return View(ListContratos);
         }
         public IActionResult ListInadimplentes() {
-            ViewData["Title"] = "Financeiro - inadimplentes";
+            ViewData["Title"] = "Financeiro – Contratos inadimplentes";
+            _financeiroRepositorio.TaskMonitorParcelasContrato();
             List<Contrato> ListContratos = _financeiroRepositorio.ListContratoInadimplentes();
             return View("Index", ListContratos);
         }
 
         public IActionResult FinanceiroContrato(int id) {
-            ViewData["Title"] = $"Financeiro - contrato Nº {id}";
+            ViewData["Title"] = $"Financeiro – contrato Nº {id}";
             Contrato contrato = _financeiroRepositorio.ListarJoinPorId(id);
             if (contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
@@ -47,7 +48,7 @@ namespace BusesControl.Controllers {
                 return RedirectToAction("Index");
             }
             string name = (clientesContrato.PessoaFisica != null) ? clientesContrato.PessoaFisica.Name : clientesContrato.PessoaJuridica.RazaoSocial;
-            ViewData["Title"] = $"Financeiro contrato Nº {clientesContrato.ContratoId} - {name}";
+            ViewData["Title"] = $"Financeiro contrato Nº {clientesContrato.ContratoId} – {name}";
             clientesContrato.ParcelasContrato = clientesContrato.ParcelasContrato.OrderBy(x => x.DataVencimentoParcela.Value).ToList();
             return View(clientesContrato);
         }
@@ -60,7 +61,7 @@ namespace BusesControl.Controllers {
                 if (clientesContrato != null) {
                     string name = (clientesContrato.PessoaFisica != null) ? clientesContrato.PessoaFisica.Name : clientesContrato.PessoaJuridica.RazaoSocial;
                     TempData["MensagemDeSucesso"] = "Contabilizado com sucesso!";
-                    ViewData["Title"] = $"Financeiro contrato Nº {clientesContrato.ContratoId} - {name}";
+                    ViewData["Title"] = $"Financeiro contrato Nº {clientesContrato.ContratoId} – {name}";
                     clientesContrato.ParcelasContrato = clientesContrato.ParcelasContrato.OrderBy(x => x.DataVencimentoParcela.Value).ToList();
                     return View(clientesContrato);
                 }

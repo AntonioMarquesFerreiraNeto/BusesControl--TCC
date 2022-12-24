@@ -22,7 +22,12 @@
     <div class="cliente">
         <div class="flex-item" style="margin-bottom: -2px;">
             <div></div>
-            <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
+            @if(Model.Situacao == Adimplente.Adimplente){
+                <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
+            }
+            else {
+                <div><a class="btn-voltar" asp-action="ListInadimplentes">Voltar</a></div>
+            }
         </div>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
             <thead>

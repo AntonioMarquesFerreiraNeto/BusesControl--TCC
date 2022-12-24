@@ -1,13 +1,16 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css?family=Numans');
+
 body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
-.body-bus{
+
+.body-bus {
     background-color: #ffffff;
 }
+
 .navbar {
     background-image: url(Imagens/newBackTable.jpg);
 }
@@ -78,15 +81,21 @@ body {
     transition: 01s;
 }
 
+    .btn-outline-primary:hover {
+        border: 1px solid rgb(0, 109, 144);
+    }
+
 #janelaModalConfirm {
     margin-top: 5px;
     background-color: #0000003b;
 }
+
 .modal-title {
     font-size: 14pt;
     color: #010434;
     font-weight: normal;
 }
+
 #titlePrincipal {
     width: 100%;
     margin: 0px;
@@ -158,13 +167,16 @@ body {
     position: absolute;
     z-index: 1;
 }
+
 .alert-info {
     opacity: 0;
     border: 1px solid rgb(154, 197, 209, 0,51);
 }
+
 .alert-danger {
     box-shadow: 1px 1px 2px #7c7c7c36;
 }
+
 .close-alert {
     position: absolute;
     right: -15px;
@@ -267,6 +279,7 @@ input:focus {
     outline: 0 0 0 0 !important;
     box-shadow: 0 0 0 0 !important;
 }
+
 .main-louding {
     display: flex;
     position: fixed;
@@ -332,11 +345,13 @@ input:focus {
         min-width: 360px;
     }
 }
+
 @keyframes animation {
     50% {
         left: 76px;
     }
 }
+
 @media(min-width: 550px) {
     .alert {
         right: 46px;
