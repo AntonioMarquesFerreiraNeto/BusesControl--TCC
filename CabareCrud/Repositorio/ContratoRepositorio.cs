@@ -340,34 +340,6 @@ namespace BusesControl.Repositorio {
             return contrato;
         }
 
-        public decimal? ValorTotAprovados() {
-            List<Contrato> ListContrato = ListContratoAprovados();
-            decimal? valorTotalContrato = 0;
-            foreach (Contrato contrato in ListContrato) {
-                valorTotalContrato += contrato.ValorMonetario;
-            }
-            return valorTotalContrato;
-        }
-
-        public decimal? ValorTotEmAnalise() {
-            List<Contrato> ListContrato = ListContratoEmAnalise();
-            decimal? valorTotalContrato = 0;
-            foreach (Contrato contrato in ListContrato) {
-                valorTotalContrato += contrato.ValorMonetario;
-            }
-            return valorTotalContrato;
-        }
-
-        public decimal? ValorTotContratos() {
-            List<Contrato> ListContrato = ListContratoAprovados();
-            ListContrato.AddRange(ListContratoEmAnalise());
-            decimal? valorTot = 0;
-            foreach (Contrato contrato in ListContrato) {
-                valorTot += contrato.ValorMonetario;
-            }
-            return valorTot;
-        }
-
         public bool ValidarClientDesabilitado(Contrato value) {
             List<PessoaFisica> pessoaFisicas = _bancoContext.PessoaFisica.Where(x => x.Status == StatuCliente.Desabilitado)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).ToList();

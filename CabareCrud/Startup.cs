@@ -36,6 +36,7 @@ namespace BusesControl {
             services.AddScoped<IEmail, Email>();
             services.AddScoped<IContratoRepositorio, ContratoRepositorio>();
             services.AddScoped<IFinanceiroRepositorio, FinanceiroRepositorio>();
+            services.AddScoped<IRelatorioRepositorio, RelatorioRepositorio>();
 
             services.AddSession(o => {
                 o.Cookie.HttpOnly = true;

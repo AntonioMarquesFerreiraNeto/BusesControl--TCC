@@ -1,17 +1,146 @@
-﻿@model Relatorio
+﻿@using BusesControl.Models.ViewModels
+@model ModelsRelatorio
 <link rel="stylesheet" href="~/css/relatorio.css">
 <link rel="stylesheet" href="~/css/home.css">
-<section class="principais">
-    <br> <br> <br> <br>
-    <p>Em fase de desenvolvimento pela TechSolutions LTDA.</p>
-    <br><br>
+<section class="clientes">
+    <h3 id="bac">
+        <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+        <hr style="margin-top: 3px;">
+    </h3>
+    <div class="cliente">
+        <div class="flex-item">
+            <div></div>
+            <div>
+                <a href="#" data-target="#relatorioGenerico" data-toggle="modal" class="btn filtrar_btn enum">Relatório geral</a>
+            </div>
+        </div>
+        <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Clientes</th>
+                    <th scope="col">Vencimento</th>
+                    <th scope="col">Valor total</th>
+                    <th scope="col">Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null || Model.Contratos.Any()) {
+                    @foreach (var item in Model.Contratos) {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td class="align-content-center justify-content-center">
+                                <a class="consult-clientes btn-view-client2" contrato-id="@item.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
+                            </td>
+                            <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
+                            <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
+                            <td>
+                                <a class="link" asp-route-id="@item.Id" asp-action="Inativar"><i class="fa fa-download"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </section>
-<section class="relatorio-section">
-    <br> <br> <br> <br>
-    <p class="p-default">
-        <b>Valor monetário total de todos contratos em análise: </b>R$ @Html.DisplayFor(x => x.ValTotEmAnalise) <br>
-        <b>Valor monetário total de todos contratos aprovados: </b>R$ @Html.DisplayFor(x => x.ValTotAprovados) <br>
-        <b>Valor monetário total de todos contratos válidos: </b>R$ @Html.DisplayFor(x => x.ValTotContratos) <br>
-    </p>
-    <br><br>
-</section>
+<div id="listClientesIndex" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-largura">
+            <div class="modal-header">
+                <h4 class="modal-title">Clientes requerentes</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body body-modal-alt">
+                <div id="list-clients" class="col-md-12 input-group form-group form-it">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="relatorioGenerico" class="modal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content modal-largura-2">
+            <div class="modal-header">
+                <h4 class="modal-title font-title">Relatório geral</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 class="title-geral">Valores monetários de contratos:</h5>
+                <p class="p-relatorio">
+                    Valores dos contratos em análise: R$ @Html.DisplayFor(x => x.Relatorio.ValTotEmAnalise) <br>
+                    Valores dos contratos aprovados: R$ @Html.DisplayFor(x => x.Relatorio.ValTotAprovados) <br>
+                    Valores dos contratos válidos: R$ @Html.DisplayFor(x => x.Relatorio.ValTotContratos) <br>
+                </p>
+                <h5 class="title-geral">Quantidades númericas/percentuais:</h5>
+                <div class="config-flex">
+                    <div class="start">
+                        Todos contratos: @Html.DisplayFor(x => x.Relatorio.QtContratos) (100%) <br>
+                        Contratos em análise: @Html.DisplayFor(x => x.Relatorio.QtContratosEmAnalise)
+                        (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosEmAnalise)) <br>
+                        Contratos adimplentes: @Html.DisplayFor(x => x.Relatorio.QtContratosAdimplente)
+                        (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosAdimplente)) <br> <br>
+                        Clientes adimplentes: @Html.DisplayFor(x => x.Relatorio.QtClientesAdimplente)
+                        (@Model.Relatorio.ReturnPercentualCliente(Model.Relatorio.QtClientesAdimplente))<br>
+                        Motoristas habilitados: @Html.DisplayFor(x => x.Relatorio.QtMotorista) 
+                        (@Model.Relatorio.ReturnPercentualMotorista(Model.Relatorio.QtMotorista))<br>
+                        Ônibus habilitados: @Html.DisplayFor(x => x.Relatorio.QtOnibus)
+                        (@Model.Relatorio.ReturnPercentualOnibus(Model.Relatorio.QtOnibus))
+                    </div>
+                    <div class="end">
+                        Contratos aprovados: @Html.DisplayFor(x => x.Relatorio.QtContratosAprovados)
+                        (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosAprovados)) <br>
+                        Contratos negados: @Html.DisplayFor(x => x.Relatorio.QtContratosNegados)
+                        (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosNegados)) <br>
+                        Contratos inadimplentes: @Html.DisplayFor(x => x.Relatorio.QtContratosInadimplentes)
+                        (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosInadimplentes)) <br> <br>
+                         Clientes inadimplentes: @Html.DisplayFor(x => x.Relatorio.QtClientesInadimplente) (@Model.Relatorio.ReturnPercentualCliente(Model.Relatorio.QtClientesInadimplente))<br>
+                        Motoristas vinculados: @Html.DisplayFor(x => x.Relatorio.QtMotoristaVinculado) (@Model.Relatorio.ReturnPercentualMotorista(Model.Relatorio.QtMotoristaVinculado))<br>
+                        Ônibus vinculados: @Html.DisplayFor(x => x.Relatorio.QtOnibusVinculado) (@Model.Relatorio.ReturnPercentualOnibus(Model.Relatorio.QtOnibusVinculado))
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/site.js"></script>
+<script src="~/js/jquery.min.js"></script>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#table-contrato').DataTable({
+                "ordering": true,
+                "paging": true,
+                "searching": true,
+                "oLanguage": {
+                    "sEmptyTable": "Não existe registros no sistema.",
+                    "sInfo": "",
+                    "sInfoEmpty": "",
+                    "sInfoFiltered": "",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Sua pesquisa não encontrou nenhum registro correspondente.",
+                    "sSearch": "Pesquisar:  ",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+        });
+    </script>
+}

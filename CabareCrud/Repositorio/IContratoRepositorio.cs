@@ -18,8 +18,5 @@ namespace BusesControl.Repositorio {
         public Contrato AtivarContrato(Contrato contrato);
         public Contrato AprovarContrato(Contrato contrato);
         public Contrato RevogarContrato(Contrato contrato);
-        public decimal? ValorTotAprovados();
-        public decimal? ValorTotEmAnalise();
-        public decimal? ValorTotContratos();
     }
 }

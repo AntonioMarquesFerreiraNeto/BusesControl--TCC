@@ -45,6 +45,16 @@ $(document).ready(function () {
             });
         }
     });
+    $('.btn-view-client2').click(function () {
+        var contratoId = $(this).attr('contrato-id');
+        $.ajax({
+            type: 'GET',
+            url: "/Relatorio/ClientesContrato/" + contratoId,
+            success: function (result) {
+                $("#list-clients").html(result);
+            }
+        });
+    });
     $('.clear-list').click(function () {
         $.ajax({
             type: 'GET',
