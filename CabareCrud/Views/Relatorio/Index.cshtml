@@ -2,6 +2,18 @@
 @model ModelsRelatorio
 <link rel="stylesheet" href="~/css/relatorio.css">
 <link rel="stylesheet" href="~/css/home.css">
+@if (TempData["MensagemDeSucesso"] != null) {
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemDeSucesso"]
+        <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
 <section class="clientes">
     <h3 id="bac">
         <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
@@ -35,7 +47,7 @@
                             <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
                             <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
                             <td>
-                                <a class="link" asp-route-id="@item.Id" asp-action="Inativar"><i class="fa fa-download"></i></a>
+                                <a class="link" asp-route-id="@item.Id" asp-action="PdfContrato"><i class="fa fa-download"></i></a>
                             </td>
                         </tr>
                     }
@@ -69,13 +81,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body body-modal-alt-2">
                 <h5 class="title-geral">Valores monetários de contratos:</h5>
-                <p class="p-relatorio">
-                    Valores dos contratos em análise: R$ @Html.DisplayFor(x => x.Relatorio.ValTotEmAnalise) <br>
-                    Valores dos contratos aprovados: R$ @Html.DisplayFor(x => x.Relatorio.ValTotAprovados) <br>
-                    Valores dos contratos válidos: R$ @Html.DisplayFor(x => x.Relatorio.ValTotContratos) <br>
-                </p>
+                <div class="config-flex">
+                    <div class="start">
+                        Valores pagos: R$ @Html.DisplayFor(x => x.Relatorio.ValTotPago)
+                        (@Model.Relatorio.ReturnPercentualValorContrato(Model.Relatorio.ValTotPago)) <br>
+                        Valores pendentes: R$ @Html.DisplayFor(x => x.Relatorio.ValTotPendente)
+                        (@Model.Relatorio.ReturnPercentualValorContrato(Model.Relatorio.ValTotPendente))<br>
+                        Estimativa em análise: R$ @Html.DisplayFor(x => x.Relatorio.ValTotEmAnalise) <br>
+                        Estimativa em aprovados: R$ @Html.DisplayFor(x => x.Relatorio.ValTotAprovados) <br>
+                        Estimativa em contratos válidos: R$ @Html.DisplayFor(x => x.Relatorio.ValTotContratos) <br>
+                    </div>
+                </div>
+                <br>
                 <h5 class="title-geral">Quantidades númericas/percentuais:</h5>
                 <div class="config-flex">
                     <div class="start">
@@ -86,10 +105,12 @@
                         (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosAdimplente)) <br> <br>
                         Clientes adimplentes: @Html.DisplayFor(x => x.Relatorio.QtClientesAdimplente)
                         (@Model.Relatorio.ReturnPercentualCliente(Model.Relatorio.QtClientesAdimplente))<br>
-                        Motoristas habilitados: @Html.DisplayFor(x => x.Relatorio.QtMotorista) 
+                        Todos motoristas: @Html.DisplayFor(x => x.Relatorio.QtMotorista)
                         (@Model.Relatorio.ReturnPercentualMotorista(Model.Relatorio.QtMotorista))<br>
-                        Ônibus habilitados: @Html.DisplayFor(x => x.Relatorio.QtOnibus)
-                        (@Model.Relatorio.ReturnPercentualOnibus(Model.Relatorio.QtOnibus))
+                        Todos ônibus: @Html.DisplayFor(x => x.Relatorio.QtOnibus)
+                        (@Model.Relatorio.ReturnPercentualOnibus(Model.Relatorio.QtOnibus)) <br>
+                        Todos clientes: @Html.DisplayFor(x => x.Relatorio.QtClientes)
+                        (@Model.Relatorio.ReturnPercentualCliente(Model.Relatorio.QtClientes))
                     </div>
                     <div class="end">
                         Contratos aprovados: @Html.DisplayFor(x => x.Relatorio.QtContratosAprovados)
@@ -98,12 +119,11 @@
                         (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosNegados)) <br>
                         Contratos inadimplentes: @Html.DisplayFor(x => x.Relatorio.QtContratosInadimplentes)
                         (@Model.Relatorio.ReturnPercentualContrato(Model.Relatorio.QtContratosInadimplentes)) <br> <br>
-                         Clientes inadimplentes: @Html.DisplayFor(x => x.Relatorio.QtClientesInadimplente) (@Model.Relatorio.ReturnPercentualCliente(Model.Relatorio.QtClientesInadimplente))<br>
+                        Clientes inadimplentes: @Html.DisplayFor(x => x.Relatorio.QtClientesInadimplente) (@Model.Relatorio.ReturnPercentualCliente(Model.Relatorio.QtClientesInadimplente))<br>
                         Motoristas vinculados: @Html.DisplayFor(x => x.Relatorio.QtMotoristaVinculado) (@Model.Relatorio.ReturnPercentualMotorista(Model.Relatorio.QtMotoristaVinculado))<br>
                         Ônibus vinculados: @Html.DisplayFor(x => x.Relatorio.QtOnibusVinculado) (@Model.Relatorio.ReturnPercentualOnibus(Model.Relatorio.QtOnibusVinculado))
                     </div>
                 </div>
-                <br>
             </div>
         </div>
     </div>

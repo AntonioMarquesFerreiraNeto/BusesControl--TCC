@@ -110,7 +110,7 @@ namespace BusesControl.Controllers {
                 doc.Open();
                 var fonteBase = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
                 var fonteParagrafo = new iTextSharp.text.Font(fonteBase, 16,
-                    iTextSharp.text.Font.BOLD, BaseColor.DARK_GRAY);
+                    iTextSharp.text.Font.NORMAL, BaseColor.DARK_GRAY);
                 Paragraph paragrofoJustificado = new Paragraph("",
                 new Font(fonteBase, 12, Font.NORMAL));
                 paragrofoJustificado.Alignment = Element.ALIGN_JUSTIFIED;

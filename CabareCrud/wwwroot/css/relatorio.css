@@ -7,15 +7,23 @@ th {
 }
 
 .title-geral {
-    color: rgb(43, 43, 43, 0,00);
-    font-weight: normal;
-    font-size: 14pt;
+    color: black;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 13pt;
+}
+
+.modal-corpo {
+    border-radius: 3px;
+    padding: 15px;
+    background-color: white;
 }
 
 .p-relatorio {
     color: black;
     font-size: 11pt;
 }
+
 .config-flex {
     color: black;
     font-size: 11pt;
@@ -214,9 +222,8 @@ input[type="radio"]:checked + label {
 }
 
 .body-modal-alt-2 {
-    max-height: calc(35vh - 70px);
+    max-height: calc(90vh - 200px);
     overflow-y: auto;
-    background-color: ghostwhite;
 }
 
 .list-largura {
@@ -775,9 +782,11 @@ td {
         font-size: 9pt;
         width: 300px;
     }
+
     .modal-largura-2 {
         margin-left: auto;
     }
+
     .flex-filtro {
         justify-content: center;
     }
@@ -875,9 +884,11 @@ td {
 
 @media(min-width: 941px) {
     .modal-largura-2 {
+        margin-left: -55px;
         min-width: 200px;
-        width: 555px;
+        width: 585px;
     }
+
     .font-place {
         font-size: 11pt;
     }

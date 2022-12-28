@@ -3,6 +3,9 @@
         public decimal? ValorTotAprovados();
         public decimal? ValorTotEmAnalise();
         public decimal? ValorTotContratos();
+        public decimal? ValorTotPago();
+        public decimal? ValorTotPendente();
+        public decimal? ValorTotJurosCliente(int? id);
         public int QtContratosAprovados();
         public int QtContratosEmAnalise();
         public int QtContratosNegados();

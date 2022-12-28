@@ -87,11 +87,11 @@ namespace BusesControl.Repositorio {
                 clientesContrato.Contrato.ValorTotalPagoContrato = clientesContrato.Contrato.ValorParcelaContratoPorCliente;
             }
             if (!string.IsNullOrEmpty(financeiroDB.ValorJuros.ToString())) {
-                if (!string.IsNullOrEmpty(clientesContrato.ValorTotTaxaJuros.ToString())) {
-                    clientesContrato.ValorTotTaxaJuros += financeiroDB.ValorJuros;
+                if (!string.IsNullOrEmpty(clientesContrato.ValorTotTaxaJurosPaga.ToString())) {
+                    clientesContrato.ValorTotTaxaJurosPaga += financeiroDB.ValorJuros;
                 }
                 else {
-                    clientesContrato.ValorTotTaxaJuros = financeiroDB.ValorJuros;
+                    clientesContrato.ValorTotTaxaJurosPaga = financeiroDB.ValorJuros;
                 }
             }
             _bancoContext.ClientesContrato.Update(clientesContrato);

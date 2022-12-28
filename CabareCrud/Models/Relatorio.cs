@@ -10,7 +10,10 @@ namespace BusesControl.Models {
         public decimal? ValTotEmAnalise { get; set; }
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValTotContratos { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValTotPago { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValTotPendente { get; set; } 
         public int? QtContratosAprovados { get; set; }
         public int? QtContratosEmAnalise { get; set; }
         public int? QtContratosNegados { get; set; }
@@ -29,6 +32,10 @@ namespace BusesControl.Models {
             float percentual = float.Parse(qtPercentual.ToString());
             float result = (percentual / (int)QtContratos) * 100;
             return $"{result.ToString("F2")}%";
+        }
+        public string ReturnPercentualValorContrato(decimal? value) {
+            decimal? result = value / ValTotAprovados * 100;
+            return $"{result.Value.ToString("F2")}%";
         }
         public string ReturnPercentualCliente(int? qtPercentual) {
             float percentual = float.Parse(qtPercentual.ToString());

@@ -25,7 +25,6 @@ namespace BusesControl.Repositorio {
             }
             return valorTotalContrato;
         }
-
         public decimal? ValorTotEmAnalise() {
             List<Contrato> ListContrato = _contratoRepositorio.ListContratoEmAnalise();
             decimal? valorTotalContrato = 0;
@@ -34,7 +33,6 @@ namespace BusesControl.Repositorio {
             }
             return valorTotalContrato;
         }
-
         public decimal? ValorTotContratos() {
             List<Contrato> ListContrato = _contratoRepositorio.ListContratoAprovados();
             ListContrato.AddRange(_contratoRepositorio.ListContratoEmAnalise());
@@ -43,6 +41,39 @@ namespace BusesControl.Repositorio {
                 valorTot += contrato.ValorMonetario;
             }
             return valorTot;
+        }
+        public decimal? ValorTotPago() {
+            List<Contrato> contratos = _contratoRepositorio.ListContratoAprovados();
+            decimal? valorPago = 0;
+            foreach (var item in contratos) {
+                if (!string.IsNullOrEmpty(item.ValorTotalPagoContrato.ToString())) {
+                    valorPago += item.ValorTotalPagoContrato;
+                }
+            }
+            return valorPago;
+        }
+        public decimal? ValorTotPendente() {
+            List<Contrato> contratos = _contratoRepositorio.ListContratoAprovados();
+            decimal? valorPago = 0;
+            decimal? valorTotal = 0;
+            foreach (var item in contratos) {
+                if (!string.IsNullOrEmpty(item.ValorTotalPagoContrato.ToString())) {
+                    valorPago += item.ValorTotalPagoContrato;
+                }
+                valorTotal += item.ValorMonetario;
+            }
+            decimal? valorPedente = valorTotal - valorPago;
+            return valorPedente;
+        }
+        public decimal? ValorTotJurosCliente(int? id) {
+            List<Financeiro> financeiros = _bancoContext.Financeiro.Where(x => x.ClientesContratoId == id).ToList();
+            decimal? totValorJuros = 0;
+            foreach (var item in financeiros) {
+                if (!string.IsNullOrEmpty(item.ValorJuros.ToString())) {
+                    totValorJuros += item.ValorJuros;
+                }
+            }
+            return totValorJuros;
         }
 
         public int QtContratosAprovados() {
