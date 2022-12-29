@@ -134,7 +134,7 @@
                         </optgroup>
                     </select>
                     @if (!string.IsNullOrEmpty(Model.ClienteFisico.IdVinculacaoContratual.ToString())) {
-                        <a class="consult-flow" data-target="#detalhesClient" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
+                        <a class="consult-flow return-responsavel-2" clienteresponsavel-id="@Model.ClienteFisico.IdVinculacaoContratual.Value"  data-target="#detalhesClient" data-toggle="modal"><i class="fa fa-info icon-detalhes"></i></a>
                     }
                 </div>
                 <!-- Cadastro de endereço-->
@@ -327,35 +327,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    @foreach (var cliente in Model.ClienteFisicoList) {
-                        @if (cliente.Id == Model.ClienteFisico.IdVinculacaoContratual) {
-                            <p class="font-min">
-                                <b>Cliente: </b> @cliente.Name – CPF: @cliente.ReturnCpfCliente() <br>
-                                <b>Rg: </b> @cliente.Rg <br>
-                                <b>Telefone: </b> (@cliente.Ddd)@cliente.ReturnTelefoneCliente() <br>
-                                @if (!string.IsNullOrEmpty(cliente.Email)) {
-                                    <b>Email: </b> @cliente.Email <br>
-                                }
-                                <b>Data de nascimento: </b>@Html.DisplayFor(x => cliente.DataNascimento) <br>
-                                <b>Nome da mãe: </b>@cliente.NameMae <br>
-                            </p>
-                        }
-                    }
-                    @foreach (var clienteJuridico in Model.ClienteJuridicoList) {
-                        @if (clienteJuridico.Id == Model.ClienteFisico.IdVinculacaoContratual) {
-                            <p class="font-min">
-                                <b>Cliente:</b> @clienteJuridico.RazaoSocial.ToUpper() – CNPJ: @clienteJuridico.ReturnCnpjCliente() <br>
-                                <b>Nome fantasia: </b> @clienteJuridico.NomeFantasia <br>
-                                <b>Inscrição estadual: </b> @clienteJuridico.InscricaoEstadual <br>
-                                <b>Inscrição Municipal: </b> @clienteJuridico.InscricaoMunicipal <br>
-                                <b>Telefone: </b> (@clienteJuridico.Ddd)@clienteJuridico.ReturnTelefoneCliente() <br>
-                                @if (!string.IsNullOrEmpty(clienteJuridico.Email)) {
-                                    <b>Email: </b> @clienteJuridico.Email <br>
-                                }
-                            </p>
-                        }
-                    }
+                <div id="cliente-responsavel2" class="modal-body">
                 </div>
             </div>
         </div>

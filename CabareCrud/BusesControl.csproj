@@ -66,6 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\ContratoController.cs~RF2251c8b4.TMP" />
     <None Remove="Models\Contrato.cs~RF1b537075.TMP" />
     <None Remove="Views\AprovarContrato\Index.cshtml~RFd695fd9.TMP" />
   </ItemGroup>

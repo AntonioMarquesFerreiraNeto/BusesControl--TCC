@@ -1,0 +1,15 @@
+﻿@model PessoaJuridica
+@if (Model != null) {
+    <p class="font-min">
+        <b>Nome:</b> @Model.RazaoSocial <br>
+        <b>CNPJ: </b> @Model.ReturnCnpjCliente() <br>
+        <b>Inscrição estadual: </b> @Model.InscricaoEstadual <br>
+        <b>Inscrição municipal: </b> @Model.InscricaoMunicipal <br>
+        <b>Telefone: </b> @Model.ReturnTelefoneCliente() <br>
+        <b>E-mail: </b> @Model.Email <br>
+    </p>
+
+}
+else {
+    <p style="text-align: center;">Desculpe, ID não foi encontrado.</p>
+}

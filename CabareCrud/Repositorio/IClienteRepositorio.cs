@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace BusesControl.Repositorio {
     public interface IClienteRepositorio  {
         List<PessoaFisica> ListClienteFisicoLegal();
+        public List<PessoaFisica> ListClienteFisicoLegalContrato();
         List<PessoaJuridica> ListClienteJuridicoLegal();   
         List<PessoaFisica> BuscarTodosHabilitados();
         List<PessoaJuridica> BuscarTodosHabJuridico();

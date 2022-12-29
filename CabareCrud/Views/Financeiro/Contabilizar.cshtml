@@ -21,7 +21,13 @@
     </h3>
     <div class="cliente">
         <div class="flex-item" style="margin-bottom: -2px;">
-            <div></div>
+            <div>
+                @if (Model.PessoaFisica != null) {
+                    @if (!string.IsNullOrEmpty(Model.PessoaFisica.IdVinculacaoContratual.ToString())) {
+                        <a class="return-responsavel-2" href="#" clienteresponsavel-id="@Model.PessoaFisica.IdVinculacaoContratual.Value" data-target="#detalhesClienteResponsavel" data-toggle="modal"><i class="fa fa-user"></i>&nbsp;Responsável</a>
+                    }
+                }
+            </div>
             <div><a class="btn-voltar" asp-route-id="@Model.ContratoId" asp-action="FinanceiroContrato">Voltar</a></div>
         </div>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
@@ -83,6 +89,20 @@
         </table>
     </div>
 </section>
+<div id="detalhesClienteResponsavel" class="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-largura">
+            <div class="modal-header">
+                <h4 class="modal-title font">Cliente responsável</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="cliente-responsavel2" class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 <div id="listClientesIndex" class="modal">
     <div class="modal-dialog modal-md">
         <div class="modal-content modal-largura">

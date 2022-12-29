@@ -55,6 +55,17 @@ $(document).ready(function () {
             }
         });
     });
+    $('.return-responsavel-2').click(function () {
+        console.log(100);
+        var clienteResponsavelId = $(this).attr('clienteresponsavel-id');
+        $.ajax({
+            type: 'GET',
+            url: "/Financeiro/ReturnClienteResponsavel/" + clienteResponsavelId,
+            success: function (result) {
+                $("#cliente-responsavel2").html(result);
+            }
+        });
+    });
     $('.clear-list').click(function () {
         $.ajax({
             type: 'GET',

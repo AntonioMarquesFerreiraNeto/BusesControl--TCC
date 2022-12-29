@@ -1,0 +1,13 @@
+﻿@model PessoaFisica
+@if (@Model != null) {
+    <p class="font-min">
+        <b>Nome:</b> @Model.Name <br>
+        <b>CPF: </b> @Model.ReturnCpfCliente() <br>
+        <b>RG: </b> @Model.Rg <br>
+        <b>Telefone: </b> @Model.ReturnTelefoneCliente() <br>
+        <b>E-mail: </b> @Model.Email <br>
+    </p>
+}
+else {
+    <p style="text-align: center;">Desculpe, ID não foi encontrado.</p>
+}

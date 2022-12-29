@@ -89,7 +89,7 @@ namespace BusesControl.Controllers {
             ModelsContrato modelsContrato = new ModelsContrato();
             modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
             modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
-            modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
+            modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegalContrato();
             modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
             Contrato contrato = new Contrato {
                 Pagament = ModelPagament.Avista,
@@ -104,7 +104,7 @@ namespace BusesControl.Controllers {
             try {
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
-                modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
+                modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegalContrato();
                 modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
 
                 //Recebendo a opção de pagamento do contrato e se o mesmo for à vista setando uma parcela para o mesmo. 
@@ -162,7 +162,7 @@ namespace BusesControl.Controllers {
         public IActionResult EditarContrato(int id) {
             ViewData["Title"] = "Editar contrato";
             ModelsContrato modelsContrato = new ModelsContrato {
-                ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal(),
+                ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegalContrato(),
                 ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal(),
                 MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab(),
                 OnibusList = _onibusRepositorio.ListarTodosHab(),
@@ -180,7 +180,7 @@ namespace BusesControl.Controllers {
             ViewData["Title"] = "Editar contrato";
             try {
                 modelsContrato.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
-                modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
+                modelsContrato.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegalContrato();
                 modelsContrato.MotoristaList = _funcionarioRepositorio.ListarTodosMotoristasHab();
                 modelsContrato.OnibusList = _onibusRepositorio.ListarTodosHab();
 

@@ -12,10 +12,12 @@ namespace BusesControl.Controllers {
     public class FinanceiroController : Controller {
         private readonly IContratoRepositorio _contratoRepositorio;
         private readonly IFinanceiroRepositorio _financeiroRepositorio;
+        private readonly IClienteRepositorio _clienteRepositorio;
 
-        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio) {
+        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio, IClienteRepositorio clienteRepositorio) {
             _contratoRepositorio = contratoRepositorio;
             _financeiroRepositorio = financeiroRepositorio;
+            _clienteRepositorio = clienteRepositorio;
         }
 
         public IActionResult Index() {
@@ -71,6 +73,25 @@ namespace BusesControl.Controllers {
                 TempData["MensagemDeErro"] = erro.Message;
                 return RedirectToAction("Index");
             }
+        }
+
+        public IActionResult ReturnClienteResponsavel(int? id) {
+            PessoaFisica pessoaFisica = _clienteRepositorio.ListarPorId(id.Value);
+            if (pessoaFisica != null) {
+                if (string.IsNullOrEmpty(pessoaFisica.Email)) {
+                    pessoaFisica.Email = "Não foi informado.";
+                }
+                return PartialView("_ClienteResponsavelFisico", pessoaFisica);
+            }
+            PessoaJuridica pessoaJuridica = _clienteRepositorio.ListarPorIdJuridico(id.Value);
+            if (pessoaJuridica != null) {
+                if (string.IsNullOrEmpty(pessoaJuridica.Email)) {
+                    pessoaJuridica.Email = "Não foi informado.";
+                }
+                return PartialView("_ClienteResponsavelJuridico", pessoaJuridica);
+            }
+            //returna um cliente fisico nulo para que a mensagem de id não encontrado seja captada na página.
+            return PartialView("_ClienteResponsavelFisico", pessoaFisica);
         }
     }
 }

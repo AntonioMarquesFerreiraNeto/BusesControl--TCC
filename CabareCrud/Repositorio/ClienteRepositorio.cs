@@ -22,7 +22,9 @@ namespace BusesControl.Repositorio {
             return list.Where(x => x.Status == StatuCliente.Habilitado
                 && string.IsNullOrEmpty(x.IdVinculacaoContratual.ToString()) && x.Adimplente == Adimplente.Adimplente).ToList();
         }
-
+        public List<PessoaFisica> ListClienteFisicoLegalContrato() {
+            return _bancocontext.PessoaFisica.Where(x => x.Status == StatuCliente.Habilitado && x.Adimplente == Adimplente.Adimplente).ToList();
+        }
         //Adicionar as regras de negócio para clientes jurídicos que podem realizar contratos neste método.
         public List<PessoaJuridica> ListClienteJuridicoLegal() {
             var list = _bancocontext.PessoaJuridica.ToList();

@@ -119,6 +119,18 @@ namespace BusesControl.Controllers {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado.";
                 return RedirectToAction("Index");
             }
+            if (!string.IsNullOrEmpty(modelsCliente.ClienteFisico.IdVinculacaoContratual.ToString())) {
+                PessoaFisica pessoaFisicaResponsavel = _clienteRepositorio.ListarPorId(modelsCliente.ClienteFisico.IdVinculacaoContratual.Value);
+                if (pessoaFisicaResponsavel != null) {
+                    modelsCliente.ClienteFisicoList.Add(pessoaFisicaResponsavel);
+                }
+                else {
+                    PessoaJuridica pessoaJuridicaResponsavel = _clienteRepositorio.ListarPorIdJuridico(modelsCliente.ClienteFisico.IdVinculacaoContratual.Value);
+                    if (pessoaJuridicaResponsavel != null) {
+                        modelsCliente.ClienteJuridicoList.Add(pessoaJuridicaResponsavel);
+                    }
+                }
+            }
             return View(modelsCliente);
         }
         public IActionResult EditarClienteJuridico(long id) {
@@ -137,6 +149,22 @@ namespace BusesControl.Controllers {
                 modelsCliente.ClienteJuridicoList = _clienteRepositorio.ListClienteJuridicoLegal();
                 modelsCliente.ClienteFisicoList = _clienteRepositorio.ListClienteFisicoLegal();
                 PessoaFisica cliente = modelsCliente.ClienteFisico;
+                if (!string.IsNullOrEmpty(modelsCliente.ClienteFisico.IdVinculacaoContratual.ToString())) {
+                    PessoaFisica pessoaFisicaResponsavel = _clienteRepositorio.ListarPorId(modelsCliente.ClienteFisico.IdVinculacaoContratual.Value);
+                    if (pessoaFisicaResponsavel != null) {
+                        if (pessoaFisicaResponsavel.Adimplente == Adimplente.Inadimplente) {
+                            modelsCliente.ClienteFisicoList.Add(pessoaFisicaResponsavel);
+                        }
+                    }
+                    else {
+                        PessoaJuridica pessoaJuridicaResponsavel = _clienteRepositorio.ListarPorIdJuridico(modelsCliente.ClienteFisico.IdVinculacaoContratual.Value);
+                        if (pessoaJuridicaResponsavel != null) {
+                            if (pessoaJuridicaResponsavel.Adimplente == Adimplente.Inadimplente) {
+                                modelsCliente.ClienteJuridicoList.Add(pessoaJuridicaResponsavel);
+                            }
+                        }
+                    }
+                }
                 if (ValidarCampo(cliente)) {
                     TempData["MensagemDeErro"] = "Informe os campos obrigatórios!";
                     return View(modelsCliente);
@@ -331,8 +359,11 @@ namespace BusesControl.Controllers {
             long dias = (int)dataAtual.Subtract(dataNascimento).TotalDays;
             long idade = dias / 365;
             PessoaFisica clienteValidation = _clienteRepositorio.ListarPorId(value.Id);
+            if (!string.IsNullOrEmpty(clienteValidation.IdVinculacaoContratual.ToString())) {
+                return false;
+            }
             if ((idade > 0 && idade < 18) && (!string.IsNullOrEmpty(value.IdVinculacaoContratual.ToString()))
-                &&  clienteValidation.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
+                &&  clienteValidation.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao == StatusAprovacao.Aprovado)) {
                 return true;
             }
             else {
