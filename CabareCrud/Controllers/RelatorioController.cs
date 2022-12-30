@@ -43,8 +43,6 @@ namespace BusesControl.Controllers {
             relatorio.QtContratosAprovados = _relatorioRepositorio.QtContratosAprovados();
             relatorio.QtContratosNegados = _relatorioRepositorio.QtContratosNegados();
             relatorio.QtContratosEmAnalise = _relatorioRepositorio.QtContratosEmAnalise();
-            relatorio.QtContratosAdimplente = _relatorioRepositorio.QtContratosAdimplentes();
-            relatorio.QtContratosInadimplentes = _relatorioRepositorio.QtContratosInadimplentes();
             relatorio.QtClientes = _relatorioRepositorio.QtClientes();
             relatorio.QtClientesAdimplente = _relatorioRepositorio.QtClientesAdimplentes();
             relatorio.QtClientesInadimplente = _relatorioRepositorio.QtClientesInadimplentes();

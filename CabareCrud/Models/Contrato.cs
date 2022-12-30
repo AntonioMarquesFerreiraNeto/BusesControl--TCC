@@ -55,11 +55,11 @@ namespace BusesControl.Models {
 
         public StatusAprovacao Aprovacao { get; set; }
 
-        public Adimplente Situacao { get; set; }
-
         public Funcionario Motorista { get; set; }
 
         public Onibus Onibus { get; set; }
+
+        public Situacao Situacao { get; set; }
 
         public virtual List<ClientesContrato> ClientesContratos { get; set; }
 

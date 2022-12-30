@@ -14,24 +14,6 @@ namespace BusesControl.Repositorio {
         public FinanceiroRepositorio(BancoContext bancoContext) {
             _bancoContext = bancoContext;
         }
-        public List<Contrato> ListContratoAdimplentes() {
-            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Adimplente.Adimplente)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
-                .AsNoTracking().Include("Motorista")
-                .AsNoTracking().Include("Onibus")
-                .ToList();
-        }
-        public List<Contrato> ListContratoInadimplentes() {
-            return _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Adimplente.Inadimplente)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
-                .AsNoTracking().Include("Motorista")
-                .AsNoTracking().Include("Onibus")
-                .ToList();
-        }
         public Contrato ListarJoinPorId(int id) {
             var contrato = _bancoContext.Contrato
                 .AsNoTracking().Include("Motorista")
@@ -180,7 +162,6 @@ namespace BusesControl.Repositorio {
             //Verifica se a parcela está atrasada e realiza as devidas medidas. 
             DateTime dateAtual = DateTime.Now.Date;
             foreach (var contrato in contratos) {
-                int cont = 0; // Variável contadora para validação do contrato.
                 foreach (var clientesContrato in contrato.ClientesContratos) {
                     foreach (var financeiro in clientesContrato.ParcelasContrato) {
                         if (dateAtual > financeiro.DataVencimentoParcela && financeiro.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
@@ -202,19 +183,7 @@ namespace BusesControl.Repositorio {
                                 _bancoContext.PessoaJuridica.Update(pessoaJuridicaDB);
                             }
                         }
-                        else {
-                            cont++;
-                        }
                     }
-                }
-                Contrato contratoDB = _bancoContext.Contrato.FirstOrDefault(x => x.Id == contrato.Id);
-                if (cont == 0) { //Se todas as parcelas de todos os clientes estiverem atrasadas, o contrato é colocado em inadimplência.
-                    contratoDB.Situacao = Adimplente.Inadimplente;
-                    _bancoContext.Update(contratoDB);
-                }
-                else {
-                    contratoDB.Situacao = Adimplente.Adimplente;
-                    _bancoContext.Update(contratoDB);
                 }
             }
             _bancoContext.SaveChanges();

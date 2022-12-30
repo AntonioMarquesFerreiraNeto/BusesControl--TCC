@@ -88,14 +88,6 @@ namespace BusesControl.Repositorio {
             int quantidade = _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Negado && x.StatusContrato == ContratoStatus.Ativo).ToList().Count;
             return quantidade;
         }
-        public int QtContratosAdimplentes() {
-            int quantidade = _bancoContext.Contrato.Where(x => x.Situacao == Adimplente.Adimplente && x.StatusContrato == ContratoStatus.Ativo).ToList().Count;
-            return quantidade;
-        }
-        public int QtContratosInadimplentes() {
-            int quantidade = _bancoContext.Contrato.Where(x => x.Situacao == Adimplente.Inadimplente && x.StatusContrato == ContratoStatus.Ativo).ToList().Count;
-            return quantidade;
-        }
         public int QtContratos() {
             int quantidade = _bancoContext.Contrato.Where(x => x.StatusContrato == ContratoStatus.Ativo).ToList().Count;
             return quantidade;

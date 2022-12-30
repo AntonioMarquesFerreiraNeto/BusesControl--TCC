@@ -9,8 +9,6 @@
         public int QtContratosAprovados();
         public int QtContratosEmAnalise();
         public int QtContratosNegados();
-        public int QtContratosAdimplentes();
-        public int QtContratosInadimplentes();
         public int QtContratos();
         public int QtClientesAdimplentes();
         public int QtClientesInadimplentes();

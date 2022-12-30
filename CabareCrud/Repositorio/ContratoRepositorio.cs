@@ -93,6 +93,7 @@ namespace BusesControl.Repositorio {
                 contrato.ReturnValorParcela();
                 int qtClient = modelsContrato.ListPessoaFisicaSelect.Count + modelsContrato.ListPessoaJuridicaSelect.Count;
                 contrato.ReturnValorParcelaPorCliente(qtClient);
+                contrato.Situacao = Situacao.Aguardando;
                 _bancoContext.Contrato.Add(contrato);
                 _bancoContext.SaveChanges();
                 return modelsContrato;
@@ -311,6 +312,7 @@ namespace BusesControl.Repositorio {
                     throw new Exception("Não é possível aprovar contrato com ônibus vinculado desabilitado!");
                 }
                 contratoDB.Aprovacao = StatusAprovacao.Aprovado;
+                contratoDB.Situacao = Situacao.EmAndamento;
                 _bancoContext.Update(contratoDB);
                 _bancoContext.SaveChanges();
                 return contratoDB;

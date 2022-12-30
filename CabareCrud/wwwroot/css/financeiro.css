@@ -557,6 +557,15 @@ input#form-control {
         background-color: darkred;
     }
 
+.terminado {
+    border: 1px solid rgb(168, 72, 0);
+    background-color: rgb(255, 110, 1);
+}
+
+    .terminado:hover {
+        background-color: rgb(221, 95, 0);
+    }
+
 .filtrar_btn2 {
     padding: 8px;
     border: 1px solid darkred;

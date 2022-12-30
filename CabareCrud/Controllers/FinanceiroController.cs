@@ -21,15 +21,14 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult Index() {
-            ViewData["Title"] = "Financeiro – Contratos adimplentes";
+            ViewData["Title"] = "Financeiro – Contratos em andamento";
             _financeiroRepositorio.TaskMonitorParcelasContrato();
-            List<Contrato> ListContratos = _financeiroRepositorio.ListContratoAdimplentes();
+            List<Contrato> ListContratos = _contratoRepositorio.ListContratoAprovados();
             return View(ListContratos);
         }
-        public IActionResult ListInadimplentes() {
-            ViewData["Title"] = "Financeiro – Contratos inadimplentes";
-            _financeiroRepositorio.TaskMonitorParcelasContrato();
-            List<Contrato> ListContratos = _financeiroRepositorio.ListContratoInadimplentes();
+        public IActionResult ContratosEncerrados() {
+            ViewData["Title"] = "Financeiro - Contratos encerrados";
+            List<Contrato> ListContratos = new List<Contrato>();
             return View("Index", ListContratos);
         }
 

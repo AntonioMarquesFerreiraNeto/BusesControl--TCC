@@ -18,8 +18,6 @@ namespace BusesControl.Models {
         public int? QtContratosEmAnalise { get; set; }
         public int? QtContratosNegados { get; set; }
         public int? QtContratos { get; set; }
-        public int? QtContratosAdimplente { get; set; }
-        public int? QtContratosInadimplentes { get; set; }
         public int? QtClientesAdimplente { get; set; }
         public int? QtClientesInadimplente { get; set; }
         public int? QtClientes { get; set; }
