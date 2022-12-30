@@ -182,6 +182,13 @@ namespace BusesControl.Controllers {
                         TempData["MensagemDeErro"] = "Não é possível vincular cliente maior de idade!";
                         return View(modelsCliente);
                     }
+                    if (!string.IsNullOrEmpty(cliente.ToString())) {
+                        //Chama o método que válida a inadimplência e alteração da vinculação contratual. 
+                        if (ValidarClienteResponAlterInvalid(cliente)) {
+                            TempData["MensagemDeErro"] = "Cliente inadimplente não pode ter vinculação alterada!";
+                            return View(modelsCliente);
+                        }
+                    }
                     _clienteRepositorio.Editar(cliente);
                     TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
@@ -369,6 +376,15 @@ namespace BusesControl.Controllers {
             else {
                 return false;
             }
+        }
+
+        //Método que não deixa cliente inadimplente ter seu responsável alterado. 
+        public bool ValidarClienteResponAlterInvalid(PessoaFisica pessoaFisica) {
+            PessoaFisica pessoaFisicaDB = _clienteRepositorio.ListarPorId(pessoaFisica.Id);
+            if (pessoaFisicaDB.Adimplente == Adimplente.Inadimplente && pessoaFisica.IdVinculacaoContratual != pessoaFisicaDB.IdVinculacaoContratual) {
+                return true;
+            }
+            return false;
         }
     }
 }

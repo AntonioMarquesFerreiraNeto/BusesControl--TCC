@@ -106,19 +106,33 @@ namespace BusesControl.Repositorio {
                 pessoa.ClientesContratos.Any(clientesContrato => clientesContrato.ParcelasContrato.Any(financeiro =>
                 financeiro.Id == value.Id) && !string.IsNullOrEmpty(pessoa.Cpf)));
 
-
             if (pessoaFisica != null) {
                 int result = ReturnQtParcelasAtrasadaCliente(pessoaFisica.ClientesContratos);
                 if (result == 0) {
-                    pessoaFisica.Adimplente = Adimplente.Adimplente;
-                    _bancoContext.PessoaFisica.Update(pessoaFisica);
+                    if (!string.IsNullOrEmpty(pessoaFisica.IdVinculacaoContratual.ToString())) {
+                        pessoaFisica.Adimplente = Adimplente.Adimplente;
+                        _bancoContext.PessoaFisica.Update(pessoaFisica);
+                        //Chama o método que valida e seta com adimplente se passar na validação.
+                        ValidarAndSetAdimplenteClienteResponsavel(pessoaFisica.IdVinculacaoContratual);
+                    }
+                    //Se o cliente for maior de idade, este método que é executado e realiza a validação se o cliente possui clientes vinculados em inadimplência.
+                    else {
+                        int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaFisica.Id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                        if (clientesVinculadosInadimplentes == 0) {
+                            pessoaFisica.Adimplente = Adimplente.Adimplente;
+                            _bancoContext.PessoaFisica.Update(pessoaFisica);
+                        }
+                    }
                 }
             }
             else if (pessoaJuridica != null) {
                 int result = ReturnQtParcelasAtrasadaCliente(pessoaJuridica.ClientesContratos);
                 if (result == 0) {
-                    pessoaJuridica.Adimplente = Adimplente.Adimplente;
-                    _bancoContext.PessoaJuridica.Update(pessoaJuridica);
+                    int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaJuridica.Id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                    if (clientesVinculadosInadimplentes == 0) {
+                        pessoaJuridica.Adimplente = Adimplente.Adimplente;
+                        _bancoContext.PessoaJuridica.Update(pessoaJuridica);
+                    }
                 }
             }
         }
@@ -131,7 +145,30 @@ namespace BusesControl.Repositorio {
             }
             return cont;
         }
-
+        //Método que valida se o cliente tem parcelas atrasadas e outros clientes menores de idade com parcelas atrasadas,
+        //caso não tenha, o mesmo é colocado em adimplência por não ter nenhuma infração das regras do contrato na aplicação. 
+        public void ValidarAndSetAdimplenteClienteResponsavel(int? id) {
+            PessoaFisica pessoaFisicaResponsavel = _bancoContext.PessoaFisica.Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato).FirstOrDefault(x => x.Id == id);
+            if (pessoaFisicaResponsavel != null) {
+                int resultParcelasAtrasadas = ReturnQtParcelasAtrasadaCliente(pessoaFisicaResponsavel.ClientesContratos);
+                int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                if (resultParcelasAtrasadas == 0 && clientesVinculadosInadimplentes == 1) {
+                    pessoaFisicaResponsavel.Adimplente = Adimplente.Adimplente;
+                    _bancoContext.Update(pessoaFisicaResponsavel);
+                }
+            }
+            else {
+                PessoaJuridica pessoaJuridicaResponsavel = _bancoContext.PessoaJuridica.Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato).FirstOrDefault(x => x.Id == id);
+                if (pessoaJuridicaResponsavel != null) {
+                    int resultParcelasAtrasadas = ReturnQtParcelasAtrasadaCliente(pessoaJuridicaResponsavel.ClientesContratos);
+                    int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                    if (resultParcelasAtrasadas == 0 && clientesVinculadosInadimplentes == 1) {
+                        pessoaJuridicaResponsavel.Adimplente = Adimplente.Adimplente;
+                        _bancoContext.Update(pessoaJuridicaResponsavel);
+                    }
+                }
+            }
+        }
         //Método agendado que executa sem interação com o usuário. 
         public void TaskMonitorParcelasContrato() {
             var contratos = _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado)
@@ -156,6 +193,9 @@ namespace BusesControl.Repositorio {
                             if (pessoaFisicaDB != null) {
                                 pessoaFisicaDB.Adimplente = Adimplente.Inadimplente;
                                 _bancoContext.PessoaFisica.Update(pessoaFisicaDB);
+                                if (!string.IsNullOrEmpty(pessoaFisicaDB.IdVinculacaoContratual.ToString())) {
+                                    SetInadimplenciaClienteResponsavel(pessoaFisicaDB.IdVinculacaoContratual.Value);
+                                }
                             }
                             else {
                                 pessoaJuridicaDB.Adimplente = Adimplente.Inadimplente;
@@ -189,6 +229,20 @@ namespace BusesControl.Repositorio {
             else {
                 decimal? valorJuros = ((contrato.ValorParcelaContratoPorCliente * (2 * (qtMeses + 1))) / 100);
                 return valorJuros;
+            }
+        }
+        public void SetInadimplenciaClienteResponsavel(int id) {
+            PessoaFisica pessoaFisicaResponsavel = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == id);
+            if (pessoaFisicaResponsavel != null) {
+                pessoaFisicaResponsavel.Adimplente = Adimplente.Inadimplente;
+                _bancoContext.PessoaFisica.Update(pessoaFisicaResponsavel);
+            }
+            else {
+                PessoaJuridica pessoaJuridicaResponsavel = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == id);
+                if (pessoaJuridicaResponsavel != null) {
+                    pessoaJuridicaResponsavel.Adimplente = Adimplente.Inadimplente;
+                    _bancoContext.PessoaJuridica.Update(pessoaJuridicaResponsavel);
+                }
             }
         }
         public int ReturnQtmMeses(DateTime date) {

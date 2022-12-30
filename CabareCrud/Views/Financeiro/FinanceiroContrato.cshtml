@@ -22,7 +22,7 @@
     <div class="cliente">
         <div class="flex-item" style="margin-bottom: -2px;">
             <div></div>
-            @if(Model.Situacao == Adimplente.Adimplente){
+            @if (Model.Situacao == Adimplente.Adimplente) {
                 <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
             }
             else {
@@ -56,7 +56,10 @@
                                     }
                                     <td>@item.Contrato.ReturnValorTotCliente()</td>
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
-                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
+                                    <td>
+                                        <a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a>
+                                        <a class="btn-recisao" href="#"><i class="fa fa-minus-circle"></i> Rescisão</a>
+                                    </td>
                                 }
                                 @if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                                     <td>@item.PessoaJuridicaId</td>
@@ -69,7 +72,10 @@
                                     }
                                     <td>@item.Contrato.ReturnValorTotCliente()</td>
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
-                                    <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a></td>
+                                    <td>
+                                        <a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a>
+                                        <a class="btn-recisao" href="#"><i class="fa fa-minus-circle"></i> Rescisão</a>
+                                    </td>
                                 }
                             </tr>
                         }

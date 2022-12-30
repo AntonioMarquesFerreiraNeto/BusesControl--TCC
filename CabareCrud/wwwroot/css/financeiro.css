@@ -78,6 +78,22 @@ input[type="radio"] {
         color: white;
     }
 
+.btn-recisao {
+    font-family: 'Numans', sans-serif;
+    padding: 6px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: rgb(255, 110, 1);
+    border: 1px solid rgb(255, 110, 1);
+    border-radius: 5px;
+    transition: 0.4s;
+}
+
+    .btn-recisao:hover {
+        background-color: rgb(255, 110, 1);
+        color: white;
+    }
+
 .financeiro-contabilizar {
     font-size: 9pt;
     cursor: pointer;
@@ -819,9 +835,11 @@ td {
 
 @media(min-width: 410px) {
     .btn-financeiro {
-        font-size: 8pt;
+        font-size: 7pt;
     }
-
+    .btn-recisao{
+        font-size: 7pt;
+    }
     .font-place {
         font-size: 9pt;
     }
@@ -844,7 +862,9 @@ td {
     .btn-financeiro {
         font-size: 9pt;
     }
-
+    .btn-recisao {
+        font-size: 9pt;
+    }
     .font-place {
         font-size: 9pt;
     }
@@ -878,7 +898,6 @@ td {
     .font-place {
         font-size: 11pt;
     }
-
     .filtro {
         width: 80%;
     }

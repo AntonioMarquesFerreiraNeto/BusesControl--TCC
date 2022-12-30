@@ -325,6 +325,9 @@ namespace BusesControl.Repositorio {
                 if (contratoDB == null) {
                     throw new Exception("Desculpe, ID não foi encontrado.");
                 }
+                if (contratoDB.Aprovacao == StatusAprovacao.Aprovado) {
+                    throw new Exception("Contratos aprovados não podem ser negados!");
+                }
                 contratoDB.Aprovacao = StatusAprovacao.Negado;
                 _bancoContext.Update(contratoDB);
                 _bancoContext.SaveChanges();
