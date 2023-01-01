@@ -23,12 +23,12 @@ namespace BusesControl.Controllers {
         public IActionResult Index() {
             ViewData["Title"] = "Financeiro – Contratos em andamento";
             _financeiroRepositorio.TaskMonitorParcelasContrato();
-            List<Contrato> ListContratos = _contratoRepositorio.ListContratoAprovados();
+            List<Contrato> ListContratos = _financeiroRepositorio.ContratosEmAndamento();
             return View(ListContratos);
         }
         public IActionResult ContratosEncerrados() {
-            ViewData["Title"] = "Financeiro - Contratos encerrados";
-            List<Contrato> ListContratos = new List<Contrato>();
+            ViewData["Title"] = "Financeiro – Contratos encerrados";
+            List<Contrato> ListContratos = _financeiroRepositorio.ContratosEncerrados();
             return View("Index", ListContratos);
         }
 
@@ -40,6 +40,10 @@ namespace BusesControl.Controllers {
                 return RedirectToAction("Index");
             }
             return View(contrato);
+        }
+        public IActionResult RescendirContrato(int? id) {
+            ClientesContrato clientesContrato = _financeiroRepositorio.listPorIdClientesContrato(id);
+            return PartialView("_RescisaoContrato", clientesContrato);
         }
 
         public IActionResult Contabilizar(int? id) {

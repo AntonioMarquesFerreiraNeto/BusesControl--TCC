@@ -16,6 +16,12 @@ namespace BusesControl.Models {
         public decimal? ValorTotTaxaJurosPaga { get; set; }
         public virtual Contrato Contrato { get; set; }
 
+        public string ReturnValorMultaRescisao() {
+            decimal? valorTotCliente = Contrato.ValorParcelaContratoPorCliente * Contrato.QtParcelas;
+            decimal valorMulta = (valorTotCliente.Value * 3) / 100;
+            return $"{valorMulta.ToString("C2")}";
+        }
+
         public ClientesContrato() { }
     }
 }

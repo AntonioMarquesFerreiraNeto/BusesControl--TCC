@@ -22,7 +22,12 @@
     <div class="cliente">
         <div class="flex-item" style="margin-bottom: -2px;">
             <div></div>
-            <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
+            @if (Model.Situacao == Situacao.EmAndamento) {
+                <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
+            }
+            else {
+                <div><a class="btn-voltar" asp-action="ContratosEncerrados">Voltar</a></div>
+            }
         </div>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
             <thead>
@@ -36,8 +41,8 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null) {
-                    @if (Model.ClientesContratos.Any() && Model.ClientesContratos != null) {
+                @if (@Model != null) {
+                    @if (@Model.ClientesContratos.Any() && Model.ClientesContratos != null) {
                         @foreach (var item in Model.ClientesContratos) {
                             <tr>
                                 @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
@@ -53,7 +58,9 @@
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
                                     <td>
                                         <a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a>
-                                        <a class="btn-recisao" href="#"><i class="fa fa-minus-circle"></i> Rescisão</a>
+                                        @if (Model.Situacao != Situacao.Encerrado) {
+                                            <a class="btn-recisao return-clienterescisao" data-target="#janelaConfirmRescisao" data-toggle="modal" href="#" clienterescisao-id="@item.Id"><i class="fa fa-minus-circle"></i> Rescisão</a>
+                                        }
                                     </td>
                                 }
                                 @if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
@@ -69,7 +76,9 @@
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
                                     <td>
                                         <a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a>
-                                        <a class="btn-recisao" href="#"><i class="fa fa-minus-circle"></i> Rescisão</a>
+                                        @if (Model.Situacao != Situacao.Encerrado) {
+                                            <a class="btn-recisao return-clienterescisao" data-target="#janelaConfirmRescisao" data-toggle="modal" href="#" clienterescisao-id="@item.Id"><i class="fa fa-minus-circle"></i> Rescisão</a>
+                                        }
                                     </td>
                                 }
                             </tr>
@@ -105,6 +114,11 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div id="janelaConfirmRescisao" class="modal">
+    <div class="modal-dialog modal-sm" id="cliente-rescisao">
+       
     </div>
 </div>
 <script src="~/js/site.js"></script>

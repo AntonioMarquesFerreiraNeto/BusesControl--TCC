@@ -15,10 +15,18 @@
     </div>
 }
 <section class="clientes">
-    <h3 id="bac">
-        <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
-        <hr style="margin-top: 3px;">
-    </h3>
+    @if (Model.Any(x => x.Situacao == Situacao.EmAndamento)) {
+        <h3 id="bac">
+            <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac" style="color: darkorange;">
+            <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
     <div class="cliente">
         <div class="flex-item">
             <div>
@@ -58,7 +66,7 @@
     </div>
 </section>
 <div id="listClientesIndex" class="modal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content modal-largura">
             <div class="modal-header">
                 <h4 class="modal-title font">Clientes requerentes</h4>

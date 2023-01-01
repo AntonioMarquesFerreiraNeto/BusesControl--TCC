@@ -232,7 +232,9 @@ input[type="radio"]:checked + label {
     overflow-y: auto;
     background-color: ghostwhite;
 }
-
+#titulo-modal {
+    color: #313131ff;
+}
 .body-modal-alt-2 {
     max-height: calc(35vh - 70px);
     overflow-y: auto;

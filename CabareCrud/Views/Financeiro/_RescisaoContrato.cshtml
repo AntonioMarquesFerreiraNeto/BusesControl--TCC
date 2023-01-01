@@ -1,0 +1,47 @@
+﻿@model ClientesContrato
+<div class="modal-content modal-largura">
+    <div class="modal-header">
+        <h4 class="modal-title" id="titulo-modal">Rescisão</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="font-size: 10pt; margin: 0;">
+        @if (Model != null) {
+            <i style="margin: 0; padding: 0;">
+                <b>ID do contrato:</b> Nº @Model.Contrato.Id <br>
+                <b>Valor total do contrato:</b> R$ @Html.DisplayFor(x => x.Contrato.ValorMonetario) <br>
+                <b>Valor total por cliente:</b> @Model.Contrato.ReturnValorTotCliente() <br>
+                <b>Valor da multa de rescisão:</b> @Model.ReturnValorMultaRescisao()
+                <br>-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- <br>
+                @if (!string.IsNullOrEmpty(Model.PessoaFisicaId.ToString())) {
+                    <i style="margin: 0; padding: 0;">
+                        <b>Nome do cliente:</b> @Model.PessoaFisica.Name <br>
+                        <b>CPF:</b> @Model.PessoaFisica.ReturnCpfCliente() <br>
+                        <b>Data de nascimento:</b> @Html.DisplayFor(x => x.PessoaFisica.DataNascimento)
+                    </i>
+                    @if(!string.IsNullOrEmpty(Model.PessoaFisica.IdVinculacaoContratual.ToString())){
+                        <i style="margin: 0; padding: 0;"><br><b>Cliente possui um responsável.</b></i>
+                    }
+                }
+                else {
+                    <i style="margin: 0; padding: 0;">
+                        <b>Razão social:</b> @Model.PessoaJuridica.RazaoSocial <br>
+                        <b>Nome fantasia:</b> @Model.PessoaJuridica.NomeFantasia <br>
+                        <b>CNPJ:</b> @Model.PessoaJuridica.ReturnCnpjCliente() <br>
+                    </i>
+                }
+            </i>
+        }
+        else {
+            <p>Desculpe, ID não foi encontrado.</p>
+        }
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+        <button type="submit" class="btn filtra_btn" asp-action="Habilitar" asp-controller="Funcionario" style="width: 130px;">Contabilizar rescisão</button>
+        <button type="button" class="btn btn-secondary filtrar_btn2"
+                data-dismiss="modal" style="width: 130px;">
+            Fechar
+        </button>
+    </div>
+</div>

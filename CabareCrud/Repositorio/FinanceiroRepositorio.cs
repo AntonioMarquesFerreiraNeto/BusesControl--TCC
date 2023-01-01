@@ -14,6 +14,25 @@ namespace BusesControl.Repositorio {
         public FinanceiroRepositorio(BancoContext bancoContext) {
             _bancoContext = bancoContext;
         }
+
+        public List<Contrato> ContratosEmAndamento() {
+            return _bancoContext.Contrato
+                .AsNoTracking().Include("Motorista")
+                .AsNoTracking().Include("Onibus")
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Situacao.EmAndamento).ToList();
+        }
+        public List<Contrato> ContratosEncerrados() {
+            return _bancoContext.Contrato
+               .AsNoTracking().Include("Motorista")
+               .AsNoTracking().Include("Onibus")
+               .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
+               .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
+               .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+               .Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Situacao.Encerrado).ToList();
+        }
         public Contrato ListarJoinPorId(int id) {
             var contrato = _bancoContext.Contrato
                 .AsNoTracking().Include("Motorista")
@@ -167,7 +186,7 @@ namespace BusesControl.Repositorio {
                         if (dateAtual > financeiro.DataVencimentoParcela && financeiro.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
                             Financeiro financeiroDB = _bancoContext.Financeiro.FirstOrDefault(x => x.Id == financeiro.Id);
                             financeiroDB.StatusPagamento = SituacaoPagamento.Atrasada;
-                            financeiroDB.ValorJuros = setJurosParcela(financeiroDB, contrato);
+                            financeiroDB.ValorJuros = SetJurosParcela(financeiroDB, contrato);
                             var pessoaFisicaDB = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == clientesContrato.PessoaFisicaId);
                             var pessoaJuridicaDB = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == clientesContrato.PessoaJuridicaId);
                             _bancoContext.Financeiro.Update(financeiroDB);
@@ -185,10 +204,20 @@ namespace BusesControl.Repositorio {
                         }
                     }
                 }
+                //Realiza a validação se o contrato pode ser encerrado ou não. Caso a condição seja antendida, o contrato é encerrado.
+                if (dateAtual > contrato.DataVencimento) {
+                    int contParcelasAtrasadasOrPendente = contrato.ClientesContratos.Where(x => x.ParcelasContrato.Any(x2 => x2.StatusPagamento == SituacaoPagamento.Atrasada
+                    || x2.StatusPagamento == SituacaoPagamento.AguardandoPagamento)).ToList().Count;
+                    if (contParcelasAtrasadasOrPendente == 0) {
+                        Contrato contratoDB = _bancoContext.Contrato.FirstOrDefault(x => x.Id == contrato.Id);
+                        contratoDB.Situacao = Situacao.Encerrado;
+                        _bancoContext.Update(contratoDB);
+                    }
+                }
             }
             _bancoContext.SaveChanges();
         }
-        public decimal? setJurosParcela(Financeiro financeiro, Contrato contrato) {
+        public decimal? SetJurosParcela(Financeiro financeiro, Contrato contrato) {
             DateTime dataAtual = DateTime.Now.Date;
             int qtMeses = ReturnQtmMeses(dataAtual) - ReturnQtmMeses(financeiro.DataVencimentoParcela.Value.Date);
             if (qtMeses == 0) {
