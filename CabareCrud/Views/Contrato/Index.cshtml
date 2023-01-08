@@ -1,5 +1,5 @@
 ﻿@using BusesControl.Models.Enums
-@model List<Contrato>
+@model BusesControl.Models.ViewModels.ModelsContratoAndUsuario
 <link rel="stylesheet" href="~/css/contrato.css">
 <link rel="stylesheet" href="~/css/home.css">
 @if (TempData["MensagemDeSucesso"] != null) {
@@ -16,13 +16,13 @@
 }
 <section class="clientes">
     <!--Cadastro, edição e desativação de clientes-->
-    @if (Model.Any(x => x.StatusContrato == ContratoStatus.Ativo)) {
+    @if (Model.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo)) {
         <h3 id="bac">
             <i class="fa fa-file-contract"></i> @ViewData["Title"]
             <hr style="margin-top: 3px;">
         </h3>
     }
-    else if (Model.Any(x => x.StatusContrato == ContratoStatus.Inativo)) {
+    else if (Model.Contratos.Any(x => x.StatusContrato == ContratoStatus.Inativo)) {
         <h3 id="bac" style="color: red;">
             <i class="fa fa-file-contract"></i> @ViewData["Title"]
             <hr style="margin-top: 3px;">
@@ -53,23 +53,38 @@
                     <th scope="col">Clientes</th>
                     <th scope="col">Vencimento</th>
                     <th scope="col">Valor total</th>
+                    <th scope="col">Aprovação</th>
+                    <th scope="col">Pagamento</th>
                     <th scope="col">Opção</th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null || Model.Any()) {
-                    @foreach (var item in Model) {
-                        <tr>
+                @if (Model.Contratos != null || Model.Contratos.Any()) {
+                    @foreach (var item in Model.Contratos) {
+                        <tr class="row-hover">
                             <td>@item.Id</td>
                             <td class="align-content-center justify-content-center">
-                                <a class="consult-clientes btn-view-client" contrato-id ="@item.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
+                                <a class="consult-clientes btn-view-client" contrato-id="@item.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>
                             </td>
                             <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
                             <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
+                            <td>@item.ReturnAprovacaoContrato()</td>
+                            <td>@item.ReturnTypePagament()</td>
                             <td>
                                 @if (@item.StatusContrato == ContratoStatus.Ativo) {
                                     <a class="link clear-list" asp-route-id="@item.Id" asp-action="EditarContrato"><i class="fa fa-edit"></i></a>
                                     <a class="link-trash" asp-route-id="@item.Id" asp-action="Inativar"><i class="fa fa-trash-alt"></i></a>
+                                    @if (Model.Usuario.Cargos == CargoFuncionario.Administrador) {
+                                        @if (item.Aprovacao == StatusAprovacao.Aprovado) {
+                                            <a class="link btn-view-client-pdf" contrato-id-pdf="@item.Id" data-target="#listClientesContrato" data-toggle="modal" href="#"><i class="fa fa-print"></i></a>
+                                        }
+                                        else if (item.Aprovacao == StatusAprovacao.EmAnalise) {
+                                            <a class="link-sucess return-modal-aprovacao" contrato-id="@item.Id" data-target="#AprovacaoContrato" data-toggle="modal" href="#"><i class="fa fa-bars"></i></a>
+                                        }
+                                        else if (item.Aprovacao == StatusAprovacao.Negado) {
+                                            <a class="link-sucess" asp-route-id="@item.Id" asp-action="AprovarContrato"><i class="fa fa-check"></i></a>
+                                        }
+                                    }
                                 }
                                 else {
                                     <a class="link" asp-route-id="@item.Id" asp-action="Ativar"><i class="fa fa-file-contract"></i></a>
@@ -94,7 +109,26 @@
             </div>
             <div class="modal-body body-modal-alt">
                 <div id="list-clients" class="col-md-12 input-group form-group form-it">
-                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="AprovacaoContrato" class="modal">
+    <div class="modal-dialog modal-sm" id="show-aprovacao">
+    </div>
+</div>
+<div id="listClientesContrato" class="modal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content modal-largura">
+            <div class="modal-header">
+                <h4 class="modal-title font">Clientes requerentes - baixar PDF</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body body-modal-alt">
+                <div id="list-clients-pdf" class="col-md-12 input-group form-group form-it">
                 </div>
             </div>
         </div>

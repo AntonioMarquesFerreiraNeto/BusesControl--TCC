@@ -63,6 +63,8 @@ namespace BusesControl.Models {
 
         public virtual List<ClientesContrato> ClientesContratos { get; set; }
 
+        public virtual List<Rescisao> Rescisoes { get; set; }
+
         public bool ValidarValorMonetario() {
             if (ValorMonetario < 150) {
                 return false;

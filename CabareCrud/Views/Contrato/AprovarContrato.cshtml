@@ -12,7 +12,7 @@
     <h3 id="titlePrincipal">
         <hr class="text-hide">
     </h3>
-    <form class="clientes" asp-controller="AprovarContrato" asp-action="RevogarContrato" method="post">
+    <form class="clientes" asp-controller="Contrato" asp-action="AprovarContrato" method="post">
         <input type="hidden" asp-for="Id">
         <div class="row view">
             <label for="" class="titleModal">
@@ -35,7 +35,7 @@
                                 <p><b>Status do contrato do cliente: </b>Ativo</p>
                             }
                             else {
-                                <p><b>Status do ônibus: </b>Inativo</p>
+                                <p><b>Status do contrato do cliente: </b>Inativo</p>
                             }
                             <p><b>Aprovação do contrato: </b>@Model.ReturnAprovacaoContrato()</p>
                             <p style="display: flex;"><b>Detalhes de clientes PF/PJ: </b><a class="consult-clientes" data-target="#listClientes" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a></p>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            Deseja realmente negar o contrato?
+                            Deseja realmente aprovar o contrato?
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -125,7 +125,7 @@
     </form>
     <section class="container-button">
         <a class="btn filtrar_btn voltar" style="color: white" asp-action="Index">Voltar</a>
-        <a class="btn filtrar_btn desa" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Negar contrato</a>
+        <a class="btn filtrar_btn hab" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Aprovar contrato</a>
     </section>
 </section>
 <script src="~/js/jquery.min.js"></script>

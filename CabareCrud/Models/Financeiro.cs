@@ -20,7 +20,7 @@ namespace BusesControl.Models {
 
         public string ReturnStatusPagamento() {
             if (StatusPagamento == SituacaoPagamento.AguardandoPagamento) return "Aguardando pagamento";
-            else if (StatusPagamento == SituacaoPagamento.PagamentoContabilizado) return "Pagamento contabilizado";
+            else if (StatusPagamento == SituacaoPagamento.PagamentoContabilizado) return "Pagamento efetuado";
             else return "Atrasada";
         }
     }

@@ -53,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\AprovarContratoController.cs" />
     <Compile Remove="Models\ValidacoesDados\ModelValidarDate\ValidarAnoLong.cs" />
   </ItemGroup>
 
@@ -68,7 +69,6 @@
   <ItemGroup>
     <None Remove="Controllers\ContratoController.cs~RF2251c8b4.TMP" />
     <None Remove="Models\Contrato.cs~RF1b537075.TMP" />
-    <None Remove="Views\AprovarContrato\Index.cshtml~RFd695fd9.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -101,6 +101,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="PdfSharp" Version="1.50.5147" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />

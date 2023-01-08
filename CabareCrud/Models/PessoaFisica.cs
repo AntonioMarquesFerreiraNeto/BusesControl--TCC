@@ -2,6 +2,7 @@
 using BusesControl.Models.ModelValidarCPF;
 using BusesControl.Models.ValidacoesDados.ModelValidarDate;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
@@ -30,6 +31,8 @@ namespace BusesControl.Models {
         public string NameMae { get; set; }
 
         public int? IdVinculacaoContratual { get; set; }
+
+        public virtual List<Rescisao> Rescisoes { get; set; }
 
         public StatuCliente Status { get; set; }
 

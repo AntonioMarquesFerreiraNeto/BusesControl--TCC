@@ -38,7 +38,11 @@
         }
     </div>
     <div class="modal-footer" style="justify-content: space-between;">
-        <button type="submit" class="btn filtra_btn" asp-action="Habilitar" asp-controller="Funcionario" style="width: 130px;">Contabilizar rescisão</button>
+        <form asp-action="Rescendir" method="post">
+            <input type="hidden" asp-for="@Model.Contrato.Id">
+            <input type="hidden" asp-for="@Model.Id">
+            <button type="submit" class="btn filtra_btn" style="width: 130px;">Contabilizar rescisão</button>
+        </form>
         <button type="button" class="btn btn-secondary filtrar_btn2"
                 data-dismiss="modal" style="width: 130px;">
             Fechar

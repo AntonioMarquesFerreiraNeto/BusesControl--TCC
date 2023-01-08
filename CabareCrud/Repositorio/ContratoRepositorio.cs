@@ -108,18 +108,6 @@ namespace BusesControl.Repositorio {
                     foreach (var item in list) {
                         ClientesContrato clientesContrato = new ClientesContrato { PessoaFisicaId = item.Id, Contrato = contrato };
                         _bancoContext.AddRange(clientesContrato);
-
-                        //Incluindo financeiro no clientesContrato.
-                        for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
-                            Financeiro financeiro = new Financeiro {
-                                ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
-                                DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
-                            };
-                            if (parcelas == 1) {
-                                financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
-                            }
-                            _bancoContext.Financeiro.Add(financeiro);
-                        }
                     }
                 }
             }
@@ -133,18 +121,6 @@ namespace BusesControl.Repositorio {
                     foreach (var item in list) {
                         ClientesContrato clientesContrato = new ClientesContrato { PessoaJuridicaId = item.Id, Contrato = contrato };
                         _bancoContext.AddRange(clientesContrato);
-
-                        //Incluindo financeiro no clientesContrato.
-                        for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
-                            Financeiro financeiro = new Financeiro {
-                                ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
-                                DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
-                            };
-                            if (parcelas == 1) {
-                                financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
-                            }
-                            _bancoContext.Financeiro.Add(financeiro);
-                        }
                     }
                 }
             }
@@ -190,11 +166,7 @@ namespace BusesControl.Repositorio {
                     if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                         bool clienteValidation = list.Any(x => x.Id == item.PessoaFisicaId) ? true : false;
                         if (clienteValidation != true) {
-                            RemoveFinanceiro(item);
                             _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaFisicaId = item.PessoaFisicaId, Id = item.Id, ContratoId = item.ContratoId });
-                        }
-                        else {
-                            UpdateFinanceiro(contrato, item, contratoCliente);
                         }
                     }
                 }
@@ -204,16 +176,6 @@ namespace BusesControl.Repositorio {
                         if (clienteValidation != true) {
                             ClientesContrato clientesContrato = new ClientesContrato { PessoaFisicaId = item.Id, ContratoId = contrato.Id };
                             _bancoContext.ClientesContrato.Add(clientesContrato);
-                            for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
-                                Financeiro financeiro = new Financeiro {
-                                    ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
-                                    DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
-                                };
-                                if (parcelas == 1) {
-                                    financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
-                                }
-                                _bancoContext.Financeiro.Add(financeiro);
-                            }
                         }
                     }
                 }
@@ -229,11 +191,7 @@ namespace BusesControl.Repositorio {
                     if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                         bool clienteValidation = list.Any(x => x.Id == item.PessoaJuridicaId) ? true : false;
                         if (clienteValidation != true) {
-                            RemoveFinanceiro(item);
                             _bancoContext.ClientesContrato.Remove(new ClientesContrato { PessoaJuridicaId = item.PessoaJuridicaId, Id = item.Id, ContratoId = item.ContratoId });
-                        }
-                        else {
-                            UpdateFinanceiro(contrato, item, contratoCliente);
                         }
                     }
                 }
@@ -243,16 +201,6 @@ namespace BusesControl.Repositorio {
                         if (clienteValidation != true) {
                             ClientesContrato clientesContrato = new ClientesContrato { PessoaJuridicaId = item.Id, ContratoId = contrato.Id };
                             _bancoContext.ClientesContrato.Add(clientesContrato);
-                            for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
-                                Financeiro financeiro = new Financeiro {
-                                    ClientesContrato = clientesContrato, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
-                                    DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
-                                };
-                                if (parcelas == 1) {
-                                    financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
-                                }
-                                _bancoContext.Financeiro.Add(financeiro);
-                            }
                         }
                     }
                 }
@@ -313,7 +261,9 @@ namespace BusesControl.Repositorio {
                 }
                 contratoDB.Aprovacao = StatusAprovacao.Aprovado;
                 contratoDB.Situacao = Situacao.EmAndamento;
+                contratoDB.DataEmissao = DateTime.Now.Date;
                 _bancoContext.Update(contratoDB);
+                AddFinanceiro(contratoDB);
                 _bancoContext.SaveChanges();
                 return contratoDB;
             }
@@ -362,6 +312,21 @@ namespace BusesControl.Repositorio {
                 }
             }
             return false;
+        }
+        public void AddFinanceiro(Contrato contrato) {
+            //Incluindo financeiro no clientesContrato.
+            foreach (var item in contrato.ClientesContratos) {
+                for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
+                    Financeiro financeiro = new Financeiro {
+                        ClientesContrato = item, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                        DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
+                    };
+                    if (parcelas == 1) {
+                        financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
+                    }
+                    _bancoContext.Financeiro.Add(financeiro);
+                }
+            }
         }
         //Método chamado no momento do update de financeiro, no qual ele exclui todo financeiro de clientes que serão removidos do contrato. 
         public void RemoveFinanceiro(ClientesContrato clientesContrato) {

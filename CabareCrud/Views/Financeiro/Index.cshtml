@@ -49,7 +49,7 @@
             <tbody>
                 @if (Model != null || Model.Any()) {
                     @foreach (var item in Model) {
-                        <tr>
+                        <tr class="row-hover">
                             <td>@item.Id</td>
                             <td class="align-content-center justify-content-center">
                                 <a class="consult-clientes btn-view-client" contrato-id="@item.Id" data-target="#listClientesIndex" data-toggle="modal"><i class="fa fa-users icon-detalhes"></i></a>

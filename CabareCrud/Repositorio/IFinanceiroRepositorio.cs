@@ -9,6 +9,7 @@ namespace BusesControl.Repositorio {
         public ClientesContrato listPorIdClientesContrato(int? id);
         public Financeiro ListarFinanceiroPorId(int id);
         public Financeiro ContabilizarFinanceiro(int id);
+        public ClientesContrato RescisaoContrato(ClientesContrato clientesContrato);
         public void TaskMonitorParcelasContrato();
     }
 }

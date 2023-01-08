@@ -1,6 +1,7 @@
 ﻿using BusesControl.Models.Enums;
 using BusesControl.Models.ValidacoesCliente.ModelValidarCnpj;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
@@ -10,7 +11,6 @@ namespace BusesControl.Models {
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string NomeFantasia { get; set; }
 
-
         [Required(ErrorMessage = "Campo obrigatório!")]
         [ValidaCnpj(ErrorMessage = "Campo inválido!")]
         public string Cnpj { get; set; }
@@ -19,7 +19,6 @@ namespace BusesControl.Models {
         [MinLength(3, ErrorMessage = "Campo inválido!")]
         public string RazaoSocial { get; set; }
 
-
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(9, ErrorMessage = "Campo inválido!")]
         public string InscricaoEstadual { get; set; }
@@ -27,6 +26,8 @@ namespace BusesControl.Models {
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(11, ErrorMessage = "Campo inválido!")]
         public string InscricaoMunicipal { get; set; }
+
+        public virtual List<Rescisao> Rescisoes { get; set; }
 
         public StatuCliente Status { get; set; }
 

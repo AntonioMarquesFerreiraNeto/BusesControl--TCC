@@ -43,15 +43,13 @@ namespace BusesControl.Repositorio {
                 .FirstOrDefault(x => x.Id == id);
             return contrato;
         }
-
         public ClientesContrato listPorIdClientesContrato(int? id) {
             return _bancoContext.ClientesContrato
-                   .Include(x => x.PessoaFisica)
-                   .Include(x => x.PessoaJuridica)
-                   .Include(x => x.PessoaJuridica)
-                   .Include(x => x.Contrato)
-                   .Include(x => x.ParcelasContrato)
-                   .FirstOrDefault(x => x.Id == id);
+                .AsNoTracking().Include(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.Contrato)
+                .AsNoTracking().Include(x => x.ParcelasContrato)
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public Financeiro ListarFinanceiroPorId(int id) {
@@ -245,6 +243,45 @@ namespace BusesControl.Repositorio {
         }
         public int ReturnQtmMeses(DateTime date) {
             return date.Year * 12 + date.Month;
+        }
+
+        public ClientesContrato RescisaoContrato(ClientesContrato clientesContrato) {
+            try {
+                ClientesContrato clientesContratoDB = listPorIdClientesContrato(clientesContrato.Id);
+                if (clientesContratoDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
+                if (clientesContratoDB.ParcelasContrato.Any(x => x.StatusPagamento == SituacaoPagamento.Atrasada)) {
+                    throw new Exception("Cliente tem parcelas atrasadas neste contrato!");
+                }
+                foreach (Financeiro parcela in clientesContratoDB.ParcelasContrato) {
+                    _bancoContext.Financeiro.Remove(parcela);
+                }
+                _bancoContext.ClientesContrato.Remove(clientesContratoDB);
+                //chamando o método que cria a rescisão no lugar do clientes contrato.
+                NewRescisao(clientesContratoDB);
+                _bancoContext.SaveChanges();
+                return clientesContratoDB;
+            }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
+            }
+        }
+        public void NewRescisao(ClientesContrato clientesContrato) {
+            Rescisao rescisao = new Rescisao();
+            rescisao.DataRescisao = DateTime.Now.Date;
+            rescisao.Contrato = clientesContrato.Contrato;
+            if (!string.IsNullOrEmpty(clientesContrato.PessoaFisicaId.ToString())) {
+                rescisao.PessoaFisicaId = clientesContrato.PessoaFisicaId;
+            }
+            else {
+                if (!string.IsNullOrEmpty(clientesContrato.PessoaJuridicaId.ToString())) {
+                    rescisao.PessoaJuridicaId = clientesContrato.PessoaJuridicaId;
+                }
+                else {
+                    throw new Exception("Desculpe, ID não foi encontrado!");
+                }
+            }
+            rescisao.CalcularMultaContrato();
+            _bancoContext.Rescisao.Add(rescisao);
         }
     }
 }

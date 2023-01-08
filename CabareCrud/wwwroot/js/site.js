@@ -24,7 +24,7 @@ $(document).ready(function () {
         var contratoIdPdf = $(this).attr('contrato-id-pdf');
         $.ajax({
             type: 'GET',
-            url: "/AprovarContrato/ClientesContratoPdf/" + contratoIdPdf,
+            url: "/Contrato/ClientesContratoPdf/" + contratoIdPdf,
             success: function (result) {
                 $("#list-clients-pdf").html(result);
             }
@@ -74,6 +74,17 @@ $(document).ready(function () {
             url: "/Financeiro/RescendirContrato/" + clienteResponsavelId,
             success: function (result) {
                 $("#cliente-rescisao").html(result);
+            }
+        });
+    });
+    $('.return-modal-aprovacao').click(function () {
+        var idContrato = $(this).attr('contrato-id');
+        console.log(idContrato);
+        $.ajax({
+            type: 'GET',
+            url: "/Contrato/ReturnAprovacaoContrato/" + idContrato,
+            success: function (result) {
+                $("#show-aprovacao").html(result);
             }
         });
     });

@@ -15,13 +15,10 @@
             <ul class="nav navbar-nav ml-auto">
                 @if (Model.Cargos == CargoFuncionario.Administrador) {
                     <li class="nav-item linha">
-                        <a class="nav-link linkMenu" asp-area="" asp-controller="Relatorio" asp-action="Index">Relatórios</a>
+                        <a class="nav-link linkMenu" asp-area="" asp-controller="Relatorio" asp-action="Index"><i class="fa fa-file-contract" style="margin-right: 3px;"></i> Relatórios</a>
                     </li>
                     <li class="nav-item linha">
-                        <a class="nav-link linkMenu" asp-area="" asp-controller="Financeiro" asp-action="Index">Financeiro</a>
-                    </li>
-                    <li class="nav-item linha">
-                        <a class="nav-link linkMenu" asp-area="" asp-controller="AprovarContrato" asp-action="Index">Aprovar contratos</a>
+                        <a class="nav-link linkMenu" asp-area="" asp-controller="Financeiro" asp-action="Index"><i class="fa fa-dollar-sign" style="margin-right: 3px;"></i> Financeiro</a>
                     </li>
                     <li class="nav-item linha">
                         <a class="nav-link linkMenu" style="color: transparent; opacity: 0;">#</a>

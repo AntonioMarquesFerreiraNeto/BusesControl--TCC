@@ -32,8 +32,11 @@ namespace BusesControl.Models {
             return $"{result.ToString("F2")}%";
         }
         public string ReturnPercentualValorContrato(decimal? value) {
-            decimal? result = value / ValTotAprovados * 100;
-            return $"{result.Value.ToString("F2")}%";
+            if (ValTotAprovados != 0) {
+                decimal? result = value / ValTotAprovados * 100;
+                return $"{result.Value.ToString("F2")}%";
+            }
+            return $"";
         }
         public string ReturnPercentualCliente(int? qtPercentual) {
             float percentual = float.Parse(qtPercentual.ToString());

@@ -1,0 +1,27 @@
+﻿@model Contrato
+<div class="modal-content modal-largura-2">
+    <div class="modal-header">
+        <h4 class="modal-title" style="font-size: 13pt;">Aprovação contrato</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @if (Model != null) {
+        <div class="modal-body">
+            <p>
+                Deseja aprovar ou revogar o contrato? Escolha sua opção.
+            </p>
+        </div>
+        <div class="modal-footer" style="justify-content: space-between;">
+            <a class="btn filtra_btn enum" style="color: white;" asp-route-id="@Model.Id" asp-action="AprovarContrato">Aprovar</a>
+            <a class="btn filtrar_btn2" style="color: white;" asp-route-id="@Model.Id" asp-action="RevogarContrato">Revogar</a>
+        </div>
+    }
+    else {
+        <div class="modal-body">
+            <p>
+                Desculpe, ID não foi encontrado!
+            </p>
+        </div>
+    }
+</div>

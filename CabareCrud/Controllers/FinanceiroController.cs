@@ -33,7 +33,7 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult FinanceiroContrato(int id) {
-            ViewData["Title"] = $"Financeiro – contrato Nº {id}";
+            ViewData["Title"] = $"Parcelas – contrato Nº {id}";
             Contrato contrato = _financeiroRepositorio.ListarJoinPorId(id);
             if (contrato == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
@@ -46,6 +46,35 @@ namespace BusesControl.Controllers {
             return PartialView("_RescisaoContrato", clientesContrato);
         }
 
+        [HttpPost]
+        public IActionResult Rescendir(ClientesContrato clientesContrato) {
+            try {
+                Contrato contrato = _financeiroRepositorio.ListarJoinPorId(clientesContrato.Contrato.Id);
+                if (contrato == null) {
+                    TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
+                    return RedirectToAction("Index");
+                }
+                if (clientesContrato != null) {
+                    _financeiroRepositorio.RescisaoContrato(clientesContrato);
+                    TempData["MensagemDeSucesso"] = "Rescisão realizado com sucesso!";
+                    return RedirectToAction("FinanceiroContrato", contrato);
+                }
+                return View("FinanceiroContrato", contrato);
+            }
+            catch (Exception erro) {
+                Contrato contrato = _financeiroRepositorio.ListarJoinPorId(clientesContrato.Contrato.Id);
+                if (contrato == null) {
+                    TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
+                    return RedirectToAction("Index");
+                }
+                else {
+                    ViewData["Title"] = $"Parcelas - contrato N º {contrato.Id}";
+                    TempData["MensagemDeErro"] = erro.Message;
+                    return View("FinanceiroContrato", contrato);
+                }
+            }
+        }
+
         public IActionResult Contabilizar(int? id) {
             ClientesContrato clientesContrato = _financeiroRepositorio.listPorIdClientesContrato(id);
             if (clientesContrato == null) {
@@ -53,7 +82,7 @@ namespace BusesControl.Controllers {
                 return RedirectToAction("Index");
             }
             string name = (clientesContrato.PessoaFisica != null) ? clientesContrato.PessoaFisica.Name : clientesContrato.PessoaJuridica.RazaoSocial;
-            ViewData["Title"] = $"Financeiro contrato Nº {clientesContrato.ContratoId} – {name}";
+            ViewData["Title"] = $"Parcelas contrato Nº {clientesContrato.ContratoId} – {name}";
             clientesContrato.ParcelasContrato = clientesContrato.ParcelasContrato.OrderBy(x => x.DataVencimentoParcela.Value).ToList();
             return View(clientesContrato);
         }
