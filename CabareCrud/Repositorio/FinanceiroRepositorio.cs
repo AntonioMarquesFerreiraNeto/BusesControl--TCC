@@ -22,7 +22,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
-                .Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Situacao.EmAndamento).ToList();
+                .Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Andamento == Andamento.EmAndamento).ToList();
         }
         public List<Contrato> ContratosEncerrados() {
             return _bancoContext.Contrato
@@ -31,7 +31,7 @@ namespace BusesControl.Repositorio {
                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
-               .Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Situacao == Situacao.Encerrado).ToList();
+               .Where(x => x.Aprovacao == StatusAprovacao.Aprovado && x.Andamento == Andamento.Encerrado).ToList();
         }
         public Contrato ListarJoinPorId(int id) {
             var contrato = _bancoContext.Contrato
@@ -109,16 +109,16 @@ namespace BusesControl.Repositorio {
                 int result = ReturnQtParcelasAtrasadaCliente(pessoaFisica.ClientesContratos);
                 if (result == 0) {
                     if (!string.IsNullOrEmpty(pessoaFisica.IdVinculacaoContratual.ToString())) {
-                        pessoaFisica.Adimplente = Adimplente.Adimplente;
+                        pessoaFisica.Adimplente = Adimplencia.Adimplente;
                         _bancoContext.PessoaFisica.Update(pessoaFisica);
                         //Chama o método que valida e seta com adimplente se passar na validação.
                         ValidarAndSetAdimplenteClienteResponsavel(pessoaFisica.IdVinculacaoContratual);
                     }
                     //Se o cliente for maior de idade, este método que é executado e realiza a validação se o cliente possui clientes vinculados em inadimplência.
                     else {
-                        int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaFisica.Id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                        int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaFisica.Id && x.Adimplente == Adimplencia.Inadimplente).ToList().Count;
                         if (clientesVinculadosInadimplentes == 0) {
-                            pessoaFisica.Adimplente = Adimplente.Adimplente;
+                            pessoaFisica.Adimplente = Adimplencia.Adimplente;
                             _bancoContext.PessoaFisica.Update(pessoaFisica);
                         }
                     }
@@ -127,9 +127,9 @@ namespace BusesControl.Repositorio {
             else if (pessoaJuridica != null) {
                 int result = ReturnQtParcelasAtrasadaCliente(pessoaJuridica.ClientesContratos);
                 if (result == 0) {
-                    int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaJuridica.Id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                    int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == pessoaJuridica.Id && x.Adimplente == Adimplencia.Inadimplente).ToList().Count;
                     if (clientesVinculadosInadimplentes == 0) {
-                        pessoaJuridica.Adimplente = Adimplente.Adimplente;
+                        pessoaJuridica.Adimplente = Adimplencia.Adimplente;
                         _bancoContext.PessoaJuridica.Update(pessoaJuridica);
                     }
                 }
@@ -150,9 +150,9 @@ namespace BusesControl.Repositorio {
             PessoaFisica pessoaFisicaResponsavel = _bancoContext.PessoaFisica.Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato).FirstOrDefault(x => x.Id == id);
             if (pessoaFisicaResponsavel != null) {
                 int resultParcelasAtrasadas = ReturnQtParcelasAtrasadaCliente(pessoaFisicaResponsavel.ClientesContratos);
-                int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == id && x.Adimplente == Adimplencia.Inadimplente).ToList().Count;
                 if (resultParcelasAtrasadas == 0 && clientesVinculadosInadimplentes == 1) {
-                    pessoaFisicaResponsavel.Adimplente = Adimplente.Adimplente;
+                    pessoaFisicaResponsavel.Adimplente = Adimplencia.Adimplente;
                     _bancoContext.Update(pessoaFisicaResponsavel);
                 }
             }
@@ -160,9 +160,9 @@ namespace BusesControl.Repositorio {
                 PessoaJuridica pessoaJuridicaResponsavel = _bancoContext.PessoaJuridica.Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato).FirstOrDefault(x => x.Id == id);
                 if (pessoaJuridicaResponsavel != null) {
                     int resultParcelasAtrasadas = ReturnQtParcelasAtrasadaCliente(pessoaJuridicaResponsavel.ClientesContratos);
-                    int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == id && x.Adimplente == Adimplente.Inadimplente).ToList().Count;
+                    int clientesVinculadosInadimplentes = _bancoContext.PessoaFisica.Where(x => x.IdVinculacaoContratual == id && x.Adimplente == Adimplencia.Inadimplente).ToList().Count;
                     if (resultParcelasAtrasadas == 0 && clientesVinculadosInadimplentes == 1) {
-                        pessoaJuridicaResponsavel.Adimplente = Adimplente.Adimplente;
+                        pessoaJuridicaResponsavel.Adimplente = Adimplencia.Adimplente;
                         _bancoContext.Update(pessoaJuridicaResponsavel);
                     }
                 }
@@ -189,14 +189,14 @@ namespace BusesControl.Repositorio {
                             var pessoaJuridicaDB = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == clientesContrato.PessoaJuridicaId);
                             _bancoContext.Financeiro.Update(financeiroDB);
                             if (pessoaFisicaDB != null) {
-                                pessoaFisicaDB.Adimplente = Adimplente.Inadimplente;
+                                pessoaFisicaDB.Adimplente = Adimplencia.Inadimplente;
                                 _bancoContext.PessoaFisica.Update(pessoaFisicaDB);
                                 if (!string.IsNullOrEmpty(pessoaFisicaDB.IdVinculacaoContratual.ToString())) {
                                     SetInadimplenciaClienteResponsavel(pessoaFisicaDB.IdVinculacaoContratual.Value);
                                 }
                             }
                             else {
-                                pessoaJuridicaDB.Adimplente = Adimplente.Inadimplente;
+                                pessoaJuridicaDB.Adimplente = Adimplencia.Inadimplente;
                                 _bancoContext.PessoaJuridica.Update(pessoaJuridicaDB);
                             }
                         }
@@ -208,7 +208,7 @@ namespace BusesControl.Repositorio {
                     || x2.StatusPagamento == SituacaoPagamento.AguardandoPagamento)).ToList().Count;
                     if (contParcelasAtrasadasOrPendente == 0) {
                         Contrato contratoDB = _bancoContext.Contrato.FirstOrDefault(x => x.Id == contrato.Id);
-                        contratoDB.Situacao = Situacao.Encerrado;
+                        contratoDB.Andamento = Andamento.Encerrado;
                         _bancoContext.Update(contratoDB);
                     }
                 }
@@ -230,13 +230,13 @@ namespace BusesControl.Repositorio {
         public void SetInadimplenciaClienteResponsavel(int id) {
             PessoaFisica pessoaFisicaResponsavel = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == id);
             if (pessoaFisicaResponsavel != null) {
-                pessoaFisicaResponsavel.Adimplente = Adimplente.Inadimplente;
+                pessoaFisicaResponsavel.Adimplente = Adimplencia.Inadimplente;
                 _bancoContext.PessoaFisica.Update(pessoaFisicaResponsavel);
             }
             else {
                 PessoaJuridica pessoaJuridicaResponsavel = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == id);
                 if (pessoaJuridicaResponsavel != null) {
-                    pessoaJuridicaResponsavel.Adimplente = Adimplente.Inadimplente;
+                    pessoaJuridicaResponsavel.Adimplente = Adimplencia.Inadimplente;
                     _bancoContext.PessoaJuridica.Update(pessoaJuridicaResponsavel);
                 }
             }

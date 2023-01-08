@@ -20,15 +20,15 @@ namespace BusesControl.Repositorio {
         public List<PessoaFisica> ListClienteFisicoLegal() {
             var list = _bancocontext.PessoaFisica.ToList();
             return list.Where(x => x.Status == StatuCliente.Habilitado
-                && string.IsNullOrEmpty(x.IdVinculacaoContratual.ToString()) && x.Adimplente == Adimplente.Adimplente).ToList();
+                && string.IsNullOrEmpty(x.IdVinculacaoContratual.ToString()) && x.Adimplente == Adimplencia.Adimplente).ToList();
         }
         public List<PessoaFisica> ListClienteFisicoLegalContrato() {
-            return _bancocontext.PessoaFisica.Where(x => x.Status == StatuCliente.Habilitado && x.Adimplente == Adimplente.Adimplente).ToList();
+            return _bancocontext.PessoaFisica.Where(x => x.Status == StatuCliente.Habilitado && x.Adimplente == Adimplencia.Adimplente).ToList();
         }
         //Adicionar as regras de negócio para clientes jurídicos que podem realizar contratos neste método.
         public List<PessoaJuridica> ListClienteJuridicoLegal() {
             var list = _bancocontext.PessoaJuridica.ToList();
-            return list.Where(x => x.Status == StatuCliente.Habilitado && x.Adimplente == Adimplente.Adimplente).ToList();
+            return list.Where(x => x.Status == StatuCliente.Habilitado && x.Adimplente == Adimplencia.Adimplente).ToList();
         }
 
         public List<PessoaFisica> BuscarTodosHabilitados() {
@@ -144,7 +144,7 @@ namespace BusesControl.Repositorio {
         public PessoaFisica Desabilitar(PessoaFisica cliente) {
             PessoaFisica clienteDesabilitado = ListarPorId(cliente.Id);
             if (clienteDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
-            if (clienteDesabilitado.Adimplente == Adimplente.Inadimplente) throw new Exception("Cliente está em situação de inadimplência!");
+            if (clienteDesabilitado.Adimplente == Adimplencia.Inadimplente) throw new Exception("Cliente está em situação de inadimplência!");
             if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
             }
@@ -158,7 +158,7 @@ namespace BusesControl.Repositorio {
         public PessoaJuridica DesabilitarJuridico(PessoaJuridica cliente) {
             PessoaJuridica clienteDesabilitado = ListarPorIdJuridico(cliente.Id);
             if (clienteDesabilitado == null) throw new Exception("Desculpe, ID não foi encontrado.");
-            if (clienteDesabilitado.Adimplente == Adimplente.Inadimplente) throw new Exception("Cliente está em situação de inadimplência!");
+            if (clienteDesabilitado.Adimplente == Adimplencia.Inadimplente) throw new Exception("Cliente está em situação de inadimplência!");
             if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
             } 

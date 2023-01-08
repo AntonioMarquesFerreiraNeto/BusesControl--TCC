@@ -15,7 +15,7 @@
     </div>
 }
 <section class="clientes">
-    @if (Model.Any(x => x.Situacao == Situacao.EmAndamento)) {
+    @if (Model.Any(x => x.Andamento == Andamento.EmAndamento)) {
         <h3 id="bac">
             <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
             <hr style="margin-top: 3px;">

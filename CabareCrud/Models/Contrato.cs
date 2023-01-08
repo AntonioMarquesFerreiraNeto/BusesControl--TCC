@@ -59,7 +59,7 @@ namespace BusesControl.Models {
 
         public Onibus Onibus { get; set; }
 
-        public Situacao Situacao { get; set; }
+        public Andamento Andamento { get; set; }
 
         public virtual List<ClientesContrato> ClientesContratos { get; set; }
 
@@ -117,7 +117,17 @@ namespace BusesControl.Models {
             DateTime dia = DataEmissao.Value;
             return $"{dia.Day}";
         }
-
+        public string ReturnSituacaoContrato() {
+            if (Andamento == Andamento.Aguardando) {
+                return $"Em espera";
+            }
+            else if (Andamento == Andamento.EmAndamento) {
+                return $"Em andamento";
+            }
+            else {
+                return $"Encerrado";
+            }
+        }
         public string ReturnDateContrato() {
             DateTime dateEmissao = DataEmissao.Value;
             DateTime dateVencimento = DataVencimento.Value;

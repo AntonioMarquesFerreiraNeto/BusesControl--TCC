@@ -93,13 +93,13 @@ namespace BusesControl.Repositorio {
             return quantidade;
         }
         public int QtClientesAdimplentes() {
-            int quantidade = _bancoContext.PessoaFisica.Where(x => x.Adimplente == Adimplente.Adimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
-            quantidade += _bancoContext.PessoaJuridica.Where(x => x.Adimplente == Adimplente.Adimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
+            int quantidade = _bancoContext.PessoaFisica.Where(x => x.Adimplente == Adimplencia.Adimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
+            quantidade += _bancoContext.PessoaJuridica.Where(x => x.Adimplente == Adimplencia.Adimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
             return quantidade;
         }
         public int QtClientesInadimplentes() {
-            int quantidade = _bancoContext.PessoaFisica.Where(x => x.Adimplente == Adimplente.Inadimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
-            quantidade += _bancoContext.PessoaJuridica.Where(x => x.Adimplente == Adimplente.Inadimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
+            int quantidade = _bancoContext.PessoaFisica.Where(x => x.Adimplente == Adimplencia.Inadimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
+            quantidade += _bancoContext.PessoaJuridica.Where(x => x.Adimplente == Adimplencia.Inadimplente && x.Status == StatuCliente.Habilitado).ToList().Count;
             return quantidade;
         }
 

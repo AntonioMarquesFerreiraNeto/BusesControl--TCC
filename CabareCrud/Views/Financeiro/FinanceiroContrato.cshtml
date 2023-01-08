@@ -22,7 +22,7 @@
     <div class="cliente">
         <div class="flex-item" style="margin-bottom: -2px;">
             <div></div>
-            @if (Model.Situacao == Situacao.EmAndamento) {
+            @if (Model.Andamento == Andamento.EmAndamento) {
                 <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
             }
             else {
@@ -48,7 +48,7 @@
                                 @if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                                     <td>@item.PessoaFisicaId</td>
                                     <td>@item.PessoaFisica.Name</td>
-                                    @if (@item.PessoaFisica.Adimplente == Adimplente.Adimplente) {
+                                    @if (@item.PessoaFisica.Adimplente == Adimplencia.Adimplente) {
                                         <td>@item.PessoaFisica.ReturnAdimplenciaCliente()</td>
                                     }
                                     else {
@@ -58,7 +58,7 @@
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
                                     <td>
                                         <a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a>
-                                        @if (Model.Situacao != Situacao.Encerrado) {
+                                        @if (Model.Andamento != Andamento.Encerrado) {
                                             <a class="btn-recisao return-clienterescisao" data-target="#janelaConfirmRescisao" data-toggle="modal" href="#" clienterescisao-id="@item.Id"><i class="fa fa-minus-circle"></i> Rescisão</a>
                                         }
                                     </td>
@@ -66,7 +66,7 @@
                                 @if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
                                     <td>@item.PessoaJuridicaId</td>
                                     <td>@item.PessoaJuridica.RazaoSocial</td>
-                                    @if (@item.PessoaJuridica.Adimplente == Adimplente.Adimplente) {
+                                    @if (@item.PessoaJuridica.Adimplente == Adimplencia.Adimplente) {
                                         <td>@item.PessoaJuridica.ReturnAdimplenciaCliente()</td>
                                     }
                                     else {
@@ -76,7 +76,7 @@
                                     <td>R$ @Html.DisplayFor(x => item.Contrato.ValorParcelaContratoPorCliente)</td>
                                     <td>
                                         <a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizações</a>
-                                        @if (Model.Situacao != Situacao.Encerrado) {
+                                        @if (Model.Andamento != Andamento.Encerrado) {
                                             <a class="btn-recisao return-clienterescisao" data-target="#janelaConfirmRescisao" data-toggle="modal" href="#" clienterescisao-id="@item.Id"><i class="fa fa-minus-circle"></i> Rescisão</a>
                                         }
                                     </td>

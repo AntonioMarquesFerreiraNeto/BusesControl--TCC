@@ -93,7 +93,7 @@ namespace BusesControl.Repositorio {
                 contrato.ReturnValorParcela();
                 int qtClient = modelsContrato.ListPessoaFisicaSelect.Count + modelsContrato.ListPessoaJuridicaSelect.Count;
                 contrato.ReturnValorParcelaPorCliente(qtClient);
-                contrato.Situacao = Situacao.Aguardando;
+                contrato.Andamento = Andamento.Aguardando;
                 _bancoContext.Contrato.Add(contrato);
                 _bancoContext.SaveChanges();
                 return modelsContrato;
@@ -245,6 +245,10 @@ namespace BusesControl.Repositorio {
                 if (contratoDB == null) {
                     throw new Exception("Desculpe, ID não foi encontrado.");
                 }
+                //Realizando tal medida logo abaixo para que os espertinhos não consiga aprovar um contrato já aprovado pela URL.
+                if (contratoDB.Aprovacao == StatusAprovacao.Aprovado) {
+                    throw new Exception("Desculpe, ID não foi encontrado.");         
+                }
                 if (contratoDB.StatusContrato == ContratoStatus.Inativo) {
                     throw new Exception("Não é possível aprovar contratos inativos!");
                 }
@@ -260,7 +264,7 @@ namespace BusesControl.Repositorio {
                     throw new Exception("Não é possível aprovar contrato com ônibus vinculado desabilitado!");
                 }
                 contratoDB.Aprovacao = StatusAprovacao.Aprovado;
-                contratoDB.Situacao = Situacao.EmAndamento;
+                contratoDB.Andamento = Andamento.EmAndamento;
                 contratoDB.DataEmissao = DateTime.Now.Date;
                 _bancoContext.Update(contratoDB);
                 AddFinanceiro(contratoDB);

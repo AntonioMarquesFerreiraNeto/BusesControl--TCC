@@ -130,12 +130,12 @@ namespace BusesControl.Controllers {
                 foreach (var item in contrato.ClientesContratos) {
                     string situacao;
                     if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
-                        situacao = (item.PessoaFisica.Adimplente == Adimplente.Adimplente) ? "Adimplente" : "Inadimplente";
+                        situacao = (item.PessoaFisica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
                         CriarCelulaTexto(tabela, item.PessoaFisica.Name, PdfPCell.ALIGN_LEFT);
                         CriarCelulaTexto(tabela, situacao, PdfPCell.ALIGN_LEFT);
                     }
                     else {
-                        situacao = (item.PessoaJuridica.Adimplente == Adimplente.Adimplente) ? "Adimplente" : "Inadimplente";
+                        situacao = (item.PessoaJuridica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
                         CriarCelulaTexto(tabela, item.PessoaJuridica.NomeFantasia, PdfPCell.ALIGN_LEFT);
                         CriarCelulaTexto(tabela, situacao, PdfPCell.ALIGN_LEFT);
                     }

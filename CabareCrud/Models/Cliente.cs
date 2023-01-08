@@ -55,7 +55,7 @@ namespace BusesControl.Models {
         [MinLength(2, ErrorMessage = "Campo inválido!")]
         public string Ddd { get; set; }
 
-        public Adimplente Adimplente { get; set; }
+        public Adimplencia Adimplente { get; set; }
 
         public virtual List<ClientesContrato> ClientesContratos { get; set; }
 
@@ -65,7 +65,7 @@ namespace BusesControl.Models {
         }
 
         public string ReturnAdimplenciaCliente() {
-            string situacao = (Adimplente == Adimplente.Adimplente) ? "Cliente adimplente" : "Cliente inadimplente";
+            string situacao = (Adimplente == Adimplencia.Adimplente) ? "Cliente adimplente" : "Cliente inadimplente";
             return situacao;
         }
     }

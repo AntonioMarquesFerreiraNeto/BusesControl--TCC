@@ -50,9 +50,12 @@
             <thead>
                 <tr>
                     <th scope="col">Id</th>
+                    <th scope="col">Marca</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Placa</th>
+                    <th scope="col">Ano de fab.</th>
                     <th scope="col">Assentos</th>
+
                     <th scope="col">Opção</th>
                 </tr>
             </thead>
@@ -60,9 +63,11 @@
                 @if (Model != null && Model.Any()) {
                     foreach (Onibus onibus in Model) {
                         <tr class="row-hover">
-                            <th scope="row">@onibus.Id</th>
+                            <td>@onibus.Id</td>
+                            <td>@onibus.Marca</td>
                             <td>@onibus.NameBus</td>
                             <td>@onibus.Placa</td>
+                            <td>@onibus.DataFabricacao</td>
                             <td>@onibus.Assentos</td>
                             <td>
                                 @if (onibus.StatusOnibus == OnibusStatus.Habilitado) {

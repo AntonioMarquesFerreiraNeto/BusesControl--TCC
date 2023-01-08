@@ -50,11 +50,12 @@
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Clientes</th>
+                    <th scope="col">Cliente</th>
                     <th scope="col">Vencimento</th>
                     <th scope="col">Valor total</th>
                     <th scope="col">Aprovação</th>
                     <th scope="col">Pagamento</th>
+                    <th scope="col">Andamento</th>
                     <th scope="col">Opção</th>
                 </tr>
             </thead>
@@ -70,6 +71,7 @@
                             <td>R$ @Html.DisplayFor(x => @item.ValorMonetario)</td>
                             <td>@item.ReturnAprovacaoContrato()</td>
                             <td>@item.ReturnTypePagament()</td>
+                            <td>@item.ReturnSituacaoContrato()</td>
                             <td>
                                 @if (@item.StatusContrato == ContratoStatus.Ativo) {
                                     <a class="link clear-list" asp-route-id="@item.Id" asp-action="EditarContrato"><i class="fa fa-edit"></i></a>

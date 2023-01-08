@@ -152,14 +152,14 @@ namespace BusesControl.Controllers {
                 if (!string.IsNullOrEmpty(modelsCliente.ClienteFisico.IdVinculacaoContratual.ToString())) {
                     PessoaFisica pessoaFisicaResponsavel = _clienteRepositorio.ListarPorId(modelsCliente.ClienteFisico.IdVinculacaoContratual.Value);
                     if (pessoaFisicaResponsavel != null) {
-                        if (pessoaFisicaResponsavel.Adimplente == Adimplente.Inadimplente) {
+                        if (pessoaFisicaResponsavel.Adimplente == Adimplencia.Inadimplente) {
                             modelsCliente.ClienteFisicoList.Add(pessoaFisicaResponsavel);
                         }
                     }
                     else {
                         PessoaJuridica pessoaJuridicaResponsavel = _clienteRepositorio.ListarPorIdJuridico(modelsCliente.ClienteFisico.IdVinculacaoContratual.Value);
                         if (pessoaJuridicaResponsavel != null) {
-                            if (pessoaJuridicaResponsavel.Adimplente == Adimplente.Inadimplente) {
+                            if (pessoaJuridicaResponsavel.Adimplente == Adimplencia.Inadimplente) {
                                 modelsCliente.ClienteJuridicoList.Add(pessoaJuridicaResponsavel);
                             }
                         }
@@ -381,7 +381,7 @@ namespace BusesControl.Controllers {
         //Método que não deixa cliente inadimplente ter seu responsável alterado. 
         public bool ValidarClienteResponAlterInvalid(PessoaFisica pessoaFisica) {
             PessoaFisica pessoaFisicaDB = _clienteRepositorio.ListarPorId(pessoaFisica.Id);
-            if (pessoaFisicaDB.Adimplente == Adimplente.Inadimplente && pessoaFisica.IdVinculacaoContratual != pessoaFisicaDB.IdVinculacaoContratual) {
+            if (pessoaFisicaDB.Adimplente == Adimplencia.Inadimplente && pessoaFisica.IdVinculacaoContratual != pessoaFisicaDB.IdVinculacaoContratual) {
                 return true;
             }
             return false;
