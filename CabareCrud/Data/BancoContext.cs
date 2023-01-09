@@ -15,7 +15,7 @@ namespace BusesControl.Data {
         public DbSet<Onibus> Onibus { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
         public DbSet<ClientesContrato> ClientesContrato { get; set; }
-        public DbSet<Financeiro> Financeiro { get; set; }
+        public DbSet<ParcelasCliente> ParcelasCliente { get; set; }
         public DbSet<Rescisao> Rescisao { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 

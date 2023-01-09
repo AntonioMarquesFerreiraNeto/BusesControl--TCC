@@ -9,7 +9,7 @@ namespace BusesControl.Models {
         public int? PessoaFisicaId { get; set; }
         public virtual PessoaFisica PessoaFisica { get; set; }
         public virtual PessoaJuridica PessoaJuridica { get; set; }
-        public virtual List<Financeiro> ParcelasContrato { get; set; }
+        public virtual List<ParcelasCliente> ParcelasContrato { get; set; }
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorTotalPagoCliente { get; set; }
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]

@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
-    public class Financeiro {
+    public class ParcelasCliente {
         public int Id { get; set; }
         public int? ClientesContratoId { get; set; }
         public ClientesContrato ClientesContrato { get; set; }

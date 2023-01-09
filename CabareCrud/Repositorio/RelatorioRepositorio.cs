@@ -66,7 +66,7 @@ namespace BusesControl.Repositorio {
             return valorPedente;
         }
         public decimal? ValorTotJurosCliente(int? id) {
-            List<Financeiro> financeiros = _bancoContext.Financeiro.Where(x => x.ClientesContratoId == id).ToList();
+            List<ParcelasCliente> financeiros = _bancoContext.ParcelasCliente.Where(x => x.ClientesContratoId == id).ToList();
             decimal? totValorJuros = 0;
             foreach (var item in financeiros) {
                 if (!string.IsNullOrEmpty(item.ValorJuros.ToString())) {

@@ -321,20 +321,20 @@ namespace BusesControl.Repositorio {
             //Incluindo financeiro no clientesContrato.
             foreach (var item in contrato.ClientesContratos) {
                 for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
-                    Financeiro financeiro = new Financeiro {
+                    ParcelasCliente financeiro = new ParcelasCliente {
                         ClientesContrato = item, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
                         DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
                     };
                     if (parcelas == 1) {
                         financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
                     }
-                    _bancoContext.Financeiro.Add(financeiro);
+                    _bancoContext.ParcelasCliente.Add(financeiro);
                 }
             }
         }
         //Método chamado no momento do update de financeiro, no qual ele exclui todo financeiro de clientes que serão removidos do contrato. 
         public void RemoveFinanceiro(ClientesContrato clientesContrato) {
-            List<Financeiro> financeiros = _bancoContext.Financeiro.Where(x => x.ClientesContrato == clientesContrato).ToList();
+            List<ParcelasCliente> financeiros = _bancoContext.ParcelasCliente.Where(x => x.ClientesContrato == clientesContrato).ToList();
             foreach (var item in financeiros) {
                 _bancoContext.Remove(item);
             }
@@ -343,16 +343,16 @@ namespace BusesControl.Repositorio {
         public void UpdateFinanceiro(Contrato contrato, ClientesContrato clientesContrato, Contrato contratoDB) {
             if (contrato.QtParcelas > contratoDB.QtParcelas) {
                 for (int parcelas = contratoDB.QtParcelas.Value + 1; parcelas <= contrato.QtParcelas.Value; parcelas++) {
-                    Financeiro financeiro = new Financeiro {
+                    ParcelasCliente financeiro = new ParcelasCliente {
                         ClientesContratoId = clientesContrato.Id, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
                         DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
                     };
-                    _bancoContext.Financeiro.Add(financeiro);
+                    _bancoContext.ParcelasCliente.Add(financeiro);
                 }
             }
             else if (contrato.QtParcelas != contratoDB.QtParcelas) {
                 for (int? parcelas = contrato.QtParcelas + 1; parcelas <= contratoDB.QtParcelas; parcelas++) {
-                    Financeiro financeiro = _bancoContext.Financeiro.FirstOrDefault(x => x.ClientesContratoId == clientesContrato.Id && x.NomeParcela == parcelas.ToString());
+                    ParcelasCliente financeiro = _bancoContext.ParcelasCliente.FirstOrDefault(x => x.ClientesContratoId == clientesContrato.Id && x.NomeParcela == parcelas.ToString());
                     _bancoContext.Remove(financeiro);
                 }
             }

@@ -52,16 +52,16 @@ namespace BusesControl.Repositorio {
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public Financeiro ListarFinanceiroPorId(int id) {
-            return _bancoContext.Financeiro.Include(x => x.ClientesContrato).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
+        public ParcelasCliente ListarFinanceiroPorId(int id) {
+            return _bancoContext.ParcelasCliente.Include(x => x.ClientesContrato).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
         }
 
-        public Financeiro ContabilizarFinanceiro(int id) {
+        public ParcelasCliente ContabilizarFinanceiro(int id) {
             try {
-                Financeiro financeiroDB = ListarFinanceiroPorId(id);
+                ParcelasCliente financeiroDB = ListarFinanceiroPorId(id);
                 if (financeiroDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
                 financeiroDB.StatusPagamento = SituacaoPagamento.PagamentoContabilizado;
-                _bancoContext.Financeiro.Update(financeiroDB);
+                _bancoContext.ParcelasCliente.Update(financeiroDB);
                 ValidarInadimplenciaCliente(financeiroDB);
                 SetValoresPagosContratoAndCliente(financeiroDB);
                 _bancoContext.SaveChanges();
@@ -71,7 +71,7 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
-        public void SetValoresPagosContratoAndCliente(Financeiro financeiroDB) {
+        public void SetValoresPagosContratoAndCliente(ParcelasCliente financeiroDB) {
             ClientesContrato clientesContrato = financeiroDB.ClientesContrato;
             if (!string.IsNullOrEmpty(clientesContrato.ValorTotalPagoCliente.ToString())) {
                 clientesContrato.ValorTotalPagoCliente += clientesContrato.Contrato.ValorParcelaContratoPorCliente;
@@ -96,7 +96,7 @@ namespace BusesControl.Repositorio {
             _bancoContext.ClientesContrato.Update(clientesContrato);
             _bancoContext.Contrato.Update(clientesContrato.Contrato);
         }
-        public void ValidarInadimplenciaCliente(Financeiro value) {
+        public void ValidarInadimplenciaCliente(ParcelasCliente value) {
             var pessoaJuridica = _bancoContext.PessoaJuridica.Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato).FirstOrDefault(pessoa =>
                pessoa.ClientesContratos.Any(clientesContrato => clientesContrato.ParcelasContrato.Any(financeiro =>
                financeiro.Id == value.Id)) && !string.IsNullOrEmpty(pessoa.Cnpj));
@@ -182,12 +182,12 @@ namespace BusesControl.Repositorio {
                 foreach (var clientesContrato in contrato.ClientesContratos) {
                     foreach (var financeiro in clientesContrato.ParcelasContrato) {
                         if (dateAtual > financeiro.DataVencimentoParcela && financeiro.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
-                            Financeiro financeiroDB = _bancoContext.Financeiro.FirstOrDefault(x => x.Id == financeiro.Id);
+                            ParcelasCliente financeiroDB = _bancoContext.ParcelasCliente.FirstOrDefault(x => x.Id == financeiro.Id);
                             financeiroDB.StatusPagamento = SituacaoPagamento.Atrasada;
                             financeiroDB.ValorJuros = SetJurosParcela(financeiroDB, contrato);
                             var pessoaFisicaDB = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == clientesContrato.PessoaFisicaId);
                             var pessoaJuridicaDB = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == clientesContrato.PessoaJuridicaId);
-                            _bancoContext.Financeiro.Update(financeiroDB);
+                            _bancoContext.ParcelasCliente.Update(financeiroDB);
                             if (pessoaFisicaDB != null) {
                                 pessoaFisicaDB.Adimplente = Adimplencia.Inadimplente;
                                 _bancoContext.PessoaFisica.Update(pessoaFisicaDB);
@@ -215,7 +215,7 @@ namespace BusesControl.Repositorio {
             }
             _bancoContext.SaveChanges();
         }
-        public decimal? SetJurosParcela(Financeiro financeiro, Contrato contrato) {
+        public decimal? SetJurosParcela(ParcelasCliente financeiro, Contrato contrato) {
             DateTime dataAtual = DateTime.Now.Date;
             int qtMeses = ReturnQtmMeses(dataAtual) - ReturnQtmMeses(financeiro.DataVencimentoParcela.Value.Date);
             if (qtMeses == 0) {
@@ -252,8 +252,8 @@ namespace BusesControl.Repositorio {
                 if (clientesContratoDB.ParcelasContrato.Any(x => x.StatusPagamento == SituacaoPagamento.Atrasada)) {
                     throw new Exception("Cliente tem parcelas atrasadas neste contrato!");
                 }
-                foreach (Financeiro parcela in clientesContratoDB.ParcelasContrato) {
-                    _bancoContext.Financeiro.Remove(parcela);
+                foreach (ParcelasCliente parcela in clientesContratoDB.ParcelasContrato) {
+                    _bancoContext.ParcelasCliente.Remove(parcela);
                 }
                 _bancoContext.ClientesContrato.Remove(clientesContratoDB);
                 //chamando o método que cria a rescisão no lugar do clientes contrato.
