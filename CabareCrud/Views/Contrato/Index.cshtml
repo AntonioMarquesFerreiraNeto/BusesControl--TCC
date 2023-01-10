@@ -46,17 +46,17 @@
                 </a>
             </div>
         </div>
-        <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
+        <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded display" style="width: 100%;">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Vencimento</th>
-                    <th scope="col">Valor total</th>
-                    <th scope="col">Aprovação</th>
-                    <th scope="col">Pagamento</th>
-                    <th scope="col">Andamento</th>
-                    <th scope="col">Opção</th>
+                    <th scope="col" style="font-size: 9pt;">Id</th>
+                    <th scope="col" style="font-size: 9pt;">Clientes</th>
+                    <th scope="col" style="font-size: 9pt;">Vencimento</th>
+                    <th scope="col" style="font-size: 9pt;">Valor total</th>
+                    <th scope="col" style="font-size: 9pt;">Aprovação</th>
+                    <th scope="col" style="font-size: 9pt;">Pagamento</th>
+                    <th scope="col" style="font-size: 9pt;">Andamento</th>
+                    <th scope="col" style="font-size: 9pt;">Opção</th>
                 </tr>
             </thead>
             <tbody>
@@ -138,11 +138,18 @@
 </div>
 <script src="~/js/site.js"></script>
 <script src="~/js/jquery.min.js"></script>
+<script src="~/js/mascaraMoney.js"></script>
+<script src="~/Js copy/MascarDate.js"></script>
 @section Scripts{
     <script>
         $(document).ready(function() {
-            $('#table-contrato').DataTable({
-                "ordering": true,
+            // Setup - add a text input to each footer cell
+            $('#table-contrato thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#table-contrato thead');
+            var table = $('#table-contrato').DataTable({
+                "ordering": false,
                 "paging": true,
                 "searching": true,
                 "oLanguage": {
@@ -167,7 +174,66 @@
                         "sSortAscending": ": Ordenar colunas de forma ascendente",
                         "sSortDescending": ": Ordenar colunas de forma descendente"
                     }
-                }
+                },
+                initComplete: function() {
+                    var api = this.api();
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function(colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            if (title == "Vencimento") {
+                                $(cell).html('<div class="table-pai"><input maxlength="10" onkeyup="mascara_data(this, this.value)" class="input-table" type="text" placeholder="' + title + '"/></div>');
+                            }
+                            else if (title == "Clientes") {
+                                $(cell).html('<div class="table-pai"></div>');
+                            }
+                            else if (title == "Valor total") {
+                                 $(cell).html('<div class="table-pai"><input class="input-table" onkeyup="mascaraMoeda(this, event)" type="text" placeholder="' + title + '" /></div>');
+                            }
+                            else {
+                                $(cell).html('<div class="table-pai"><input class="input-table" type="text" placeholder="' + title + '" /></div>');
+                            }
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function(e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function(e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                },
             });
         });
     </script>

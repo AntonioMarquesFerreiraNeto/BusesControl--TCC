@@ -7,6 +7,9 @@
     <li class="linha">
         <a asp-area="" asp-controller="Cliente" asp-action="Index"><span class="fa fa-user"></span> Clientes</a>
     </li>
+    <li class="linha">
+        <a asp-area="" asp-controller="Fornecedor" asp-action="Index"><span class="fa fa-user"></span> Forne&shy;cedores</a>
+    </li>
     @if (Model.Cargos == CargoFuncionario.Administrador) {
         <li class="linha">
             <a asp-area="" asp-controller="Funcionario" asp-action="Index"><span class="fa fa-user-tie"></span> Funcio&shy;nários</a>

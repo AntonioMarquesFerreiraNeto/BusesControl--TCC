@@ -51,7 +51,7 @@ namespace BusesControl.Controllers {
         }
         public IActionResult NovoClienteJuridico() {
             ViewData["Title"] = "Incluir";
-            TempData["MensagemDeInfo"] = "O e-mail não é obrigatório para clientes.";
+            TempData["MensagemDeInfo"] = "O e-mail não é obrigatório para clientes/fornecedores.";
             return View();
         }
         [HttpPost]

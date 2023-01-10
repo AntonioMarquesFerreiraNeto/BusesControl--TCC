@@ -1,0 +1,301 @@
+﻿@model FornecedorFisico;
+<link rel="stylesheet" href="~/css/style.css">
+<link rel="stylesheet" href="~/css/cliente.css">
+<link rel="stylesheet" href="~/css/home.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeInfo"] != null) {
+    <a class="consult-flow-info" onclick="ViewInfo()"><i class="fa fa-info icon-detalhes"></i></a>
+    <div class="alert alert-info" role="alert">
+        @TempData["MensagemDeInfo"]
+        <button type="button" class="btn btn-danger btn-sm close-alert info" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <h3 id="bac">
+        <i class="fa fa-users"></i>
+        Incluir fornecedor físico
+        <hr style="margin-top: 2px;">
+    </h3>
+    <div class="cliente">
+        <form id="formAdd" asp-controller="Fornecedor" asp-action="NovoFornecedorFisico" method="post">
+            <div class="row">
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputNome"
+                           placeholder="Informe o nome completo do cliente." maxlength="60" asp-for="Name">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Name)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="date" class="form-control" id="inputDate"
+                           asp-for="DataNascimento">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.DataNascimento)</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-address-card"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputCpf"
+                           placeholder="Informe o CPF do cliente." maxlength="11"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Cpf">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Cpf)</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-address-card"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputRg"
+                           placeholder="Informe o RG do cliente." maxlength="9"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Rg">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Rg)</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputEmail"
+                           placeholder="Informe o email do cliente." maxlength="60" asp-for="Email">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Email)</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                    </div>
+                    <input type="tel" class="form-control" id="inputTel"
+                           placeholder="Informe o telefone do cliente."
+                           maxlength="9"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
+                           asp-for="Telefone">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.Telefone)</small>
+                    </div>
+                </div>
+                <div class="col-md-12 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputMae"
+                           placeholder="Informe o nome completo da mãe do cliente."
+                           maxlength="60" asp-for="NameMae">
+                    <div class="i">
+                        <small class="errorMsg">@Html.ValidationMessageFor(x => x.NameMae)</small>
+                    </div>
+                </div>
+                <!-- Cadastro de endereço-->
+                <div class="col-md-12 ende">
+                    <label for="">
+                        Endereço
+                        <hr style="margin-top: 0;">
+                    </label>
+                    <div class="row">
+                        <div class="col-md-6 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputCep"
+                                   maxlength="8" placeholder="Informe o CEP."
+                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Cep">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Cep)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputComple"
+                                   maxlength="50"
+                                   placeholder="Complemento residencial." asp-for="ComplementoResidencial">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.ComplementoResidencial)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputRes"
+                                   maxlength="10"
+                                   placeholder="Número residencial."
+                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="NumeroResidencial">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.NumeroResidencial)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputLog"
+                                   maxlength="50"
+                                   placeholder="Informe o logradouro." asp-for="Logradouro">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Logradouro)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputDdd"
+                                   maxlength="2" placeholder="Informe o DDD."
+                                   onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
+                                   asp-for="Ddd">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Ddd)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputBar"
+                                   maxlength="50"
+                                   placeholder="Informe o bairro." asp-for="Bairro">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Bairro)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputCid"
+                                   maxlength="20"
+                                   placeholder="Informe a cidade." asp-for="Cidade">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Cidade)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 input-group form-group form-it">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inputEstado"
+                                   maxlength="20"
+                                   placeholder="Informe o estado." asp-for="Estado">
+                            <div class="i">
+                                <small class="errorMsg">@Html.ValidationMessageFor(x => x.Estado)</small>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn filtra_btn api" onclick="ApiCorreio()">
+                                Pesquisar por CEP
+                            </button>
+                            <div>
+                                <button type="button" class="btn btn-secondary filtrar_btn2"
+                                        data-target="#ConfirmSair" data-toggle="modal">
+                                    Voltar
+                                </button>
+                                <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
+                                        data-toggle="modal">
+                                    Salvar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="janelaModalConfirm" class="modal">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content modal-largura">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Confirmação</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Deseja realmente salvar os dados?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="enviar" type="submit" class="btn filtra_btn" onclick="salva()">Sim</button>
+                            <button type="button" class="btn btn-secondary filtrar_btn2"
+                                    data-dismiss="modal">
+                                Não
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="ConfirmSair" class="modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-largura">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Deseja realmente sair durante esta operação? Caso tenha alterações não salvas, elas serão perdidas!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a id="enviar" type="submit" class="btn filtra_btn" asp-controller="Fornecedor" asp-action="Index">Sim</a>
+                    <button type="button" class="btn btn-secondary filtrar_btn2"
+                            data-dismiss="modal">
+                        Não
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Js copy/ModalCliente.js"></script>
+<script src="~/Js copy/DisplayMsgInfo.js"></script>
+<script src="~/js/jquery.min.js"></script>

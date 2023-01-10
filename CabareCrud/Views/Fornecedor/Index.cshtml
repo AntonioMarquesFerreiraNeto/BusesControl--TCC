@@ -1,0 +1,121 @@
+﻿@using BusesControl.Models.Enums
+<link rel="stylesheet" href="~/css/cliente.css">
+<link rel="stylesheet" href="~/css/home.css">
+@model List<FornecedorFisico>
+@if (TempData["MensagemDeSucesso"] != null) {
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemDeSucesso"]
+        <button type="button" class="btn btn-danger btn-sm close-alert sucesso" aria-label="Close"> X </button>
+    </div>
+}
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <!--Cadastro, edição e desativação de clientes-->
+    @if (Model.Any(x => x.Status == StatuCliente.Habilitado)) {
+        <h3 id="bac">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else if (Model.Any(x => x.Status == StatuCliente.Desabilitado)) {
+        <h3 id="bac" style="color: red;">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    else {
+        <h3 id="bac">
+            <i class="fa fa-users"></i> @ViewData["Title"]
+            <hr style="margin-top: 3px;">
+        </h3>
+    }
+    <div class="cliente">
+        <div class="flex-item">
+            <div class="test1">
+                <a asp-controller="Fornecedor" asp-action="Index" class="btn filtrar_btn enum">Habilitados</a>
+                <a asp-controller="Fornecedor" asp-action="Desabilitados" class="btn filtrar_btn noCheck" type="submit">Desabilitados</a>
+            </div>
+            <div class="test1">
+                <a type="submit" class="btn filtrar_btn" asp-controller="Fornecedor" asp-action="NovoFornecedorFisico">
+                    + Fornecedor físico
+                </a>
+                <a type="submit" class="btn filtrar_btn" asp-controller="Fornecedor" asp-action="IndexJuridico">
+                    Listar pessoa jurídica
+                </a>
+            </div>
+        </div>
+        <table id="table-cliente" class="table shadow-sm p-3 mb-5 bg-white rounded">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Opção</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any()) {
+                    foreach (FornecedorFisico fornecedor in Model) {
+                        <tr class="row-hover">
+                            <th scope="row">@fornecedor.Id</th>
+                            <td>@fornecedor.Name</td>
+                            <td>@fornecedor.ReturnTelefoneCliente()</td>
+                            <td>@fornecedor.Cidade</td>
+                            <td>
+                                @if (fornecedor.Status == StatuCliente.Habilitado) {
+                                    <a class="link" asp-action="EditarFornecedorFisico" asp-route-id="@fornecedor.Id"><i class="fa fa-edit"></i></a>
+                                    <a title="Visualizar" class="link-trash" asp-action="DesabFornecedorFisico" asp-route-id="@fornecedor.Id"><i class="fa fa-user-slash"></i></a>
+                                }
+                                else {
+                                    <a class="link" asp-action="HabFornecedorFisico" asp-route-id="@fornecedor.Id"><i class="fa fa-user"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+<script src="~/js/site.js"></script>
+<script src="~/js/jquery.min.js"></script>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#table-cliente').DataTable({
+                "ordering": true,
+                "paging": true,
+                "searching": true,
+                "oLanguage": {
+                    "sEmptyTable": "Não existe registros no sistema.",
+                    "sInfo": "",
+                    "sInfoEmpty": "",
+                    "sInfoFiltered": "",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Sua pesquisa não encontrou nenhum registro correspondente.",
+                    "sSearch": "Pesquisar:  ",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+        });
+    </script>
+}

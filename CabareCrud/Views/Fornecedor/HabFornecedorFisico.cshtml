@@ -1,0 +1,104 @@
+﻿@using BusesControl.Models.Enums
+@model FornecedorFisico
+<link rel="stylesheet" href="~/css/Visualisar.css">
+<link rel="stylesheet" href="~/css/home.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 3px;">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="principais">
+    <h3 id="titlePrincipal">
+        <hr class="text-hide">
+    </h3>
+    <form class="clientes" asp-controller="Fornecedor" asp-action="HabFornecedorFisico" method="post">
+        <input type="hidden" asp-for="Id">
+        <div class="row view">
+            <div class="col-md-12">
+                <div class="row">
+                    @if (Model == null) {
+                        <div class="fil">
+                            <br> <br>
+                            <p>Não se preocupe, as informações registradas não serão alteradas! <br> Continue usando a aplicação normalmente.</p>
+                            <br> <br>
+                        </div>
+                    }
+                    else {
+                        <div class="fil">
+                            <label for="" class="titleModal">
+                                <i class="fa fa-user"></i>
+                                Dados pessoais
+                                <hr style="margin-top: 5px;">
+                            </label>
+                            @if (Model.Status == StatuCliente.Habilitado) {
+                                <p><b>Status do cliente: </b>Habilitado,</p>
+                            }
+                            else {
+                                <p><b>Status do cliente: </b>Desabilitado,</p>
+                            }
+                            <p><b>Nome completo: </b>@Html.DisplayFor(model => model.Name),</p>
+                            <p><b>Data de nascimento:</b> @Html.DisplayFor(model => model.DataNascimento),</p>
+                            <p><b>CPF:</b> @Model.ReturnCpfCliente(),</p>
+                            <p><b>RG:</b> @Html.DisplayFor(model => model.Rg),</p>
+
+                            @if (Model.Email == null) {
+                                <p><b>E-mail:</b> E-mail não registrado,</p>
+
+                            }
+                            else {
+                                <p><b>E-mail:</b> @Html.DisplayFor(model => model.Email),</p>
+                            }
+                            <p><b>Telefone:</b> @Model.ReturnTelefoneCliente(),</p>
+                            <p><b>Nome da mãe:</b> @Html.DisplayFor(model => model.NameMae),</p>
+                        </div>
+                        <div class="fil">
+                            <label for="" class="titleModal">
+                                <i class="fa fa-home"></i>
+                                Endereço
+                                <hr style="margin-top: 5px;">
+                            </label>
+                            <p><b>CEP:</b> @Html.DisplayFor(model => model.Cep),</p>
+                            <p> <b>Complemento residencial:</b> @Html.DisplayFor(model => model.ComplementoResidencial),</p>
+                            <p> <b>Número residencial:</b> @Html.DisplayFor(model => model.NumeroResidencial),</p>
+                            <p><b>Logradouro:</b> @Html.DisplayFor(model => model.Logradouro),</p>
+                            <p><b>DDD: </b> @Html.DisplayFor(model => model.Ddd),</p>
+                            <p><b>Bairro:</b> @Html.DisplayFor(model => model.Bairro),</p>
+                            <p><b>Cidade:</b> @Html.DisplayFor(model => model.Cidade),</p>
+                            <p><b>Estado:</b> @Html.DisplayFor(model => model.Estado),</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="janelaConfirm" class="modal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content modal-largura">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmação</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Deseja realmente habilitar o fornecedor?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn filtra_btn">Sim</button>
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-dismiss="modal">
+                            Não
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="container-button">
+        <a class="btn filtrar_btn voltar" style="color: white" asp-action="Desabilitados">Voltar</a>
+        <a class="btn filtrar_btn hab" style="color: white" data-target="#janelaConfirm" data-toggle="modal">Habilitar</a>
+    </div>
+</section>
+<script src="~/js/jquery.min.js"></script>

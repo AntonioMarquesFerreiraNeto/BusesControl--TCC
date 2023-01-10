@@ -8,6 +8,15 @@
 input {
     border: solid 1px #2b65c2;
 }
+.table-pai {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+.input-table {
+    width: 100%;
+}
 
 .chkClient {
     display: none;

@@ -1,7 +1,6 @@
 ﻿$('.close-alert').click(function () {
     $('.alert').hide('hide');
 });
-
 $(document).ready(function () {
     $.ajax({
         type: 'GET',

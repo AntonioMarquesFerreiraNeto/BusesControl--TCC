@@ -17,6 +17,9 @@ namespace BusesControl.Data {
         public DbSet<ClientesContrato> ClientesContrato { get; set; }
         public DbSet<ParcelasCliente> ParcelasCliente { get; set; }
         public DbSet<Rescisao> Rescisao { get; set; }
+        public DbSet<FornecedorFisico> FornecedorFisico { get; set; }
+        public DbSet<FornecedorJuridico> FornecedorJuridico { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             //Evitar duplicatas dos atributos de cliente físico e jurídico. 
