@@ -1,5 +1,5 @@
 ﻿@using BusesControl.Models.Enums
-@model List<Contrato>
+@model List<Financeiro>
 <link rel="stylesheet" href="~/css/financeiro.css">
 <link rel="stylesheet" href="~/css/home.css">
 @if (TempData["MensagemDeSucesso"] != null) {
@@ -15,14 +15,14 @@
     </div>
 }
 <section class="clientes">
-    @if (Model.Any(x => x.Andamento == Andamento.EmAndamento)) {
-        <h3 id="bac">
+    @if (Model.Any(x => x.DespesaReceita == DespesaReceita.Despesa)) {
+        <h3 id="bac" style="color: darkorange;">
             <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
             <hr style="margin-top: 3px;">
         </h3>
     }
     else {
-        <h3 id="bac" style="color: darkorange;">
+        <h3 id="bac">
             <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
             <hr style="margin-top: 3px;">
         </h3>
@@ -30,22 +30,25 @@
     <div class="cliente">
         <div class="flex-item" style="margin-botton: -5px;">
             <div>
-               
             </div>
             <div>
-                <a asp-action="Index" asp-controller="Financeiro" class="btn filtrar_btn enum">+ Receita</a>
-                <a asp-action="Index" asp-controller="Financeiro" class="btn filtrar_btn terminado">+ Despesa</a>
+                <a asp-action="NovaReceita" asp-controller="Financeiro" class="btn filtrar_btn enum">+ Receita</a>
+                <a asp-action="NovaDespesa" asp-controller="Financeiro" class="btn filtrar_btn terminado">+ Despesa</a>
             </div>
         </div>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded display" style="width: 100%;">
             <thead>
                 <tr>
-                    <th style="font-size: 9pt;">Id</th>
+                    <th style="font-size: 9pt;">ID</th>
+                    <th style="font-size: 9pt;">Contrato ID</th>
                     <th style="font-size: 9pt;">Credor/Devedor</th>
-                    <th style="font-size: 9pt;">Receita/Despesa</th>
+                    <th style="font-size: 9pt;">Receita/Despesa.</th>
+                    <th style="font-size: 9pt;">Val total</th>
+                    <th style="font-size: 9pt;">Val efetuado.</th>
                     <th style="font-size: 9pt;">Vencimento</th>
                     <th style="font-size: 9pt;">Pagamento</th>
-                    <th style="font-size: 9pt;">Controlar</th>
+                    <th style="font-size: 9pt;">Efetuações</th>
+                    <th style="font-size: 9pt;">Opção</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,11 +56,25 @@
                     @foreach (var item in Model) {
                         <tr class="row-hover">
                             <td>@item.Id</td>
-                            <td>Devedor</td>
-                            <td>Receita</td>
-                            <td>@Html.DisplayFor(x => @item.DataVencimento)</td>
+                            <td>@item.ContratoId</td>
+                            <td>@item.ReturnNameClienteOrCredor()</td>
+                            <td>@item.ReturnTypeFinanceiro()</td>
+                            <td>@item.ReturnValorTot()</td>
+                            <td>@item.ReturnValorTotEfetuado()</td>
+                            <td>@Html.DisplayFor(x => item.DataVencimento)</td>
                             <td>@item.ReturnTypePagament()</td>
-                            <td><a class="btn-financeiro" asp-route-id="@item.Id" asp-action="FinanceiroContrato"><i class="fa fa-arrow-alt-circle-right"></i> Financeiro</a></td>
+                            <td>
+                                <a class="btn-financeiro" asp-route-id="@item.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Efetuar</a>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ContratoId.ToString())) {
+                                    <a class="link"><i class="fa fa-edit" style="color: rgb(61, 61, 61)"></i></a>
+                                    <a class="link"><i class="fa fa-trash-alt" style="color: rgb(61, 61, 61)"></i></a>
+                                }else{
+                                    <a class="link" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                                    <a class="link-red" asp-route-id="@item.Id"><i class="fa fa-trash-alt"></i></a>
+                                }
+                            </td>
                         </tr>
                     }
                 }
@@ -94,7 +111,7 @@
                 .addClass('filters')
                 .appendTo('#table-contrato thead');
             var table = $('#table-contrato').DataTable({
-                "ordering": false,
+                "ordering": true,
                 "paging": true,
                 "searching": true,
                 "oLanguage": {
@@ -140,7 +157,7 @@
                                 $(cell).html('<div class="table-pai"></div>');
                             }
                             else if (title == "Valor total") {
-                                 $(cell).html('<div class="table-pai"><input class="input-table" onkeyup="mascaraMoeda(this, event)" type="text" placeholder="' + title + '" /></div>');
+                                $(cell).html('<div class="table-pai"><input class="input-table" onkeyup="mascaraMoeda(this, event)" type="text" placeholder="' + title + '" /></div>');
                             }
                             else {
                                 $(cell).html('<div class="table-pai"><input class="input-table" type="text" placeholder="' + title + '" /></div>');

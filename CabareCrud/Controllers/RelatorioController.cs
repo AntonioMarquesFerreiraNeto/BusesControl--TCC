@@ -127,7 +127,7 @@ namespace BusesControl.Controllers {
                 CriarCelulaTexto(tabela, "Total pago", PdfPCell.ALIGN_LEFT, true);
                 CriarCelulaTexto(tabela, "Total de juros", PdfPCell.ALIGN_LEFT, true);
                 CriarCelulaTexto(tabela, "Total de juros pago", PdfPCell.ALIGN_LEFT, true);
-                foreach (var item in contrato.ClientesContratos) {
+                foreach (var item in contrato.Financeiros) {
                     string situacao;
                     if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
                         situacao = (item.PessoaFisica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";

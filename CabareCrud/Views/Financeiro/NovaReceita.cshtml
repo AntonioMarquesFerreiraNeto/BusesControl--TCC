@@ -1,0 +1,235 @@
+﻿@using BusesControl.Models.Enums
+@model BusesControl.Models.ViewModels.ModelsFinanceiroRD
+<link rel="stylesheet" href="~/css/style.css">
+<link rel="stylesheet" href="~/css/contrato.css">
+<link rel="stylesheet" href="~/css/home.css">
+@if (TempData["MensagemDeErro"] != null) {
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemDeErro"]
+        <button type="button" class="btn btn-danger btn-sm close-alert erro" aria-label="Close"> X </button>
+    </div>
+}
+<section class="clientes">
+    <h3 id="bac">
+        <i class="fa fa-file-signature"></i>
+        @ViewData["Title"]
+        <hr style="margin-top: 2px;">
+    </h3>
+    <section class="cliente">
+        <form id="formAdd" asp-controller="Financeiro" asp-action="NovaReceita" method="post">
+            <div class="row">
+                <div class="col-md-12 btn-group align-edit">
+                    <div class="btn-group btn-group-sm">
+                        @if (Model.Financeiro.Pagament == ModelPagament.Avista) {
+                            <input type="radio" name="format_pagament" id="a-vista" checked="checked" asp-for="@Model.Financeiro.Pagament" value="0">
+                            <label for="a-vista" class="a-vista hover-btn click" onclick="onReandoly()">À vista</label>
+                            <input type="radio" name="format_pagament" id="parcelado" asp-for="@Model.Financeiro.Pagament" value="1">
+                            <label for="parcelado" class="parcelado click2" onclick="offReandoly()">Parcelado</label>
+                        }
+                        else {
+                            <input type="radio" name="format_pagament" id="a-vista" asp-for="@Model.Financeiro.Pagament" value="0">
+                            <label for="a-vista" class="a-vista hover-btn click" onclick="onReandoly()">À vista</label>
+                            <input type="radio" name="format_pagament" id="parcelado" asp-for="@Model.Financeiro.Pagament" value="1" checked="checked">
+                            <label for="parcelado" class="parcelado click2" onclick="offReandoly()">Parcelado</label>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                    <select id="fornecedor" class="form-control campUser" asp-for="CredorDevedorId">
+                        <optgroup label="Selecione o credor">
+                            @if ((Model.CredorFisicoList == null || !Model.CredorFisicoList.Any())
+                            && (Model.CredorJuridicoList == null || !Model.CredorJuridicoList.Any())) {
+                                <option value="">Selecionar credor</option>
+                                <option value="">Não existe cadastros.</option>
+                            }
+                            else {
+                                @if (Model.CredorFisicoList != null || Model.CredorFisicoList.Any()) {
+                                    <option value="">Selecionar credor</option>
+                                    @foreach (var credor in Model.CredorFisicoList) {
+                                        <option value="@credor.Id">
+                                            @credor.Name – <b>CPF: </b>@credor.ReturnCpfCliente()
+                                        </option>
+                                    }
+                                }
+                                @if (Model.CredorJuridicoList != null || Model.CredorJuridicoList.Any()) {
+                                    @foreach (var credor in Model.CredorJuridicoList) {
+                                        <option value="@credor.Id">
+                                            @credor.NomeFantasia – <b>CNPJ: </b>@credor.ReturnCnpjCliente()
+                                        </option>
+                                    }
+                                }
+                            }
+                        </optgroup>
+                    </select>
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.CredorDevedorId)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-money-check-alt"></i>
+                        </span>
+                    </div>
+                    <select id="fornecedor" class="form-control campUser" asp-for="Financeiro.TypeEfetuacao">
+                        <optgroup label="Selecione a forma de pagamento">
+                            <option value="0">Crédito</option>
+                            <option value="1">Em espécie</option>
+                            <option value="2">Débito</option>
+                        </optgroup>
+                    </select>
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Financeiro.TypeEfetuacao)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-dollar-sign" style="margin-left: 3px;"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputValor"
+                           placeholder="Informe o valor monetário total da despesa." maxlength="10" asp-for="Financeiro.ValorTotDR" onkeyup="mascaraMoeda(this, event)">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Financeiro.ValorTotDR)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-file-signature"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="inputQuantiParcela"
+                           placeholder="Informe a quantidade parcelas." maxlength="2"
+                           onkeypress=" if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" asp-for="Financeiro.QtParcelas">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Financeiro.QtParcelas)
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="date" class="form-control" id="inputDate" asp-for="Financeiro.DataEmissao" readonly>
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Financeiro.DataEmissao)
+                        </small>
+                    </div>
+                    <div class="legend-data">
+                        <small class="font-place">Data de lançamento.</small>
+                    </div>
+                </div>
+                <div class="col-md-6 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="date" class="form-control" id="inputDate" asp-for="Financeiro.DataVencimento">
+                    <div class="i">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Financeiro.DataVencimento)
+                        </small>
+                    </div>
+                    <div class="legend-data">
+                        <small class="font-place">Data de vencimento.</small>
+                    </div>
+                </div>
+                <div class="col-md-12 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-road"></i>
+                        </span>
+                    </div>
+                    <textarea type="text" class="form-control" id="inputRota" rows="2" style="resize: none"
+                              placeholder="Informe a descrição da despesa." maxlength="355" asp-for="Financeiro.Detalhamento"></textarea>
+                    <div class="i-detalhe">
+                        <small class="errorMsg">
+                            @Html.ValidationMessageFor(x => x.Financeiro.Detalhamento)
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-alt">
+                    <div>
+                        <button type="button" class="btn btn-secondary filtrar_btn2"
+                                data-target="#ConfirmSair" data-toggle="modal">
+                            Voltar
+                        </button>
+                        <button type="button" id="salvar" class="btn filtra_btn" data-target="#janelaModalConfirm"
+                                data-toggle="modal">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="janelaModalConfirm" class="modal">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content modal-largura">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Confirmação</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Deseja realmente salvar os dados?
+                            </p>
+                        </div>
+                        <div class="modal-footer confirm-modal">
+                            <button id="enviar" type="submit" class="btn filtra_btn" onclick="salva()">Sim</button>
+                            <button type="button" class="btn btn-secondary filtrar_btn2"
+                                    data-dismiss="modal">
+                                Não
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+    <div id="ConfirmSair" class="modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-largura">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Deseja realmente sair durante esta operação? Caso tenha alterações não salvas, elas serão perdidas!
+                    </p>
+                </div>
+                <div class="modal-footer confirm-modal">
+                    <a id="enviar" type="submit" class="btn filtra_btn clear-list" asp-controller="Financeiro" asp-action="Index">Sim</a>
+                    <button type="button" class="btn btn-secondary filtrar_btn2"
+                            data-dismiss="modal">
+                        Não
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/mascaraMoney.js"></script>
+<script src="~/Js copy/DisplayMsgInfo.js"></script>

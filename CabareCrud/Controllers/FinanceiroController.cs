@@ -1,5 +1,6 @@
 ﻿using BusesControl.Filter;
 using BusesControl.Models;
+using BusesControl.Models.Enums;
 using BusesControl.Models.ViewModels;
 using BusesControl.Repositorio;
 using Microsoft.AspNetCore.Mvc;
@@ -13,25 +14,90 @@ namespace BusesControl.Controllers {
         private readonly IContratoRepositorio _contratoRepositorio;
         private readonly IFinanceiroRepositorio _financeiroRepositorio;
         private readonly IClienteRepositorio _clienteRepositorio;
+        private readonly IFornecedorRepositorio _fornecedorRepositorio;
 
-        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio, IClienteRepositorio clienteRepositorio) {
+        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio, IClienteRepositorio clienteRepositorio, IFornecedorRepositorio fornecedorRepositorio) {
             _contratoRepositorio = contratoRepositorio;
             _financeiroRepositorio = financeiroRepositorio;
             _clienteRepositorio = clienteRepositorio;
+            _fornecedorRepositorio = fornecedorRepositorio;
         }
 
         public IActionResult Index() {
             ViewData["Title"] = "Financeiro";
-            _financeiroRepositorio.TaskMonitorParcelasContrato();
-            List<Contrato> ListContratos = _financeiroRepositorio.ContratosEmAndamento();
-            return View(ListContratos);
-        }
-        public IActionResult ContratosEncerrados() {
-            ViewData["Title"] = "Financeiro";
-            List<Contrato> ListContratos = _financeiroRepositorio.ContratosEncerrados();
-            return View("Index", ListContratos);
+            _financeiroRepositorio.TaskMonitorParcelas();
+            List<Financeiro> ListFinanceiro = _financeiroRepositorio.ListFinanceiros();
+            return View(ListFinanceiro);
         }
 
+        public IActionResult NovaDespesa() {
+            ViewData["Title"] = "Nova despesa";
+            ModelsFinanceiroRD modelsFinanceiroRD = new ModelsFinanceiroRD();
+            modelsFinanceiroRD.CredorFisicoList = _fornecedorRepositorio.ListFornecedoreFisicos();
+            modelsFinanceiroRD.CredorJuridicoList = _fornecedorRepositorio.ListFornecedoresJuridicos();
+            Financeiro financeiro = new Financeiro {
+                Pagament = ModelPagament.Avista,
+                DataEmissao = DateTime.Now
+            };
+            modelsFinanceiroRD.Financeiro = financeiro;
+            return View(modelsFinanceiroRD);
+        }
+
+        [HttpPost]
+        public IActionResult NovaDespesa(ModelsFinanceiroRD modelsFinanceiroRD) {
+            ViewData["Title"] = "Nova despesa";
+            modelsFinanceiroRD.CredorFisicoList = _fornecedorRepositorio.ListFornecedoreFisicos();
+            modelsFinanceiroRD.CredorJuridicoList = _fornecedorRepositorio.ListFornecedoresJuridicos();
+            try {
+                int op = int.Parse(Request.Form["format_pagament"]);
+                modelsFinanceiroRD.Financeiro.Pagament = (op == 0) ? ModelPagament.Avista : ModelPagament.Parcelado;
+                if (op == 0) {
+                    modelsFinanceiroRD.Financeiro.QtParcelas = 1;
+                }
+                if (ModelState.IsValid) {
+                    FornecedorFisico fornecedorFisico = _fornecedorRepositorio.ListPorIdFisico(modelsFinanceiroRD.CredorDevedorId.Value);
+                    if (fornecedorFisico != null) {
+                        modelsFinanceiroRD.Financeiro.FornecedorFisicoId = modelsFinanceiroRD.CredorDevedorId.Value;
+                    }
+                    else {
+                        modelsFinanceiroRD.Financeiro.FornecedorJuridicoId = modelsFinanceiroRD.CredorDevedorId.Value;
+                    }
+                    if (ValidationDateEmissaoAndVencimento(modelsFinanceiroRD.Financeiro)) {
+                        TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
+                        return View(modelsFinanceiroRD);
+                    }
+                    if (ValidationQtParcelas(modelsFinanceiroRD.Financeiro)) {
+                        TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
+                        return View(modelsFinanceiroRD);
+                    }
+                    if (ValidationDateVencimento(modelsFinanceiroRD.Financeiro.DataVencimento.ToString())) {
+                        TempData["MensagemDeErro"] = "A receita/despesa não pode ser superior a dois anos!";
+                        return View(modelsFinanceiroRD);
+                    }
+                    _financeiroRepositorio.AdicionarDespesa(modelsFinanceiroRD.Financeiro);
+                    TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+                return View(modelsFinanceiroRD);
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = $"{erro.Message}";
+                return View(modelsFinanceiroRD);
+            }
+        }
+
+        public IActionResult NovaReceita() {
+            ViewData["Title"] = "Nova receita";
+            ModelsFinanceiroRD modelsFinanceiroRD = new ModelsFinanceiroRD();
+            modelsFinanceiroRD.CredorFisicoList = _fornecedorRepositorio.ListFornecedoreFisicos();
+            modelsFinanceiroRD.CredorJuridicoList = _fornecedorRepositorio.ListFornecedoresJuridicos();
+            Financeiro financeiro = new Financeiro {
+                Pagament = ModelPagament.Avista,
+                DataEmissao = DateTime.Now
+            };
+            modelsFinanceiroRD.Financeiro = financeiro;
+            return View(modelsFinanceiroRD);
+        }
         public IActionResult FinanceiroContrato(int id) {
             ViewData["Title"] = $"Parcelas – contrato Nº {id}";
             Contrato contrato = _financeiroRepositorio.ListarJoinPorId(id);
@@ -42,62 +108,64 @@ namespace BusesControl.Controllers {
             return View(contrato);
         }
         public IActionResult RescendirContrato(int? id) {
-            ClientesContrato clientesContrato = _financeiroRepositorio.listPorIdClientesContrato(id);
-            return PartialView("_RescisaoContrato", clientesContrato);
+            Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(id);
+            return PartialView("_RescisaoContrato", financeiro);
         }
 
         [HttpPost]
-        public IActionResult Rescendir(ClientesContrato clientesContrato) {
+        public IActionResult Rescendir(Financeiro financeiro) {
             try {
-                Contrato contrato = _financeiroRepositorio.ListarJoinPorId(clientesContrato.Contrato.Id);
-                if (contrato == null) {
-                    TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
+
+                if (financeiro != null) {
+                    _financeiroRepositorio.RescisaoContrato(financeiro);
+                    TempData["MensagemDeSucesso"] = "Rescisão realizado com sucesso!";
                     return RedirectToAction("Index");
                 }
-                if (clientesContrato != null) {
-                    _financeiroRepositorio.RescisaoContrato(clientesContrato);
-                    TempData["MensagemDeSucesso"] = "Rescisão realizado com sucesso!";
-                    return RedirectToAction("FinanceiroContrato", contrato);
-                }
-                return View("FinanceiroContrato", contrato);
+                return RedirectToAction("Index");
             }
             catch (Exception erro) {
-                Contrato contrato = _financeiroRepositorio.ListarJoinPorId(clientesContrato.Contrato.Id);
-                if (contrato == null) {
-                    TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
-                    return RedirectToAction("Index");
-                }
-                else {
-                    ViewData["Title"] = $"Parcelas - contrato N º {contrato.Id}";
-                    TempData["MensagemDeErro"] = erro.Message;
-                    return View("FinanceiroContrato", contrato);
-                }
+                TempData["MensagemDeErro"] = erro.Message;
+                return View("Index");
             }
         }
 
         public IActionResult Contabilizar(int? id) {
-            ClientesContrato clientesContrato = _financeiroRepositorio.listPorIdClientesContrato(id);
-            if (clientesContrato == null) {
+            Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(id);
+            if (financeiro == null) {
                 TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
                 return RedirectToAction("Index");
             }
-            string name = (clientesContrato.PessoaFisica != null) ? clientesContrato.PessoaFisica.Name : clientesContrato.PessoaJuridica.RazaoSocial;
-            ViewData["Title"] = $"Parcelas contrato Nº {clientesContrato.ContratoId} – {name}";
-            clientesContrato.ParcelasContrato = clientesContrato.ParcelasContrato.OrderBy(x => x.DataVencimentoParcela.Value).ToList();
-            return View(clientesContrato);
+            string name;
+            if (!string.IsNullOrEmpty(financeiro.ContratoId.ToString())) {
+                name = (!string.IsNullOrEmpty(financeiro.PessoaFisicaId.ToString())) ? financeiro.PessoaFisica.Name : financeiro.PessoaJuridica.RazaoSocial;
+                ViewData["Title"] = $"Parcelas contrato Nº {financeiro.ContratoId} – {name}";
+            }
+            else {
+                name = (!string.IsNullOrEmpty(financeiro.FornecedorFisicoId.ToString())) ? financeiro.FornecedorFisico.Name : financeiro.FornecedorJuridico.RazaoSocial;
+                ViewData["Title"] = $"Parcelas – {name}";
+            }
+            financeiro.Parcelas = financeiro.Parcelas.OrderBy(x => x.DataVencimentoParcela.Value).ToList();
+            return View(financeiro);
         }
 
         [HttpPost]
-        public IActionResult Contabilizar(int id, int clientescontratoId) {
+        public IActionResult Contabilizar(int parcelaId, int financeiroId) {
             try {
-                _financeiroRepositorio.ContabilizarFinanceiro(id);
-                ClientesContrato clientesContrato = _financeiroRepositorio.listPorIdClientesContrato(clientescontratoId);
-                if (clientesContrato != null) {
-                    string name = (clientesContrato.PessoaFisica != null) ? clientesContrato.PessoaFisica.Name : clientesContrato.PessoaJuridica.RazaoSocial;
+                _financeiroRepositorio.ContabilizarParcela(parcelaId);
+                Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(financeiroId);
+                if (financeiro != null) {
+                    string name;
+                    if (!string.IsNullOrEmpty(financeiro.ContratoId.ToString())) {
+                        name = (!string.IsNullOrEmpty(financeiro.PessoaFisicaId.ToString())) ? financeiro.PessoaFisica.Name : financeiro.PessoaJuridica.RazaoSocial;
+                        ViewData["Title"] = $"Parcelas contrato Nº {financeiro.ContratoId} – {name}";
+                    }
+                    else {
+                        name = (!string.IsNullOrEmpty(financeiro.FornecedorFisicoId.ToString())) ? financeiro.FornecedorFisico.Name : financeiro.FornecedorJuridico.RazaoSocial;
+                        ViewData["Title"] = $"Parcelas – {name}";
+                    };
                     TempData["MensagemDeSucesso"] = "Contabilizado com sucesso!";
-                    ViewData["Title"] = $"Financeiro contrato Nº {clientesContrato.ContratoId} – {name}";
-                    clientesContrato.ParcelasContrato = clientesContrato.ParcelasContrato.OrderBy(x => x.DataVencimentoParcela.Value).ToList();
-                    return View(clientesContrato);
+                    financeiro.Parcelas = financeiro.Parcelas.OrderBy(x => x.DataVencimentoParcela.Value).ToList();
+                    return View(financeiro);
                 }
                 return RedirectToAction("Index");
             }
@@ -124,6 +192,41 @@ namespace BusesControl.Controllers {
             }
             //returna um cliente fisico nulo para que a mensagem de id não encontrado seja captada na página.
             return PartialView("_ClienteResponsavelFisico", pessoaFisica);
+        }
+
+        public bool ValidationDateEmissaoAndVencimento(Financeiro financeiro) {
+            if (financeiro.DataEmissao >= financeiro.DataVencimento) {
+                return true;
+            }
+            return false;
+        }
+        public bool ValidationDateVencimento(string value) {
+            DateTime dataVencimento = DateTime.Parse(value);
+            DateTime dataAtual = DateTime.Now;
+
+            long dias = (int)dataVencimento.Subtract(dataAtual).TotalDays;
+            long tempoValidation = dias / 365;
+
+            if (tempoValidation >= 2) {
+                return true;
+            }
+            return false;
+        }
+        public bool ValidationQtParcelas(Financeiro financeiro) {
+
+            DateTime dateVencimento = DateTime.Parse(financeiro.DataVencimento.ToString());
+            DateTime dataEmissao = DateTime.Parse(financeiro.DataEmissao.ToString());
+
+            float dias = (float)dateVencimento.Subtract(dataEmissao).TotalDays;
+            float ano = dias / 365;
+            if (financeiro.Pagament == ModelPagament.Parcelado) {
+                bool resultado = (financeiro.QtParcelas > ano * 12 || financeiro.QtParcelas < 2 || string.IsNullOrEmpty(financeiro.QtParcelas.ToString())) ? true : false;
+                return resultado;
+            }
+            else {
+                bool resultado = (financeiro.QtParcelas < 1 || string.IsNullOrEmpty(financeiro.QtParcelas.ToString())) ? true : false;
+                return resultado;
+            }
         }
     }
 }

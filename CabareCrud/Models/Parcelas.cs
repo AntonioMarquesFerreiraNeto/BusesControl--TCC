@@ -3,10 +3,10 @@ using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
-    public class ParcelasCliente {
+    public class Parcelas {
         public int Id { get; set; }
-        public int? ClientesContratoId { get; set; }
-        public ClientesContrato ClientesContrato { get; set; }
+        public int? FinanceiroId { get; set; }
+        public Financeiro Financeiro { get; set; }
         public string NomeParcela { get; set; }
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValorJuros { get; set; }

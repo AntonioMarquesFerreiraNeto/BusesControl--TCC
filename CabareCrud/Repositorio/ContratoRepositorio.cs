@@ -26,7 +26,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .FirstOrDefault(x => x.Id == id);
         }
         public Contrato ListarJoinPorIdAprovado(int? id) {
@@ -35,7 +35,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .FirstOrDefault(x => x.Id == id && x.Aprovacao == StatusAprovacao.Aprovado);
         }
         public List<Contrato> ListContratoAtivo() {
@@ -44,7 +44,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .ToList();
         }
         public List<Contrato> ListContratoInativo() {
@@ -53,7 +53,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .ToList();
         }
         public List<Contrato> ListContratoEmAnalise() {
@@ -62,7 +62,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .ToList();
         }
         public List<Contrato> ListContratoNegados() {
@@ -71,7 +71,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .ToList();
         }
         public List<Contrato> ListContratoAprovados() {
@@ -80,7 +80,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include("Onibus")
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.ParcelasContrato)
+                .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .ToList();
         }
 
@@ -319,40 +319,53 @@ namespace BusesControl.Repositorio {
         }
         public void AddFinanceiro(Contrato contrato) {
             //Incluindo financeiro no clientesContrato.
-            foreach (var item in contrato.ClientesContratos) {
+            foreach (var clientesContrato in contrato.ClientesContratos) {
+                Financeiro financeiroDB = new Financeiro();
+                financeiroDB.Contrato = contrato;
+                financeiroDB.PessoaFisica = clientesContrato.PessoaFisica;
+                financeiroDB.PessoaJuridica = clientesContrato.PessoaJuridica;
+                financeiroDB.DataVencimento = contrato.DataVencimento;
+                financeiroDB.DespesaReceita = DespesaReceita.Receita;
+                financeiroDB.ValorTotDR = contrato.ValorParcelaContratoPorCliente * contrato.QtParcelas;
+                financeiroDB.ValorParcelaDR = contrato.ValorParcelaContratoPorCliente;
+                financeiroDB.DataEmissao = contrato.DataEmissao;
+                financeiroDB.QtParcelas = contrato.QtParcelas;
+                financeiroDB.Detalhamento = contrato.Detalhamento;
+                financeiroDB.Pagament = contrato.Pagament;
+                _bancoContext.Financeiro.Add(financeiroDB);
                 for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
-                    ParcelasCliente financeiro = new ParcelasCliente {
-                        ClientesContrato = item, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                    Parcelas parcela = new Parcelas {
+                        Financeiro = financeiroDB, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
                         DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
                     };
                     if (parcelas == 1) {
-                        financeiro.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
+                        parcela.DataVencimentoParcela = contrato.DataEmissao.Value.AddDays(3);
                     }
-                    _bancoContext.ParcelasCliente.Add(financeiro);
+                    _bancoContext.Parcelas.Add(parcela);
                 }
             }
         }
         //Método chamado no momento do update de financeiro, no qual ele exclui todo financeiro de clientes que serão removidos do contrato. 
-        public void RemoveFinanceiro(ClientesContrato clientesContrato) {
-            List<ParcelasCliente> financeiros = _bancoContext.ParcelasCliente.Where(x => x.ClientesContrato == clientesContrato).ToList();
+        public void RemoveFinanceiro(Financeiro financeiro) {
+            List<Parcelas> financeiros = _bancoContext.Parcelas.Where(x => x.Financeiro == financeiro).ToList();
             foreach (var item in financeiros) {
                 _bancoContext.Remove(item);
             }
         }
         //Atualiza a quantidade de parcelas de clientes que não foram excluídos, mas tiveram a quantidade de parcelas editadas.
-        public void UpdateFinanceiro(Contrato contrato, ClientesContrato clientesContrato, Contrato contratoDB) {
+        public void UpdateFinanceiro(Contrato contrato, Financeiro financeiro, Contrato contratoDB) {
             if (contrato.QtParcelas > contratoDB.QtParcelas) {
                 for (int parcelas = contratoDB.QtParcelas.Value + 1; parcelas <= contrato.QtParcelas.Value; parcelas++) {
-                    ParcelasCliente financeiro = new ParcelasCliente {
-                        ClientesContratoId = clientesContrato.Id, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                    Parcelas parcela = new Parcelas {
+                        FinanceiroId = financeiro.Id, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
                         DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
                     };
-                    _bancoContext.ParcelasCliente.Add(financeiro);
+                    _bancoContext.Parcelas.Add(parcela);
                 }
             }
             else if (contrato.QtParcelas != contratoDB.QtParcelas) {
                 for (int? parcelas = contrato.QtParcelas + 1; parcelas <= contratoDB.QtParcelas; parcelas++) {
-                    ParcelasCliente financeiro = _bancoContext.ParcelasCliente.FirstOrDefault(x => x.ClientesContratoId == clientesContrato.Id && x.NomeParcela == parcelas.ToString());
+                    Parcelas parcela = _bancoContext.Parcelas.FirstOrDefault(x => x.FinanceiroId == financeiro.Id && x.NomeParcela == parcelas.ToString());
                     _bancoContext.Remove(financeiro);
                 }
             }

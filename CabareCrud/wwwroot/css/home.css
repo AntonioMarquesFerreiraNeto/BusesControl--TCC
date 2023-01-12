@@ -26,7 +26,7 @@ body {
 }
 /*Sobre a sessão de controle de clientes/*/
 .principais {
-    width: 90%;
+    width: 94%;
     padding: 15px;
     padding-top: 0px;
     margin: auto;
@@ -378,7 +378,7 @@ input:focus {
     }
 
     .alert {
-        right: 76px;
+        right: 49px;
     }
 
     .navbar-nav {

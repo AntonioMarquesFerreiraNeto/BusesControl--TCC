@@ -238,7 +238,7 @@ label {
     color: white;
     font-weight: bold;
     top: 114px;
-    right: 77px;
+    right: 47px;
     position: absolute;
     cursor: pointer;
     background-color: #0091ff;
@@ -376,11 +376,11 @@ input#form-control {
 }
 
 .cliente {
-    width: 96%;
+    width: 99%;
 }
 /*Sobre a sessão de controle de clientes/*/
 .clientes {
-    width: 94%;
+    width: 96%;
     padding: 15px;
     padding-top: 0px;
     margin: auto;

@@ -3,14 +3,16 @@ using System;
 using BusesControl.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusesControl.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20230111155657_add val tot")]
+    partial class addvaltot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,20 +187,11 @@ namespace BusesControl.Migrations
                     b.Property<int?>("ContratoId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataEmissao")
-                        .IsRequired()
-                        .HasColumnType("datetime(6)");
-
                     b.Property<DateTime?>("DataVencimento")
-                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("DespesaReceita")
                         .HasColumnType("int");
-
-                    b.Property<string>("Detalhamento")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int?>("FornecedorFisicoId")
                         .HasColumnType("int");
@@ -215,18 +208,10 @@ namespace BusesControl.Migrations
                     b.Property<int?>("PessoaJuridicaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QtParcelas")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TypeEfetuacao")
-                        .HasColumnType("int");
-
                     b.Property<decimal?>("ValorParcelaDR")
-                        .IsRequired()
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal?>("ValorTotDR")
-                        .IsRequired()
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal?>("ValorTotTaxaJurosPaga")

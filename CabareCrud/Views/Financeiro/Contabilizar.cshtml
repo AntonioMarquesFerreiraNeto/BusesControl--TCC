@@ -1,5 +1,5 @@
 ﻿@using BusesControl.Models.Enums
-@model ClientesContrato
+@model Financeiro
 <link rel="stylesheet" href="~/css/financeiro.css">
 <link rel="stylesheet" href="~/css/home.css">
 @if (TempData["MensagemDeSucesso"] != null) {
@@ -28,7 +28,7 @@
                     }
                 }
             </div>
-            <div><a class="btn-voltar" asp-route-id="@Model.ContratoId" asp-action="FinanceiroContrato">Voltar</a></div>
+            <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
         </div>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
             <thead>
@@ -43,12 +43,12 @@
                 </tr>
             </thead>
             <tbody>
-                @if (@Model.ParcelasContrato != null && @Model.ParcelasContrato.Any()) {
-                    @foreach (var item in Model.ParcelasContrato) {
+                @if (@Model.Parcelas != null && @Model.Parcelas.Any()) {
+                    @foreach (var item in Model.Parcelas) {
                         <tr>
                             <td>@item.Id</td>
                             <td>@item.ReturnNomeParcela()</td>
-                            <td>R$ @Html.DisplayFor(x => x.Contrato.ValorParcelaContratoPorCliente)</td>
+                            <td>R$ @Html.DisplayFor(x => item.Financeiro.ValorParcelaDR)</td>
                             @if (!string.IsNullOrEmpty(@item.ValorJuros.ToString())) {
                                 <td>R$ @Html.DisplayFor(x => @item.ValorJuros)</td>
                             }
@@ -59,7 +59,7 @@
                             <td>@item.ReturnStatusPagamento()</td>
                             @if (item.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
                                 <form style="margin: 0; padding: 0;" asp-action="Contabilizar" method="post">
-                                <td><button type="submit" class="financeiro-contabilizar" asp-route-id="@item.Id" asp-route-clientescontratoId="@Model.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizar</button></td>
+                                <td><button type="submit" class="financeiro-contabilizar" asp-route-parcelaId="@item.Id" asp-route-financeiroId="@Model.Id" asp-action="Contabilizar"><i class="fa fa-arrow-alt-circle-right"></i> Contabilizar</button></td>
                                 </form>
                             }
                             else {
@@ -71,7 +71,7 @@
             </tbody>
             <tfoot class="footer-table">
                 <tr>
-                    <td colspan="3" id="table_valor"><b>Valor monetário total(por cliente):</b> @Model.Contrato.ReturnValorTotCliente()</td>
+                    <td colspan="3" id="table_valor"><b>Valor monetário total(por cliente):</b> @Model.ReturnValorTot()</td>
                     @if (!string.IsNullOrEmpty(@Model.ValorTotalPagoCliente.ToString())) {
                         <td colspan="2" id="table_valor"><b>Valor total pago pelo cliente:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
                     }

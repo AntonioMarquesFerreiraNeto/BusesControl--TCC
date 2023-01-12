@@ -58,6 +58,7 @@ namespace BusesControl.Models {
         public Adimplencia Adimplente { get; set; }
 
         public virtual List<ClientesContrato> ClientesContratos { get; set; }
+        public virtual List<Financeiro> Financeiros { get; set; }
 
         public string ReturnTelefoneCliente() {
             string tel = Telefone;

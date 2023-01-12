@@ -15,7 +15,8 @@ namespace BusesControl.Data {
         public DbSet<Onibus> Onibus { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
         public DbSet<ClientesContrato> ClientesContrato { get; set; }
-        public DbSet<ParcelasCliente> ParcelasCliente { get; set; }
+        public DbSet<Financeiro> Financeiro { get; set; }
+        public DbSet<Parcelas> Parcelas { get; set; }
         public DbSet<Rescisao> Rescisao { get; set; }
         public DbSet<FornecedorFisico> FornecedorFisico { get; set; }
         public DbSet<FornecedorJuridico> FornecedorJuridico { get; set; }
@@ -57,7 +58,7 @@ namespace BusesControl.Data {
             modelBuilder.ApplyConfiguration(new MapContrato());
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new MapFinanceiroContrato());
+            modelBuilder.ApplyConfiguration(new MapFinanceiro());
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new MapRescisao());

@@ -18,7 +18,7 @@ namespace BusesControl.Controllers {
         }
         public ActionResult Index() {
             ViewData["Title"] = "Autenticar";
-            _financeiroRepositorio.TaskMonitorParcelasContrato();
+            _financeiroRepositorio.TaskMonitorParcelas();
             if (_section.buscarSectionUser() != null) {
                 return RedirectToAction("Index", "Home");
             }
