@@ -79,11 +79,17 @@ namespace BusesControl.Models {
                 return (!string.IsNullOrEmpty(PessoaFisicaId.ToString())) ? $"{PessoaFisica.Name}" : $"{PessoaJuridica.RazaoSocial}";
             }
             else {
-                return (!string.IsNullOrEmpty(FornecedorFisicoId.ToString())) ? $"{FornecedorFisico.Name}" : $"{FornecedorJuridico.RazaoSocial}";
+                if (!string.IsNullOrEmpty(PessoaFisicaId.ToString()) || !string.IsNullOrEmpty(PessoaJuridicaId.ToString())) {
+                    return (!string.IsNullOrEmpty(PessoaFisicaId.ToString())) ? $"{PessoaFisica.Name}" : $"{PessoaJuridica.RazaoSocial}";
+                }
+                else {
+                    return (!string.IsNullOrEmpty(FornecedorFisicoId.ToString())) ? $"{FornecedorFisico.Name}" : $"{FornecedorJuridico.RazaoSocial}";
+
+                }
             }
         }
         public string ReturnTypeFinanceiro() {
-            string type = (DespesaReceita == DespesaReceita.Receita)? "Receita" : "Despesa";
+            string type = (DespesaReceita == DespesaReceita.Receita) ? "Receita" : "Despesa";
             return type;
         }
         public string ReturnValorTot() {

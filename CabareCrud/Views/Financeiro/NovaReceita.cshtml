@@ -41,25 +41,25 @@
                         </span>
                     </div>
                     <select id="fornecedor" class="form-control campUser" asp-for="CredorDevedorId">
-                        <optgroup label="Selecione o credor">
-                            @if ((Model.CredorFisicoList == null || !Model.CredorFisicoList.Any())
-                            && (Model.CredorJuridicoList == null || !Model.CredorJuridicoList.Any())) {
-                                <option value="">Selecionar credor</option>
+                        <optgroup label="Selecione o cliente">
+                            @if ((Model.PessoaFisicoList == null || !Model.PessoaFisicoList.Any())
+                            && (Model.PessoaJuridicaList == null || !Model.PessoaJuridicaList.Any())) {
+                                <option value="">Selecionar cliente</option>
                                 <option value="">Não existe cadastros.</option>
                             }
                             else {
-                                @if (Model.CredorFisicoList != null || Model.CredorFisicoList.Any()) {
-                                    <option value="">Selecionar credor</option>
-                                    @foreach (var credor in Model.CredorFisicoList) {
-                                        <option value="@credor.Id">
-                                            @credor.Name – <b>CPF: </b>@credor.ReturnCpfCliente()
+                                @if (Model.PessoaFisicoList != null || Model.PessoaFisicoList.Any()) {
+                                    <option value="">Selecionar cliente</option>
+                                    @foreach (var devedor in Model.PessoaFisicoList) {
+                                        <option value="@devedor.Id">
+                                            @devedor.Name – <b>CPF: </b>@devedor.ReturnCpfCliente()
                                         </option>
                                     }
                                 }
-                                @if (Model.CredorJuridicoList != null || Model.CredorJuridicoList.Any()) {
-                                    @foreach (var credor in Model.CredorJuridicoList) {
-                                        <option value="@credor.Id">
-                                            @credor.NomeFantasia – <b>CNPJ: </b>@credor.ReturnCnpjCliente()
+                                @if (Model.PessoaJuridicaList != null || Model.PessoaJuridicaList.Any()) {
+                                    @foreach (var devedor in Model.PessoaJuridicaList) {
+                                        <option value="@devedor.Id">
+                                            @devedor.NomeFantasia – <b>CNPJ: </b>@devedor.ReturnCnpjCliente()
                                         </option>
                                     }
                                 }
@@ -159,7 +159,7 @@
                         </span>
                     </div>
                     <textarea type="text" class="form-control" id="inputRota" rows="2" style="resize: none"
-                              placeholder="Informe a descrição da despesa." maxlength="355" asp-for="Financeiro.Detalhamento"></textarea>
+                              placeholder="Informe a descrição da receita." maxlength="355" asp-for="Financeiro.Detalhamento"></textarea>
                     <div class="i-detalhe">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Financeiro.Detalhamento)

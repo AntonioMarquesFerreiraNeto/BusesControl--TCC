@@ -42,9 +42,9 @@
                     <th style="font-size: 9pt;">ID</th>
                     <th style="font-size: 9pt;">Contrato ID</th>
                     <th style="font-size: 9pt;">Credor/Devedor</th>
-                    <th style="font-size: 9pt;">Receita/Despesa.</th>
+                    <th style="font-size: 9pt;">Receita/Despesa</th>
                     <th style="font-size: 9pt;">Val total</th>
-                    <th style="font-size: 9pt;">Val efetuado.</th>
+                    <th style="font-size: 9pt;">Val efetuado</th>
                     <th style="font-size: 9pt;">Vencimento</th>
                     <th style="font-size: 9pt;">Pagamento</th>
                     <th style="font-size: 9pt;">Efetuações</th>
@@ -56,7 +56,12 @@
                     @foreach (var item in Model) {
                         <tr class="row-hover">
                             <td>@item.Id</td>
-                            <td>@item.ContratoId</td>
+                            @if(!string.IsNullOrEmpty(item.ContratoId.ToString())){
+                                <td>@item.ContratoId</td>
+                            }
+                            else {
+                                <td style="color: red;">N/A</td>
+                            }
                             <td>@item.ReturnNameClienteOrCredor()</td>
                             <td>@item.ReturnTypeFinanceiro()</td>
                             <td>@item.ReturnValorTot()</td>
@@ -156,7 +161,10 @@
                             else if (title == "Cliente") {
                                 $(cell).html('<div class="table-pai"></div>');
                             }
-                            else if (title == "Valor total") {
+                            else if (title == "Val total") {
+                                $(cell).html('<div class="table-pai"><input class="input-table" onkeyup="mascaraMoeda(this, event)" type="text" placeholder="' + title + '" /></div>');
+                            }
+                            else if (title == "Val efetuado") {
                                 $(cell).html('<div class="table-pai"><input class="input-table" onkeyup="mascaraMoeda(this, event)" type="text" placeholder="' + title + '" /></div>');
                             }
                             else {

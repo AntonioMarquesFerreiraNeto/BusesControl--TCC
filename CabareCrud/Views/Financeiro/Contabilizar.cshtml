@@ -71,18 +71,18 @@
             </tbody>
             <tfoot class="footer-table">
                 <tr>
-                    <td colspan="3" id="table_valor"><b>Valor monetário total(por cliente):</b> @Model.ReturnValorTot()</td>
+                    <td colspan="3" id="table_valor"><b>Valor total(por devedor/credor):</b> @Model.ReturnValorTot()</td>
                     @if (!string.IsNullOrEmpty(@Model.ValorTotalPagoCliente.ToString())) {
-                        <td colspan="2" id="table_valor"><b>Valor total pago pelo cliente:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
+                        <td colspan="2" id="table_valor"><b>Valor total efetuado:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
                     }
                     else {
-                        <td colspan="2" id="table_valor"><b>Valor total pago pelo cliente:</b> Ainda não realizado.</td>
+                        <td colspan="2" id="table_valor"><b>Valor total efetuado:</b> Ainda não realizado.</td>
                     }
                     @if (!string.IsNullOrEmpty(@Model.ValorTotTaxaJurosPaga.ToString())) {
-                        <td colspan="2" id="table_valor"><b>Valor total de taxa de juros paga:</b> R$ @Html.DisplayFor(x => x.ValorTotTaxaJurosPaga)</td>
+                        <td colspan="2" id="table_valor"><b>Valor de taxas de juros efetuadas:</b> R$ @Html.DisplayFor(x => x.ValorTotTaxaJurosPaga)</td>
                     }
                     else {
-                        <td colspan="2" id="table_valor"><b>Valor total de taxa de juros paga:</b> não tem.</td>
+                        <td colspan="2" id="table_valor"><b>Valor de taxas de juros efetuadas:</b> não tem.</td>
                     }
                 </tr>
             </tfoot>

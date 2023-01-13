@@ -79,8 +79,8 @@ namespace BusesControl.Repositorio {
                 _bancoContext.Parcelas.Update(parcelaDB);
                 if (!string.IsNullOrEmpty(parcelaDB.Financeiro.ContratoId.ToString())) {
                     ValidarInadimplenciaCliente(parcelaDB);
-                    SetValoresPagosContratoAndCliente(parcelaDB);
                 }
+                SetValoresPagosContratoAndCliente(parcelaDB);
                 _bancoContext.SaveChanges();
                 return parcelaDB;
             }
@@ -90,28 +90,38 @@ namespace BusesControl.Repositorio {
         }
         public void SetValoresPagosContratoAndCliente(Parcelas parcelaDB) {
             Financeiro financeiro = parcelaDB.Financeiro;
-            if (!string.IsNullOrEmpty(financeiro.ValorTotalPagoCliente.ToString())) {
-                financeiro.ValorTotalPagoCliente += financeiro.Contrato.ValorParcelaContratoPorCliente;
-            }
-            else {
-                financeiro.ValorTotalPagoCliente = financeiro.Contrato.ValorParcelaContratoPorCliente;
-            }
-            if (!string.IsNullOrEmpty(financeiro.Contrato.ValorTotalPagoContrato.ToString())) {
-                financeiro.Contrato.ValorTotalPagoContrato += financeiro.Contrato.ValorParcelaContratoPorCliente;
-            }
-            else {
-                financeiro.Contrato.ValorTotalPagoContrato = financeiro.Contrato.ValorParcelaContratoPorCliente;
-            }
-            if (!string.IsNullOrEmpty(parcelaDB.ValorJuros.ToString())) {
-                if (!string.IsNullOrEmpty(financeiro.ValorTotTaxaJurosPaga.ToString())) {
-                    financeiro.ValorTotTaxaJurosPaga += parcelaDB.ValorJuros;
+            if (!string.IsNullOrEmpty(financeiro.ContratoId.ToString())) {
+                if (!string.IsNullOrEmpty(financeiro.ValorTotalPagoCliente.ToString())) {
+                    financeiro.ValorTotalPagoCliente += financeiro.Contrato.ValorParcelaContratoPorCliente;
                 }
                 else {
-                    financeiro.ValorTotTaxaJurosPaga = parcelaDB.ValorJuros;
+                    financeiro.ValorTotalPagoCliente = financeiro.Contrato.ValorParcelaContratoPorCliente;
+                }
+                if (!string.IsNullOrEmpty(financeiro.Contrato.ValorTotalPagoContrato.ToString())) {
+                    financeiro.Contrato.ValorTotalPagoContrato += financeiro.Contrato.ValorParcelaContratoPorCliente;
+                }
+                else {
+                    financeiro.Contrato.ValorTotalPagoContrato = financeiro.Contrato.ValorParcelaContratoPorCliente;
+                }
+                if (!string.IsNullOrEmpty(parcelaDB.ValorJuros.ToString())) {
+                    if (!string.IsNullOrEmpty(financeiro.ValorTotTaxaJurosPaga.ToString())) {
+                        financeiro.ValorTotTaxaJurosPaga += parcelaDB.ValorJuros;
+                    }
+                    else {
+                        financeiro.ValorTotTaxaJurosPaga = parcelaDB.ValorJuros;
+                    }
+                }
+                _bancoContext.Contrato.Update(financeiro.Contrato);
+            }
+            else {
+                if (!string.IsNullOrEmpty(financeiro.ValorTotalPagoCliente.ToString())) {
+                    financeiro.ValorTotalPagoCliente += parcelaDB.Financeiro.ValorParcelaDR;
+                }
+                else {
+                    financeiro.ValorTotalPagoCliente = parcelaDB.Financeiro.ValorParcelaDR;
                 }
             }
             _bancoContext.Financeiro.Update(financeiro);
-            _bancoContext.Contrato.Update(financeiro.Contrato);
         }
         public void ValidarInadimplenciaCliente(Parcelas value) {
             var pessoaJuridica = _bancoContext.PessoaJuridica.Include(x => x.Financeiros).ThenInclude(x => x.Parcelas).FirstOrDefault(pessoa =>
@@ -197,24 +207,26 @@ namespace BusesControl.Repositorio {
             DateTime dateAtual = DateTime.Now.Date;
             foreach (var contrato in contratos) {
                 foreach (var financeiro in contrato.Financeiros) {
-                    foreach (var parcela in financeiro.Parcelas) {
-                        if (dateAtual > parcela.DataVencimentoParcela && parcela.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
-                            Parcelas parcelaDB = _bancoContext.Parcelas.FirstOrDefault(x => x.Id == parcela.Id);
-                            parcelaDB.StatusPagamento = SituacaoPagamento.Atrasada;
-                            parcelaDB.ValorJuros = SetJurosParcela(parcelaDB, contrato);
-                            var pessoaFisicaDB = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == financeiro.PessoaFisicaId);
-                            var pessoaJuridicaDB = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == financeiro.PessoaJuridicaId);
-                            _bancoContext.Parcelas.Update(parcelaDB);
-                            if (pessoaFisicaDB != null) {
-                                pessoaFisicaDB.Adimplente = Adimplencia.Inadimplente;
-                                _bancoContext.PessoaFisica.Update(pessoaFisicaDB);
-                                if (!string.IsNullOrEmpty(pessoaFisicaDB.IdVinculacaoContratual.ToString())) {
-                                    SetInadimplenciaClienteResponsavel(pessoaFisicaDB.IdVinculacaoContratual.Value);
+                    if (!string.IsNullOrEmpty(financeiro.ContratoId.ToString())) {
+                        foreach (var parcela in financeiro.Parcelas) {
+                            if (dateAtual > parcela.DataVencimentoParcela && parcela.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
+                                Parcelas parcelaDB = _bancoContext.Parcelas.FirstOrDefault(x => x.Id == parcela.Id);
+                                parcelaDB.StatusPagamento = SituacaoPagamento.Atrasada;
+                                parcelaDB.ValorJuros = SetJurosParcela(parcelaDB, contrato);
+                                var pessoaFisicaDB = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == financeiro.PessoaFisicaId);
+                                var pessoaJuridicaDB = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == financeiro.PessoaJuridicaId);
+                                _bancoContext.Parcelas.Update(parcelaDB);
+                                if (pessoaFisicaDB != null) {
+                                    pessoaFisicaDB.Adimplente = Adimplencia.Inadimplente;
+                                    _bancoContext.PessoaFisica.Update(pessoaFisicaDB);
+                                    if (!string.IsNullOrEmpty(pessoaFisicaDB.IdVinculacaoContratual.ToString())) {
+                                        SetInadimplenciaClienteResponsavel(pessoaFisicaDB.IdVinculacaoContratual.Value);
+                                    }
                                 }
-                            }
-                            else {
-                                pessoaJuridicaDB.Adimplente = Adimplencia.Inadimplente;
-                                _bancoContext.PessoaJuridica.Update(pessoaJuridicaDB);
+                                else {
+                                    pessoaJuridicaDB.Adimplente = Adimplencia.Inadimplente;
+                                    _bancoContext.PessoaJuridica.Update(pessoaJuridicaDB);
+                                }
                             }
                         }
                     }
@@ -317,7 +329,7 @@ namespace BusesControl.Repositorio {
         public void AdicionarParcelas(Financeiro financeiro) {
             for (int parcelas = 1; parcelas <= financeiro.QtParcelas; parcelas++) {
                 Parcelas parcela = new Parcelas {
-                    
+
                     Financeiro = financeiro, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
                     DataVencimentoParcela = financeiro.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
                 };
@@ -328,7 +340,17 @@ namespace BusesControl.Repositorio {
             }
         }
         public Financeiro AdicionarReceita(Financeiro financeiro) {
-            throw new NotImplementedException();
+            try {
+                financeiro.DespesaReceita = DespesaReceita.Receita;
+                _bancoContext.Financeiro.Add(financeiro);
+                financeiro.ValorParcelaDR = financeiro.ValorTotDR / financeiro.QtParcelas;
+                AdicionarParcelas(financeiro);
+                _bancoContext.SaveChanges();
+                return financeiro;
+            }
+            catch (Exception erro) {
+                throw new Exception(erro.Message);
+            }
         }
     }
 }
