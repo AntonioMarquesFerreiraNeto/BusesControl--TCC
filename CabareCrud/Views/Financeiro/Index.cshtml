@@ -15,20 +15,15 @@
     </div>
 }
 <section class="clientes">
-    @if (Model.Any(x => x.DespesaReceita == DespesaReceita.Despesa)) {
-        <h3 id="bac" style="color: darkorange;">
-            <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
-            <hr style="margin-top: 3px;">
-        </h3>
-    }
-    else {
-        <h3 id="bac">
-            <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
-            <hr style="margin-top: 3px;">
-        </h3>
-    }
+    <div class="container-dashboard return-val-financeiro" id="show-dash">
+        
+    </div>
+    <h3 id="bac" style="color: darkorange;">
+        <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
+        <hr style="margin-top: 3px; width: 100%;">
+    </h3>
     <div class="cliente">
-        <div class="flex-item" style="margin-botton: -5px;">
+        <div class="flex-item">
             <div>
             </div>
             <div>
@@ -42,6 +37,7 @@
                     <th style="font-size: 9pt;">ID</th>
                     <th style="font-size: 9pt;">Contrato ID</th>
                     <th style="font-size: 9pt;">Credor/Devedor</th>
+                    <th style="font-size: 9pt;">Status financeiro</th>
                     <th style="font-size: 9pt;">Receita/Despesa</th>
                     <th style="font-size: 9pt;">Val total</th>
                     <th style="font-size: 9pt;">Val efetuado</th>
@@ -56,13 +52,14 @@
                     @foreach (var item in Model) {
                         <tr class="row-hover">
                             <td>@item.Id</td>
-                            @if(!string.IsNullOrEmpty(item.ContratoId.ToString())){
+                            @if (!string.IsNullOrEmpty(item.ContratoId.ToString())) {
                                 <td>@item.ContratoId</td>
                             }
                             else {
                                 <td style="color: red;">N/A</td>
                             }
                             <td>@item.ReturnNameClienteOrCredor()</td>
+                            <td>@item.ReturnStatusFinanceiro()</td>
                             <td>@item.ReturnTypeFinanceiro()</td>
                             <td>@item.ReturnValorTot()</td>
                             <td>@item.ReturnValorTotEfetuado()</td>
@@ -75,9 +72,18 @@
                                 @if (!string.IsNullOrEmpty(item.ContratoId.ToString())) {
                                     <a class="link"><i class="fa fa-edit" style="color: rgb(61, 61, 61)"></i></a>
                                     <a class="link"><i class="fa fa-trash-alt" style="color: rgb(61, 61, 61)"></i></a>
-                                }else{
-                                    <a class="link" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                                    <a class="link-red" asp-route-id="@item.Id"><i class="fa fa-trash-alt"></i></a>
+                                }
+                                else {
+                                    @if (item.FinanceiroStatus == FinanceiroStatus.Inativo) {
+                                        <a class="link"><i class="fa fa-edit" style="color: rgb(61, 61, 61)"></i></a>
+                                        <a class="link return-inativarlancamento" href="#" financeiro-id="@item.Id" data-target="#janelaConfirmInativar" data-toggle="modal">
+                                            <i class="fa fa-file-invoice-dollar"></i>
+                                        </a>
+                                    }
+                                    else {
+                                        <a class="link" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                                        <a class="link-red return-inativarlancamento" href="#" financeiro-id="@item.Id" data-target="#janelaConfirmInativar" data-toggle="modal"><i class="fa fa-trash-alt"></i></a>
+                                    }
                                 }
                             </td>
                         </tr>
@@ -103,6 +109,10 @@
         </div>
     </div>
 </div>
+<div id="janelaConfirmInativar" class="modal">
+    <div class="modal-dialog modal-sm" id="contrato-inativar">
+    </div>
+</div>
 <script src="~/js/site.js"></script>
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/mascaraMoney.js"></script>
@@ -116,7 +126,7 @@
                 .addClass('filters')
                 .appendTo('#table-contrato thead');
             var table = $('#table-contrato').DataTable({
-                "ordering": true,
+                "ordering": false,
                 "paging": true,
                 "searching": true,
                 "oLanguage": {

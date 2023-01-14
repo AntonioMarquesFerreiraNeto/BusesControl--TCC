@@ -13,7 +13,16 @@ namespace BusesControl.Models {
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? ValTotPago { get; set; }
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
-        public decimal? ValTotPendente { get; set; } 
+        public decimal? ValTotPendente { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValTotReceitas { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValTotDespesas { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValTotEfetuadoReceita { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public decimal? ValTotEfetuadoDespesa { get; set; }
+
         public int? QtContratosAprovados { get; set; }
         public int? QtContratosEmAnalise { get; set; }
         public int? QtContratosNegados { get; set; }

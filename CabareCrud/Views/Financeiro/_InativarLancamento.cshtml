@@ -1,0 +1,63 @@
+﻿@using BusesControl.Models.Enums;
+@model Financeiro
+<div class="modal-content modal-largura">
+    @if (Model != null) {
+        <div class="modal-header">
+            @if (Model.FinanceiroStatus == FinanceiroStatus.Ativo) {
+                <h4 class="modal-title" id="titulo-modal">Inativar lançamento</h4>
+            }
+            else {
+                <h4 class="modal-title" id="titulo-modal">Detalhes lançamento</h4>
+            }
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" style="font-size: 10pt; margin: 0;">
+            <i style="margin: 0; padding: 0;">
+                <b>ID: </b>Nº @Model.Id <br>
+                <b>Status do financeiro: </b>@Model.ReturnStatusFinanceiro() <br>
+                <b>Valor total: </b>@Model.ReturnValorTot() <br>
+                <b>Valor da parcela: </b>R$ @Html.DisplayFor(x => x.ValorParcelaDR) <br>
+                <b>Pagamento: </b>@Model.ReturnTypePagament() <br>
+                <b>Tipo de efetuação: </b>@Model.ReturnTypeEfetuacao() <br>
+                <b>Classe de lançamento: </b>@Model.ReturnTypeFinanceiro()
+                <br>-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- <br>
+            </i>
+            <i style="margin: 0; padding: 0;">
+                <b>Credor/Devedor:</b> @Model.ReturnNameClienteOrCredor()
+            </i>
+        </div>
+        @if (Model.FinanceiroStatus == FinanceiroStatus.Ativo) {
+            <div class="modal-footer" style="justify-content: space-between;">
+                <form asp-action="InativarLancamento" method="post">
+                    <input type="hidden" asp-for="@Model.Id">
+                    <button type="submit" class="btn filtra_btn" style="width: 130px;">Inativar financeiro</button>
+                </form>
+                <button type="button" class="btn btn-secondary filtrar_btn2"
+                data-dismiss="modal" style="width: 130px;">
+                    Fechar
+                </button>
+            </div>
+        }
+        else {
+            <div class="modal-footer" style="justify-content: center;">
+                <button type="button" class="btn filtra_btn"
+                data-dismiss="modal" style="width: 170px;">
+                    Fechar
+                </button>
+            </div>
+        }
+    }
+    else {
+        <div class="modal-header">
+            <h4 class="modal-title" id="titulo-modal">Inativar lançamento</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Desculpe, ID não foi encontrado!
+        </div>
+    }
+</div>

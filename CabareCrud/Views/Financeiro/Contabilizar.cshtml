@@ -37,7 +37,8 @@
                     <th scope="col">Nome das parcelas</th>
                     <th scope="col">Valor das parcelas</th>
                     <th scope="col">Valor da taxa de juros</th>
-                    <th scope="col">Date de vencimento</th>
+                    <th scope="col">Data de efetuação</th>
+                    <th scope="col">Data de vencimento</th>
                     <th scope="col">Status da parcela</th>
                     <th scope="col">Opções  </th>
                 </tr>
@@ -54,6 +55,12 @@
                             }
                             else {
                                 <td>Insento de taxa de juros</td>
+                            }
+                            @if(!string.IsNullOrEmpty(@item.DataEfetuacao.ToString())){
+                                <td>@Html.DisplayFor(x => @item.DataEfetuacao)</td>
+                            }
+                            else {
+                                <td>Não possui</td>
                             }
                             <td>@Html.DisplayFor(x => @item.DataVencimentoParcela)</td>
                             <td>@item.ReturnStatusPagamento()</td>
@@ -73,10 +80,10 @@
                 <tr>
                     <td colspan="3" id="table_valor"><b>Valor total(por devedor/credor):</b> @Model.ReturnValorTot()</td>
                     @if (!string.IsNullOrEmpty(@Model.ValorTotalPagoCliente.ToString())) {
-                        <td colspan="2" id="table_valor"><b>Valor total efetuado:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
+                        <td colspan="3" id="table_valor"><b>Valor total efetuado:</b> R$ @Html.DisplayFor(x => x.ValorTotalPagoCliente)</td>
                     }
                     else {
-                        <td colspan="2" id="table_valor"><b>Valor total efetuado:</b> Ainda não realizado.</td>
+                        <td colspan="3" id="table_valor"><b>Valor total efetuado:</b> Ainda não realizado.</td>
                     }
                     @if (!string.IsNullOrEmpty(@Model.ValorTotTaxaJurosPaga.ToString())) {
                         <td colspan="2" id="table_valor"><b>Valor de taxas de juros efetuadas:</b> R$ @Html.DisplayFor(x => x.ValorTotTaxaJurosPaga)</td>

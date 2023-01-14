@@ -30,10 +30,6 @@ namespace BusesControl.Models {
 
         public virtual Contrato Contrato { get; set; }
 
-        public DespesaReceita DespesaReceita { get; set; }
-
-        public ModelPagament Pagament { get; set; }
-
         [Required(ErrorMessage = "Campo obrigatório!")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataVencimento { get; set; }
@@ -58,6 +54,12 @@ namespace BusesControl.Models {
         public int? QtParcelas { get; set; }
 
         public TypeEfetuacao TypeEfetuacao { get; set; }
+
+        public DespesaReceita DespesaReceita { get; set; }
+
+        public ModelPagament Pagament { get; set; }
+
+        public FinanceiroStatus FinanceiroStatus { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório!")]
         [MinLength(30, ErrorMessage = "Campo inválido!")]
@@ -91,6 +93,21 @@ namespace BusesControl.Models {
         public string ReturnTypeFinanceiro() {
             string type = (DespesaReceita == DespesaReceita.Receita) ? "Receita" : "Despesa";
             return type;
+        }
+        public string ReturnTypeEfetuacao() {
+            if (TypeEfetuacao == TypeEfetuacao.Debito) {
+                return $"Débito";
+            }
+            else if (TypeEfetuacao == TypeEfetuacao.Credito) {
+                return $"Crédito";
+            }
+            else {
+                return "Em espécie";
+            }
+        }
+        public string ReturnStatusFinanceiro() {
+            if (FinanceiroStatus == FinanceiroStatus.Ativo) return "Ativado";
+            return "Inativo";
         }
         public string ReturnValorTot() {
             return $"{ValorTotDR.Value.ToString("C2")}";

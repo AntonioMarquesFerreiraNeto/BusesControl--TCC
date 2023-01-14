@@ -75,7 +75,9 @@ namespace BusesControl.Repositorio {
             try {
                 Parcelas parcelaDB = ListarFinanceiroPorId(id);
                 if (parcelaDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
+                if (parcelaDB.Financeiro.FinanceiroStatus == FinanceiroStatus.Inativo) throw new Exception("Desculpe, ID não foi encontrado!");
                 parcelaDB.StatusPagamento = SituacaoPagamento.PagamentoContabilizado;
+                parcelaDB.DataEfetuacao = DateTime.Now;
                 _bancoContext.Parcelas.Update(parcelaDB);
                 if (!string.IsNullOrEmpty(parcelaDB.Financeiro.ContratoId.ToString())) {
                     ValidarInadimplenciaCliente(parcelaDB);
@@ -315,6 +317,7 @@ namespace BusesControl.Repositorio {
 
         public Financeiro AdicionarDespesa(Financeiro financeiro) {
             try {
+                financeiro.FinanceiroStatus = FinanceiroStatus.Ativo;
                 financeiro.DespesaReceita = DespesaReceita.Despesa;
                 _bancoContext.Financeiro.Add(financeiro);
                 financeiro.ValorParcelaDR = financeiro.ValorTotDR / financeiro.QtParcelas;
@@ -339,8 +342,10 @@ namespace BusesControl.Repositorio {
                 _bancoContext.Parcelas.Add(parcela);
             }
         }
+
         public Financeiro AdicionarReceita(Financeiro financeiro) {
             try {
+                financeiro.FinanceiroStatus = FinanceiroStatus.Ativo;
                 financeiro.DespesaReceita = DespesaReceita.Receita;
                 _bancoContext.Financeiro.Add(financeiro);
                 financeiro.ValorParcelaDR = financeiro.ValorTotDR / financeiro.QtParcelas;
@@ -350,6 +355,23 @@ namespace BusesControl.Repositorio {
             }
             catch (Exception erro) {
                 throw new Exception(erro.Message);
+            }
+        }
+        
+        public Financeiro InativarReceitaOrDespesa(Financeiro financeiro) {
+            try {
+                Financeiro financeiroDB = listPorIdFinanceiro(financeiro.Id);
+                if (financeiroDB == null || !string.IsNullOrEmpty(financeiroDB.ContratoId.ToString())) throw new Exception("Desculpe, ID não foi encontrado!");
+                if (financeiroDB.Parcelas.Any(x => x.StatusPagamento == SituacaoPagamento.PagamentoContabilizado)) {
+                    throw new Exception("Desculpe, receitas/despesas com parcelas contabilizadas não pode ser inativado!");
+                }
+                financeiroDB.FinanceiroStatus = FinanceiroStatus.Inativo;
+                _bancoContext.Financeiro.Update(financeiroDB);
+                _bancoContext.SaveChanges();
+                return financeiroDB;
+            }
+            catch (Exception error) {
+                throw new Exception(error.Message);
             }
         }
     }

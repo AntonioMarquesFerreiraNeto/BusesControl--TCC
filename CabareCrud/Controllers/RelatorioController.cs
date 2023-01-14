@@ -37,8 +37,8 @@ namespace BusesControl.Controllers {
             relatorio.ValTotAprovados = _relatorioRepositorio.ValorTotAprovados();
             relatorio.ValTotEmAnalise = _relatorioRepositorio.ValorTotEmAnalise();
             relatorio.ValTotContratos = _relatorioRepositorio.ValorTotContratos();
-            relatorio.ValTotPago = _relatorioRepositorio.ValorTotPago();
-            relatorio.ValTotPendente = _relatorioRepositorio.ValorTotPendente();
+            relatorio.ValTotPago = _relatorioRepositorio.ValorTotPagoContrato();
+            relatorio.ValTotPendente = _relatorioRepositorio.ValorTotPendenteContrato();
             relatorio.QtContratos = _relatorioRepositorio.QtContratos();
             relatorio.QtContratosAprovados = _relatorioRepositorio.QtContratosAprovados();
             relatorio.QtContratosNegados = _relatorioRepositorio.QtContratosNegados();

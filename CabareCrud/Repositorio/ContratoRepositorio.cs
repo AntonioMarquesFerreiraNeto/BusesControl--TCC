@@ -336,6 +336,7 @@ namespace BusesControl.Repositorio {
                 financeiroDB.QtParcelas = contrato.QtParcelas;
                 financeiroDB.Detalhamento = contrato.Detalhamento;
                 financeiroDB.Pagament = contrato.Pagament;
+                financeiroDB.FinanceiroStatus = FinanceiroStatus.Ativo;
                 _bancoContext.Financeiro.Add(financeiroDB);
                 for (int parcelas = 1; parcelas <= contrato.QtParcelas; parcelas++) {
                     Parcelas parcela = new Parcelas {

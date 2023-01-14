@@ -15,12 +15,15 @@ namespace BusesControl.Controllers {
         private readonly IFinanceiroRepositorio _financeiroRepositorio;
         private readonly IClienteRepositorio _clienteRepositorio;
         private readonly IFornecedorRepositorio _fornecedorRepositorio;
+        private readonly IRelatorioRepositorio _relatorioRepositorio;
 
-        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio, IClienteRepositorio clienteRepositorio, IFornecedorRepositorio fornecedorRepositorio) {
+        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio, 
+                IClienteRepositorio clienteRepositorio, IFornecedorRepositorio fornecedorRepositorio, IRelatorioRepositorio relatorioRepositorio) {
             _contratoRepositorio = contratoRepositorio;
             _financeiroRepositorio = financeiroRepositorio;
             _clienteRepositorio = clienteRepositorio;
             _fornecedorRepositorio = fornecedorRepositorio;
+            _relatorioRepositorio = relatorioRepositorio;
         }
 
         public IActionResult Index() {
@@ -28,6 +31,15 @@ namespace BusesControl.Controllers {
             _financeiroRepositorio.TaskMonitorParcelas();
             List<Financeiro> ListFinanceiro = _financeiroRepositorio.ListFinanceiros();
             return View(ListFinanceiro);
+        }
+
+        public IActionResult ReturnDashFinanceiro() {
+            Relatorio relatorio = new Relatorio();
+            relatorio.ValTotReceitas = _relatorioRepositorio.ValorTotReceitas();
+            relatorio.ValTotDespesas = _relatorioRepositorio.ValorTotDespesas();
+            relatorio.ValTotEfetuadoDespesa = _relatorioRepositorio.ValorTotPagoDespesas();
+            relatorio.ValTotEfetuadoReceita = _relatorioRepositorio.ValorTotPagoReceitas();
+            return PartialView("_ReturnDashView", relatorio);
         }
 
         public IActionResult NovaDespesa() {
@@ -98,7 +110,6 @@ namespace BusesControl.Controllers {
             modelsFinanceiroRD.Financeiro = financeiro;
             return View(modelsFinanceiroRD);
         }
-
         [HttpPost]
         public IActionResult NovaReceita(ModelsFinanceiroRD modelsFinanceiroRD) {
             ViewData["Title"] = "Nova receita";
@@ -139,6 +150,28 @@ namespace BusesControl.Controllers {
             catch (Exception erro) {
                 TempData["MensagemDeErro"] = $"{erro.Message}";
                 return View(modelsFinanceiroRD);
+            }
+        }
+
+
+        public IActionResult InativarLancamento(int? id) {
+            Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(id);
+            return PartialView("_InativarLancamento", financeiro);
+        }
+
+        [HttpPost]
+        public IActionResult InativarLancamento(Financeiro financeiro) {
+            try {
+                if (financeiro != null) {
+                    _financeiroRepositorio.InativarReceitaOrDespesa(financeiro);
+                    TempData["MensagemDeSucesso"] = "Inativado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return RedirectToAction("Index");
             }
         }
 

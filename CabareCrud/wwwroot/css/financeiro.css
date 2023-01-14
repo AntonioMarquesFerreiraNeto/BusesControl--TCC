@@ -2,6 +2,29 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
+.container-dashboard {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: -37px;
+    margin-bottom: -30px;
+}
+.alert-primary {
+    display: flex;
+    margin-left: 3px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #0077d1;
+}
+
+.alert-warning {
+    display: flex;
+    margin-left: 3px;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid rgb(255, 110, 1);
+}
+
 th {
     text-align: center;
 }

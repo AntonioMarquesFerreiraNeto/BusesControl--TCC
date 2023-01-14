@@ -9,6 +9,13 @@ $(document).ready(function () {
             $("#clientes-selects").html(result);
         }
     });
+    $.ajax({
+        type: 'GET',
+        url: "/Financeiro/ReturnDashFinanceiro",
+        success: function (result) {
+            $("#show-dash").html(result);
+        }
+    });
     $('.btn-view-client').click(function () {
         var contratoId = $(this).attr('contrato-id');
         $.ajax({
@@ -73,6 +80,17 @@ $(document).ready(function () {
             url: "/Financeiro/RescendirContrato/" + clienteResponsavelId,
             success: function (result) {
                 $("#cliente-rescisao").html(result);
+            }
+        });
+    });
+    $('.return-inativarlancamento').click(function () {
+        var financeiroId = $(this).attr('financeiro-id');
+        console.log(financeiroId);
+        $.ajax({
+            type: 'GET',
+            url: "/Financeiro/InativarLancamento/" + financeiroId,
+            success: function (result) {
+                $("#contrato-inativar").html(result);
             }
         });
     });

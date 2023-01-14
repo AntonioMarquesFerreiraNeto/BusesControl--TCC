@@ -12,6 +12,7 @@ body {
 }
 
 .navbar {
+    padding: 10px;
     background-image: url(Imagens/newBackTable.jpg);
 }
 
@@ -163,7 +164,7 @@ body {
 
 .alert {
     padding: 10px;
-    top: 93px;
+    top: 85px;
     position: absolute;
     z-index: 1;
 }

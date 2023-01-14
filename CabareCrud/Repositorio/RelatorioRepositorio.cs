@@ -11,10 +11,12 @@ namespace BusesControl.Repositorio {
 
         private readonly BancoContext _bancoContext;
         private readonly IContratoRepositorio _contratoRepositorio;
+        private readonly IFinanceiroRepositorio _financeiroRepositorio;
 
-        public RelatorioRepositorio(BancoContext bancoContext, IContratoRepositorio contratoRepositorio) {
+        public RelatorioRepositorio(BancoContext bancoContext, IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio) {
             _bancoContext = bancoContext;
             _contratoRepositorio = contratoRepositorio; 
+            _financeiroRepositorio = financeiroRepositorio;
         }
 
         public decimal? ValorTotAprovados() {
@@ -42,7 +44,7 @@ namespace BusesControl.Repositorio {
             }
             return valorTot;
         }
-        public decimal? ValorTotPago() {
+        public decimal? ValorTotPagoContrato() {
             List<Contrato> contratos = _contratoRepositorio.ListContratoAprovados();
             decimal? valorPago = 0;
             foreach (var item in contratos) {
@@ -52,7 +54,7 @@ namespace BusesControl.Repositorio {
             }
             return valorPago;
         }
-        public decimal? ValorTotPendente() {
+        public decimal? ValorTotPendenteContrato() {
             List<Contrato> contratos = _contratoRepositorio.ListContratoAprovados();
             decimal? valorPago = 0;
             decimal? valorTotal = 0;
@@ -64,6 +66,53 @@ namespace BusesControl.Repositorio {
             }
             decimal? valorPedente = valorTotal - valorPago;
             return valorPedente;
+        }
+        public decimal? ValorTotPagoReceitas() {
+            List<Financeiro> financeiros = _financeiroRepositorio.ListFinanceiros();
+            decimal? valorPago = 0;
+            foreach (var financeiro in financeiros) {
+                if (financeiro.FinanceiroStatus == FinanceiroStatus.Ativo && financeiro.DespesaReceita == DespesaReceita.Receita) {
+                    if (!string.IsNullOrEmpty(financeiro.ValorTotalPagoCliente.ToString())) {
+                        valorPago += financeiro.ValorTotalPagoCliente;
+                    }
+                }
+            }
+            return valorPago;
+        }
+
+        public decimal? ValorTotPagoDespesas() {
+            List<Financeiro> financeiros = _financeiroRepositorio.ListFinanceiros();
+            decimal? valorPago = 0;
+            foreach (var financeiro in financeiros) {
+                if (financeiro.FinanceiroStatus == FinanceiroStatus.Ativo && financeiro.DespesaReceita == DespesaReceita.Despesa) {
+                    if (!string.IsNullOrEmpty(financeiro.ValorTotalPagoCliente.ToString())) {
+                        valorPago += financeiro.ValorTotalPagoCliente;
+                    }
+                }
+            }
+            return valorPago;
+        }
+
+        public decimal? ValorTotReceitas() {
+            List<Financeiro> financeiros = _financeiroRepositorio.ListFinanceiros();
+            decimal? valorPago = 0;
+            foreach (var financeiro in financeiros) {
+                if (financeiro.FinanceiroStatus == FinanceiroStatus.Ativo && financeiro.DespesaReceita == DespesaReceita.Receita) {
+                    valorPago += financeiro.ValorTotDR;
+                }
+            }
+            return valorPago;
+        }
+
+        public decimal? ValorTotDespesas() {
+            List<Financeiro> financeiros = _financeiroRepositorio.ListFinanceiros();
+            decimal? valorPago = 0;
+            foreach (var financeiro in financeiros) {
+                if (financeiro.FinanceiroStatus == FinanceiroStatus.Ativo && financeiro.DespesaReceita == DespesaReceita.Despesa) {
+                    valorPago += financeiro.ValorTotDR;
+                }
+            }
+            return valorPago;
         }
         public decimal? ValorTotJurosCliente(int? id) {
             List<Parcelas> financeiros = _bancoContext.Parcelas.Where(x => x.FinanceiroId == id).ToList();
