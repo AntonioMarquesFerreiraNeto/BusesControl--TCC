@@ -1,5 +1,5 @@
 ﻿@using BusesControl.Models.Enums
-@model List<Financeiro>
+@model BusesControl.Models.ViewModels.ModelsFinanceiroIndex
 <link rel="stylesheet" href="~/css/financeiro.css">
 <link rel="stylesheet" href="~/css/home.css">
 @if (TempData["MensagemDeSucesso"] != null) {
@@ -16,21 +16,76 @@
 }
 <section class="clientes">
     <div class="container-dashboard return-val-financeiro" id="show-dash">
-        
     </div>
     <h3 id="bac" style="color: darkorange;">
         <i class="fa fa-file-invoice-dollar"></i> @ViewData["Title"]
         <hr style="margin-top: 3px; width: 100%;">
     </h3>
     <div class="cliente">
-        <div class="flex-item">
-            <div>
+        <form style="margin: 0; padding: 0px;" asp-action="ReturnResultFiltros" method="post">
+            <div class="flex-item" style="margin-top: -12px; justify-content: flex-start; flex-wrap: wrap;">
+                <div class="col-md-3 input-group form-group form-it" style="padding: 0;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-file-invoice-dollar"></i>
+                        </span>
+                    </div>
+                    <select id="fornecedor" class="form-control campUser" asp-for="Filtros.ReceitasDespesas">
+                        <optgroup label="Selecionar por tipo">
+                            <option value="todos">Todos</option>
+                            <option value="receitas">Receitas</option>
+                            <option value="despesas">Despesas</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="col-md-3 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-calendar"></i>
+                        </span>
+                    </div>
+                    <select id="fornecedor" class="form-control campUser" asp-for="Filtros.DataFiltro">
+                        <optgroup label="Selecionar por data">
+                            <option value="não">Selecionar por data</option>
+                            <option value="emissão">Emissão</option>
+                            <option value="vencimento">Vencimento</option>
+                            <option value="efetuação">Efetuação</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="col-md-3 input-group form-group form-it">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="date" class="form-control" id="inputDate" asp-for="Filtros.DataInicial">
+                    <div class="legend-data">
+                        <small class="font-place">Data inicial.</small>
+                    </div>
+                </div>
+                <div class="col-md-3 input-group form-group form-it" style="padding: 0;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="date" class="form-control" id="inputDate" asp-for="Filtros.DataTermino">
+                    <div class="legend-data">
+                        <small class="font-place">Data término.</small>
+                    </div>
+                </div>
             </div>
-            <div>
-                <a asp-action="NovaReceita" asp-controller="Financeiro" class="btn filtrar_btn enum">+ Receita</a>
-                <a asp-action="NovaDespesa" asp-controller="Financeiro" class="btn filtrar_btn terminado">+ Despesa</a>
+            <div class="flex-item" style="margin-bottom: -7px; margin-top: -35px;">
+                <div>
+                    <button type="submit" class="btn filtrar_btn enum">Filtrar</button>
+                </div>
+                <div>
+                    <a asp-action="NovaReceita" asp-controller="Financeiro" class="btn filtrar_btn enum">+ Receita</a>
+                    <a asp-action="NovaDespesa" asp-controller="Financeiro" class="btn filtrar_btn terminado">+ Despesa</a>
+                </div>
             </div>
-        </div>
+        </form>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded display" style="width: 100%;">
             <thead>
                 <tr>
@@ -48,8 +103,8 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null || Model.Any()) {
-                    @foreach (var item in Model) {
+                @if (Model.Financeiros != null || Model.Financeiros.Any()) {
+                    @foreach (var item in Model.Financeiros) {
                         <tr class="row-hover">
                             <td>@item.Id</td>
                             @if (!string.IsNullOrEmpty(item.ContratoId.ToString())) {
@@ -59,7 +114,13 @@
                                 <td style="color: red;">N/A</td>
                             }
                             <td>@item.ReturnNameClienteOrCredor()</td>
-                            <td>@item.ReturnStatusFinanceiro()</td>
+                            @if (item.FinanceiroStatus == FinanceiroStatus.Ativo) {
+                                <td>@item.ReturnStatusFinanceiro()</td>
+                            }
+                            else {
+                                <td style="color: red;">@item.ReturnStatusFinanceiro()</td>
+                            }
+
                             <td>@item.ReturnTypeFinanceiro()</td>
                             <td>@item.ReturnValorTot()</td>
                             <td>@item.ReturnValorTotEfetuado()</td>

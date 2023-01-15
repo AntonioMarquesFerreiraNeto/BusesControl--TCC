@@ -29,10 +29,23 @@ namespace BusesControl.Controllers {
         public IActionResult Index() {
             ViewData["Title"] = "Financeiro";
             _financeiroRepositorio.TaskMonitorParcelas();
-            List<Financeiro> ListFinanceiro = _financeiroRepositorio.ListFinanceiros();
-            return View(ListFinanceiro);
+            ModelsFinanceiroIndex modelsFinanceiroIndex = new ModelsFinanceiroIndex {
+                Financeiros = _financeiroRepositorio.ListFinanceiros()
+            };
+            return View(modelsFinanceiroIndex);
         }
-
+        public IActionResult ReturnFiltros() {
+            return PartialView("_ReturnFiltros");
+        }
+        [HttpPost]
+        public IActionResult ReturnResultFiltros(ModelsFinanceiroIndex modelsFinanceiroIndex) {
+            ViewData["Title"] = "Financeiro";
+            ModelsFinanceiroIndex modelsFinanceiroIndexDB = new ModelsFinanceiroIndex {
+                Filtros = modelsFinanceiroIndex.Filtros,
+                Financeiros = _financeiroRepositorio.ListFinanceirosFiltros(modelsFinanceiroIndex.Filtros)
+            };
+            return View("Index", modelsFinanceiroIndexDB);
+        }
         public IActionResult ReturnDashFinanceiro() {
             Relatorio relatorio = new Relatorio();
             relatorio.ValTotReceitas = _relatorioRepositorio.ValorTotReceitas();

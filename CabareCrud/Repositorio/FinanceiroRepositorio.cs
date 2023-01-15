@@ -26,27 +26,6 @@ namespace BusesControl.Repositorio {
                 .ToList();
         }
 
-        public List<Financeiro> ListFinanceirosReceitas() {
-            return _bancoContext.Financeiro
-                .AsNoTracking().Include(x => x.PessoaFisica)
-                .AsNoTracking().Include(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.FornecedorFisico)
-                .AsNoTracking().Include(x => x.FornecedorJuridico)
-                .AsNoTracking().Include(x => x.Contrato)
-                .AsNoTracking().Include(x => x.Parcelas)
-                .Where(x => x.DespesaReceita == DespesaReceita.Receita).ToList();
-        }
-
-        public List<Financeiro> ListFinanceirosDespesas() {
-            return _bancoContext.Financeiro
-                .AsNoTracking().Include(x => x.PessoaFisica)
-                .AsNoTracking().Include(x => x.PessoaJuridica)
-                .AsNoTracking().Include(x => x.FornecedorFisico)
-                .AsNoTracking().Include(x => x.FornecedorJuridico)
-                .AsNoTracking().Include(x => x.Contrato)
-                .AsNoTracking().Include(x => x.Parcelas)
-                .Where(x => x.DespesaReceita == DespesaReceita.Despesa).ToList();
-        }
         public Contrato ListarJoinPorId(int id) {
             return _bancoContext.Contrato
                 .AsNoTracking().Include("Motorista")
@@ -357,7 +336,7 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
-        
+
         public Financeiro InativarReceitaOrDespesa(Financeiro financeiro) {
             try {
                 Financeiro financeiroDB = listPorIdFinanceiro(financeiro.Id);
@@ -372,6 +351,141 @@ namespace BusesControl.Repositorio {
             }
             catch (Exception error) {
                 throw new Exception(error.Message);
+            }
+        }
+
+         public List<Financeiro> ListFinanceirosFiltros(Filtros filtros) {
+            if (filtros.DataFiltro == "não") {
+                if (filtros.ReceitasDespesas == "todos") {
+                    return _bancoContext.Financeiro
+                        .AsNoTracking().Include(x => x.PessoaFisica)
+                        .AsNoTracking().Include(x => x.PessoaJuridica)
+                        .AsNoTracking().Include(x => x.FornecedorFisico)
+                        .AsNoTracking().Include(x => x.FornecedorJuridico)
+                        .AsNoTracking().Include(x => x.Contrato)
+                        .AsNoTracking().Include(x => x.Parcelas)
+                        .ToList();
+                }
+                else if (filtros.ReceitasDespesas == "receitas") {
+                    return _bancoContext.Financeiro
+                        .AsNoTracking().Include(x => x.PessoaFisica)
+                        .AsNoTracking().Include(x => x.PessoaJuridica)
+                        .AsNoTracking().Include(x => x.FornecedorFisico)
+                        .AsNoTracking().Include(x => x.FornecedorJuridico)
+                        .AsNoTracking().Include(x => x.Contrato)
+                        .AsNoTracking().Include(x => x.Parcelas)
+                        .Where(x => x.DespesaReceita == DespesaReceita.Receita)
+                        .ToList();
+                }
+                else {
+                    return _bancoContext.Financeiro
+                    .AsNoTracking().Include(x => x.PessoaFisica)
+                    .AsNoTracking().Include(x => x.PessoaJuridica)
+                    .AsNoTracking().Include(x => x.FornecedorFisico)
+                    .AsNoTracking().Include(x => x.FornecedorJuridico)
+                    .AsNoTracking().Include(x => x.Contrato)
+                    .AsNoTracking().Include(x => x.Parcelas)
+                    .Where(x => x.DespesaReceita == DespesaReceita.Despesa)
+                    .ToList();
+                }
+            }
+            else {
+                if (filtros.ReceitasDespesas == "todos") {
+                    if (filtros.DataFiltro == "emissão") {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.DataEmissao >= filtros.DataInicial && x.DataEmissao <= filtros.DataTermino).ToList();
+                    }
+                    else if (filtros.DataFiltro == "efetuação") {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.Parcelas.Any(p => p.DataEfetuacao >= filtros.DataInicial && p.DataEfetuacao <= filtros.DataTermino)).ToList();
+                    }
+                    else {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.Parcelas.Any(p => p.DataVencimentoParcela >= filtros.DataInicial && p.DataVencimentoParcela <= filtros.DataTermino)).ToList();
+                    }
+                }
+                else if (filtros.ReceitasDespesas == "receitas") {
+                    if (filtros.DataFiltro == "emissão") {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.DespesaReceita == DespesaReceita.Receita && (x.DataEmissao >= filtros.DataInicial && x.DataEmissao <= filtros.DataTermino)).ToList();
+                    }
+                    else if (filtros.DataFiltro == "efetuação") {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.DespesaReceita == DespesaReceita.Receita && x.Parcelas.Any(p => p.DataEfetuacao >= filtros.DataInicial && p.DataEfetuacao <= filtros.DataTermino)).ToList();
+                    }
+                    else {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.DespesaReceita == DespesaReceita.Receita && x.Parcelas.Any(p => p.DataVencimentoParcela >= filtros.DataInicial && p.DataVencimentoParcela <= filtros.DataTermino)).ToList();
+                    }
+                }
+                else {
+                    if (filtros.DataFiltro == "emissão") {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && (x.DataEmissao >= filtros.DataInicial && x.DataEmissao <= filtros.DataTermino)).ToList();
+                    }
+                    else if (filtros.DataFiltro == "efetuação") {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && x.Parcelas.Any(p => p.DataEfetuacao >= filtros.DataInicial && p.DataEfetuacao <= filtros.DataTermino)).ToList();
+                    }
+                    else {
+                        return _bancoContext.Financeiro
+                            .AsNoTracking().Include(x => x.PessoaFisica)
+                            .AsNoTracking().Include(x => x.PessoaJuridica)
+                            .AsNoTracking().Include(x => x.FornecedorFisico)
+                            .AsNoTracking().Include(x => x.FornecedorJuridico)
+                            .AsNoTracking().Include(x => x.Contrato)
+                            .AsNoTracking().Include(x => x.Parcelas)
+                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && x.Parcelas.Any(p => p.DataVencimentoParcela >= filtros.DataInicial && p.DataVencimentoParcela <= filtros.DataTermino)).ToList();
+                    }
+                }
             }
         }
     }
