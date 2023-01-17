@@ -1,5 +1,6 @@
 ﻿using BusesControl.Models.Enums;
 using BusesControl.Models.ValidacoesDados.ModelValidarEmail;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
@@ -53,6 +54,8 @@ namespace BusesControl.Models {
         public string Ddd { get; set; }
 
         public StatuCliente Status { get; set; }
+
+        public List<Financeiro> Financeiros { get; set; }
 
         public string ReturnTelefoneCliente() {
             string tel = Telefone;

@@ -45,7 +45,6 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include(x => x.Parcelas)
                 .FirstOrDefault(x => x.Id == id);
         }
-
         public Parcelas ListarFinanceiroPorId(int id) {
             return _bancoContext.Parcelas.Include(x => x.Financeiro).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
         }
@@ -336,6 +335,49 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
+        
+        public Financeiro EditarLancamento(Financeiro financeiro) {
+            try {
+                Financeiro financeiroDB = _bancoContext.Financeiro.FirstOrDefault(x => x.Id == financeiro.Id);
+                if (financeiroDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
+                if (!string.IsNullOrEmpty(financeiroDB.ContratoId.ToString())) throw new Exception("Desculpe, ID não foi encontrado!");
+                if (!string.IsNullOrEmpty(financeiroDB.ValorTotalPagoCliente.ToString())) throw new Exception("Lançamento possuí parcelas paga!");
+                financeiroDB.Pagament = financeiro.Pagament;
+                financeiroDB.ValorTotDR = financeiro.ValorTotDR;
+                financeiroDB.ValorParcelaDR = financeiro.ValorTotDR / financeiro.QtParcelas;
+                financeiroDB.TypeEfetuacao = financeiro.TypeEfetuacao;
+                financeiroDB.Detalhamento = financeiro.Detalhamento;
+                financeiroDB.DataVencimento = financeiro.DataVencimento;
+                financeiroDB = _bancoContext.Financeiro.FirstOrDefault(x => x.Id == financeiro.Id);
+                if (financeiro.QtParcelas > financeiroDB.QtParcelas) {
+                    for (int parcelas = financeiroDB.QtParcelas.Value + 1; parcelas <= financeiro.QtParcelas.Value; parcelas++) {
+                        Parcelas parcela = new Parcelas {
+                            FinanceiroId = financeiro.Id, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
+                            DataVencimentoParcela = financeiro.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
+                        };
+                        _bancoContext.Parcelas.Add(parcela);
+                    }
+                }
+                else if (financeiro.QtParcelas != financeiroDB.QtParcelas) {
+                    for (int? parcelas = financeiro.QtParcelas + 1; parcelas <= financeiroDB.QtParcelas; parcelas++) {
+                        Parcelas parcela = _bancoContext.Parcelas.FirstOrDefault(x => x.FinanceiroId == financeiro.Id && x.NomeParcela == parcelas.ToString());
+                        _bancoContext.Parcelas.Remove(parcela);
+                    }
+                }
+                _bancoContext.Financeiro.Update(financeiroDB);
+                _bancoContext.SaveChanges();
+                return financeiroDB;
+
+            }
+            catch (Exception error) {
+                throw new Exception(error.Message);
+            }
+        }
+        //Atualiza a quantidade de parcelas de clientes que não foram excluídos, mas tiveram a quantidade de parcelas editadas.
+        public void UpdateFinanceiro(Financeiro financeiro) {
+            
+        }
+
 
         public Financeiro InativarReceitaOrDespesa(Financeiro financeiro) {
             try {
@@ -399,7 +441,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.DataEmissao >= filtros.DataInicial && x.DataEmissao <= filtros.DataTermino).ToList();
+                            .Where(x => x.DataEmissao.Value.Date >= filtros.DataInicial && x.DataEmissao <= filtros.DataTermino).ToList();
                     }
                     else if (filtros.DataFiltro == "efetuação") {
                         return _bancoContext.Financeiro
@@ -409,7 +451,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.Parcelas.Any(p => p.DataEfetuacao >= filtros.DataInicial && p.DataEfetuacao <= filtros.DataTermino)).ToList();
+                            .Where(x => x.Parcelas.Any(p => p.DataEfetuacao.Value.Date >= filtros.DataInicial && p.DataEfetuacao.Value.Date <= filtros.DataTermino)).ToList();
                     }
                     else {
                         return _bancoContext.Financeiro
@@ -419,7 +461,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.Parcelas.Any(p => p.DataVencimentoParcela >= filtros.DataInicial && p.DataVencimentoParcela <= filtros.DataTermino)).ToList();
+                            .Where(x => x.Parcelas.Any(p => p.DataVencimentoParcela.Value.Date >= filtros.DataInicial && p.DataVencimentoParcela.Value.Date <= filtros.DataTermino)).ToList();
                     }
                 }
                 else if (filtros.ReceitasDespesas == "receitas") {
@@ -431,7 +473,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.DespesaReceita == DespesaReceita.Receita && (x.DataEmissao >= filtros.DataInicial && x.DataEmissao <= filtros.DataTermino)).ToList();
+                            .Where(x => x.DespesaReceita == DespesaReceita.Receita && (x.DataEmissao.Value.Date >= filtros.DataInicial && x.DataEmissao.Value.Date <= filtros.DataTermino)).ToList();
                     }
                     else if (filtros.DataFiltro == "efetuação") {
                         return _bancoContext.Financeiro
@@ -441,7 +483,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.DespesaReceita == DespesaReceita.Receita && x.Parcelas.Any(p => p.DataEfetuacao >= filtros.DataInicial && p.DataEfetuacao <= filtros.DataTermino)).ToList();
+                            .Where(x => x.DespesaReceita == DespesaReceita.Receita && x.Parcelas.Any(p => p.DataEfetuacao.Value.Date >= filtros.DataInicial && p.DataEfetuacao.Value.Date <= filtros.DataTermino)).ToList();
                     }
                     else {
                         return _bancoContext.Financeiro
@@ -463,7 +505,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && (x.DataEmissao >= filtros.DataInicial && x.DataEmissao <= filtros.DataTermino)).ToList();
+                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && (x.DataEmissao.Value.Date >= filtros.DataInicial && x.DataEmissao.Value.Date <= filtros.DataTermino)).ToList();
                     }
                     else if (filtros.DataFiltro == "efetuação") {
                         return _bancoContext.Financeiro
@@ -473,7 +515,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && x.Parcelas.Any(p => p.DataEfetuacao >= filtros.DataInicial && p.DataEfetuacao <= filtros.DataTermino)).ToList();
+                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && x.Parcelas.Any(p => p.DataEfetuacao.Value.Date >= filtros.DataInicial && p.DataEfetuacao.Value.Date <= filtros.DataTermino)).ToList();
                     }
                     else {
                         return _bancoContext.Financeiro
@@ -483,7 +525,7 @@ namespace BusesControl.Repositorio {
                             .AsNoTracking().Include(x => x.FornecedorJuridico)
                             .AsNoTracking().Include(x => x.Contrato)
                             .AsNoTracking().Include(x => x.Parcelas)
-                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && x.Parcelas.Any(p => p.DataVencimentoParcela >= filtros.DataInicial && p.DataVencimentoParcela <= filtros.DataTermino)).ToList();
+                            .Where(x => x.DespesaReceita == DespesaReceita.Despesa && x.Parcelas.Any(p => p.DataVencimentoParcela.Value.Date >= filtros.DataInicial && p.DataVencimentoParcela.Value.Date <= filtros.DataTermino)).ToList();
                     }
                 }
             }

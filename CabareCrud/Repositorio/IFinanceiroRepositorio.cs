@@ -12,6 +12,7 @@ namespace BusesControl.Repositorio {
         public Financeiro RescisaoContrato(Financeiro financeiro);
         public Financeiro AdicionarDespesa(Financeiro financeiro);
         public Financeiro AdicionarReceita(Financeiro financeiro);
+        public Financeiro EditarLancamento(Financeiro financeiro);
         public Financeiro InativarReceitaOrDespesa(Financeiro financeiro);
         public void TaskMonitorParcelas();
     }

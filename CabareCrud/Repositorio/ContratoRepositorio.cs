@@ -350,30 +350,5 @@ namespace BusesControl.Repositorio {
                 }
             }
         }
-        //Método chamado no momento do update de financeiro, no qual ele exclui todo financeiro de clientes que serão removidos do contrato. 
-        public void RemoveFinanceiro(Financeiro financeiro) {
-            List<Parcelas> financeiros = _bancoContext.Parcelas.Where(x => x.Financeiro == financeiro).ToList();
-            foreach (var item in financeiros) {
-                _bancoContext.Remove(item);
-            }
-        }
-        //Atualiza a quantidade de parcelas de clientes que não foram excluídos, mas tiveram a quantidade de parcelas editadas.
-        public void UpdateFinanceiro(Contrato contrato, Financeiro financeiro, Contrato contratoDB) {
-            if (contrato.QtParcelas > contratoDB.QtParcelas) {
-                for (int parcelas = contratoDB.QtParcelas.Value + 1; parcelas <= contrato.QtParcelas.Value; parcelas++) {
-                    Parcelas parcela = new Parcelas {
-                        FinanceiroId = financeiro.Id, StatusPagamento = SituacaoPagamento.AguardandoPagamento,
-                        DataVencimentoParcela = contrato.DataEmissao.Value.AddMonths(parcelas - 1), NomeParcela = parcelas.ToString()
-                    };
-                    _bancoContext.Parcelas.Add(parcela);
-                }
-            }
-            else if (contrato.QtParcelas != contratoDB.QtParcelas) {
-                for (int? parcelas = contrato.QtParcelas + 1; parcelas <= contratoDB.QtParcelas; parcelas++) {
-                    Parcelas parcela = _bancoContext.Parcelas.FirstOrDefault(x => x.FinanceiroId == financeiro.Id && x.NomeParcela == parcelas.ToString());
-                    _bancoContext.Remove(financeiro);
-                }
-            }
-        }
     }
 }

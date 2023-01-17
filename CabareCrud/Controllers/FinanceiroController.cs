@@ -3,9 +3,12 @@ using BusesControl.Models;
 using BusesControl.Models.Enums;
 using BusesControl.Models.ViewModels;
 using BusesControl.Repositorio;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace BusesControl.Controllers {
@@ -17,7 +20,7 @@ namespace BusesControl.Controllers {
         private readonly IFornecedorRepositorio _fornecedorRepositorio;
         private readonly IRelatorioRepositorio _relatorioRepositorio;
 
-        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio, 
+        public FinanceiroController(IContratoRepositorio contratoRepositorio, IFinanceiroRepositorio financeiroRepositorio,
                 IClienteRepositorio clienteRepositorio, IFornecedorRepositorio fornecedorRepositorio, IRelatorioRepositorio relatorioRepositorio) {
             _contratoRepositorio = contratoRepositorio;
             _financeiroRepositorio = financeiroRepositorio;
@@ -81,7 +84,7 @@ namespace BusesControl.Controllers {
                 }
                 if (ModelState.IsValid) {
                     FornecedorFisico fornecedorFisico = _fornecedorRepositorio.ListPorIdFisico(modelsFinanceiroRD.CredorDevedorId.Value);
-                    if (fornecedorFisico != null) {
+                    if (!string.IsNullOrEmpty(fornecedorFisico.Id.ToString())) {
                         modelsFinanceiroRD.Financeiro.FornecedorFisicoId = modelsFinanceiroRD.CredorDevedorId.Value;
                     }
                     else {
@@ -155,6 +158,92 @@ namespace BusesControl.Controllers {
                         return View(modelsFinanceiroRD);
                     }
                     _financeiroRepositorio.AdicionarReceita(modelsFinanceiroRD.Financeiro);
+                    TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+                return View(modelsFinanceiroRD);
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = $"{erro.Message}";
+                return View(modelsFinanceiroRD);
+            }
+        }
+
+        public IActionResult EditarLancamento(int? id) {
+            ViewData["Title"] = $"Editar despesa/receita";
+            ModelsFinanceiroRD modelsFinanceiroRD = new ModelsFinanceiroRD();
+            modelsFinanceiroRD.PessoaFisicoList = _clienteRepositorio.ListClienteFisicoLegalContrato();
+            modelsFinanceiroRD.PessoaJuridicaList = _clienteRepositorio.ListClienteJuridicoLegal();
+            modelsFinanceiroRD.CredorFisicoList = _fornecedorRepositorio.ListFornecedoreFisicos();
+            modelsFinanceiroRD.CredorJuridicoList = _fornecedorRepositorio.ListFornecedoresJuridicos();
+            modelsFinanceiroRD.Financeiro = _financeiroRepositorio.listPorIdFinanceiro(id);
+            if (modelsFinanceiroRD.Financeiro == null) {
+                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
+                return RedirectToAction("Index");
+            }
+            if (modelsFinanceiroRD.Financeiro.DespesaReceita == DespesaReceita.Receita) {
+                if (!string.IsNullOrEmpty(modelsFinanceiroRD.Financeiro.PessoaFisicaId.ToString())) {
+                    modelsFinanceiroRD.CredorDevedorId = modelsFinanceiroRD.Financeiro.PessoaFisicaId;
+                }
+                else {
+                    modelsFinanceiroRD.CredorDevedorId = modelsFinanceiroRD.Financeiro.PessoaJuridicaId;
+                }
+            }
+            else {
+                if (!string.IsNullOrEmpty(modelsFinanceiroRD.Financeiro.FornecedorFisicoId.ToString())) {
+                    modelsFinanceiroRD.CredorDevedorId = modelsFinanceiroRD.Financeiro.FornecedorFisicoId;
+                }
+                else {
+                    modelsFinanceiroRD.CredorDevedorId = modelsFinanceiroRD.Financeiro.FornecedorJuridicoId;
+                }
+            }
+            return View(modelsFinanceiroRD);
+        }
+        [HttpPost]
+        public IActionResult EditarLancamento(ModelsFinanceiroRD modelsFinanceiroRD) {
+            ViewData["Title"] = $"Editar despesa/receita";
+            modelsFinanceiroRD.PessoaFisicoList = _clienteRepositorio.ListClienteFisicoLegalContrato();
+            modelsFinanceiroRD.PessoaJuridicaList = _clienteRepositorio.ListClienteJuridicoLegal();
+            modelsFinanceiroRD.CredorFisicoList = _fornecedorRepositorio.ListFornecedoreFisicos();
+            modelsFinanceiroRD.CredorJuridicoList = _fornecedorRepositorio.ListFornecedoresJuridicos();
+            try {
+                int op = int.Parse(Request.Form["format_pagament"]);
+                modelsFinanceiroRD.Financeiro.Pagament = (op == 0) ? ModelPagament.Avista : ModelPagament.Parcelado;
+                if (op == 0) {
+                    modelsFinanceiroRD.Financeiro.QtParcelas = 1;
+                }
+                if (ModelState.IsValid) {
+                    if (modelsFinanceiroRD.Financeiro.DespesaReceita == DespesaReceita.Receita) {
+                        PessoaFisica pessoaFisica = _clienteRepositorio.ListarPorId(modelsFinanceiroRD.CredorDevedorId.Value);
+                        if (pessoaFisica != null) {
+                            modelsFinanceiroRD.Financeiro.PessoaFisicaId = modelsFinanceiroRD.CredorDevedorId.Value;
+                        }
+                        else {
+                            modelsFinanceiroRD.Financeiro.PessoaJuridicaId = modelsFinanceiroRD.CredorDevedorId.Value;
+                        }
+                    }
+                    else {
+                        FornecedorFisico fornecedorFisico = _fornecedorRepositorio.ListPorIdFisico(modelsFinanceiroRD.CredorDevedorId.Value);
+                        if (!string.IsNullOrEmpty(fornecedorFisico.Id.ToString())) {
+                            modelsFinanceiroRD.Financeiro.FornecedorFisicoId = modelsFinanceiroRD.CredorDevedorId.Value;
+                        }
+                        else {
+                            modelsFinanceiroRD.Financeiro.FornecedorJuridicoId = modelsFinanceiroRD.CredorDevedorId.Value;
+                        }
+                    }
+                    if (ValidationDateEmissaoAndVencimento(modelsFinanceiroRD.Financeiro)) {
+                        TempData["MensagemDeErro"] = "Data de vencimento anterior à data de emissão!";
+                        return View(modelsFinanceiroRD);
+                    }
+                    if (ValidationQtParcelas(modelsFinanceiroRD.Financeiro)) {
+                        TempData["MensagemDeErro"] = "Quantidade de parcelas inválida!";
+                        return View(modelsFinanceiroRD);
+                    }
+                    if (ValidationDateVencimento(modelsFinanceiroRD.Financeiro.DataVencimento.ToString())) {
+                        TempData["MensagemDeErro"] = "A receita/despesa não pode ser superior a dois anos!";
+                        return View(modelsFinanceiroRD);
+                    }
+                    _financeiroRepositorio.EditarLancamento(modelsFinanceiroRD.Financeiro);
                     TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
                     return RedirectToAction("Index");
                 }
@@ -329,6 +418,223 @@ namespace BusesControl.Controllers {
                 bool resultado = (financeiro.QtParcelas < 1 || string.IsNullOrEmpty(financeiro.QtParcelas.ToString())) ? true : false;
                 return resultado;
             }
+        }
+
+        public IActionResult PdfRelatorioParcelas(int? id) {
+            try {
+                Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(id);
+                if (financeiro == null) {
+                    ViewData["Title"] = "Financeiro";
+                    TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
+                    return RedirectToAction("Index");
+                }
+                var pxPorMm = 72 / 35.2f;
+                Document doc = new Document(PageSize.A4, 15 * pxPorMm, 15 * pxPorMm,
+                    15 * pxPorMm, 15 * pxPorMm);
+                MemoryStream stream = new MemoryStream();
+                PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+                writer.CloseStream = false;
+                doc.Open();
+                var fonteBase = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
+                var fonteParagrafo = new iTextSharp.text.Font(fonteBase, 11,
+                    iTextSharp.text.Font.NORMAL, BaseColor.DARK_GRAY);
+                Paragraph paragrofoJustificado = new Paragraph("",
+                new Font(fonteBase, 10, Font.NORMAL));
+                Paragraph paragrofoRodape = new Paragraph("",
+                new Font(fonteBase, 09, Font.NORMAL));
+                paragrofoJustificado.Alignment = Element.ALIGN_JUSTIFIED;
+                var titulo = new Paragraph($"Parcelas - {financeiro.ReturnNameClienteOrCredor()}\n\n\n", fonteParagrafo);
+                titulo.Alignment = Element.ALIGN_CENTER;
+
+                var caminhoImgLeft = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdf.jpeg");
+                if (caminhoImgLeft != null) {
+                    Image logo = Image.GetInstance(caminhoImgLeft);
+                    float razaoImg = logo.Width / logo.Height;
+                    float alturaImg = 84;
+                    float larguraLogo = razaoImg * alturaImg - 6f;
+                    logo.ScaleToFit(larguraLogo, alturaImg);
+                    var margemEsquerda = doc.PageSize.Width - doc.RightMargin - larguraLogo - 2;
+                    var margemTopo = doc.PageSize.Height - doc.TopMargin - 60;
+                    logo.SetAbsolutePosition(margemEsquerda, margemTopo);
+                    writer.DirectContent.AddImage(logo, false);
+                }
+                var caminhoImgRight = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdfRight.jpg");
+                if (caminhoImgRight != null) {
+                    Image logo2 = Image.GetInstance(caminhoImgRight);
+                    float razaoImg = logo2.Width / logo2.Height;
+                    float alturaImg = 84;
+                    float larguraLogo = razaoImg * alturaImg - 6f;
+                    logo2.ScaleToFit(larguraLogo, alturaImg);
+                    var margemRight = pxPorMm * 15;
+                    var margemTopo = doc.PageSize.Height - doc.TopMargin - 60;
+                    logo2.SetAbsolutePosition(margemRight, margemTopo);
+                    writer.DirectContent.AddImage(logo2, false);
+                }
+                var tabela = new PdfPTable(7);
+                float[] larguraColunas = { 0.4f, 0.7f, 1.1f, 1f, 1f, 1f, 1.3f };
+                tabela.SetWidths(larguraColunas);
+                tabela.DefaultCell.BorderWidth = 0;
+                tabela.WidthPercentage = 105;
+                CriarCelulaTexto(tabela, "ID", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Nome", PdfPCell.ALIGN_CENTER, true);
+                CriarCelulaTexto(tabela, "Valor das parcelas", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Taxa de juros", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Efetuação", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Vencimento", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Status da parcela", PdfPCell.ALIGN_CENTER, true);
+
+                foreach (var item in financeiro.Parcelas.OrderBy(x => x.NomeParcela)) {
+                    CriarCelulaTexto(tabela, item.Id.ToString(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnNomeParcela(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.Financeiro.ReturnValorParcela(), PdfPCell.ALIGN_CENTER);
+                    CriarCelulaTexto(tabela, item.ReturnValorJuros(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnDateEfetuacao(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnDateVencimento(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnStatusPagamento(), PdfPCell.ALIGN_LEFT);
+                }
+                string rodape = $"Quantidade de parcelas: {financeiro.Parcelas.Count}";
+                string rodape2 = $"\nDocumento gerado em: {DateTime.Now.ToString("dd/MM/yyyy")}";
+                paragrofoRodape.Add(rodape);
+                paragrofoRodape.Add(rodape2);
+                doc.Add(titulo);
+                doc.Add(paragrofoJustificado);
+                doc.Add(tabela);
+                doc.Add(paragrofoRodape);
+                doc.Close();
+
+                string nomeContrato = $"relatório financeiro";
+                stream.Flush();
+                stream.Position = 0;
+                return File(stream, "application/pdf", $"{nomeContrato}.pdf");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = $"Desculpe, houve um erro: {erro.Message}";
+                return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult PdfRelatorioFinanceiro(Filtros filtros) {
+            try {
+                ViewData["title"] = "Financeiro";
+                List<Financeiro> financeiros = _financeiroRepositorio.ListFinanceirosFiltros(filtros);
+                if (financeiros == null || filtros == null) {
+                    TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
+                    return RedirectToAction("Index");
+                }
+                var pxPorMm = 72 / 35.2f;
+                Document doc = new Document(PageSize.A4, 15 * pxPorMm, 15 * pxPorMm,
+                    15 * pxPorMm, 15 * pxPorMm);
+                MemoryStream stream = new MemoryStream();
+                PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+                writer.CloseStream = false;
+                doc.Open();
+                var fonteBase = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
+                var fonteParagrafo = new iTextSharp.text.Font(fonteBase, 16,
+                    iTextSharp.text.Font.NORMAL, BaseColor.DARK_GRAY);
+                Paragraph paragrofoJustificado = new Paragraph("",
+                new Font(fonteBase, 10, Font.NORMAL));
+                Paragraph paragrofoRodape = new Paragraph("",
+                new Font(fonteBase, 09, Font.NORMAL));
+                paragrofoJustificado.Alignment = Element.ALIGN_JUSTIFIED;
+                var titulo = new Paragraph($"Relatório financeiro\n\n", fonteParagrafo);
+                titulo.Alignment = Element.ALIGN_CENTER;
+
+                var caminhoImgLeft = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdf.jpeg");
+                if (caminhoImgLeft != null) {
+                    Image logo = Image.GetInstance(caminhoImgLeft);
+                    float razaoImg = logo.Width / logo.Height;
+                    float alturaImg = 84;
+                    float larguraLogo = razaoImg * alturaImg - 6f;
+                    logo.ScaleToFit(larguraLogo, alturaImg);
+                    var margemEsquerda = doc.PageSize.Width - doc.RightMargin - larguraLogo - 2;
+                    var margemTopo = doc.PageSize.Height - doc.TopMargin - 60;
+                    logo.SetAbsolutePosition(margemEsquerda, margemTopo);
+                    writer.DirectContent.AddImage(logo, false);
+                }
+                var caminhoImgRight = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdfRight.jpg");
+                if (caminhoImgRight != null) {
+                    Image logo2 = Image.GetInstance(caminhoImgRight);
+                    float razaoImg = logo2.Width / logo2.Height;
+                    float alturaImg = 84;
+                    float larguraLogo = razaoImg * alturaImg - 6f;
+                    logo2.ScaleToFit(larguraLogo, alturaImg);
+                    var margemRight = pxPorMm * 15;
+                    var margemTopo = doc.PageSize.Height - doc.TopMargin - 60;
+                    logo2.SetAbsolutePosition(margemRight, margemTopo);
+                    writer.DirectContent.AddImage(logo2, false);
+                }
+                var tabela = new PdfPTable(7);
+                float[] larguraColunas = { 0.5f, 1f, 1f, 1f, 1f, 1f, 1f };
+                tabela.SetWidths(larguraColunas);
+                tabela.DefaultCell.BorderWidth = 0;
+                tabela.WidthPercentage = 105;
+                CriarCelulaTexto(tabela, "ID", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Credor/Devedor", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Status financeiro", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Receita/Despesas", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Val total", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Val efetuado", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabela, "Vencimento", PdfPCell.ALIGN_LEFT, true);
+                foreach (var item in financeiros) {
+                    CriarCelulaTexto(tabela, item.Id.ToString(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnNameClienteOrCredor(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnStatusFinanceiro(), PdfPCell.ALIGN_CENTER);
+                    CriarCelulaTexto(tabela, item.ReturnTypeFinanceiro(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnValorTot(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.ReturnValorTotEfetuado(), PdfPCell.ALIGN_LEFT);
+                    CriarCelulaTexto(tabela, item.DataVencimento.Value.ToString("dd/MM/yyyy"), PdfPCell.ALIGN_LEFT);
+                }
+                string rodape = $"Quantidade de lançamentos solicitados: {financeiros.Count}";
+                string rodape2 = $"\nDocumento gerado em: {DateTime.Now.ToString("dd/MM/yyyy")}";
+                paragrofoRodape.Add(rodape);
+                paragrofoRodape.Add(rodape2);
+                doc.Add(titulo);
+                doc.Add(paragrofoJustificado);
+                doc.Add(tabela);
+                doc.Add(paragrofoRodape);
+                doc.Close();
+
+                string nomeContrato = $"relatório financeiro";
+                stream.Flush();
+                stream.Position = 0;
+                return File(stream, "application/pdf", $"{nomeContrato}.pdf");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = $"Desculpe, houve um erro: {erro.Message}";
+                return RedirectToAction("Index");
+            }
+        }
+        public string ReturnValorPendente(decimal? valueTotal, decimal? valuePago) {
+            decimal result = valueTotal.Value - valuePago.Value;
+            return $"{result.ToString("C2")}";
+        }
+        static void CriarCelulaTexto(PdfPTable tabela, string texto, int alinhamentoHorz = PdfPCell.ALIGN_LEFT,
+                bool negrito = false, bool italico = false, int tamanhoFont = 10, int alturaCelula = 30) {
+
+            int estilo = Font.NORMAL;
+            if (negrito && italico) {
+                estilo = Font.BOLDITALIC;
+            }
+            else if (negrito) {
+                estilo = Font.BOLD;
+            }
+            else if (italico) {
+                estilo = Font.ITALIC;
+            }
+            var fonteBase = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
+            var fonteCelula = new Font(fonteBase, tamanhoFont, estilo, BaseColor.DARK_GRAY);
+            var bgColor = BaseColor.WHITE;
+            if (tabela.Rows.Count % 2 == 1) {
+                bgColor = new BaseColor(0.95f, 0.95f, 0.95f);
+            }
+            var celula = new PdfPCell(new Phrase(texto, fonteCelula));
+            celula.HorizontalAlignment = alinhamentoHorz;
+            celula.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
+            celula.Border = 0;
+            celula.BorderWidthBottom = 1;
+            celula.BackgroundColor = bgColor;
+            celula.FixedHeight = alturaCelula;
+            tabela.AddCell(celula);
         }
     }
 }

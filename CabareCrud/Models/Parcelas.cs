@@ -27,7 +27,23 @@ namespace BusesControl.Models {
         public string ReturnNomeParcela() {
             return $"{NomeParcela}º parcela";
         }
-
+        public string ReturnValorJuros() {
+            if (!string.IsNullOrEmpty(ValorJuros.ToString())) {
+                return $"{ValorJuros.Value:C2}";
+            }
+            else {
+                return "Não tem";
+            }
+        }
+        public string ReturnDateVencimento() {
+            return $"{DataVencimentoParcela.Value:dd/MM/yyyy}";
+        }
+        public string ReturnDateEfetuacao() {
+            if (!string.IsNullOrEmpty(DataEfetuacao.ToString())) {
+                return $"{DataEfetuacao.Value:dd/MM/yyyy}";
+            }
+            return "Não efetuado";
+        }
         public string ReturnStatusPagamento() {
             if (StatusPagamento == SituacaoPagamento.AguardandoPagamento) return "Aguardando pagamento";
             else if (StatusPagamento == SituacaoPagamento.PagamentoContabilizado) return "Pagamento efetuado";

@@ -16,7 +16,9 @@
         <hr style="margin-top: 2px;">
     </h3>
     <section class="cliente">
-        <form id="formAdd" asp-controller="Financeiro" asp-action="NovaDespesa" method="post">
+        <form id="formAdd" asp-controller="Financeiro" asp-action="EditarLancamento" method="post">
+            <input type="hidden" asp-for="Financeiro.Id">
+            <input type="hidden" asp-for="Financeiro.DespesaReceita">
             <div class="row">
                 <div class="col-md-12 btn-group align-edit">
                     <div class="btn-group btn-group-sm">
@@ -41,30 +43,58 @@
                         </span>
                     </div>
                     <select id="fornecedor" class="form-control campUser" asp-for="CredorDevedorId">
-                        <optgroup label="Selecione o cliente">
-                            @if ((Model.CredorFisicoList == null || !Model.CredorFisicoList.Any())
-                            && (Model.CredorJuridicoList == null || !Model.CredorJuridicoList.Any())) {
-                                <option value="">Selecionar cliente</option>
-                                <option value="">Não existe cadastros.</option>
-                            }
-                            else {
-                                @if (Model.CredorFisicoList != null || Model.CredorFisicoList.Any()) {
+                        @if (Model.Financeiro.DespesaReceita == DespesaReceita.Despesa) {
+                            <optgroup label="Selecione o cliente">
+                                @if ((Model.CredorFisicoList == null || !Model.CredorFisicoList.Any())
+                               && (Model.CredorJuridicoList == null || !Model.CredorJuridicoList.Any())) {
                                     <option value="">Selecionar cliente</option>
-                                    @foreach (var devedor in Model.CredorFisicoList) {
-                                        <option value="@devedor.Id">
-                                            @devedor.Name – <b>CPF: </b>@devedor.ReturnCpfCliente()
-                                        </option>
+                                    <option value="">Não existe cadastros.</option>
+                                }
+                                else {
+                                    @if (Model.CredorFisicoList != null || Model.CredorFisicoList.Any()) {
+                                        <option value="">Selecionar cliente</option>
+                                        @foreach (var devedor in Model.CredorFisicoList) {
+                                            <option value="@devedor.Id">
+                                                @devedor.Name – <b>CPF: </b>@devedor.ReturnCpfCliente()
+                                            </option>
+                                        }
+                                    }
+                                    @if (Model.CredorJuridicoList != null || Model.CredorJuridicoList.Any()) {
+                                        @foreach (var devedor in Model.CredorJuridicoList) {
+                                            <option value="@devedor.Id">
+                                                @devedor.NomeFantasia – <b>CNPJ: </b>@devedor.ReturnCnpjCliente()
+                                            </option>
+                                        }
                                     }
                                 }
-                                @if (Model.CredorJuridicoList != null || Model.CredorJuridicoList.Any()) {
-                                    @foreach (var devedor in Model.CredorJuridicoList) {
-                                        <option value="@devedor.Id">
-                                            @devedor.NomeFantasia – <b>CNPJ: </b>@devedor.ReturnCnpjCliente()
-                                        </option>
+                            </optgroup>
+                        }
+                        else {
+                            <optgroup label="Selecione o cliente">
+                                @if ((Model.PessoaFisicoList == null || !Model.PessoaFisicoList.Any())
+                               && (Model.PessoaJuridicaList == null || !Model.PessoaJuridicaList.Any())) {
+                                    <option value="">Selecionar cliente</option>
+                                    <option value="">Não existe cadastros.</option>
+                                }
+                                else {
+                                    @if (Model.PessoaFisicoList != null || Model.PessoaFisicoList.Any()) {
+                                        <option value="">Selecionar cliente</option>
+                                        @foreach (var devedor in Model.PessoaFisicoList) {
+                                            <option value="@devedor.Id">
+                                                @devedor.Name – <b>CPF: </b>@devedor.ReturnCpfCliente()
+                                            </option>
+                                        }
+                                    }
+                                    @if (Model.PessoaJuridicaList != null || Model.PessoaJuridicaList.Any()) {
+                                        @foreach (var devedor in Model.PessoaJuridicaList) {
+                                            <option value="@devedor.Id">
+                                                @devedor.NomeFantasia – <b>CNPJ: </b>@devedor.ReturnCnpjCliente()
+                                            </option>
+                                        }
                                     }
                                 }
-                            }
-                        </optgroup>
+                            </optgroup>
+                        }
                     </select>
                     <div class="i">
                         <small class="errorMsg">
@@ -159,7 +189,7 @@
                         </span>
                     </div>
                     <textarea type="text" class="form-control" id="inputRota" rows="2" style="resize: none"
-                              placeholder="Informe a descrição da despesa." maxlength="355" asp-for="Financeiro.Detalhamento"></textarea>
+                              placeholder="Informe a descrição." maxlength="355" asp-for="Financeiro.Detalhamento"></textarea>
                     <div class="i-detalhe">
                         <small class="errorMsg">
                             @Html.ValidationMessageFor(x => x.Financeiro.Detalhamento)
@@ -233,3 +263,4 @@
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/mascaraMoney.js"></script>
 <script src="~/Js copy/DisplayMsgInfo.js"></script>
+

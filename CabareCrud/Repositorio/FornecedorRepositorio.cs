@@ -1,6 +1,7 @@
 ﻿using BusesControl.Data;
 using BusesControl.Models;
 using BusesControl.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,6 +129,7 @@ namespace BusesControl.Repositorio {
         public FornecedorFisico InativarFornecedorFisico(FornecedorFisico fornecedorFisico) {
             FornecedorFisico fornecedorFisicoDB = ListPorIdFisico(fornecedorFisico.Id);
             if (fornecedorFisicoDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
+            if (fornecedorFisicoDB.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) throw new Exception("Fornecedor possui despesas!");
             fornecedorFisicoDB.Status = StatuCliente.Desabilitado;
             _bancoContext.FornecedorFisico.Update(fornecedorFisicoDB);
             _bancoContext.SaveChanges();
@@ -137,6 +139,7 @@ namespace BusesControl.Repositorio {
         public FornecedorJuridico InativarFornecedorJuridico(FornecedorJuridico fornecedorJuridico) {
             FornecedorJuridico fornecedorJuridicoDB = ListPorIdJuridico(fornecedorJuridico.Id);
             if (fornecedorJuridicoDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
+            if (fornecedorJuridicoDB.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) throw new Exception("Fornecedor possui despesas!");
             fornecedorJuridicoDB.Status = StatuCliente.Desabilitado;
             _bancoContext.FornecedorJuridico.Update(fornecedorJuridicoDB);
             _bancoContext.SaveChanges();
@@ -160,11 +163,11 @@ namespace BusesControl.Repositorio {
         }
 
         public FornecedorFisico ListPorIdFisico(int id) {
-            return _bancoContext.FornecedorFisico.FirstOrDefault(x => x.Id == id);
+            return _bancoContext.FornecedorFisico.AsNoTracking().Include(x => x.Financeiros).FirstOrDefault(x => x.Id == id);
         }
 
         public FornecedorJuridico ListPorIdJuridico(int id) {
-            return _bancoContext.FornecedorJuridico.FirstOrDefault(x => x.Id == id);
+            return _bancoContext.FornecedorJuridico.AsNoTracking().Include(x => x.Financeiros).FirstOrDefault(x => x.Id == id);
         }
 
         public bool Duplicata(FornecedorFisico fornecedor) {

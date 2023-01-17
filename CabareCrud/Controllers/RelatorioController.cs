@@ -26,7 +26,7 @@ namespace BusesControl.Controllers {
         }
 
         public IActionResult Index() {
-            ViewData["Title"] = "Relatórios do negócio";
+            ViewData["Title"] = "Relatórios de contratos";
             ModelsRelatorio modelsRelatorio = new ModelsRelatorio();
             modelsRelatorio.Relatorio = PopularRelatorio();
             modelsRelatorio.Contratos = _contratoRepositorio.ListContratoAprovados();
@@ -65,7 +65,7 @@ namespace BusesControl.Controllers {
 
         public IActionResult PdfContrato(int? id) {
             try {
-                ViewData["title"] = "Relatórios do negócio";
+                ViewData["title"] = "Relatórios de contratos";
                 Contrato contrato = _contratoRepositorio.ListarJoinPorIdAprovado(id);
                 if (contrato == null) {
                     TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";

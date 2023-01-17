@@ -28,7 +28,10 @@
                     }
                 }
             </div>
-            <div><a class="btn-voltar" asp-action="Index">Voltar</a></div>
+            <div style="display: flex; flex-wrap: wrap;">
+                <a class="btn filtrar_btn enum" asp-action="PdfRelatorioParcelas" asp-route-id="@Model.Id"><i class="fa fa-print"></i> Imprimir</a>
+                <a class="btn filtrar_btn" asp-action="Index">Voltar</a>
+            </div>
         </div>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded">
             <thead>
@@ -56,7 +59,7 @@
                             else {
                                 <td>Insento de taxa de juros</td>
                             }
-                            @if(!string.IsNullOrEmpty(@item.DataEfetuacao.ToString())){
+                            @if (!string.IsNullOrEmpty(@item.DataEfetuacao.ToString())) {
                                 <td>@Html.DisplayFor(x => @item.DataEfetuacao)</td>
                             }
                             else {

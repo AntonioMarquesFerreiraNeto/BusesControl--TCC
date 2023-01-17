@@ -112,6 +112,9 @@ namespace BusesControl.Models {
         public string ReturnValorTot() {
             return $"{ValorTotDR.Value.ToString("C2")}";
         }
+        public string ReturnValorParcela() {
+            return $"{ValorParcelaDR.Value.ToString("C2")}";
+        }
         public string ReturnValorTotEfetuado() {
             if (!string.IsNullOrEmpty(ValorTotalPagoCliente.ToString())) {
                 return $"{ValorTotalPagoCliente.Value.ToString("C2")}";

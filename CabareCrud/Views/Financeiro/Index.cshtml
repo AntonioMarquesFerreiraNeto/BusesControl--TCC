@@ -22,69 +22,72 @@
         <hr style="margin-top: 3px; width: 100%;">
     </h3>
     <div class="cliente">
-        <form style="margin: 0; padding: 0px;" asp-action="ReturnResultFiltros" method="post">
-            <div class="flex-item" style="margin-top: -12px; justify-content: flex-start; flex-wrap: wrap;">
-                <div class="col-md-3 input-group form-group form-it" style="padding: 0;">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fa fa-file-invoice-dollar"></i>
-                        </span>
+        <form style="margin: 0; padding: 0;" asp-action="PdfRelatorioFinanceiro" method="post">
+            <form style="margin: 0; padding: 0px;" asp-action="ReturnResultFiltros" method="post">
+                <div class="flex-item" style="margin-top: -12px; justify-content: flex-start; flex-wrap: wrap;">
+                    <div class="col-md-3 input-group form-group form-it" style="padding: 0;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-file-invoice-dollar"></i>
+                            </span>
+                        </div>
+                        <select id="fornecedor" class="form-control campUser" asp-for="Filtros.ReceitasDespesas">
+                            <optgroup label="Selecionar por tipo">
+                                <option value="todos">Todos</option>
+                                <option value="receitas">Receitas</option>
+                                <option value="despesas">Despesas</option>
+                            </optgroup>
+                        </select>
                     </div>
-                    <select id="fornecedor" class="form-control campUser" asp-for="Filtros.ReceitasDespesas">
-                        <optgroup label="Selecionar por tipo">
-                            <option value="todos">Todos</option>
-                            <option value="receitas">Receitas</option>
-                            <option value="despesas">Despesas</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="col-md-3 input-group form-group form-it">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fas fa-calendar"></i>
-                        </span>
+                    <div class="col-md-3 input-group form-group form-it">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                        </div>
+                        <select id="fornecedor" class="form-control campUser" asp-for="Filtros.DataFiltro">
+                            <optgroup label="Selecionar por data">
+                                <option value="não">Selecionar por data</option>
+                                <option value="emissão">Emissão</option>
+                                <option value="vencimento">Vencimento</option>
+                                <option value="efetuação">Efetuação</option>
+                            </optgroup>
+                        </select>
                     </div>
-                    <select id="fornecedor" class="form-control campUser" asp-for="Filtros.DataFiltro">
-                        <optgroup label="Selecionar por data">
-                            <option value="não">Selecionar por data</option>
-                            <option value="emissão">Emissão</option>
-                            <option value="vencimento">Vencimento</option>
-                            <option value="efetuação">Efetuação</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="col-md-3 input-group form-group form-it">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fa fa-calendar"></i>
-                        </span>
+                    <div class="col-md-3 input-group form-group form-it">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="date" class="form-control" id="inputDate" asp-for="Filtros.DataInicial">
+                        <div class="legend-data">
+                            <small class="font-place">Data inicial.</small>
+                        </div>
                     </div>
-                    <input type="date" class="form-control" id="inputDate" asp-for="Filtros.DataInicial">
-                    <div class="legend-data">
-                        <small class="font-place">Data inicial.</small>
-                    </div>
-                </div>
-                <div class="col-md-3 input-group form-group form-it" style="padding: 0;">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fa fa-calendar"></i>
-                        </span>
-                    </div>
-                    <input type="date" class="form-control" id="inputDate" asp-for="Filtros.DataTermino">
-                    <div class="legend-data">
-                        <small class="font-place">Data término.</small>
+                    <div class="col-md-3 input-group form-group form-it" style="padding: 0;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="date" class="form-control" id="inputDate" asp-for="Filtros.DataTermino">
+                        <div class="legend-data">
+                            <small class="font-place">Data término.</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex-item" style="margin-bottom: -7px; margin-top: -35px;">
-                <div>
-                    <button type="submit" class="btn filtrar_btn enum">Filtrar</button>
+                <div class="flex-item" style="margin-bottom: -7px; margin-top: -35px;">
+                    <div>
+                        <button type="submit" asp-action="ReturnResultFiltros" class="btn filtrar_btn enum"><i class="fa fa-filter"></i> Filtrar</button>
+                        <button type="submit" asp-action="PdfRelatorioFinanceiro" class="btn filtrar_btn"><i class="fa fa-print"></i> Imprimir</button>
+                    </div>
+                    <div>
+                        <a asp-action="NovaReceita" asp-controller="Financeiro" class="btn filtrar_btn enum">+ Receita</a>
+                        <a asp-action="NovaDespesa" asp-controller="Financeiro" class="btn filtrar_btn terminado">+ Despesa</a>
+                    </div>
                 </div>
-                <div>
-                    <a asp-action="NovaReceita" asp-controller="Financeiro" class="btn filtrar_btn enum">+ Receita</a>
-                    <a asp-action="NovaDespesa" asp-controller="Financeiro" class="btn filtrar_btn terminado">+ Despesa</a>
-                </div>
-            </div>
+            </form>
         </form>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded display" style="width: 100%;">
             <thead>
@@ -92,13 +95,13 @@
                     <th style="font-size: 9pt;">ID</th>
                     <th style="font-size: 9pt;">Contrato ID</th>
                     <th style="font-size: 9pt;">Credor/Devedor</th>
-                    <th style="font-size: 9pt;">Status financeiro</th>
+                    <th style="font-size: 9pt;">Status</th>
                     <th style="font-size: 9pt;">Receita/Despesa</th>
                     <th style="font-size: 9pt;">Val total</th>
                     <th style="font-size: 9pt;">Val efetuado</th>
                     <th style="font-size: 9pt;">Vencimento</th>
                     <th style="font-size: 9pt;">Pagamento</th>
-                    <th style="font-size: 9pt;">Efetuações</th>
+                    <th style="font-size: 9pt;">Efetuar</th>
                     <th style="font-size: 9pt;">Opção</th>
                 </tr>
             </thead>
@@ -111,7 +114,7 @@
                                 <td>@item.ContratoId</td>
                             }
                             else {
-                                <td style="color: red;">N/A</td>
+                                <td style="color: red;">Nulo</td>
                             }
                             <td>@item.ReturnNameClienteOrCredor()</td>
                             @if (item.FinanceiroStatus == FinanceiroStatus.Ativo) {
@@ -142,7 +145,7 @@
                                         </a>
                                     }
                                     else {
-                                        <a class="link" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                                        <a class="link"  asp-action="EditarLancamento" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
                                         <a class="link-red return-inativarlancamento" href="#" financeiro-id="@item.Id" data-target="#janelaConfirmInativar" data-toggle="modal"><i class="fa fa-trash-alt"></i></a>
                                     }
                                 }
