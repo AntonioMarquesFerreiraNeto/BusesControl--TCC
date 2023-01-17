@@ -48,9 +48,9 @@
                         <select id="fornecedor" class="form-control campUser" asp-for="Filtros.DataFiltro">
                             <optgroup label="Selecionar por data">
                                 <option value="não">Selecionar por data</option>
-                                <option value="emissão">Emissão</option>
-                                <option value="vencimento">Vencimento</option>
-                                <option value="efetuação">Efetuação</option>
+                                <option value="emissão">Emissão do financeiro</option>
+                                <option value="vencimento">Vencimento da parcela</option>
+                                <option value="efetuação">Efetuação da parcela</option>
                             </optgroup>
                         </select>
                     </div>
@@ -145,7 +145,12 @@
                                         </a>
                                     }
                                     else {
-                                        <a class="link"  asp-action="EditarLancamento" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                                        @if (item.Parcelas.Any(x => x.StatusPagamento == SituacaoPagamento.PagamentoContabilizado)) {
+                                            <a class="link"><i class="fa fa-edit" style="color: rgb(61, 61, 61)"></i></a>
+                                        }
+                                        else {
+                                            <a class="link" asp-action="EditarLancamento" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                                        }
                                         <a class="link-red return-inativarlancamento" href="#" financeiro-id="@item.Id" data-target="#janelaConfirmInativar" data-toggle="modal"><i class="fa fa-trash-alt"></i></a>
                                     }
                                 }

@@ -335,7 +335,7 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
-        
+
         public Financeiro EditarLancamento(Financeiro financeiro) {
             try {
                 Financeiro financeiroDB = _bancoContext.Financeiro.FirstOrDefault(x => x.Id == financeiro.Id);
@@ -348,7 +348,6 @@ namespace BusesControl.Repositorio {
                 financeiroDB.TypeEfetuacao = financeiro.TypeEfetuacao;
                 financeiroDB.Detalhamento = financeiro.Detalhamento;
                 financeiroDB.DataVencimento = financeiro.DataVencimento;
-                financeiroDB = _bancoContext.Financeiro.FirstOrDefault(x => x.Id == financeiro.Id);
                 if (financeiro.QtParcelas > financeiroDB.QtParcelas) {
                     for (int parcelas = financeiroDB.QtParcelas.Value + 1; parcelas <= financeiro.QtParcelas.Value; parcelas++) {
                         Parcelas parcela = new Parcelas {
@@ -364,6 +363,27 @@ namespace BusesControl.Repositorio {
                         _bancoContext.Parcelas.Remove(parcela);
                     }
                 }
+                if (financeiroDB.DespesaReceita == DespesaReceita.Receita) {
+                    if (!string.IsNullOrEmpty(financeiro.PessoaFisicaId.ToString())) {
+                        financeiroDB.PessoaFisicaId = financeiro.PessoaFisicaId;
+                        financeiroDB.PessoaJuridicaId = null;
+                    }
+                    else {
+                        financeiroDB.PessoaJuridicaId = financeiro.PessoaJuridicaId;
+                        financeiroDB.PessoaFisicaId = financeiro.PessoaFisicaId = null;
+                    }
+                }
+                else {
+                    if (!string.IsNullOrEmpty(financeiro.FornecedorFisicoId.ToString())) {
+                        financeiroDB.FornecedorFisicoId = financeiro.FornecedorFisicoId;
+                        financeiroDB.FornecedorJuridicoId = null;
+                    }
+                    else {
+                        financeiroDB.FornecedorJuridicoId = financeiro.FornecedorJuridicoId;
+                        financeiroDB.FornecedorFisicoId = null;
+                    }
+                }
+                financeiroDB.QtParcelas = financeiro.QtParcelas;
                 _bancoContext.Financeiro.Update(financeiroDB);
                 _bancoContext.SaveChanges();
                 return financeiroDB;
@@ -375,7 +395,7 @@ namespace BusesControl.Repositorio {
         }
         //Atualiza a quantidade de parcelas de clientes que não foram excluídos, mas tiveram a quantidade de parcelas editadas.
         public void UpdateFinanceiro(Financeiro financeiro) {
-            
+
         }
 
 
@@ -396,7 +416,7 @@ namespace BusesControl.Repositorio {
             }
         }
 
-         public List<Financeiro> ListFinanceirosFiltros(Filtros filtros) {
+        public List<Financeiro> ListFinanceirosFiltros(Filtros filtros) {
             if (filtros.DataFiltro == "não") {
                 if (filtros.ReceitasDespesas == "todos") {
                     return _bancoContext.Financeiro

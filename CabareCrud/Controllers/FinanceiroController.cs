@@ -436,7 +436,7 @@ namespace BusesControl.Controllers {
                 writer.CloseStream = false;
                 doc.Open();
                 var fonteBase = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
-                var fonteParagrafo = new iTextSharp.text.Font(fonteBase, 11,
+                var fonteParagrafo = new iTextSharp.text.Font(fonteBase, 16,
                     iTextSharp.text.Font.NORMAL, BaseColor.DARK_GRAY);
                 Paragraph paragrofoJustificado = new Paragraph("",
                 new Font(fonteBase, 10, Font.NORMAL));
@@ -444,7 +444,7 @@ namespace BusesControl.Controllers {
                 new Font(fonteBase, 09, Font.NORMAL));
                 paragrofoJustificado.Alignment = Element.ALIGN_JUSTIFIED;
                 var titulo = new Paragraph($"Parcelas - {financeiro.ReturnNameClienteOrCredor()}\n\n\n", fonteParagrafo);
-                titulo.Alignment = Element.ALIGN_CENTER;
+                titulo.Alignment = Element.ALIGN_LEFT;
 
                 var caminhoImgLeft = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdf.jpeg");
                 if (caminhoImgLeft != null) {
@@ -458,18 +458,7 @@ namespace BusesControl.Controllers {
                     logo.SetAbsolutePosition(margemEsquerda, margemTopo);
                     writer.DirectContent.AddImage(logo, false);
                 }
-                var caminhoImgRight = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdfRight.jpg");
-                if (caminhoImgRight != null) {
-                    Image logo2 = Image.GetInstance(caminhoImgRight);
-                    float razaoImg = logo2.Width / logo2.Height;
-                    float alturaImg = 84;
-                    float larguraLogo = razaoImg * alturaImg - 6f;
-                    logo2.ScaleToFit(larguraLogo, alturaImg);
-                    var margemRight = pxPorMm * 15;
-                    var margemTopo = doc.PageSize.Height - doc.TopMargin - 60;
-                    logo2.SetAbsolutePosition(margemRight, margemTopo);
-                    writer.DirectContent.AddImage(logo2, false);
-                }
+
                 var tabela = new PdfPTable(7);
                 float[] larguraColunas = { 0.4f, 0.7f, 1.1f, 1f, 1f, 1f, 1.3f };
                 tabela.SetWidths(larguraColunas);
@@ -492,7 +481,9 @@ namespace BusesControl.Controllers {
                     CriarCelulaTexto(tabela, item.ReturnDateVencimento(), PdfPCell.ALIGN_LEFT);
                     CriarCelulaTexto(tabela, item.ReturnStatusPagamento(), PdfPCell.ALIGN_LEFT);
                 }
-                string rodape = $"Quantidade de parcelas: {financeiro.Parcelas.Count}";
+                string rodape = $"Quantidade de parcelas: {financeiro.Parcelas.Count} " +
+                                $"\nValor efetuado: {financeiro.ReturnValorTotEfetuado()}" +
+                                $"\nValor total: {financeiro.ReturnValorTot()}";
                 string rodape2 = $"\nDocumento gerado em: {DateTime.Now.ToString("dd/MM/yyyy")}";
                 paragrofoRodape.Add(rodape);
                 paragrofoRodape.Add(rodape2);
