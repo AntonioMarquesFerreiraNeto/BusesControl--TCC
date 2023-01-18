@@ -32,6 +32,7 @@ namespace BusesControl.Controllers {
         public IActionResult Index() {
             ViewData["Title"] = "Financeiro";
             _financeiroRepositorio.TaskMonitorParcelas();
+            _financeiroRepositorio.TaskMonitorParcelasLancamento();
             ModelsFinanceiroIndex modelsFinanceiroIndex = new ModelsFinanceiroIndex {
                 Financeiros = _financeiroRepositorio.ListFinanceiros()
             };
@@ -83,8 +84,9 @@ namespace BusesControl.Controllers {
                     modelsFinanceiroRD.Financeiro.QtParcelas = 1;
                 }
                 if (ModelState.IsValid) {
-                    FornecedorFisico fornecedorFisico = _fornecedorRepositorio.ListPorIdFisico(modelsFinanceiroRD.CredorDevedorId.Value);
-                    if (!string.IsNullOrEmpty(fornecedorFisico.Id.ToString())) {
+                    FornecedorFisico fornecedorFisico = new FornecedorFisico();
+                    fornecedorFisico = _fornecedorRepositorio.ListPorIdFisico(modelsFinanceiroRD.CredorDevedorId.Value);
+                    if (fornecedorFisico != null) {
                         modelsFinanceiroRD.Financeiro.FornecedorFisicoId = modelsFinanceiroRD.CredorDevedorId.Value;
                     }
                     else {
@@ -224,7 +226,7 @@ namespace BusesControl.Controllers {
                     }
                     else {
                         FornecedorFisico fornecedorFisico = _fornecedorRepositorio.ListPorIdFisico(modelsFinanceiroRD.CredorDevedorId.Value);
-                        if (!string.IsNullOrEmpty(fornecedorFisico.Id.ToString())) {
+                        if (fornecedorFisico != null) {
                             modelsFinanceiroRD.Financeiro.FornecedorFisicoId = modelsFinanceiroRD.CredorDevedorId.Value;
                         }
                         else {
@@ -472,7 +474,7 @@ namespace BusesControl.Controllers {
                 CriarCelulaTexto(tabela, "Vencimento", PdfPCell.ALIGN_LEFT, true);
                 CriarCelulaTexto(tabela, "Status da parcela", PdfPCell.ALIGN_CENTER, true);
 
-                foreach (var item in financeiro.Parcelas.OrderBy(x => x.NomeParcela)) {
+                foreach (var item in financeiro.Parcelas.OrderBy(x => x.DataVencimentoParcela)) {
                     CriarCelulaTexto(tabela, item.Id.ToString(), PdfPCell.ALIGN_LEFT);
                     CriarCelulaTexto(tabela, item.ReturnNomeParcela(), PdfPCell.ALIGN_LEFT);
                     CriarCelulaTexto(tabela, item.Financeiro.ReturnValorParcela(), PdfPCell.ALIGN_CENTER);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace BusesControl.Repositorio {
     public interface IContratoRepositorio {
+        public ClientesContrato ListarClientesContratoId(int id);
         public List<Contrato> ListContratoAtivo();
         public List<Contrato> ListContratoInativo();
         public List<Contrato> ListContratoEmAnalise();

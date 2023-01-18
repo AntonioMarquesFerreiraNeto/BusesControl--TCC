@@ -20,6 +20,8 @@ namespace BusesControl.Data {
         public DbSet<Rescisao> Rescisao { get; set; }
         public DbSet<FornecedorFisico> FornecedorFisico { get; set; }
         public DbSet<FornecedorJuridico> FornecedorJuridico { get; set; }
+        //Criado para adicionar o fornecedor juridico e fisico na mesma tabela. 
+        public DbSet<Fornecedor> Fornecedor { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 

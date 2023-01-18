@@ -17,6 +17,14 @@ namespace BusesControl.Repositorio {
             _bancoContext = bancoContext;
         }
 
+        public ClientesContrato ListarClientesContratoId(int id) {
+            return _bancoContext.ClientesContrato
+                .AsNoTracking().Include(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.Contrato)
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public Contrato ListarPorId(int id) {
             return _bancoContext.Contrato.FirstOrDefault(x => x.Id == id);
         }

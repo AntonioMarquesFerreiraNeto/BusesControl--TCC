@@ -175,6 +175,22 @@ namespace BusesControl.Repositorio {
                 }
             }
         }
+        public void TaskMonitorParcelasLancamento() {
+            var financeiros = _bancoContext.Financeiro
+                .AsNoTracking().Include(x => x.Parcelas)
+                .Where(x => x.Contrato == null).ToList();
+            DateTime dateAtual = DateTime.Now.Date;
+            foreach (var financeiro in financeiros) {
+                foreach (var parcela in financeiro.Parcelas) {
+                    if (dateAtual > parcela.DataVencimentoParcela && parcela.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
+                        Parcelas parcelaDB = _bancoContext.Parcelas.FirstOrDefault(x => x.Id == parcela.Id);
+                        parcelaDB.StatusPagamento = SituacaoPagamento.Atrasada;
+                        _bancoContext.Parcelas.Update(parcelaDB);
+                    }
+                }
+            }
+            _bancoContext.SaveChanges();
+        }
         //Método agendado que executa sem interação com o usuário. 
         public void TaskMonitorParcelas() {
             var contratos = _bancoContext.Contrato.Where(x => x.Aprovacao == StatusAprovacao.Aprovado)
@@ -187,26 +203,24 @@ namespace BusesControl.Repositorio {
             DateTime dateAtual = DateTime.Now.Date;
             foreach (var contrato in contratos) {
                 foreach (var financeiro in contrato.Financeiros) {
-                    if (!string.IsNullOrEmpty(financeiro.ContratoId.ToString())) {
-                        foreach (var parcela in financeiro.Parcelas) {
-                            if (dateAtual > parcela.DataVencimentoParcela && parcela.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
-                                Parcelas parcelaDB = _bancoContext.Parcelas.FirstOrDefault(x => x.Id == parcela.Id);
-                                parcelaDB.StatusPagamento = SituacaoPagamento.Atrasada;
-                                parcelaDB.ValorJuros = SetJurosParcela(parcelaDB, contrato);
-                                var pessoaFisicaDB = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == financeiro.PessoaFisicaId);
-                                var pessoaJuridicaDB = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == financeiro.PessoaJuridicaId);
-                                _bancoContext.Parcelas.Update(parcelaDB);
-                                if (pessoaFisicaDB != null) {
-                                    pessoaFisicaDB.Adimplente = Adimplencia.Inadimplente;
-                                    _bancoContext.PessoaFisica.Update(pessoaFisicaDB);
-                                    if (!string.IsNullOrEmpty(pessoaFisicaDB.IdVinculacaoContratual.ToString())) {
-                                        SetInadimplenciaClienteResponsavel(pessoaFisicaDB.IdVinculacaoContratual.Value);
-                                    }
+                    foreach (var parcela in financeiro.Parcelas) {
+                        if (dateAtual > parcela.DataVencimentoParcela && parcela.StatusPagamento != SituacaoPagamento.PagamentoContabilizado) {
+                            Parcelas parcelaDB = _bancoContext.Parcelas.FirstOrDefault(x => x.Id == parcela.Id);
+                            parcelaDB.StatusPagamento = SituacaoPagamento.Atrasada;
+                            parcelaDB.ValorJuros = SetJurosParcela(parcelaDB, contrato);
+                            var pessoaFisicaDB = _bancoContext.PessoaFisica.FirstOrDefault(x => x.Id == financeiro.PessoaFisicaId);
+                            var pessoaJuridicaDB = _bancoContext.PessoaJuridica.FirstOrDefault(x => x.Id == financeiro.PessoaJuridicaId);
+                            _bancoContext.Parcelas.Update(parcelaDB);
+                            if (pessoaFisicaDB != null) {
+                                pessoaFisicaDB.Adimplente = Adimplencia.Inadimplente;
+                                _bancoContext.PessoaFisica.Update(pessoaFisicaDB);
+                                if (!string.IsNullOrEmpty(pessoaFisicaDB.IdVinculacaoContratual.ToString())) {
+                                    SetInadimplenciaClienteResponsavel(pessoaFisicaDB.IdVinculacaoContratual.Value);
                                 }
-                                else {
-                                    pessoaJuridicaDB.Adimplente = Adimplencia.Inadimplente;
-                                    _bancoContext.PessoaJuridica.Update(pessoaJuridicaDB);
-                                }
+                            }
+                            else {
+                                pessoaJuridicaDB.Adimplente = Adimplencia.Inadimplente;
+                                _bancoContext.PessoaJuridica.Update(pessoaJuridicaDB);
                             }
                         }
                     }

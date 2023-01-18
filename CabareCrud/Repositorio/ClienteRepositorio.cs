@@ -145,6 +145,9 @@ namespace BusesControl.Repositorio {
             PessoaFisica clienteDesabilitado = ListarPorId(cliente.Id);
             if (clienteDesabilitado == null) throw new System.Exception("Desculpe, ID não foi encontrado.");
             if (clienteDesabilitado.Adimplente == Adimplencia.Inadimplente) throw new Exception("Cliente está em situação de inadimplência!");
+            if (_bancocontext.PessoaFisica.Any(x => x.IdVinculacaoContratual == clienteDesabilitado.Id)) {
+                throw new Exception("Cliente possui vinculo com menor de idade em contratos em andamento!");
+            }
             if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
             }
@@ -159,6 +162,9 @@ namespace BusesControl.Repositorio {
             PessoaJuridica clienteDesabilitado = ListarPorIdJuridico(cliente.Id);
             if (clienteDesabilitado == null) throw new Exception("Desculpe, ID não foi encontrado.");
             if (clienteDesabilitado.Adimplente == Adimplencia.Inadimplente) throw new Exception("Cliente está em situação de inadimplência!");
+            if (_bancocontext.PessoaFisica.Any(x => x.IdVinculacaoContratual == clienteDesabilitado.Id)) {
+                throw new Exception("Cliente possui vinculo com menor de idade em contratos em andamento!");
+            }
             if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
             } 
