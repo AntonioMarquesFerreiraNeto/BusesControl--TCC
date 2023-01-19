@@ -48,6 +48,8 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
                 .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.PessoaJuridica)
+                .AsNoTracking().Include(x => x.Rescisoes).ThenInclude(x => x.PessoaFisica)
+                .AsNoTracking().Include(x => x.Rescisoes).ThenInclude(x => x.PessoaJuridica)
                 .FirstOrDefault(x => x.Id == id && x.Aprovacao == StatusAprovacao.Aprovado);
         }
         public List<Contrato> ListContratoAtivo() {

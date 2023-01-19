@@ -436,10 +436,11 @@ namespace BusesControl.Controllers {
             return PartialView("_RescisaoContrato", financeiro);
         }
 
+        //Post para rescendir o contrato do cliente.
         public IActionResult Rescendir(int? id) {
             try {
                 if (!string.IsNullOrEmpty(id.ToString())) {
-                    Financeiro financeiro = _financeiroRepositorio.ReturnPorId(id.Value);
+                    Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(id.Value);
                     _financeiroRepositorio.RescisaoContrato(financeiro);
                     TempData["MensagemDeSucesso"] = "Rescisão realizado com sucesso!";
                     return RedirectToAction("Index");

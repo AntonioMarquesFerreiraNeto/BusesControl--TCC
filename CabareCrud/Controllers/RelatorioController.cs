@@ -175,54 +175,6 @@ namespace BusesControl.Controllers {
                     paragrofoJustificado.Alignment = Element.ALIGN_CENTER;
                     paragrofoJustificado.Add(paragrafoValoresPorCliente);
                 }
-                //Tabela que contém os clientes que rescendiram o contrato. 
-                var tabelaRescisao = new PdfPTable(5);
-                float[] larguraColunas2 = { 1.5f, 1f, 1f, 1f, 1f };
-                tabelaRescisao.SetWidths(larguraColunas2);
-                tabelaRescisao.DefaultCell.BorderWidth = 0;
-                tabelaRescisao.WidthPercentage = 105;
-                CriarCelulaTexto(tabelaRescisao, "Cliente", PdfPCell.ALIGN_LEFT, true);
-                CriarCelulaTexto(tabelaRescisao, "Situação", PdfPCell.ALIGN_LEFT, true);
-                CriarCelulaTexto(tabelaRescisao, "Rescendido");
-                CriarCelulaTexto(tabelaRescisao, "Total pago", PdfPCell.ALIGN_LEFT, true);
-                CriarCelulaTexto(tabelaRescisao, "Valor efetuado pela multa");
-
-                if (contrato.Rescisoes != null || contrato.Rescisoes.Any()) {
-                    foreach (var item in contrato.Rescisoes) {
-                        string situacao;
-                        if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
-                            situacao = (item.PessoaFisica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
-                            CriarCelulaTexto(tabelaRescisao, item.PessoaFisica.Name, PdfPCell.ALIGN_LEFT);
-                            CriarCelulaTexto(tabelaRescisao, situacao, PdfPCell.ALIGN_LEFT);
-                        }
-                        else {
-                            situacao = (item.PessoaJuridica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
-                            CriarCelulaTexto(tabelaRescisao, item.PessoaJuridica.NomeFantasia, PdfPCell.ALIGN_LEFT);
-                            CriarCelulaTexto(tabelaRescisao, situacao, PdfPCell.ALIGN_LEFT);
-                        }
-                        CriarCelulaTexto(tabelaRescisao, "Sim", PdfPCell.ALIGN_LEFT);
-                        if (!string.IsNullOrEmpty(item.ValorPagoContrato.ToString())) {
-                            CriarCelulaTexto(tabelaRescisao, item.ValorPagoContrato.Value.ToString("C2"), PdfPCell.ALIGN_LEFT);
-                        }
-                        else {
-                            CriarCelulaTexto(tabelaRescisao, "R$ 0,00", PdfPCell.ALIGN_LEFT);
-                        }
-                        CriarCelulaTexto(tabelaRescisao, item.Multa.Value.ToString("C2"), PdfPCell.ALIGN_LEFT);
-                    }
-                }
-
-                doc.Add(titulo);
-                doc.Add(paragrofoJustificado);
-                doc.Add(tabela);
-                if (contrato.Rescisoes != null || contrato.Rescisoes.Any()) {
-                    doc.Add(tabelaRescisao);
-                }
-                doc.Add(paragrofoRodape);
-                doc.Close();
-
-                string nomeContrato = $"contrato {contrato.Id}";
-                stream.Flush();
-                stream.Position = 0;
 
                 Paragraph footer = new Paragraph($"Data de emissão do documento: {DateTime.Now:dd/MM/yyyy}", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK));
                 //footer.Alignment = Element.ALIGN_LEFT;
@@ -239,6 +191,60 @@ namespace BusesControl.Controllers {
                 footerTbl.WidthPercentage = 100;
                 footerTbl.AddCell(cell);
                 footerTbl.WriteSelectedRows(0, -30, 350, 30, writer.DirectContent);
+
+                doc.Add(titulo);
+                doc.Add(paragrofoJustificado);
+                doc.Add(tabela);
+                if (contrato.Rescisoes != null || contrato.Rescisoes.Any()) {
+                    Paragraph tituloJustificado = new Paragraph("",
+                    new Font(fonteBase, 13, Font.NORMAL, BaseColor.DARK_GRAY));
+                    tituloJustificado.Alignment = Element.ALIGN_CENTER;
+                    string tituloRescisao = "\n\nTabela de rescisão do contrato\n\n";
+                    //Tabela que contém os clientes que rescendiram o contrato. 
+                    var tabelaRescisao = new PdfPTable(5);
+                    float[] larguraColunas2 = { 1.5f, 1f, 1f, 1f, 1f };
+                    tabelaRescisao.SetWidths(larguraColunas2);
+                    tabelaRescisao.DefaultCell.BorderWidth = 0;
+                    tabelaRescisao.WidthPercentage = 105;
+                    CriarCelulaTexto(tabelaRescisao, "Cliente", PdfPCell.ALIGN_LEFT, true);
+                    CriarCelulaTexto(tabelaRescisao, "Situação", PdfPCell.ALIGN_LEFT, true);
+                    CriarCelulaTexto(tabelaRescisao, "Data de rescisão", PdfPCell.ALIGN_LEFT, true);
+                    CriarCelulaTexto(tabelaRescisao, "Total pago", PdfPCell.ALIGN_LEFT, true);
+                    CriarCelulaTexto(tabelaRescisao, "Valor efetuado pela multa", PdfPCell.ALIGN_LEFT, true);
+
+                    foreach (var item in contrato.Rescisoes) {
+                        string situacao;
+                        if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                            situacao = (item.PessoaFisica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
+                            CriarCelulaTexto(tabelaRescisao, item.PessoaFisica.Name, PdfPCell.ALIGN_LEFT);
+                            CriarCelulaTexto(tabelaRescisao, situacao, PdfPCell.ALIGN_LEFT);
+                        }
+                        else {
+                            situacao = (item.PessoaJuridica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
+                            CriarCelulaTexto(tabelaRescisao, item.PessoaJuridica.NomeFantasia, PdfPCell.ALIGN_LEFT);
+                            CriarCelulaTexto(tabelaRescisao, situacao, PdfPCell.ALIGN_LEFT);
+                        }
+                        CriarCelulaTexto(tabelaRescisao, item.DataRescisao.Value.ToString("dd/MM/yyyy"), PdfPCell.ALIGN_LEFT);
+                        if (!string.IsNullOrEmpty(item.ValorPagoContrato.ToString())) {
+                            CriarCelulaTexto(tabelaRescisao, item.ValorPagoContrato.Value.ToString("C2"), PdfPCell.ALIGN_LEFT);
+                        }
+                        else {
+                            CriarCelulaTexto(tabelaRescisao, "R$ 0,00", PdfPCell.ALIGN_LEFT);
+                        }
+                        CriarCelulaTexto(tabelaRescisao, item.Multa.Value.ToString("C2"), PdfPCell.ALIGN_LEFT);
+                        
+                        //Adicionando a tabela no documento e posicionando os mesmos.
+                    }
+                    tituloJustificado.Add(tituloRescisao);
+                    doc.Add(tituloJustificado);
+                    doc.Add(tabelaRescisao);
+                }
+                doc.Add(paragrofoRodape);
+                doc.Close();
+
+                string nomeContrato = $"contrato {contrato.Id}";
+                stream.Flush();
+                stream.Position = 0;
 
                 return File(stream, "application/pdf", $"Relatório - {nomeContrato}.pdf");
             }

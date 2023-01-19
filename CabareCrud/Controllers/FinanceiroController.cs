@@ -452,12 +452,27 @@ namespace BusesControl.Controllers {
                     CriarCelulaTexto(tabela, item.ReturnDateVencimento(), PdfPCell.ALIGN_LEFT);
                     CriarCelulaTexto(tabela, item.ReturnStatusPagamento(), PdfPCell.ALIGN_LEFT);
                 }
+
+                Paragraph footer = new Paragraph($"Data de emissão do documento: {DateTime.Now:dd/MM/yyyy}", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK));
+                //footer.Alignment = Element.ALIGN_LEFT;
+                PdfPTable footerTbl = new PdfPTable(1);
+                footerTbl.WidthPercentage = 100f;
+                footerTbl.TotalWidth = 1000f;
+                footerTbl.HorizontalAlignment = 0;
+                PdfPCell cell = new PdfPCell(footer);
+                cell.Border = 0;
+                cell.Colspan = 1;
+                cell.PaddingLeft = 0;
+                cell.HorizontalAlignment = 0;
+                footerTbl.DefaultCell.HorizontalAlignment = 0;
+                footerTbl.WidthPercentage = 100;
+                footerTbl.AddCell(cell);
+                footerTbl.WriteSelectedRows(0, -30, 350, 30, writer.DirectContent);
+
                 string rodape = $"Quantidade de parcelas: {financeiro.Parcelas.Count} " +
                                 $"\nValor efetuado: {financeiro.ReturnValorTotEfetuado()}" +
                                 $"\nValor total: {financeiro.ReturnValorTot()}";
-                string rodape2 = $"\nDocumento gerado em: {DateTime.Now.ToString("dd/MM/yyyy")}";
                 paragrofoRodape.Add(rodape);
-                paragrofoRodape.Add(rodape2);
                 doc.Add(titulo);
                 doc.Add(paragrofoJustificado);
                 doc.Add(tabela);
@@ -498,7 +513,7 @@ namespace BusesControl.Controllers {
                 Paragraph paragrofoRodape = new Paragraph("",
                 new Font(fonteBase, 09, Font.NORMAL));
                 paragrofoJustificado.Alignment = Element.ALIGN_JUSTIFIED;
-                var titulo = new Paragraph($"Relatório financeiro\n\n", fonteParagrafo);
+                var titulo = new Paragraph($"Relatório financeiro\n\n\n", fonteParagrafo);
                 titulo.Alignment = Element.ALIGN_CENTER;
 
                 var caminhoImgLeft = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdf.jpeg");
@@ -546,6 +561,23 @@ namespace BusesControl.Controllers {
                     CriarCelulaTexto(tabela, item.ReturnValorTotEfetuado(), PdfPCell.ALIGN_LEFT);
                     CriarCelulaTexto(tabela, item.DataVencimento.Value.ToString("dd/MM/yyyy"), PdfPCell.ALIGN_LEFT);
                 }
+
+                Paragraph footer = new Paragraph($"Data de emissão do documento: {DateTime.Now:dd/MM/yyyy}", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK));
+                //footer.Alignment = Element.ALIGN_LEFT;
+                PdfPTable footerTbl = new PdfPTable(1);
+                footerTbl.WidthPercentage = 100f;
+                footerTbl.TotalWidth = 1000f;
+                footerTbl.HorizontalAlignment = 0;
+                PdfPCell cell = new PdfPCell(footer);
+                cell.Border = 0;
+                cell.Colspan = 1;
+                cell.PaddingLeft = 0;
+                cell.HorizontalAlignment = 0;
+                footerTbl.DefaultCell.HorizontalAlignment = 0;
+                footerTbl.WidthPercentage = 100;
+                footerTbl.AddCell(cell);
+                footerTbl.WriteSelectedRows(0, -30, 350, 30, writer.DirectContent);
+
                 string rodape = $"Quantidade de lançamentos solicitados: {financeiros.Count}";
                 string rodape2 = $"\nDocumento gerado em: {DateTime.Now.ToString("dd/MM/yyyy")}";
                 paragrofoRodape.Add(rodape);

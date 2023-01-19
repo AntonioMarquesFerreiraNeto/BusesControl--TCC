@@ -308,44 +308,42 @@ namespace BusesControl.Repositorio {
         }
         public Financeiro RescisaoContrato(Financeiro financeiro) {
             try {
-                Financeiro financeiroDB = listPorIdFinanceiro(financeiro.Id);
-                if (financeiroDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
-                if (financeiroDB.Parcelas.Any(x => x.StatusPagamento == SituacaoPagamento.Atrasada)) {
+                if (financeiro == null) throw new Exception("Desculpe, ID não foi encontrado!");
+                if (financeiro.Parcelas.Any(x => x.StatusPagamento == SituacaoPagamento.Atrasada)) {
                     throw new Exception("Cliente tem parcelas atrasadas neste contrato!");
                 }
-                List<Parcelas> parcelas = _bancoContext.Parcelas.Where(x => x.FinanceiroId == financeiroDB.Id).ToList();
-                foreach (var parcela in parcelas) {
+                foreach (var parcela in financeiro.Parcelas) {
                     _bancoContext.Parcelas.Remove(parcela);
                 }
                 //chamando o método que cria a rescisão no lugar do clientes contrato.
                 Rescisao rescisao = new Rescisao();
                 rescisao.DataRescisao = DateTime.Now.Date;
-                rescisao.Contrato = financeiroDB.Contrato;
+                rescisao.Contrato = financeiro.Contrato;
                 rescisao.CalcularMultaContrato();
-                if (!string.IsNullOrEmpty(financeiroDB.ValorTotalPagoCliente.ToString())) {
-                    rescisao.ValorPagoContrato = financeiroDB.ValorTotalPagoCliente;
+                if (!string.IsNullOrEmpty(financeiro.ValorTotalPagoCliente.ToString())) {
+                    rescisao.ValorPagoContrato = financeiro.ValorTotalPagoCliente;
                 }
-                if (!string.IsNullOrEmpty(financeiroDB.PessoaFisicaId.ToString())) {
-                    rescisao.PessoaFisicaId = financeiroDB.PessoaFisicaId;
-                    ClientesContrato clientesContrato = _bancoContext.ClientesContrato.FirstOrDefault(x => x.ContratoId == financeiroDB.ContratoId
-                        && x.PessoaFisicaId == financeiroDB.PessoaFisicaId);
+                if (!string.IsNullOrEmpty(financeiro.PessoaFisicaId.ToString())) {
+                    rescisao.PessoaFisicaId = financeiro.PessoaFisicaId;
+                    ClientesContrato clientesContrato = _bancoContext.ClientesContrato.FirstOrDefault(x => x.ContratoId == financeiro.ContratoId
+                        && x.PessoaFisicaId == financeiro.PessoaFisicaId);
                     _bancoContext.ClientesContrato.Remove(clientesContrato);
                 }
                 else {
-                    if (!string.IsNullOrEmpty(financeiroDB.PessoaJuridicaId.ToString())) {
-                        rescisao.PessoaJuridicaId = financeiroDB.PessoaJuridicaId;
-                        ClientesContrato clientesContrato = _bancoContext.ClientesContrato.FirstOrDefault(x => x.ContratoId == financeiroDB.ContratoId
-                        && x.PessoaJuridicaId == financeiroDB.PessoaJuridicaId);
+                    if (!string.IsNullOrEmpty(financeiro.PessoaJuridicaId.ToString())) {
+                        rescisao.PessoaJuridicaId = financeiro.PessoaJuridicaId;
+                        ClientesContrato clientesContrato = _bancoContext.ClientesContrato.FirstOrDefault(x => x.ContratoId == financeiro.ContratoId
+                        && x.PessoaJuridicaId == financeiro.PessoaJuridicaId);
                         _bancoContext.ClientesContrato.Remove(clientesContrato);
                     }
                     else {
                         throw new Exception("Desculpe, ID não foi encontrado!");
                     }
                 }
-                _bancoContext.Financeiro.Remove(financeiroDB);
                 _bancoContext.Rescisao.Add(rescisao);
+                _bancoContext.Financeiro.Remove(financeiro);
                 _bancoContext.SaveChanges();
-                return financeiroDB;
+                return financeiro;
             }
             catch (Exception erro) {
                 throw new Exception(erro.Message);
