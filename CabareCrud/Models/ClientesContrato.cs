@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BusesControl.Models.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusesControl.Models {
@@ -10,6 +11,8 @@ namespace BusesControl.Models {
         public virtual PessoaFisica PessoaFisica { get; set; }
         public virtual PessoaJuridica PessoaJuridica { get; set; }
         public virtual Contrato Contrato { get; set; }
+        
+        public ProcessRescendir ProcessRescisao { get; set; } 
 
         public ClientesContrato() { }
     }

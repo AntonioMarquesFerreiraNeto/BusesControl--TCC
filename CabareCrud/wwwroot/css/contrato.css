@@ -5,15 +5,42 @@
     margin: 1px 1px 1px 1px;
 }
 
+.link-button {
+    border: none;
+    background-color: transparent;
+    margin: 10px;
+    padding: 0px;
+    font-size: 9pt;
+    color: cornflowerblue;
+}
+
+.link-orange {
+    color: #ff0000;
+}
+
+    .link-orange:hover {
+        color: darkred;
+    }
+
+.link-confirm {
+    color: #01cc65;
+}
+
+    .link-confirm:hover {
+        color: #009248;
+    }
+
 input {
     border: solid 1px #2b65c2;
 }
+
 .table-pai {
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
 }
+
 .input-table {
     width: 100%;
 }
@@ -95,6 +122,7 @@ input[type="radio"]:checked + label {
     align-items: center;
     color: white;
 }
+
 .parcelado {
     margin: 0;
     cursor: pointer;
@@ -517,11 +545,13 @@ input:focus {
 .row-hover:hover {
     background-color: #dedede;
 }
+
 .btn-view-client-pdf {
     border: none;
     cursor: pointer;
     color: rgb(0, 7, 182);
 }
+
 .link {
     margin: 10px;
     font-size: 10.5pt;

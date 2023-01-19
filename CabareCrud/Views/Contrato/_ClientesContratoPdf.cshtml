@@ -9,17 +9,27 @@
                         <td>@item.PessoaFisica.Name.ToUpper()</td>
                         <td>CPF: @item.PessoaFisica.ReturnCpfCliente()</td>
                         <td>
-                            <a class="link-orange" asp-route-id="@item.ContratoId" asp-route-clienteFisicoId="@item.PessoaFisicaId" asp-action="PdfContrato">
+                            <a class="" asp-route-id="@item.ContratoId" asp-route-clienteFisicoId="@item.PessoaFisicaId" asp-action="PdfContrato">
                                 <i class="fa fa-download"></i> <br>
                                 Contrato
                             </a>
                         </td>
-                        <td>
-                            <a class="link-orange" asp-route-id="@item.Id" asp-action="PdfRescisao">
-                                <i class="fa fa-download"></i>
-                                Rescisão
-                            </a>
-                        </td>
+                        @if (item.ProcessRescisao == ProcessRescendir.PdfBaixado) {
+                            <td>
+                                <a class="link-orange return-clienterescisao" data-dismiss="modal" data-target="#janelaConfirmRescisao" data-toggle="modal" href="#" clienterescisao-id="@item.Id">
+                                    <i class="fa fa-minus-circle"></i> <br>
+                                    Confirmar
+                                </a>
+                            </td>
+                        }
+                        else {
+                            <td>
+                                <a class="link-confirm" asp-route-id="@item.Id" asp-action="PdfRescisao">
+                                    <i class="fa fa-download"></i> <br>
+                                    Rescisão
+                                </a>
+                            </td>
+                        }
                     </tr>
                 }
                 else if (!string.IsNullOrEmpty(item.PessoaJuridicaId.ToString())) {
@@ -27,19 +37,31 @@
                         <td>@item.PessoaJuridica.RazaoSocial.ToUpper()</td>
                         <td>CNPJ: @item.PessoaJuridica.ReturnCnpjCliente()</td>
                         <td>
-                            <a class="link-orange" asp-route-id="@item.ContratoId" asp-route-clienteJuridicoId="@item.PessoaJuridicaId" asp-action="PdfContrato">
+                            <a class="" asp-route-id="@item.ContratoId" asp-route-clienteJuridicoId="@item.PessoaJuridicaId" asp-action="PdfContrato">
                                 <i class="fa fa-download"></i> <br>
                                 Contrato
                             </a>
-                        <td>
-                            <a class="link-orange" asp-route-id="@item.Id" asp-action="PdfRescisao">
-                                <i class="fa fa-download"></i>
-                                Rescisão
-                            </a>
                         </td>
+                        @if (item.ProcessRescisao == ProcessRescendir.PdfBaixado) {
+                            <td>
+                                <a class="link-orange return-clienterescisao" data-dismiss="modal" data-target="#janelaConfirmRescisao" data-toggle="modal" href="#" clienterescisao-id="@item.Id">
+                                    <i class="fa fa-minus-circle"></i> <br>
+                                    Confirmar
+                                </a>
+                            </td>
+                        }
+                        else {
+                            <td>
+                                <a class="link-confirm" asp-route-id="@item.Id" asp-action="PdfRescisao">
+                                    <i class="fa fa-download"></i> <br>
+                                    Rescisão
+                                </a>
+                            </td>
+                        }
                     </tr>
                 }
             }
         </tbody>
     </table>
 </div>
+<script src="~/js/returnRescisaoModal.js"></script>

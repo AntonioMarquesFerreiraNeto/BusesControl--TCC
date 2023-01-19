@@ -72,17 +72,6 @@ $(document).ready(function () {
             }
         });
     });
-    $('.return-clienterescisao').click(function () {
-        var clienteResponsavelId = $(this).attr('clienterescisao-id');
-        console.log(clienteResponsavelId);
-        $.ajax({
-            type: 'GET',
-            url: "/Financeiro/RescendirContrato/" + clienteResponsavelId,
-            success: function (result) {
-                $("#cliente-rescisao").html(result);
-            }
-        });
-    });
     $('.return-inativarlancamento').click(function () {
         var financeiroId = $(this).attr('financeiro-id');
         console.log(financeiroId);

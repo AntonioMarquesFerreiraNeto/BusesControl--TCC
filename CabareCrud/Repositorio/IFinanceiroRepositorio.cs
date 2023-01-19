@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace BusesControl.Repositorio {
     public interface IFinanceiroRepositorio {
         public List<Financeiro> ListFinanceiros();
+        public Financeiro ReturnPorId(int id);
         public List<Financeiro> ListFinanceirosFiltros(Filtros filtros);
         public Financeiro listPorIdFinanceiro(int? id);
         public Parcelas ListarFinanceiroPorId(int id);
@@ -16,5 +17,7 @@ namespace BusesControl.Repositorio {
         public Financeiro InativarReceitaOrDespesa(Financeiro financeiro);
         public void TaskMonitorParcelas();
         public void TaskMonitorParcelasLancamento();
+        public ClientesContrato ConfirmarImpressaoPdf(ClientesContrato clientesContrato);
+        public Financeiro ListFinanceiroPorContratoAndClientesContrato(int? id);
     }
 }

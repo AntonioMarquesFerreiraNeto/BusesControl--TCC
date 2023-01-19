@@ -26,6 +26,10 @@ namespace BusesControl.Repositorio {
                 .ToList();
         }
 
+        public Financeiro ReturnPorId(int id) {
+            return _bancoContext.Financeiro.FirstOrDefault(x => x.Id == id);
+        }
+
         public Contrato ListarJoinPorId(int id) {
             return _bancoContext.Contrato
                 .AsNoTracking().Include("Motorista")
@@ -268,6 +272,40 @@ namespace BusesControl.Repositorio {
             return date.Year * 12 + date.Month;
         }
 
+
+        public ClientesContrato ConfirmarImpressaoPdf(ClientesContrato clientesContrato) {
+            ClientesContrato clientesContratoDB = _bancoContext.ClientesContrato.FirstOrDefault(x => x.Id == clientesContrato.Id);
+            clientesContratoDB.ProcessRescisao = ProcessRescendir.PdfBaixado;
+            _bancoContext.ClientesContrato.Update(clientesContratoDB);
+            _bancoContext.SaveChanges();
+            return clientesContratoDB;
+        }
+        public Financeiro ListFinanceiroPorContratoAndClientesContrato(int? id) {
+            ClientesContrato clientesContrato = _bancoContext.ClientesContrato.FirstOrDefault(x => x.Id == id);
+            if (clientesContrato != null) {
+                if (!string.IsNullOrEmpty(clientesContrato.PessoaFisicaId.ToString())) {
+                    Financeiro financeiro = _bancoContext.Financeiro
+                        .AsNoTracking().Include(x => x.PessoaFisica)
+                        .AsNoTracking().Include(x => x.PessoaJuridica)
+                        .AsNoTracking().Include(x => x.Contrato)
+                        .FirstOrDefault(x => x.ContratoId == clientesContrato.ContratoId
+                        && x.PessoaFisicaId == clientesContrato.PessoaFisicaId);
+                    return financeiro;
+                }
+                else {
+                    Financeiro financeiro = _bancoContext.Financeiro
+                        .AsNoTracking().Include(x => x.PessoaFisica)
+                        .AsNoTracking().Include(x => x.PessoaJuridica)
+                        .AsNoTracking().Include(x => x.Contrato)
+                        .FirstOrDefault(x => x.ContratoId == clientesContrato.ContratoId
+                        && x.PessoaJuridicaId == clientesContrato.PessoaJuridicaId);
+                    return financeiro;
+                }
+            }
+            else {
+                return null;
+            }
+        }
         public Financeiro RescisaoContrato(Financeiro financeiro) {
             try {
                 Financeiro financeiroDB = listPorIdFinanceiro(financeiro.Id);
@@ -275,12 +313,37 @@ namespace BusesControl.Repositorio {
                 if (financeiroDB.Parcelas.Any(x => x.StatusPagamento == SituacaoPagamento.Atrasada)) {
                     throw new Exception("Cliente tem parcelas atrasadas neste contrato!");
                 }
-                foreach (Parcelas parcela in financeiroDB.Parcelas) {
+                List<Parcelas> parcelas = _bancoContext.Parcelas.Where(x => x.FinanceiroId == financeiroDB.Id).ToList();
+                foreach (var parcela in parcelas) {
                     _bancoContext.Parcelas.Remove(parcela);
                 }
-                _bancoContext.Financeiro.Remove(financeiroDB);
                 //chamando o método que cria a rescisão no lugar do clientes contrato.
-                NewRescisao(financeiroDB);
+                Rescisao rescisao = new Rescisao();
+                rescisao.DataRescisao = DateTime.Now.Date;
+                rescisao.Contrato = financeiroDB.Contrato;
+                rescisao.CalcularMultaContrato();
+                if (!string.IsNullOrEmpty(financeiroDB.ValorTotalPagoCliente.ToString())) {
+                    rescisao.ValorPagoContrato = financeiroDB.ValorTotalPagoCliente;
+                }
+                if (!string.IsNullOrEmpty(financeiroDB.PessoaFisicaId.ToString())) {
+                    rescisao.PessoaFisicaId = financeiroDB.PessoaFisicaId;
+                    ClientesContrato clientesContrato = _bancoContext.ClientesContrato.FirstOrDefault(x => x.ContratoId == financeiroDB.ContratoId
+                        && x.PessoaFisicaId == financeiroDB.PessoaFisicaId);
+                    _bancoContext.ClientesContrato.Remove(clientesContrato);
+                }
+                else {
+                    if (!string.IsNullOrEmpty(financeiroDB.PessoaJuridicaId.ToString())) {
+                        rescisao.PessoaJuridicaId = financeiroDB.PessoaJuridicaId;
+                        ClientesContrato clientesContrato = _bancoContext.ClientesContrato.FirstOrDefault(x => x.ContratoId == financeiroDB.ContratoId
+                        && x.PessoaJuridicaId == financeiroDB.PessoaJuridicaId);
+                        _bancoContext.ClientesContrato.Remove(clientesContrato);
+                    }
+                    else {
+                        throw new Exception("Desculpe, ID não foi encontrado!");
+                    }
+                }
+                _bancoContext.Financeiro.Remove(financeiroDB);
+                _bancoContext.Rescisao.Add(rescisao);
                 _bancoContext.SaveChanges();
                 return financeiroDB;
             }
@@ -288,24 +351,7 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
-        public void NewRescisao(Financeiro financeiro) {
-            Rescisao rescisao = new Rescisao();
-            rescisao.DataRescisao = DateTime.Now.Date;
-            rescisao.Contrato = financeiro.Contrato;
-            if (!string.IsNullOrEmpty(financeiro.PessoaFisicaId.ToString())) {
-                rescisao.PessoaFisicaId = financeiro.PessoaFisicaId;
-            }
-            else {
-                if (!string.IsNullOrEmpty(financeiro.PessoaJuridicaId.ToString())) {
-                    rescisao.PessoaJuridicaId = financeiro.PessoaJuridicaId;
-                }
-                else {
-                    throw new Exception("Desculpe, ID não foi encontrado!");
-                }
-            }
-            rescisao.CalcularMultaContrato();
-            _bancoContext.Rescisao.Add(rescisao);
-        }
+
 
         public Financeiro AdicionarDespesa(Financeiro financeiro) {
             try {

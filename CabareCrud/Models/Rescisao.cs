@@ -8,6 +8,9 @@ namespace BusesControl.Models {
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal? Multa { get; set; }
+
+        [DisplayFormat(DataFormatString = "0:N2", ApplyFormatInEditMode = true)]
+        public decimal? ValorPagoContrato { get; set; }
         
         public int? ContratoId { get; set; }
         

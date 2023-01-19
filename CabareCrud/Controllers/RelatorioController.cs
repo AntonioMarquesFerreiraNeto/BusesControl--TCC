@@ -175,17 +175,71 @@ namespace BusesControl.Controllers {
                     paragrofoJustificado.Alignment = Element.ALIGN_CENTER;
                     paragrofoJustificado.Add(paragrafoValoresPorCliente);
                 }
-                string rodape = $"Documento gerado em: {DateTime.Now.ToString("dd/MM/yyyy")}";
-                paragrofoRodape.Add(rodape);
+                //Tabela que contém os clientes que rescendiram o contrato. 
+                var tabelaRescisao = new PdfPTable(5);
+                float[] larguraColunas2 = { 1.5f, 1f, 1f, 1f, 1f };
+                tabelaRescisao.SetWidths(larguraColunas2);
+                tabelaRescisao.DefaultCell.BorderWidth = 0;
+                tabelaRescisao.WidthPercentage = 105;
+                CriarCelulaTexto(tabelaRescisao, "Cliente", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabelaRescisao, "Situação", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabelaRescisao, "Rescendido");
+                CriarCelulaTexto(tabelaRescisao, "Total pago", PdfPCell.ALIGN_LEFT, true);
+                CriarCelulaTexto(tabelaRescisao, "Valor efetuado pela multa");
+
+                if (contrato.Rescisoes != null || contrato.Rescisoes.Any()) {
+                    foreach (var item in contrato.Rescisoes) {
+                        string situacao;
+                        if (!string.IsNullOrEmpty(item.PessoaFisicaId.ToString())) {
+                            situacao = (item.PessoaFisica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
+                            CriarCelulaTexto(tabelaRescisao, item.PessoaFisica.Name, PdfPCell.ALIGN_LEFT);
+                            CriarCelulaTexto(tabelaRescisao, situacao, PdfPCell.ALIGN_LEFT);
+                        }
+                        else {
+                            situacao = (item.PessoaJuridica.Adimplente == Adimplencia.Adimplente) ? "Adimplente" : "Inadimplente";
+                            CriarCelulaTexto(tabelaRescisao, item.PessoaJuridica.NomeFantasia, PdfPCell.ALIGN_LEFT);
+                            CriarCelulaTexto(tabelaRescisao, situacao, PdfPCell.ALIGN_LEFT);
+                        }
+                        CriarCelulaTexto(tabelaRescisao, "Sim", PdfPCell.ALIGN_LEFT);
+                        if (!string.IsNullOrEmpty(item.ValorPagoContrato.ToString())) {
+                            CriarCelulaTexto(tabelaRescisao, item.ValorPagoContrato.Value.ToString("C2"), PdfPCell.ALIGN_LEFT);
+                        }
+                        else {
+                            CriarCelulaTexto(tabelaRescisao, "R$ 0,00", PdfPCell.ALIGN_LEFT);
+                        }
+                        CriarCelulaTexto(tabelaRescisao, item.Multa.Value.ToString("C2"), PdfPCell.ALIGN_LEFT);
+                    }
+                }
+
                 doc.Add(titulo);
                 doc.Add(paragrofoJustificado);
                 doc.Add(tabela);
+                if (contrato.Rescisoes != null || contrato.Rescisoes.Any()) {
+                    doc.Add(tabelaRescisao);
+                }
                 doc.Add(paragrofoRodape);
                 doc.Close();
 
                 string nomeContrato = $"contrato {contrato.Id}";
                 stream.Flush();
                 stream.Position = 0;
+
+                Paragraph footer = new Paragraph($"Data de emissão do documento: {DateTime.Now:dd/MM/yyyy}", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK));
+                //footer.Alignment = Element.ALIGN_LEFT;
+                PdfPTable footerTbl = new PdfPTable(1);
+                footerTbl.WidthPercentage = 100f;
+                footerTbl.TotalWidth = 1000f;
+                footerTbl.HorizontalAlignment = 0;
+                PdfPCell cell = new PdfPCell(footer);
+                cell.Border = 0;
+                cell.Colspan = 1;
+                cell.PaddingLeft = 0;
+                cell.HorizontalAlignment = 0;
+                footerTbl.DefaultCell.HorizontalAlignment = 0;
+                footerTbl.WidthPercentage = 100;
+                footerTbl.AddCell(cell);
+                footerTbl.WriteSelectedRows(0, -30, 350, 30, writer.DirectContent);
+
                 return File(stream, "application/pdf", $"Relatório - {nomeContrato}.pdf");
             }
             catch (Exception erro) {

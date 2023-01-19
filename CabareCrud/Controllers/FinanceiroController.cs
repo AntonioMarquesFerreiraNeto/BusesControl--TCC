@@ -279,37 +279,6 @@ namespace BusesControl.Controllers {
             }
         }
 
-        public IActionResult FinanceiroContrato(int id) {
-            ViewData["Title"] = $"Parcelas – contrato Nº {id}";
-            Contrato contrato = _financeiroRepositorio.ListarJoinPorId(id);
-            if (contrato == null) {
-                TempData["MensagemDeErro"] = "Desculpe, ID não foi encontrado!";
-                return RedirectToAction("Index");
-            }
-            return View(contrato);
-        }
-        public IActionResult RescendirContrato(int? id) {
-            Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(id);
-            return PartialView("_RescisaoContrato", financeiro);
-        }
-
-        [HttpPost]
-        public IActionResult Rescendir(Financeiro financeiro) {
-            try {
-
-                if (financeiro != null) {
-                    _financeiroRepositorio.RescisaoContrato(financeiro);
-                    TempData["MensagemDeSucesso"] = "Rescisão realizado com sucesso!";
-                    return RedirectToAction("Index");
-                }
-                return RedirectToAction("Index");
-            }
-            catch (Exception erro) {
-                TempData["MensagemDeErro"] = erro.Message;
-                return View("Index");
-            }
-        }
-
         public IActionResult Contabilizar(int? id) {
             Financeiro financeiro = _financeiroRepositorio.listPorIdFinanceiro(id);
             if (financeiro == null) {

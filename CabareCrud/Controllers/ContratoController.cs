@@ -431,6 +431,28 @@ namespace BusesControl.Controllers {
         }
 
         [PagUserAdmin]
+        public IActionResult RescendirContrato(int? id) {
+            Financeiro financeiro = _financeiroRepositorio.ListFinanceiroPorContratoAndClientesContrato(id);
+            return PartialView("_RescisaoContrato", financeiro);
+        }
+
+        public IActionResult Rescendir(int? id) {
+            try {
+                if (!string.IsNullOrEmpty(id.ToString())) {
+                    Financeiro financeiro = _financeiroRepositorio.ReturnPorId(id.Value);
+                    _financeiroRepositorio.RescisaoContrato(financeiro);
+                    TempData["MensagemDeSucesso"] = "Rescisão realizado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro) {
+                TempData["MensagemDeErro"] = erro.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+        [PagUserAdmin]
         public IActionResult PdfContrato(int? id, int? clienteFisicoId, int? clienteJuridicoId) {
             ViewData["Title"] = "Contratos ativos";
             Funcionario usuarioAutenticado = _section.buscarSectionUser();
@@ -707,14 +729,30 @@ namespace BusesControl.Controllers {
                 decimal? valorTotCliente = clientesContrato.Contrato.ValorParcelaContratoPorCliente * clientesContrato.Contrato.QtParcelas;
                 decimal valorMulta = (valorTotCliente.Value * 3) / 100;
 
-                string titulo_quinta_clausula = $"\n3 - PROCESSO DE RESCISÃO";
+                string titulo_quinta_clausula = $"3 - PROCESSO DE RESCISÃO";
                 string QuintaClausula = $"{titulo_quinta_clausula}\n“Em caso de rescisão de contrato anterior a data acordada sem o devido pagamento da(s) parcela(s), o cliente deve estar ciente que haverá multa de 3% do valor total por cliente ( {clientesContrato.Contrato.ReturnValorTotCliente()} ), pela rescisão do contrato.”. " +
-                    $"Com base e asseguração da quinta cláusula do contrato, é dever do cliente realizar o pagamento de {valorMulta.ToString("C2")} para rescendir o contrato.\n\n\n";
+                    $"\nCom base e asseguração da quinta cláusula do contrato, é dever do cliente realizar o pagamento de {valorMulta.ToString("C2")} para rescendir o contrato.\n\n\n";
 
                 string traco = "\n___________________________________________\n";
                 string assinaturaCliente = "Assinatura do representante legal contratante\n\n";
                 string traco2 = "___________________________________________________________\n";
                 string assinaturaEmpresa = "Assinatura da empresa representante da prestação do serviço";
+
+                Paragraph footer = new Paragraph($"Data de emissão do documento: {DateTime.Now:dd/MM/yyyy}", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK));
+                //footer.Alignment = Element.ALIGN_LEFT;
+                PdfPTable footerTbl = new PdfPTable(1);
+                footerTbl.WidthPercentage = 100f;
+                footerTbl.TotalWidth = 1000f;
+                footerTbl.HorizontalAlignment = 0;
+                PdfPCell cell = new PdfPCell(footer);
+                cell.Border = 0;
+                cell.Colspan = 1;
+                cell.PaddingLeft = 0;
+                cell.HorizontalAlignment = 0;
+                footerTbl.DefaultCell.HorizontalAlignment = 0;
+                footerTbl.WidthPercentage = 100;
+                footerTbl.AddCell(cell);
+                footerTbl.WriteSelectedRows(0, -30, 350, 30, writer.DirectContent);
 
                 paragrofoJustificado.Add(textoContratante);
                 paragrofoJustificado.Add(textoContratada);
@@ -735,6 +773,10 @@ namespace BusesControl.Controllers {
 
                 stream.Flush();
                 stream.Position = 0;
+
+                _financeiroRepositorio.ConfirmarImpressaoPdf(clientesContrato);
+                //Chamando o método para atualizar a lista de clientes do contrato.
+
                 return File(stream, "application/pdf", $"Rescisão - {nomeCliente}.pdf");
             }
             catch (Exception erro) {
