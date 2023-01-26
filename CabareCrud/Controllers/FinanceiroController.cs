@@ -246,7 +246,7 @@ namespace BusesControl.Controllers {
                         return View(modelsFinanceiroRD);
                     }
                     _financeiroRepositorio.EditarLancamento(modelsFinanceiroRD.Financeiro);
-                    TempData["MensagemDeSucesso"] = "Registrado com sucesso!";
+                    TempData["MensagemDeSucesso"] = "Editado com sucesso!";
                     return RedirectToAction("Index");
                 }
                 return View(modelsFinanceiroRD);
@@ -579,8 +579,15 @@ namespace BusesControl.Controllers {
                 footerTbl.WriteSelectedRows(0, -30, 350, 30, writer.DirectContent);
 
                 string rodape = $"Quantidade de lançamentos solicitados: {financeiros.Count}";
+                if (filtros.DataFiltro == "não") filtros.DataFiltro = "nenhuma";
+                string rodape3 = $"\nFiltros: lançamento = {filtros.ReceitasDespesas}, tipo de data = {filtros.DataFiltro}";
+                if (!string.IsNullOrEmpty(filtros.DataInicial.ToString()) && !string.IsNullOrEmpty(filtros.DataTermino.ToString())
+                    && filtros.DataFiltro != "nenhuma") {
+                    rodape3 += $" ({filtros.DataInicial.Value.ToString("dd/MM/yyyy")} a {filtros.DataTermino.Value.ToString("dd/MM/yyyy")})";
+                }
                 string rodape2 = $"\nDocumento gerado em: {DateTime.Now.ToString("dd/MM/yyyy")}";
                 paragrofoRodape.Add(rodape);
+                paragrofoRodape.Add(rodape3);
                 paragrofoRodape.Add(rodape2);
                 doc.Add(titulo);
                 doc.Add(paragrofoJustificado);

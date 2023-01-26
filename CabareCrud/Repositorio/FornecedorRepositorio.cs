@@ -129,7 +129,7 @@ namespace BusesControl.Repositorio {
         public FornecedorFisico InativarFornecedorFisico(FornecedorFisico fornecedorFisico) {
             FornecedorFisico fornecedorFisicoDB = ListPorIdFisico(fornecedorFisico.Id);
             if (fornecedorFisicoDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
-            if (fornecedorFisicoDB.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) throw new Exception("Fornecedor possui despesas!");
+            if (fornecedorFisicoDB.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) throw new Exception("Cliente/fornecedor possui financeiro em andamento!");
             fornecedorFisicoDB.Status = StatuCliente.Desabilitado;
             _bancoContext.FornecedorFisico.Update(fornecedorFisicoDB);
             _bancoContext.SaveChanges();
@@ -139,7 +139,7 @@ namespace BusesControl.Repositorio {
         public FornecedorJuridico InativarFornecedorJuridico(FornecedorJuridico fornecedorJuridico) {
             FornecedorJuridico fornecedorJuridicoDB = ListPorIdJuridico(fornecedorJuridico.Id);
             if (fornecedorJuridicoDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
-            if (fornecedorJuridicoDB.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) throw new Exception("Fornecedor possui despesas!");
+            if (fornecedorJuridicoDB.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) throw new Exception("Cliente/fornecedor possui financeiro em andamento!");
             fornecedorJuridicoDB.Status = StatuCliente.Desabilitado;
             _bancoContext.FornecedorJuridico.Update(fornecedorJuridicoDB);
             _bancoContext.SaveChanges();

@@ -79,6 +79,7 @@ namespace BusesControl.Controllers {
             ViewData["Title"] = "Contratos ativos";
             ModelsContratoAndUsuario contratosFuncionario = new ModelsContratoAndUsuario();
             contratosFuncionario.Contratos = _contratoRepositorio.ListContratoAtivo();
+            _financeiroRepositorio.TaskMonitorPdfRescisao();
             contratosFuncionario.Usuario = _section.buscarSectionUser();
             return View(contratosFuncionario);
         }
@@ -655,7 +656,7 @@ namespace BusesControl.Controllers {
                 writer.CloseStream = false;
                 doc.Open();
                 var fonteBase = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
-                var fonteParagrafo = new iTextSharp.text.Font(fonteBase, 15,
+                var fonteParagrafo = new iTextSharp.text.Font(fonteBase, 14,
                     iTextSharp.text.Font.NORMAL, BaseColor.DARK_GRAY);
                 Paragraph paragrofoJustificado = new Paragraph("",
                 new Font(fonteBase, 12, Font.NORMAL));
@@ -732,7 +733,7 @@ namespace BusesControl.Controllers {
 
                 string titulo_quinta_clausula = $"3 - PROCESSO DE RESCISÃO";
                 string QuintaClausula = $"{titulo_quinta_clausula}\n“Em caso de rescisão de contrato anterior a data acordada sem o devido pagamento da(s) parcela(s), o cliente deve estar ciente que haverá multa de 3% do valor total por cliente ( {clientesContrato.Contrato.ReturnValorTotCliente()} ), pela rescisão do contrato.”. " +
-                    $"\nCom base e asseguração da quinta cláusula do contrato, é dever do cliente realizar o pagamento de {valorMulta.ToString("C2")} para rescendir o contrato.\n\n\n";
+                    $"\nCom base e asseguração da quinta cláusula do contrato, é dever do cliente realizar o pagamento de {valorMulta.ToString("C2")} para rescindir o contrato.\n\n\n";
 
                 string traco = "\n___________________________________________\n";
                 string assinaturaCliente = "Assinatura do representante legal contratante\n\n";
@@ -776,7 +777,6 @@ namespace BusesControl.Controllers {
                 stream.Position = 0;
 
                 _financeiroRepositorio.ConfirmarImpressaoPdf(clientesContrato);
-                //Chamando o método para atualizar a lista de clientes do contrato.
 
                 return File(stream, "application/pdf", $"Rescisão - {nomeCliente}.pdf");
             }

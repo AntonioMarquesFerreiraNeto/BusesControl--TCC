@@ -76,10 +76,14 @@ namespace BusesControl.Repositorio {
             return _bancocontext.PessoaFisica.FirstOrDefault(x => x.Id == id);
         }
         public PessoaFisica ListarPorId(long id) {
-            return _bancocontext.PessoaFisica.AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
+            return _bancocontext.PessoaFisica
+                .AsNoTracking().Include(x => x.Financeiros)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
         }
         public PessoaJuridica ListarPorIdJuridico(long id) {
-            return _bancocontext.PessoaJuridica.AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
+            return _bancocontext.PessoaJuridica
+                .AsNoTracking().Include(x => x.Financeiros)
+                .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.Contrato).FirstOrDefault(x => x.Id == id);
         }
         public PessoaFisica Editar(PessoaFisica cliente) {
             try {
@@ -151,6 +155,9 @@ namespace BusesControl.Repositorio {
             if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
             }
+            if (clienteDesabilitado.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) {
+                throw new Exception("Cliente/fornecedor possui financeiro em andamento!");
+            }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
             //Método para desabilitar clientes menores de idade vinculado a este cliente.
             DesabilitarClientesVinculados(clienteDesabilitado, null);
@@ -167,7 +174,10 @@ namespace BusesControl.Repositorio {
             }
             if (clienteDesabilitado.ClientesContratos.Any(x => x.Contrato.StatusContrato == ContratoStatus.Ativo && x.Contrato.Aprovacao != StatusAprovacao.Negado)) {
                 throw new Exception("Cliente possui contratos em andamento!");
-            } 
+            }
+            if (clienteDesabilitado.Financeiros.Any(x => x.FinanceiroStatus == FinanceiroStatus.Ativo)) {
+                throw new Exception("Cliente/fornecedor possui financeiro em andamento!");
+            }
             clienteDesabilitado.Status = StatuCliente.Desabilitado;
             DesabilitarClientesVinculados(null, clienteDesabilitado);
             _bancocontext.Update(clienteDesabilitado);

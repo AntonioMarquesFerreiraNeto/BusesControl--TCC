@@ -58,6 +58,7 @@ namespace BusesControl.Repositorio {
                 Parcelas parcelaDB = ListarFinanceiroPorId(id);
                 if (parcelaDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
                 if (parcelaDB.Financeiro.FinanceiroStatus == FinanceiroStatus.Inativo) throw new Exception("Desculpe, ID não foi encontrado!");
+                if (parcelaDB.StatusPagamento == SituacaoPagamento.PagamentoContabilizado) throw new Exception("Pagamento já realizado!");
                 parcelaDB.StatusPagamento = SituacaoPagamento.PagamentoContabilizado;
                 parcelaDB.DataEfetuacao = DateTime.Now;
                 _bancoContext.Parcelas.Update(parcelaDB);
@@ -276,6 +277,7 @@ namespace BusesControl.Repositorio {
         public ClientesContrato ConfirmarImpressaoPdf(ClientesContrato clientesContrato) {
             ClientesContrato clientesContratoDB = _bancoContext.ClientesContrato.FirstOrDefault(x => x.Id == clientesContrato.Id);
             clientesContratoDB.ProcessRescisao = ProcessRescendir.PdfBaixado;
+            clientesContratoDB.DataEmissaoPdfRescisao = DateTime.Now.Date;
             _bancoContext.ClientesContrato.Update(clientesContratoDB);
             _bancoContext.SaveChanges();
             return clientesContratoDB;
@@ -349,7 +351,20 @@ namespace BusesControl.Repositorio {
                 throw new Exception(erro.Message);
             }
         }
-
+        public void TaskMonitorPdfRescisao() {
+            List<ClientesContrato> clientesContratos = _bancoContext.ClientesContrato.ToList();
+            DateTime dataAtual = DateTime.Now.Date;
+            dataAtual.AddDays(2);
+            foreach (var clienteContrato in clientesContratos) {
+                if (!string.IsNullOrEmpty(clienteContrato.DataEmissaoPdfRescisao.ToString())) {
+                    if (dataAtual > clienteContrato.DataEmissaoPdfRescisao.Value.Date) {
+                        clienteContrato.ProcessRescisao = ProcessRescendir.NoRescisao;
+                        _bancoContext.ClientesContrato.Update(clienteContrato);
+                    }
+                }
+            }
+            _bancoContext.SaveChanges();
+        }
 
         public Financeiro AdicionarDespesa(Financeiro financeiro) {
             try {

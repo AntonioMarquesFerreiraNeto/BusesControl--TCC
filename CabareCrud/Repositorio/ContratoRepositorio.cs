@@ -95,6 +95,7 @@ namespace BusesControl.Repositorio {
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaFisica)
                 .AsNoTracking().Include(x => x.ClientesContratos).ThenInclude(x => x.PessoaJuridica)
                 .AsNoTracking().Include(x => x.Financeiros).ThenInclude(x => x.Parcelas)
+                .AsNoTracking().Include(x => x.Rescisoes)
                 .ToList();
         }
 

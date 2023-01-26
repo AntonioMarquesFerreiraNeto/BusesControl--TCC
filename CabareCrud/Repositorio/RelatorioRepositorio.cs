@@ -51,6 +51,11 @@ namespace BusesControl.Repositorio {
                 if (!string.IsNullOrEmpty(item.ValorTotalPagoContrato.ToString())) {
                     valorPago += item.ValorTotalPagoContrato;
                 }
+                foreach (var rescisao in item.Rescisoes) {
+                    if (!string.IsNullOrEmpty(rescisao.Multa.ToString())) {
+                        valorPago += rescisao.Multa;
+                    }
+                }
             }
             return valorPago;
         }
@@ -76,6 +81,10 @@ namespace BusesControl.Repositorio {
                         valorPago += financeiro.ValorTotalPagoCliente;
                     }
                 }
+            }
+            List<Rescisao> rescisoes = _bancoContext.Rescisao.Where(x => !string.IsNullOrEmpty(x.Multa.ToString())).ToList();
+            foreach (var rescisao in rescisoes) {
+                valorPago += rescisao.Multa;
             }
             return valorPago;
         }
