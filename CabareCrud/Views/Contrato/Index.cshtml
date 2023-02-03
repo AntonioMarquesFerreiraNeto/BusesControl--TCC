@@ -41,9 +41,21 @@
                 <a asp-controller="Contrato" asp-action="Inativos" class="btn filtrar_btn noCheck" type="submit">Inativos</a>
             </div>
             <div>
-                <a type="submit" class="btn filtrar_btn clear-list" asp-controller="Contrato" asp-action="NovoContrato">
+                <a type="submit" class="btn filtrar_btn enum clear-list" asp-controller="Contrato" asp-action="NovoContrato">
                     + Contrato
                 </a>
+                @if (Model.Contratos.Any(x => x.StatusContrato == ContratoStatus.Ativo)) {
+                    <a asp-action="PdfContratosAtivos" asp-controller="Contrato" class="btn filtrar_btn">
+                        <i class="fa fa-print"></i>
+                        Imprimir
+                    </a>
+                }
+                else {
+                    <a asp-action="PdfContratosInativos" asp-controller="Contrato" class="btn filtrar_btn">
+                        <i class="fa fa-print"></i>
+                        Imprimir
+                    </a>
+                }
             </div>
         </div>
         <table id="table-contrato" class="table shadow-sm p-3 mb-5 bg-white rounded display" style="width: 100%;">
@@ -61,7 +73,7 @@
             </thead>
             <tbody>
                 @if (Model.Contratos != null || Model.Contratos.Any()) {
-                    @foreach (var item in Model.Contratos) {
+                    @foreach (var item in Model.Contratos.OrderBy(x => x.Andamento)) {
                         <tr class="row-hover">
                             <td>@item.Id</td>
                             <td class="align-content-center justify-content-center">
@@ -74,11 +86,21 @@
                             <td>@item.ReturnSituacaoContrato()</td>
                             <td>
                                 @if (@item.StatusContrato == ContratoStatus.Ativo) {
-                                    <a class="link clear-list" asp-route-id="@item.Id" asp-action="EditarContrato"><i class="fa fa-edit"></i></a>
+                                    @if (item.Andamento != Andamento.Encerrado) {
+                                        <a class="link clear-list" asp-route-id="@item.Id" asp-action="EditarContrato"><i class="fa fa-edit"></i></a>
+                                    }
+                                    else {
+                                        <a style="color: rgb(61, 61, 61)" class="link"><i class="fa fa-edit"></i></a>
+                                    }
                                     <a class="link-trash" asp-route-id="@item.Id" asp-action="Inativar"><i class="fa fa-trash-alt"></i></a>
                                     @if (Model.Usuario.Cargos == CargoFuncionario.Administrador) {
                                         @if (item.Aprovacao == StatusAprovacao.Aprovado) {
-                                            <a class="link btn-view-client-pdf" contrato-id-pdf="@item.Id" data-target="#listClientesContrato" data-toggle="modal" href="#"><i class="fa fa-print"></i></a>
+                                            @if (item.Andamento != Andamento.Encerrado) {
+                                                <a class="link btn-view-client-pdf" contrato-id-pdf="@item.Id" data-target="#listClientesContrato" data-toggle="modal" href="#"><i class="fa fa-print"></i></a>
+                                            }
+                                            else {
+                                                <a style="color: rgb(61, 61, 61)" class="link"><i class="fa fa-print"></i></a>
+                                            }
                                         }
                                         else if (item.Aprovacao == StatusAprovacao.EmAnalise) {
                                             <a class="link-sucess return-modal-aprovacao" contrato-id="@item.Id" data-target="#AprovacaoContrato" data-toggle="modal" href="#"><i class="fa fa-bars"></i></a>
@@ -118,9 +140,8 @@
 </div>
 <div id="janelaConfirmRescisao" class="modal">
     <div class="modal-dialog modal-sm" id="cliente-rescisao">
-       <div>
-
-       </div>
+        <div>
+        </div>
     </div>
 </div>
 <div id="AprovacaoContrato" class="modal">
@@ -157,7 +178,7 @@
                 .addClass('filters')
                 .appendTo('#table-contrato thead');
             var table = $('#table-contrato').DataTable({
-                "ordering": true,
+                "ordering": false,
                 "paging": true,
                 "searching": true,
                 "oLanguage": {
@@ -203,7 +224,7 @@
                                 $(cell).html('<div class="table-pai"></div>');
                             }
                             else if (title == "Valor total") {
-                                 $(cell).html('<div class="table-pai"><input class="input-table" onkeyup="mascaraMoeda(this, event)" type="text" placeholder="' + title + '" /></div>');
+                                $(cell).html('<div class="table-pai"><input class="input-table" onkeyup="mascaraMoeda(this, event)" type="text" placeholder="' + title + '" /></div>');
                             }
                             else {
                                 $(cell).html('<div class="table-pai"><input class="input-table" type="text" placeholder="' + title + '" /></div>');

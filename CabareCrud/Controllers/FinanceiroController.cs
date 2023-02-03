@@ -552,7 +552,17 @@ namespace BusesControl.Controllers {
                 CriarCelulaTexto(tabela, "Val total", PdfPCell.ALIGN_LEFT, true);
                 CriarCelulaTexto(tabela, "Val efetuado", PdfPCell.ALIGN_LEFT, true);
                 CriarCelulaTexto(tabela, "Vencimento", PdfPCell.ALIGN_LEFT, true);
+                decimal valorTotAtivos = 0, valorTotInativos = 0, valEfetuado = 0;
                 foreach (var item in financeiros) {
+                    if (item.FinanceiroStatus == FinanceiroStatus.Ativo) {
+                        valorTotAtivos += item.ValorTotDR.Value;
+                    }
+                    else {
+                        valorTotInativos += item.ValorTotDR.Value;
+                    }
+                    if (!string.IsNullOrEmpty(item.ValorTotalPagoCliente.ToString())) {
+                        valEfetuado += item.ValorTotalPagoCliente.Value;
+                    }
                     CriarCelulaTexto(tabela, item.Id.ToString(), PdfPCell.ALIGN_LEFT);
                     CriarCelulaTexto(tabela, item.ReturnNameClienteOrCredor(), PdfPCell.ALIGN_LEFT);
                     CriarCelulaTexto(tabela, item.ReturnStatusFinanceiro(), PdfPCell.ALIGN_CENTER);
@@ -578,7 +588,10 @@ namespace BusesControl.Controllers {
                 footerTbl.AddCell(cell);
                 footerTbl.WriteSelectedRows(0, -30, 350, 30, writer.DirectContent);
 
-                string rodape = $"Quantidade de lançamentos solicitados: {financeiros.Count}";
+                string rodape = $"Quantidade de lançamentos solicitados: {financeiros.Count}" +
+                    $"\nValor total listado (ativos): {valorTotAtivos.ToString("C2")}" +
+                    $"\nValor total listado (inativos): {valorTotInativos.ToString("C2")}" +
+                    $"\nValor total efetuado: {valEfetuado.ToString("C2")}";
                 if (filtros.DataFiltro == "não") filtros.DataFiltro = "nenhuma";
                 string rodape3 = $"\nFiltros: lançamento = {filtros.ReceitasDespesas}, tipo de data = {filtros.DataFiltro}";
                 if (!string.IsNullOrEmpty(filtros.DataInicial.ToString()) && !string.IsNullOrEmpty(filtros.DataTermino.ToString())

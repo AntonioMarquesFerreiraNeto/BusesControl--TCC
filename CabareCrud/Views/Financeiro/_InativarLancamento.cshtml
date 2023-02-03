@@ -15,13 +15,13 @@
         </div>
         <div class="modal-body" style="font-size: 10pt; margin: 0;">
             <i style="margin: 0; padding: 0;">
-                <b>ID: </b>Nº @Model.Id <br>
                 <b>Status do financeiro: </b>@Model.ReturnStatusFinanceiro() <br>
                 <b>Valor total: </b>@Model.ReturnValorTot() <br>
                 <b>Valor da parcela: </b>R$ @Html.DisplayFor(x => x.ValorParcelaDR) <br>
                 <b>Pagamento: </b>@Model.ReturnTypePagament() <br>
                 <b>Tipo de efetuação: </b>@Model.ReturnTypeEfetuacao() <br>
-                <b>Classe de lançamento: </b>@Model.ReturnTypeFinanceiro()
+                <b>Classe de lançamento: </b>@Model.ReturnTypeFinanceiro() <br>
+                <b>Detalhes do lançamento: </b>@Model.Detalhamento
                 <br>-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- <br>
             </i>
             <i style="margin: 0; padding: 0;">

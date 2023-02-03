@@ -149,6 +149,7 @@ namespace BusesControl.Repositorio {
                 Contrato contrato = modelsContrato.Contrato;
                 Contrato contratoDB = ListarPorId(contrato.Id);
                 if (contratoDB == null) throw new Exception($"Desculpe, ID não foi encontrado.");
+                if (contratoDB.Andamento == Andamento.Encerrado) throw new Exception("Desculpe, contrato encerrado!");
                 contratoDB.ValorMonetario = contrato.ValorMonetario;
                 contratoDB.QtParcelas = contrato.QtParcelas;
                 contratoDB.ReturnValorParcela();
