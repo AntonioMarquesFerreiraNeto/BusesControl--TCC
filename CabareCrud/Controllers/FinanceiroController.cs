@@ -29,13 +29,32 @@ namespace BusesControl.Controllers {
             _relatorioRepositorio = relatorioRepositorio;
         }
 
+        public static Filtros FiltrosStatic = new Filtros { ReceitasDespesas = "todos", DataFiltro = "não" };
+        public void PopularFiltros(Filtros filtros) {
+            if (filtros != null) {
+                FiltrosStatic.DataFiltro = filtros.DataFiltro;
+                FiltrosStatic.DataInicial = filtros.DataInicial;
+                FiltrosStatic.DataTermino = filtros.DataTermino;
+                FiltrosStatic.ReceitasDespesas = filtros.ReceitasDespesas;
+            }
+        }
+        public IActionResult ClearFiltros() {
+            FiltrosStatic = new Filtros { ReceitasDespesas = "todos", DataFiltro = "não" };
+            return null;
+        }
+
         public IActionResult Index() {
             ViewData["Title"] = "Financeiro";
             _financeiroRepositorio.TaskMonitorParcelas();
             _financeiroRepositorio.TaskMonitorParcelasLancamento();
-            ModelsFinanceiroIndex modelsFinanceiroIndex = new ModelsFinanceiroIndex {
-                Financeiros = _financeiroRepositorio.ListFinanceiros()
-            };
+            ModelsFinanceiroIndex modelsFinanceiroIndex = new ModelsFinanceiroIndex();
+            if (FiltrosStatic != null) {
+                modelsFinanceiroIndex.Financeiros = _financeiroRepositorio.ListFinanceirosFiltros(FiltrosStatic);
+                modelsFinanceiroIndex.Filtros = FiltrosStatic;
+            }
+            else {
+                modelsFinanceiroIndex.Financeiros = _financeiroRepositorio.ListFinanceiros();
+            }
             return View(modelsFinanceiroIndex);
         }
         public IActionResult ReturnFiltros() {
@@ -48,6 +67,7 @@ namespace BusesControl.Controllers {
                 Filtros = modelsFinanceiroIndex.Filtros,
                 Financeiros = _financeiroRepositorio.ListFinanceirosFiltros(modelsFinanceiroIndex.Filtros)
             };
+            PopularFiltros(modelsFinanceiroIndex.Filtros);
             return View("Index", modelsFinanceiroIndexDB);
         }
         public IActionResult ReturnDashFinanceiro() {
@@ -553,7 +573,7 @@ namespace BusesControl.Controllers {
                 CriarCelulaTexto(tabela, "Val efetuado", PdfPCell.ALIGN_LEFT, true);
                 CriarCelulaTexto(tabela, "Vencimento", PdfPCell.ALIGN_LEFT, true);
                 decimal valorTotAtivos = 0, valorTotInativos = 0, valEfetuado = 0;
-                foreach (var item in financeiros) {
+                foreach (var item in financeiros.OrderBy(x => x.DespesaReceita)) {
                     if (item.FinanceiroStatus == FinanceiroStatus.Ativo) {
                         valorTotAtivos += item.ValorTotDR.Value;
                     }

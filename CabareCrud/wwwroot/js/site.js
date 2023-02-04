@@ -100,4 +100,10 @@ $(document).ready(function () {
             url: "/Contrato/ClearList"
         });
     })
+    $('.clear-filtros').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: "/Financeiro/ClearFiltros" 
+        });
+    });
 })

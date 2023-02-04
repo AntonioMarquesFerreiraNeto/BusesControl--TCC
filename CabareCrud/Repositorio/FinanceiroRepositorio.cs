@@ -415,6 +415,7 @@ namespace BusesControl.Repositorio {
                 if (financeiroDB == null) throw new Exception("Desculpe, ID não foi encontrado!");
                 if (!string.IsNullOrEmpty(financeiroDB.ContratoId.ToString())) throw new Exception("Desculpe, ID não foi encontrado!");
                 if (!string.IsNullOrEmpty(financeiroDB.ValorTotalPagoCliente.ToString())) throw new Exception("Lançamento possuí parcelas paga!");
+                if (financeiroDB.FinanceiroStatus == FinanceiroStatus.Inativo) throw new Exception("Desculpe, financeiro inativado!");
                 financeiroDB.Pagament = financeiro.Pagament;
                 financeiroDB.ValorTotDR = financeiro.ValorTotDR;
                 financeiroDB.ValorParcelaDR = financeiro.ValorTotDR / financeiro.QtParcelas;
@@ -490,7 +491,17 @@ namespace BusesControl.Repositorio {
         }
 
         public List<Financeiro> ListFinanceirosFiltros(Filtros filtros) {
-            if (filtros.DataFiltro == "não") {
+            if (filtros.ReceitasDespesas == "atrasados") {
+                return _bancoContext.Financeiro
+                        .AsNoTracking().Include(x => x.PessoaFisica)
+                        .AsNoTracking().Include(x => x.PessoaJuridica)
+                        .AsNoTracking().Include(x => x.FornecedorFisico)
+                        .AsNoTracking().Include(x => x.FornecedorJuridico)
+                        .AsNoTracking().Include(x => x.Contrato)
+                        .AsNoTracking().Include(x => x.Parcelas)
+                        .Where(x => x.Parcelas.Any(x => x.StatusPagamento == SituacaoPagamento.Atrasada == true)).ToList();
+            }
+            else if (filtros.DataFiltro == "não") {
                 if (filtros.ReceitasDespesas == "todos") {
                     return _bancoContext.Financeiro
                         .AsNoTracking().Include(x => x.PessoaFisica)
