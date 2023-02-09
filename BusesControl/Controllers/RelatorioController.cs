@@ -92,7 +92,7 @@ namespace BusesControl.Controllers {
                 var titulo = new Paragraph($"Relatório - contrato Nº {contrato.Id}\n\n", fonteParagrafo);
                 titulo.Alignment = Element.ALIGN_CENTER;
 
-                var caminhoImgLeft = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdf.jpeg");
+                var caminhoImgLeft = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\BusesControl\\BusesControl\\wwwroot\\css\\Imagens\\LogoPdf.jpeg");
                 if (caminhoImgLeft != null) {
                     Image logo = Image.GetInstance(caminhoImgLeft);
                     float razaoImg = logo.Width / logo.Height;
@@ -104,7 +104,7 @@ namespace BusesControl.Controllers {
                     logo.SetAbsolutePosition(margemEsquerda, margemTopo);
                     writer.DirectContent.AddImage(logo, false);
                 }
-                var caminhoImgRight = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\CabareCrud\\CabareCrud\\wwwroot\\css\\Imagens\\LogoPdfRight.jpg");
+                var caminhoImgRight = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "C:\\Users\\anton\\Desktop\\Antonio\\faculdade\\Ws-vs2022\\BusesControl\\BusesControl\\wwwroot\\css\\Imagens\\LogoPdfRight.jpg");
                 if (caminhoImgRight != null) {
                     Image logo2 = Image.GetInstance(caminhoImgRight);
                     float razaoImg = logo2.Width / logo2.Height;
